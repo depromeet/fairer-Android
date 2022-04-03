@@ -35,7 +35,7 @@ object Dependencies {
   const val fragmentKtx = "androidx.fragment:fragment-ktx:$FRAGMENT_KTX"
 
   private const val ROOM = "2.4.1"
-  const val room = "androidx.room:room-runtime:$ROOM"
+  const val roomRuntime = "androidx.room:room-runtime:$ROOM"
   const val roomCompiler = "androidx.room:room-compiler:$ROOM"
   const val roomKtx = "androidx.room:room-ktx:$ROOM"
   const val roomGuava = "androidx.room:room-guava:$ROOM"

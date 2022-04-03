@@ -53,7 +53,7 @@ dependencies {
     implementation Dependencies.activityKtx
     implementation Dependencies.fragmentKtx
 
-    implementation Dependencies.room
+    implementation Dependencies.roomRuntime
     annotationProcessor Dependencies.roomCompiler
     kapt Dependencies.roomCompiler
     implementation Dependencies.roomKtx
