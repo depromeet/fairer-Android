@@ -4,6 +4,8 @@ import deptromeet.housekeeper.Dependencies
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -43,4 +45,20 @@ dependencies {
     implementation Dependencies.junit
     testImplementation Dependencies.testExtJunit
     androidTestImplementation Dependencies.espressoCore
+
+    implementation Dependencies.timber
+
+    implementation Dependencies.lifecycleExtensions
+
+    implementation Dependencies.activityKtx
+    implementation Dependencies.fragmentKtx
+
+    implementation Dependencies.room
+    annotationProcessor Dependencies.roomCompiler
+    kapt Dependencies.roomCompiler
+    implementation Dependencies.roomKtx
+    implementation Dependencies.roomGuava
+
+    implementation Dependencies.coroutines
+
 }

@@ -21,4 +21,32 @@ object Dependencies {
 
   private const val ESPRESSO_CORE = "3.4.0"
   const val espressoCore = "androidx.test.espresso:espresso-core:$ESPRESSO_CORE"
+
+  private const val TIMBER = "4.7.1"
+  const val timber = "com.jakewharton.timber:timber:$TIMBER"
+
+  private const val LIFECYCLE_EXTENSIONS = "2.2.0"
+  const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$LIFECYCLE_EXTENSIONS"
+
+  private const val ACTIVITY_KTX = "1.4.0"
+  const val activityKtx = "androidx.activity:activity-ktx:$ACTIVITY_KTX"
+
+  private const val FRAGMENT_KTX = "1.4.1"
+  const val fragmentKtx = "androidx.fragment:fragment-ktx:$FRAGMENT_KTX"
+
+  private const val ROOM = "2.4.1"
+  const val room = "androidx.room:room-runtime:$ROOM"
+  const val roomCompiler = "androidx.room:room-compiler:$ROOM"
+  const val roomKtx = "androidx.room:room-ktx:$ROOM"
+  const val roomGuava = "androidx.room:room-guava:$ROOM"
+
+  private const val COROUTINES = "1.5.0"
+  const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES"
+
+  private const val NAV_VERSION = "2.3.5"
+  const val navVersionKtx = "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
+  const val navVersionUi = "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
+  const val navVersionDynamicFeatures = "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
+  const val navTesting = "androidx.navigation:navigation-testing:$NAV_VERSION"
+
 }
