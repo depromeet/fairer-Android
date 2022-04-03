@@ -61,4 +61,10 @@ dependencies {
 
     implementation Dependencies.coroutines
 
+    implementation Dependencies.navVersionKtx
+    implementation Dependencies.navVersionUi
+    implementation Dependencies.navVersionDynamicFeatures
+    androidTestImplementation Dependencies.navTesting
+
+
 }
