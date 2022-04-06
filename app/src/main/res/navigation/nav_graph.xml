@@ -7,6 +7,6 @@
   <fragment
     android:id="@+id/mainFragment"
     android:name="com.depromeet.housekeeper.MainFragment"
-    android:label="mainFragment"
+    android:label="mainFragments"
     tools:layout="@layout/fragment_main" />
 </navigation>
