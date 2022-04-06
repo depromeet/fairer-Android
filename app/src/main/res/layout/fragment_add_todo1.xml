@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddTodoFragment1">
+
+        <include
+            layout="@layout/layout_add_todo_header"
+            android:id="@+id/add_todo1_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/add_todo_header_tb"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            app:contentInsetStart="0dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/add_todo1_back_btn"-->
+<!--                android:layout_width="11dp"-->
+<!--                android:layout_height="15dp"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:src="@drawable/ic_back_arrow" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/add_todo1_header_tv"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="집안일 선택"-->
+<!--                android:textSize="17sp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textStyle="bold" />-->
+
+<!--        </com.google.android.material.appbar.MaterialToolbar>-->
+
+        <TextView
+            android:id="@+id/add_todo1_page_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_todo1_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/gray_200"
+            android:text="1/2"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/add_todo1_what_todo1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_todo1_page_num_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:text="집안일을 선택해주세요"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/add_todo1_what_todo2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/add_todo1_what_todo1_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/gray_200"
+            android:text="공간을 선택하면 세부 집안일이 나옵니다"
+            android:textSize="14sp" />
+
+        <View
+            android:id="@+id/add_todo1_next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/main_active_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp" />
+        <TextView
+            android:id="@+id/add_todo1_next_btn_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/add_todo1_next_btn"
+            app:layout_constraintBottom_toBottomOf="@id/add_todo1_next_btn"
+            app:layout_constraintStart_toStartOf="@id/add_todo1_next_btn"
+            app:layout_constraintEnd_toEndOf="@id/add_todo1_next_btn"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+

@@ -46,6 +46,7 @@ dependencies {
     implementation Dependencies.material
     implementation Dependencies.constraintLayout
     implementation Dependencies.junit
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation Dependencies.testExtJunit
     androidTestImplementation Dependencies.espressoCore
 
