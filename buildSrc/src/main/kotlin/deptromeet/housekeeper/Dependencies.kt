@@ -49,4 +49,10 @@ object Dependencies {
   const val navVersionDynamicFeatures = "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
   const val navTesting = "androidx.navigation:navigation-testing:$NAV_VERSION"
 
+  private const val Google_Service = "20.1.0"
+  const val googleplayservice = "com.google.android.gms:play-services-auth:$Google_Service"
+
+  private const val retrofit2 = "2.9.0"
+  const val retrofit = "com.squareup.retrofit2:retrofit:$retrofit2"
+  const val retrofitconverter= "com.squareup.retrofit2:converter-gson:$retrofit2"
 }

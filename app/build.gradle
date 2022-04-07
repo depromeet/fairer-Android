@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation Dependencies.coreKtx
     implementation Dependencies.appcompat
     implementation Dependencies.material
@@ -69,4 +68,8 @@ dependencies {
     implementation Dependencies.navVersionDynamicFeatures
     androidTestImplementation Dependencies.navTesting
 
+    implementation Dependencies.googleplayservice
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitconverter
 }

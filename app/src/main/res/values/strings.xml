@@ -2,4 +2,5 @@
   <string name="app_name">HouseKeeper</string>
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="default_web_client_id">63882560814-d3o1unq4fk90c43mhhn912463irpc0go.apps.googleusercontent.com</string>
 </resources>
