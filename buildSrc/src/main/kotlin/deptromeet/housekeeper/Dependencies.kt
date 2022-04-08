@@ -58,7 +58,7 @@ object Dependencies {
   const val retrofit = "com.squareup.retrofit2:retrofit:$RETROFIT"
   const val retrofitAdapter = "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT"
   const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$RETROFIT"
-  
+
   private const val COROUTINE_ADAPTER = "0.9.2"
   const val coroutineAdapter =
     "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$COROUTINE_ADAPTER"
