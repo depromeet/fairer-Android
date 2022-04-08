@@ -46,7 +46,28 @@ object Dependencies {
   private const val NAV_VERSION = "2.3.5"
   const val navVersionKtx = "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
   const val navVersionUi = "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
-  const val navVersionDynamicFeatures = "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
+  const val navVersionDynamicFeatures =
+    "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
   const val navTesting = "androidx.navigation:navigation-testing:$NAV_VERSION"
 
+  private const val OKHTTP = "4.3.1"
+  const val okhttp = "com.squareup.okhttp3:okhttp:OKHTTP"
+  const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:$OKHTTP"
+
+  private const val RETROFIT = "2.9.0"
+  const val retrofit = "com.squareup.retrofit2:retrofit:$RETROFIT"
+  const val retrofitAdapter = "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT"
+  const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$RETROFIT"
+  
+  private const val COROUTINE_ADAPTER = "0.9.2"
+  const val coroutineAdapter =
+    "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$COROUTINE_ADAPTER"
+
+  private const val MOSHI = "1.12.0"
+  const val moshi = "com.squareup.moshi:moshi:$MOSHI"
+  const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:$MOSHI"
+  const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI"
+
+  private const val SERIALIZATION = "1.3.2"
+  const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$SERIALIZATION"
 }
