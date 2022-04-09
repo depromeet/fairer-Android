@@ -6,6 +6,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("kotlin-android")
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -69,5 +70,19 @@ dependencies {
     implementation Dependencies.navVersionUi
     implementation Dependencies.navVersionDynamicFeatures
     androidTestImplementation Dependencies.navTesting
+
+    implementation Dependencies.okhttp
+    implementation Dependencies.okhttpLogging
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitAdapter
+    implementation Dependencies.moshiConverter
+    implementation Dependencies.coroutineAdapter
+
+    implementation Dependencies.moshi
+    implementation Dependencies.moshiKotlin
+    kapt Dependencies.moshiCodegen
+
+    implementation Dependencies.serialization
 
 }
