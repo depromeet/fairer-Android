@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="37dp"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="7dp">
+        <Button
+            android:id="@+id/item_day_repeat_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="월"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:textColor="@color/gray_700"
+            android:background="@drawable/todo_repeat_day_selector" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

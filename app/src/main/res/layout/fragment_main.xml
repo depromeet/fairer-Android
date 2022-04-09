@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
   
   <data>
   
@@ -10,12 +11,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainFragment">
-    
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_add_todo_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_plus"
+        android:backgroundTint="@color/test_blue"
+        app:tint="@null"
+        android:contentDescription="submit"
+        android:layout_margin="16dp" />
   
   </FrameLayout>
 </layout>
