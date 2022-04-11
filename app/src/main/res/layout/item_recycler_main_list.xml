@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="mainlist"
+            type="com.depromeet.housekeeper.MainListData" />
+
+    </data>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:cardCornerRadius="5dp"
+            android:backgroundTint="@color/gray_100">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/recycler_main_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_main"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/recycler_main_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="TEXT"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    app:layout_constraintStart_toEndOf="@+id/recycler_main_icon"
+                    app:layout_constraintTop_toTopOf="@+id/recycler_main_icon" />
+
+                <ImageView
+                    android:id="@+id/recycler_main_time_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/recycler_main_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="오전 9:30"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/recycler_main_time_icon" />
+
+                <ImageView
+                    android:id="@+id/recycler_main_marker"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_marker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/recycler_main_time" />
+
+                <TextView
+                    android:id="@+id/recycler_main_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="방"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/recycler_main_marker" />
+                <View
+                    android:id="@+id/recycler_main_btn"
+                    android:layout_width="90dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/recycler_main_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Clear"
+                    android:textColor="@color/test_blue"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/recycler_main_btn"
+                    app:layout_constraintEnd_toEndOf="@+id/recycler_main_btn"
+                    app:layout_constraintStart_toStartOf="@+id/recycler_main_btn"
+                    app:layout_constraintTop_toTopOf="@+id/recycler_main_btn" />
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+</layout>

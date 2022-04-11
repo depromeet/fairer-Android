@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.depromeet.housekeeper.Adapter.MainListAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -30,5 +31,6 @@ class MainFragment : Fragment() {
   private fun navigateToAddTodoPage() {
     binding.mainAddTodoFb.findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
   }
+
 
 }

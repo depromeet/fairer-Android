@@ -12,4 +12,6 @@
         <item>토</item>
         <item>일</item>
     </string-array>
+
+    <string name="Clear">완료하기</string>
 </resources>
