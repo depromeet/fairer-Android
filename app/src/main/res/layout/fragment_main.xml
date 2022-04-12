@@ -1,27 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
   
   <data>
   
   </data>
   
-  <FrameLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment">
-
+    tools:context=".ui.MainFragment">
+    
+    <TextView
+      android:id="@+id/tv_complete_house_chore"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="77dp"
+      android:paddingStart="29dp"
+      android:paddingEnd="29dp"
+      android:text="이번주에 완료한 집안일 17개"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="이번주에 완료한 집안일 17개" />
+    
+    <TextView
+      android:id="@+id/tv_month"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="57dp"
+      android:paddingStart="29dp"
+      android:paddingEnd="29dp"
+      android:text="3월"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
+      tools:text="2022년 4월" />
+    
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_week"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:orientation="horizontal"
+      android:paddingStart="29dp"
+      android:paddingEnd="29dp"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_month" />
+    
+    <Button
+      android:id="@+id/bt_add_todo"
+      android:layout_width="0dp"
+      android:layout_height="45dp"
+      android:layout_marginTop="8dp"
+      android:gravity="center"
+      android:paddingStart="20dp"
+      android:paddingEnd="20dp"
+      android:text="집안일 추가"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/rv_week"
+      tools:text="집안일 추가" />
+    
+    <TextView
+      android:id="@+id/tv_remain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:paddingStart="20dp"
+      android:paddingEnd="29dp"
+      android:text="남은 집안일"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+      tools:text="남은 집안일" />
+    
+    <TextView
+      android:id="@+id/tv_end"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:paddingStart="20dp"
+      android:paddingEnd="29dp"
+      android:text="끝낸 집안일"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+      tools:text="끝낸 집안일" />
+    
+    <include
+      layout="@layout/layout_home_empty_screen"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@id/tv_end" />
+    
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/main_add_todo_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_plus"
-        android:backgroundTint="@color/test_blue"
-        app:tint="@null"
-        android:contentDescription="submit"
-        android:layout_margin="16dp" />
+      android:id="@+id/main_add_todo_fb"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:backgroundTint="@color/test_blue"
+      android:contentDescription="submit"
+      android:src="@drawable/ic_plus"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:tint="@null" />
   
-  </FrameLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
+  private val mainViewModel = MainViewModel()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +25,9 @@ class MainFragment : Fragment() {
     binding.mainAddTodoFb.setOnClickListener {
       navigateToAddTodoPage()
     }
+
+    binding.tvMonth.text = "${mainViewModel.currentDate}"
+
 
     return binding.root
   }
