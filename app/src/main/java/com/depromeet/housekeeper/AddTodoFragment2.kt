@@ -32,6 +32,7 @@ class AddTodoFragment2 : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         initListener()
+        setAdapter()
 
         return binding.root
     }
@@ -53,9 +54,11 @@ class AddTodoFragment2 : Fragment() {
             }
         }
 
+    }
+
+    private fun setAdapter() {
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
-        binding.addTodoRepeatRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addTodoRepeatRv.adapter = dayRepeatAdapter
 

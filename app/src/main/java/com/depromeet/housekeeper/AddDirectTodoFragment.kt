@@ -22,18 +22,23 @@ class AddDirectTodoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         initListener()
+        setAdapter()
 
         return binding.root
     }
 
     private fun initListener() {
+        binding.addDirectTodoBackgroundCl.setOnClickListener {
+            hideKeyboard(binding.addDirectTodoTitleEt)
+        }
+
         binding.addDirectTodoHeader.addTodoBackBtn.setOnClickListener {
             it.findNavController().navigateUp()
         }
@@ -45,10 +50,11 @@ class AddDirectTodoFragment : Fragment() {
                 it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_addTodoFragment2)
             }
         }
+    }
 
+    private fun setAdapter() {
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
-        binding.addDirectTodoRepeatRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addDirectTodoRepeatRv.adapter = dayRepeatAdapter
     }

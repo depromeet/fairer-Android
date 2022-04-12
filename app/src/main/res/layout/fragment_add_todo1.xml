@@ -73,27 +73,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             layout="@layout/layout_main_footer_button" />
-<!--        <View-->
-<!--            android:id="@+id/add_todo1_next_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:background="@drawable/main_inactive_solid_background"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginHorizontal="20dp"-->
-<!--            android:layout_marginBottom="20dp" />-->
-<!--        <TextView-->
-<!--            android:id="@+id/add_todo1_next_btn_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/next_btn_text"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textColor="@color/white"-->
-<!--            app:layout_constraintTop_toTopOf="@id/add_todo1_next_btn"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/add_todo1_next_btn"-->
-<!--            app:layout_constraintStart_toStartOf="@id/add_todo1_next_btn"-->
-<!--            app:layout_constraintEnd_toEndOf="@id/add_todo1_next_btn"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

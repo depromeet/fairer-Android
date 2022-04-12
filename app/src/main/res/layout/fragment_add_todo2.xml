@@ -109,17 +109,6 @@
             android:layout_marginStart="20dp"
             app:layout_constraintTop_toBottomOf="@id/todo_time_picker"
             app:layout_constraintStart_toStartOf="parent" />
-<!--        <TextView-->
-<!--            android:id="@+id/add_todo2_batch_time_sign_tv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/add_direct_todo_batch_time"-->
-<!--            android:textSize="14sp"-->
-<!--            android:textColor="@color/gray_200"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/todo_time_picker"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:layout_marginStart="20dp" />-->
 
         <TextView
             android:id="@+id/todo_repeat_tv"
@@ -137,6 +126,7 @@
           android:layout_width="match_parent"
           android:layout_height="36dp"
           android:orientation="horizontal"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
           android:choiceMode="multipleChoice"
           android:layout_marginHorizontal="15dp"
           android:layout_marginTop="16dp"

@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_direct_todo_background_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
@@ -124,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:choiceMode="multipleChoice"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="15dp"
