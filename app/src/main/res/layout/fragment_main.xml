@@ -4,6 +4,10 @@
   xmlns:tools="http://schemas.android.com/tools">
   
   <data>
+    
+    <variable
+      name="vm"
+      type="com.depromeet.housekeeper.ui.MainViewModel" />
   
   </data>
   
@@ -31,7 +35,7 @@
       android:layout_marginTop="57dp"
       android:paddingStart="29dp"
       android:paddingEnd="29dp"
-      android:text="3월"
+      android:text="@{String.valueOf(vm.currentDate)}"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
       tools:text="2022년 4월" />
