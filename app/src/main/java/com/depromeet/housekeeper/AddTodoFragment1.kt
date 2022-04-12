@@ -11,6 +11,7 @@ import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
 
 class AddTodoFragment1 : Fragment() {
     lateinit var binding: FragmentAddTodo1Binding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,19 +26,36 @@ class AddTodoFragment1 : Fragment() {
     }
     
     private fun initListener() {
-        binding.addTodo1Header.addTodoHeaderTv.text = "집안일 선택"
-        
-        binding.addTodo1NextBtn.setOnClickListener {
-            navigateToAddTodoPage1()
+        // header title
+//        binding.addTodo1Header.addTodoHeaderTv.text = "집안일 선택"
+
+        // go to 집안일 직접 추가 화면
+        binding.addTodo1GoDirectBtn.setOnClickListener {
+            navigateToAddDirectTodoPage()
         }
 
+        // go to 다음 - 집안일 상세 화면
+        binding.addTodo1NextBtn.mainFooterButton.apply {
+            text = resources.getString(R.string.next_btn_text)
+
+            setOnClickListener {
+                navigateToAddTodoPage2()
+            }
+        }
+
+        // header 뒤로 가기
         binding.addTodo1Header.addTodoBackBtn.setOnClickListener {
             it.findNavController().navigateUp()
         }
+
     }
 
-    private fun navigateToAddTodoPage1() {
-        binding.addTodo1NextBtn.findNavController().navigate(R.id.action_addTodoFragment1_to_addTodoFragment2)
+    private fun navigateToAddDirectTodoPage() {
+        binding.addTodo1GoDirectBtn.findNavController().navigate(R.id.action_addTodoFragment1_to_addDirectTodoFragment)
+    }
+
+    private fun navigateToAddTodoPage2() {
+        binding.addTodo1NextBtn.mainFooterButton.findNavController().navigate(R.id.action_addTodoFragment1_to_addTodoFragment2)
     }
 
 }

@@ -1,36 +1,33 @@
 package com.depromeet.housekeeper
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.LinearLayout
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
-import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
-import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
+import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 
-class AddTodoFragment2 : Fragment() {
-    lateinit var binding: FragmentAddTodo2Binding
+class AddDirectTodoFragment : Fragment() {
+    lateinit var binding: FragmentAddDirectTodoBinding
+    lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
+        imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         initListener()
         setAdapter()
 
@@ -38,29 +35,33 @@ class AddTodoFragment2 : Fragment() {
     }
 
     private fun initListener() {
-        // header title
-//        binding.addTodo2Header.addTodoHeaderTv.text = "집안일 선택"
+        binding.addDirectTodoBackgroundCl.setOnClickListener {
+            hideKeyboard(binding.addDirectTodoTitleEt)
+        }
 
-        // header back button
-        binding.addTodo2Header.addTodoBackBtn.setOnClickListener {
+        binding.addDirectTodoHeader.addTodoBackBtn.setOnClickListener {
             it.findNavController().navigateUp()
         }
 
-        binding.addTodo2DoneBtn.mainFooterButton.apply {
+        binding.addDirectTodoNextBtn.mainFooterButton.apply {
             text = resources.getString(R.string.add_todo_btn_text)
 
             setOnClickListener {
-                it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
+                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_addTodoFragment2)
             }
         }
-
     }
 
     private fun setAdapter() {
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
-        binding.addTodoRepeatRv.adapter = dayRepeatAdapter
-
+        binding.addDirectTodoRepeatRv.adapter = dayRepeatAdapter
     }
+
+    private fun hideKeyboard(v: View) {
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+
+
 }
