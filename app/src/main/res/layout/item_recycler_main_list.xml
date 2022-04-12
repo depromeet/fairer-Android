@@ -13,8 +13,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            app:cardCornerRadius="5dp"
-            android:backgroundTint="@color/gray_100">
+            app:cardCornerRadius="7dp"
+            android:backgroundTint="@color/light_blue">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/recycler_main_marker" />
-                <View
+                <!--<View
                     android:id="@+id/recycler_main_btn"
                     android:layout_width="90dp"
                     android:layout_height="50dp"
@@ -93,7 +93,16 @@
                     app:layout_constraintBottom_toBottomOf="@+id/recycler_main_btn"
                     app:layout_constraintEnd_toEndOf="@+id/recycler_main_btn"
                     app:layout_constraintStart_toStartOf="@+id/recycler_main_btn"
-                    app:layout_constraintTop_toTopOf="@+id/recycler_main_btn" />
+                    app:layout_constraintTop_toTopOf="@+id/recycler_main_btn" />-->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/recycler_main_finished_btn"
+                    android:text="끝냈어요"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/white"/>
 
 
 

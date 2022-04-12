@@ -11,5 +11,8 @@
   <color name="gray_200">#CCCCCC</color>
   <color name="gray_700">#4D4D4D</color>
   <color name="test_blue">#0C6DFF</color>
+  <color name="light_blue">#E1EDFF</color>
+  <color name="light_red">#FFD2DD</color>
+  <color name="light_gray">#F5F6F8</color>
 
 </resources>
