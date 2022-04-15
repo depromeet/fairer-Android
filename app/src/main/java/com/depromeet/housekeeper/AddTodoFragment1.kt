@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
+import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 
 class AddTodoFragment1 : Fragment() {
     lateinit var binding: FragmentAddTodo1Binding
@@ -28,6 +29,17 @@ class AddTodoFragment1 : Fragment() {
     private fun initListener() {
         // header title
 //        binding.addTodo1Header.addTodoHeaderTv.text = "집안일 선택"
+
+        binding.addTodo1Header.addTodoHeaderTb.setOnClickListener {
+            val dialog = FairerDialog(requireContext())
+            dialog.showDialog()
+            dialog.onItemClickListener = object: FairerDialog.OnItemClickListener {
+                override fun onItemClick() {
+                    // ok btn click action
+                }
+
+            }
+        }
 
         // go to 집안일 직접 추가 화면
         binding.addTodo1GoDirectBtn.setOnClickListener {

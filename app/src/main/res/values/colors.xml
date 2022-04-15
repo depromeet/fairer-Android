@@ -9,7 +9,9 @@
   <color name="white">#FFFFFFFF</color>
   <color name="gray_100">#F2F2F2</color>
   <color name="gray_200">#CCCCCC</color>
+  <color name="gray_600">#666666</color>
   <color name="gray_700">#4D4D4D</color>
+  <color name="gray_800">#333333</color>
   <color name="active_blue">#0C6DFF</color>
   <color name="sky_blue">#9AC2FF</color>
 </resources>
