@@ -9,7 +9,7 @@
     <solid
         android:color="@color/test_blue"/>
     <size
-        android:width="100dp"
-        android:height="40dp"/>
+        android:width="93dp"
+        android:height="35dp"/>
 
 </shape>

@@ -11,39 +11,41 @@
     </data>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_width="320dp"
+            android:layout_height="104dp"
             app:cardCornerRadius="7dp"
             android:backgroundTint="@color/light_blue">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="15dp">
+                android:padding="14dp">
 
                 <ImageView
                     android:id="@+id/recycler_main_icon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_main"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="2dp"/>
 
                 <TextView
                     android:id="@+id/recycler_main_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="15dp"
+                    android:paddingLeft="8dp"
                     android:text="TEXT"
                     android:textStyle="bold"
-                    android:textSize="25sp"
+                    android:textSize="18sp"
+                    android:lineSpacingExtra="3dp"
                     app:layout_constraintStart_toEndOf="@+id/recycler_main_icon"
                     app:layout_constraintTop_toTopOf="@+id/recycler_main_icon" />
 
                 <ImageView
                     android:id="@+id/recycler_main_time_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/ic_time"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -52,17 +54,17 @@
                     android:id="@+id/recycler_main_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:layout_marginLeft="4dp"
                     android:text="오전 9:30"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/recycler_main_time_icon" />
 
                 <ImageView
                     android:id="@+id/recycler_main_marker"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginLeft="8dp"
                     android:src="@drawable/ic_marker"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/recycler_main_time" />
@@ -71,9 +73,10 @@
                     android:id="@+id/recycler_main_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="4dp"
                     android:text="방"
-                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/recycler_main_marker" />
                 <!--<View
@@ -96,12 +99,12 @@
                     app:layout_constraintTop_toTopOf="@+id/recycler_main_btn" />-->
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:background="@drawable/recycler_main_finished_btn"
                     android:text="끝냈어요"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginRight="10dp"
+
                     android:textColor="@color/white"/>
 
 

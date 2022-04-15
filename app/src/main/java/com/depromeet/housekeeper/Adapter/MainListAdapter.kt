@@ -16,14 +16,14 @@ class MainListAdapter(private val context : Context) : RecyclerView.Adapter<Main
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MainListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder : MainListAdapter.ViewHolder, position: Int) {
         holder.bind(datas[position])
     }
 
     override fun getItemCount(): Int {
         return datas.size
     }
-    class ViewHolder(val binding: ItemRecyclerMainListBinding) : RecyclerView.ViewHolder(binding.root){
+    class ViewHolder(val binding : ItemRecyclerMainListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(data : MainListData){
             binding.mainlist = data
         }
