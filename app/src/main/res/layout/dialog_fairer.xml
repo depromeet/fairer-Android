@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="312dp"
+        android:layout_height="183dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/bg_dialog_rounded"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/dialog_fairer_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_todo_dialog_title"
+            android:textSize="20sp"
+            android:textColor="@color/gray_700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_fairer_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_todo_dialog_desc"
+            android:textSize="14sp"
+            android:textColor="@color/gray_600"
+            app:layout_constraintTop_toBottomOf="@id/dialog_fairer_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_fairer_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_white_background"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/fairer_dialog_cancel_text"
+            android:textColor="@color/active_blue"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dialog_fairer_ok_btn"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_fairer_ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_white_background"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/add_todo_dialog_ok_text"
+            android:textColor="@color/active_blue"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
