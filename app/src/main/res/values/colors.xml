@@ -14,4 +14,6 @@
   <color name="gray_800">#333333</color>
   <color name="active_blue">#0C6DFF</color>
   <color name="sky_blue">#9AC2FF</color>
+  <color name="Positive_0">#F1F5FC</color>
+  <color name="Normal_0">#F5F6F8</color>
 </resources>
