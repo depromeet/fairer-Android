@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <androidx.appcompat.widget.LinearLayoutCompat
+    android:id="@+id/layout"
+    android:layout_width="40dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="9dp"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+    
+    <TextView
+      android:id="@+id/tv_num_day"
+      style="@style/Caption"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:minWidth="0dp"
+      android:minHeight="0dp"
+      android:textAlignment="center"
+      android:textColor="@color/gray_400"
+      android:textSize="13sp"
+      tools:text="13" />
+    
+    <TextView
+      android:id="@+id/tv_str_day"
+      style="@style/Caption"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:minWidth="0dp"
+      android:minHeight="0dp"
+      android:textAlignment="center"
+      android:textColor="@color/gray_400"
+      android:textSize="13sp"
+      tools:text="금" />
+  
+  </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
