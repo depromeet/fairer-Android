@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.collect
 class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
+  lateinit var adapter: DayOfWeekAdapter
   private val mainViewModel: MainViewModel by viewModels()
 
   override fun onCreateView(
@@ -32,20 +33,28 @@ class MainFragment : Fragment() {
     binding.mainAddTodoFb.setOnClickListener {
       navigateToAddTodoPage()
     }
-
     return binding.root
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    setAdapter()
     bindingVm()
+  }
+
+  private fun setAdapter() {
+    val monday = mainViewModel.getMondayNumDay()
+    val weekDay = monday..monday + 6
+    val days = resources.getStringArray(R.array.day_array)
+    val list = weekDay.mapIndexed { index, i -> i to days[index] }
+    adapter = DayOfWeekAdapter(list)
+    binding.rvWeek.adapter = adapter
   }
 
   private fun bindingVm() {
     lifecycleScope.launchWhenStarted {
       mainViewModel.completeChoreNum.collect {
         val format = String.format(resources.getString(R.string.complete_chore), it)
-
         val spannerString = SpannableString(format).apply {
           setSpan(
             ForegroundColorSpan(Color.parseColor("#0C6DFF")),
