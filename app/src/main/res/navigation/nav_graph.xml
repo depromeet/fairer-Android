@@ -30,11 +30,41 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_addTodoFragment1_to_addDirectTodoFragment"
+        app:destination="@id/addDirectTodoFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+  </fragment>
+
+  <fragment
+      android:id="@+id/addDirectTodoFragment"
+      android:name="com.depromeet.housekeeper.AddDirectTodoFragment"
+      android:label="addDirectTodoFragment"
+      tools:layout="@layout/fragment_add_direct_todo">
+    <action
+        android:id="@+id/action_addDirectTodoFragment_to_addTodoFragment2"
+        app:destination="@id/addTodoFragment2"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
   </fragment>
 
   <fragment
     android:id="@+id/addTodoFragment2"
     android:name="com.depromeet.housekeeper.AddTodoFragment2"
     android:label="addTodoFragment2"
-    tools:layout="@layout/fragment_add_todo2"/>
+    tools:layout="@layout/fragment_add_todo2">
+    <action
+        android:id="@+id/action_addTodoFragment2_to_mainFragment"
+        app:destination="@id/mainFragment"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popEnterAnim="@android:anim/fade_in"
+        app:popExitAnim="@android:anim/fade_out" />
+  </fragment>
 </navigation>
