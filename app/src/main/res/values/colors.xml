@@ -10,6 +10,8 @@
 
   <color name="active_blue">#0C6DFF</color>
   <color name="sky_blue">#9AC2FF</color>
+  <color name="Positive_0">#F1F5FC</color>
+  <color name="Normal_0">#F5F6F8</color>
   
   <!--grey-->
   <color name="gray_100">#F2F2F2</color>
