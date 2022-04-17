@@ -7,13 +7,30 @@
   <color name="teal_700">#FF018786</color>
   <color name="black">#FF000000</color>
   <color name="white">#FFFFFFFF</color>
-  <color name="gray_100">#F2F2F2</color>
-  <color name="gray_200">#CCCCCC</color>
-  <color name="gray_600">#666666</color>
-  <color name="gray_700">#4D4D4D</color>
-  <color name="gray_800">#333333</color>
+
   <color name="active_blue">#0C6DFF</color>
   <color name="sky_blue">#9AC2FF</color>
   <color name="Positive_0">#F1F5FC</color>
   <color name="Normal_0">#F5F6F8</color>
+  
+  <!--grey-->
+  <color name="gray_100">#F2F2F2</color>
+  <color name="gray_200">#D9D9D9</color>
+  <color name="gray_300">#B3B3B3</color>
+  <color name="gray_400">#999999</color>
+  <color name="gray_500">#808080</color>
+  <color name="gray_600">#666666</color>
+  <color name="gray_700">#4D4D4D</color>
+  <color name="gray_800">#333333</color>
+  <color name="gray_900">#1A1A1A</color>
+  
+  <!--Highlight-->
+  <color name="highlight">#0C6DFF</color>
+  <color name="positive_0">#F1F5FC</color>
+  <color name="positive_10">#E1EDFF</color>
+  <color name="positive_20">#74ABFD</color>
+  <color name="normal">#F5F6F8</color>
+  <color name="negative_0">#FFF8F9</color>
+  <color name="negative_10">#FFD2DD</color>
+  <color name="negative_20">#E93B65</color>
 </resources>
