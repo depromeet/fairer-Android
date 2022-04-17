@@ -36,4 +36,8 @@
         <item>토</item>
         <item>일</item>
     </string-array>
+  
+  <!-- HomeFragment -->
+  <string name="complete_chore">이번주에 끝낸 집안일 %s개</string>
+
 </resources>
