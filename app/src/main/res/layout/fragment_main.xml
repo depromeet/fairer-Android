@@ -28,27 +28,37 @@
     
     <TextView
       android:id="@+id/tv_complete_house_chore"
+      style="@style/Body"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="29dp"
+      android:layout_marginStart="20dp"
       android:layout_marginTop="77dp"
-      android:paddingStart="29dp"
-      android:paddingEnd="29dp"
-      android:text="이번주에 완료한 집안일 17개"
+      android:background="@drawable/home_positive_backgorund_8"
+      android:gravity="center"
+      android:paddingStart="8dp"
+      android:paddingEnd="8dp"
+      android:text="@string/complete_chore"
+      android:textColor="@color/gray_900"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:text="이번주에 완료한 집안일 17개" />
+      tools:text="@string/complete_chore" />
     
     <TextView
       android:id="@+id/tv_month"
+      style="@style/Caption"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="57dp"
-      android:paddingStart="29dp"
-      android:paddingEnd="29dp"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="43dp"
+      android:paddingStart="4dp"
+      android:drawablePadding="4dp"
       android:text="@{String.valueOf(vm.currentDate)}"
+      android:textColor="@color/gray_900"
+      android:textStyle="bold"
+      android:drawableStart="@drawable/ic_calendar_today"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
-      tools:text="2022년 4월" />
+      tools:text="2022년 * 4월" />
     
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv_week"
