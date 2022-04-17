@@ -50,12 +50,12 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="20dp"
       android:layout_marginTop="43dp"
-      android:paddingStart="4dp"
+      android:drawableStart="@drawable/ic_calendar_today"
       android:drawablePadding="4dp"
+      android:paddingStart="4dp"
       android:text="@{String.valueOf(vm.currentDate)}"
       android:textColor="@color/gray_900"
       android:textStyle="bold"
-      android:drawableStart="@drawable/ic_calendar_today"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
       tools:text="2022년 * 4월" />
@@ -73,19 +73,20 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tv_month" />
     
-    <Button
+    <include
       android:id="@+id/bt_add_todo"
+      style="@style/Body"
+      layout="@layout/layout_home_add_chore"
       android:layout_width="0dp"
       android:layout_height="45dp"
+      android:layout_marginStart="20dp"
       android:layout_marginTop="8dp"
-      android:gravity="center"
+      android:layout_marginEnd="20dp"
       android:paddingStart="20dp"
       android:paddingEnd="20dp"
-      android:text="집안일 추가"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/rv_week"
-      tools:text="집안일 추가" />
+      app:layout_constraintTop_toBottomOf="@id/rv_week" />
     
     <TextView
       android:id="@+id/tv_remain"
@@ -94,10 +95,10 @@
       android:layout_marginTop="12dp"
       android:paddingStart="20dp"
       android:paddingEnd="29dp"
-      android:text="남은 집안일"
+      android:text="@string/remained_chore"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
-      tools:text="남은 집안일" />
+      tools:text="@string/remained_chore" />
     
     <TextView
       android:id="@+id/tv_end"
@@ -106,10 +107,10 @@
       android:layout_marginTop="12dp"
       android:paddingStart="20dp"
       android:paddingEnd="29dp"
-      android:text="끝낸 집안일"
+      android:text="@string/completed_chore"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
-      tools:text="끝낸 집안일" />
+      tools:text="@string/completed_chore" />
     
     <include
       layout="@layout/layout_home_empty_screen"
