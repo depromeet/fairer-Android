@@ -12,4 +12,9 @@ class MainViewModel : ViewModel() {
     MutableStateFlow("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
   val currentDate: String
     get() = _currentDate.value
+
+  private val _completeChoreNum: MutableStateFlow<Int> =
+    MutableStateFlow(17)
+  val completeChoreNum: StateFlow<Int>
+    get() = _completeChoreNum
 }
