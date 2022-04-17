@@ -17,4 +17,15 @@ class MainViewModel : ViewModel() {
     MutableStateFlow(17)
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
+
+  fun getMondayNumDay(): Int {
+    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+    calendar.set(Calendar.WEEK_OF_MONTH, calendar.get(Calendar.WEEK_OF_MONTH))
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    return calendar.get(Calendar.DAY_OF_MONTH)
+  }
+
+  fun getWeeok(): String {
+    return calendar.get(Calendar.WEEK_OF_MONTH).toString()
+  }
 }
