@@ -12,12 +12,12 @@ class DayOfWeekAdapter(private val list: List<Pair<Int, String>>) :
     return ViewHolder(
       ItemDayOfWeekBinding.inflate(LayoutInflater.from(parent.context),
         parent,
-        false)
+        false
+      )
     )
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    val (number, day) = list[position]
     holder.bind(list[position])
   }
 
