@@ -30,10 +30,6 @@ class MainFragment : Fragment() {
     binding.lifecycleOwner = this.viewLifecycleOwner
     binding.vm = mainViewModel
 
-    binding.btAddTodo.root.setOnClickListener {
-      findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
-    }
-
     return binding.root
   }
 
@@ -41,6 +37,13 @@ class MainFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     setAdapter()
     bindingVm()
+    setListener()
+  }
+
+  private fun setListener() {
+    binding.btAddTodo.root.setOnClickListener {
+      findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
+    }
   }
 
   private fun setAdapter() {
