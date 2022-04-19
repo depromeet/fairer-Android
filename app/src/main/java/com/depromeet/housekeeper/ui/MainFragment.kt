@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collect
@@ -30,9 +30,10 @@ class MainFragment : Fragment() {
     binding.lifecycleOwner = this.viewLifecycleOwner
     binding.vm = mainViewModel
 
-    binding.mainAddTodoFb.setOnClickListener {
-      navigateToAddTodoPage()
+    binding.btAddTodo.root.setOnClickListener {
+      findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
     }
+
     return binding.root
   }
 
@@ -67,10 +68,6 @@ class MainFragment : Fragment() {
       }
 
     }
-  }
-
-  private fun navigateToAddTodoPage() {
-    binding.mainAddTodoFb.findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
   }
 
 }
