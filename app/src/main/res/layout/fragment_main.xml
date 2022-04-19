@@ -88,7 +88,8 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/rv_week" />
-    
+  
+    <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
     <TextView
       android:id="@+id/tv_remain_badge"
       style="@style/Caption"
@@ -118,7 +119,8 @@
       app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
       tools:text="@string/remained_chore" />
-    
+  
+    <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
     <TextView
       android:id="@+id/tv_end_badge"
       style="@style/Caption"
