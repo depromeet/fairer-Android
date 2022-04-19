@@ -90,25 +90,61 @@
       app:layout_constraintTop_toBottomOf="@id/rv_week" />
     
     <TextView
+      android:id="@+id/tv_remain_badge"
+      style="@style/Caption"
+      android:layout_width="28dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="21dp"
+      android:background="@drawable/main_active_badge"
+      android:gravity="center"
+      android:padding="1dp"
+      android:text="@{String.valueOf(vm.remainChore)}"
+      android:textColor="@color/white"
+      app:layout_constraintBottom_toBottomOf="@id/tv_remain"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@id/tv_remain"
+      tools:text="0" />
+    
+    <TextView
       android:id="@+id/tv_remain"
+      style="@style/SubTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
       android:layout_marginTop="12dp"
-      android:paddingStart="20dp"
-      android:paddingEnd="29dp"
       android:text="@string/remained_chore"
-      app:layout_constraintStart_toStartOf="parent"
+      android:textColor="@color/gray_600"
+      android:textStyle="bold"
+      app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
       tools:text="@string/remained_chore" />
     
     <TextView
+      android:id="@+id/tv_end_badge"
+      style="@style/Caption"
+      android:layout_width="28dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="21dp"
+      android:layout_marginEnd="8dp"
+      android:background="@drawable/main_inactive_badge"
+      android:gravity="center"
+      android:padding="1dp"
+      android:text="@{String.valueOf(vm.endChore)}"
+      android:textColor="@color/gray_400"
+      app:layout_constraintBottom_toBottomOf="@id/tv_end"
+      app:layout_constraintEnd_toStartOf="@id/tv_end"
+      app:layout_constraintTop_toTopOf="@id/tv_end"
+      tools:text="0" />
+    
+    <TextView
       android:id="@+id/tv_end"
+      style="@style/SubTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="12dp"
-      android:paddingStart="20dp"
-      android:paddingEnd="29dp"
+      android:layout_marginEnd="20dp"
       android:text="@string/completed_chore"
+      android:textColor="@color/gray_400"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
       tools:text="@string/completed_chore" />
