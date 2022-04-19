@@ -25,7 +25,16 @@ class MainViewModel : ViewModel() {
     return calendar.get(Calendar.DAY_OF_MONTH)
   }
 
-  fun getWeeok(): String {
+  private val _remainChore: MutableStateFlow<Int> = MutableStateFlow(0)
+  val remainChore: Int
+    get() = _remainChore.value
+
+  private val _endChore: MutableStateFlow<Int> = MutableStateFlow(0)
+  val endChore: Int
+    get() = _endChore.value
+
+
+  fun getWeek(): String {
     return calendar.get(Calendar.WEEK_OF_MONTH).toString()
   }
 }
