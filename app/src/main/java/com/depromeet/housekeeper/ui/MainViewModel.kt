@@ -33,8 +33,4 @@ class MainViewModel : ViewModel() {
   val endChore: Int
     get() = _endChore.value
 
-
-  fun getWeek(): String {
-    return calendar.get(Calendar.WEEK_OF_MONTH).toString()
-  }
 }
