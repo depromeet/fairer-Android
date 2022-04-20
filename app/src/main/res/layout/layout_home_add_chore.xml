@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/positive_0"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:context=".ui.MainFragment">
+    
+    <TextView
+      style="@style/Body"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawableRight="@drawable/ic_add"
+      android:drawablePadding="8dp"
+      android:text="@string/add_chore"
+      android:textColor="@color/gray_900"
+      android:textStyle="bold" />
+  
+  
+  </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -45,4 +45,13 @@
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
 
+  
+  <!-- HomeFragment -->
+    <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
+    <string name="completed_chore">끝낸 집안일</string>
+    <string name="remained_chore">남은 집안일</string>
+    <string name="add_chore">집안일 추가</string>
+    <string name="empty_chore_title">해야 할 집안일이 없어요</string>
+    <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
+
 </resources>
