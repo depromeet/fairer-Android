@@ -40,7 +40,7 @@
     <string name="Clear">완료하기</string>
     <!--ItemRecyclerMainList-->
     <string name="Finish">끝내기</string>
-    <stirng name="Finished">끝냈어요</stirng>
+    <string name="Finished">끝냈어요</string>
     <string name="time">오후 9:30</string>
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
