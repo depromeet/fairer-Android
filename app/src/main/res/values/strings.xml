@@ -17,7 +17,7 @@
     <!-- AddDirectTodoFragment -->
     <string name="add_direct_todo_sign1">집안일의 상세 내용을 선택해주세요</string>
     <string name="add_direct_todo_space">집안일 공간</string>
-    <string name="add_direct_todo_title">집안일 제목</string>
+    <sting name="add_direct_todo_title">집안일 제목</sting>
     <string name="add_direct_todo_title_hint">직접 입력</string>
     <string name="add_direct_todo_time">집안일 시간</string>
     <string name="add_direct_todo_batch_time">일괄 시간 선택</string>
