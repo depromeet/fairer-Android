@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
 import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
+import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import timber.log.Timber
 
 class AddTodoFragment2 : Fragment() {
     lateinit var binding: FragmentAddTodo2Binding
     lateinit var dayRepeatAdapter: DayRepeatAdapter
+    lateinit var fairerTimePicker : FairerTimePicker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +54,16 @@ class AddTodoFragment2 : Fragment() {
             }
         }
 
+        binding.todoTimePicker.setOnTimeChangedListener { parent, hour, min ->
+            var _min = binding.todoTimePicker.getDisplayedMinutes()
+            Timber.d("Time is $hour $_min")
+        }
+
+    }
+
+    private fun setTimePicker() {
+        // setUp
+        binding.todoTimePicker.setInterval(R.integer.time_interval)
     }
 
     private fun setAdapter() {
@@ -58,12 +71,6 @@ class AddTodoFragment2 : Fragment() {
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addTodoRepeatRv.adapter = dayRepeatAdapter
-
-    }
-
-    fun TimePicker.setTimeInterval (
-        timeInterval: Int = R.integer.time_interval
-    ) {
 
     }
 }
