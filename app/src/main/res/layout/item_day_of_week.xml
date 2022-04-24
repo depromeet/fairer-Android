@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+    
+    <variable
+      name="isSelect"
+      type="boolean" />
+  
+  </data>
   
   <androidx.appcompat.widget.LinearLayoutCompat
     android:id="@+id/layout"
@@ -19,8 +28,9 @@
       android:minWidth="0dp"
       android:minHeight="0dp"
       android:textAlignment="center"
-      android:textColor="@color/gray_400"
+      android:textColor="@{isSelect ? @color/gray_900 : @color/gray_400}"
       android:textSize="13sp"
+      app:textStyle='@{isSelect ? "bold" : "normal"}'
       tools:text="13" />
     
     <TextView
@@ -31,8 +41,9 @@
       android:minWidth="0dp"
       android:minHeight="0dp"
       android:textAlignment="center"
-      android:textColor="@color/gray_400"
+      android:textColor="@{isSelect ? @color/gray_900 : @color/gray_400}"
       android:textSize="13sp"
+      app:textStyle='@{isSelect ? "bold" : "normal"}'
       tools:text="금" />
   
   </androidx.appcompat.widget.LinearLayoutCompat>
