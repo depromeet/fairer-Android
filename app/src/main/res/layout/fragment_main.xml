@@ -60,19 +60,40 @@
       app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
       tools:text="2022년 * 4월" />
     
+    <ImageView
+      android:id="@+id/iv_left"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="13dp"
+      android:src="@drawable/ic_arrow_left"
+      app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/rv_week" />
+    
+    <ImageView
+      android:id="@+id/iv_rignt"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="13dp"
+      android:src="@drawable/ic_arrow_right"
+      app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/rv_week" />
+    
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv_week"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="20dp"
+      android:layout_marginStart="4dp"
       android:layout_marginTop="16dp"
-      android:layout_marginEnd="20dp"
+      android:layout_marginEnd="4dp"
       android:orientation="horizontal"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/iv_rignt"
+      app:layout_constraintStart_toEndOf="@id/iv_left"
       app:layout_constraintTop_toBottomOf="@id/tv_month"
       tools:listitem="@layout/item_day_of_week" />
+    
     
     <include
       android:id="@+id/bt_add_todo"
@@ -88,7 +109,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/rv_week" />
-  
+    
     <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
     <TextView
       android:id="@+id/tv_remain_badge"
@@ -119,7 +140,7 @@
       app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
       app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
       tools:text="@string/remained_chore" />
-  
+    
     <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
     <TextView
       android:id="@+id/tv_end_badge"
@@ -156,6 +177,6 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:layout_constraintTop_toBottomOf="@id/tv_end" />
-    
+  
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
