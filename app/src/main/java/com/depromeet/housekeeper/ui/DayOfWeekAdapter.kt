@@ -6,8 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
 import java.util.Calendar
 
-class DayOfWeekAdapter(private val list: List<Pair<Int, String>>) :
+class DayOfWeekAdapter(private val list: MutableList<Pair<Int, String>>) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
+
+  fun updateDate(updateDays: MutableList<Pair<Int, String>>) {
+    list.clear()
+    list.addAll(updateDays)
+    notifyDataSetChanged()
+  }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     return ViewHolder(
