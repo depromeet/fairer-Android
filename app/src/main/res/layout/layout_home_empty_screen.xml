@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+  
+  </data>
+  
+  <androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.MainFragment">
+    
+    <ImageView
+      android:id="@+id/tv_complete_house_chore"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="40dp"
+      android:src="@drawable/ic_empty_chore" />
+    
+    <TextView
+      style="@style/SubTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:text="@string/empty_chore_title"
+      android:textColor="@color/gray_600"
+      android:textStyle="bold"
+      tools:text="@string/empty_chore_title" />
+    
+    <TextView
+      style="@style/SubTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="6dp"
+      android:text="@string/add_chore_empty_description"
+      android:textColor="@color/gray_600"
+      tools:text="@string/add_chore_empty_description" />
+  
+  
+  </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

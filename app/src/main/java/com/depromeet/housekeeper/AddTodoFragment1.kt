@@ -27,9 +27,6 @@ class AddTodoFragment1 : Fragment() {
     }
     
     private fun initListener() {
-        // header title
-//        binding.addTodo1Header.addTodoHeaderTv.text = "집안일 선택"
-
         binding.addTodo1Header.addTodoHeaderTb.setOnClickListener {
             val dialog = FairerDialog(requireContext())
             dialog.showDialog()
