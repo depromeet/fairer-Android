@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="slide">200</integer>
+    <integer name="time_interval">15</integer>
+    <integer name="minutes_min">0</integer>
+    <integer name="minutes_max">60</integer>
+
 </resources>

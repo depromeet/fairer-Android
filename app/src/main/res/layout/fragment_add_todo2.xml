@@ -93,6 +93,8 @@
             android:id="@+id/todo_time_picker"
             android:layout_width="match_parent"
             android:layout_height="160dp"
+            android:background="@drawable/home_positive_backgorund_8"
+            android:theme="@style/FairerTimePicker"
             app:layout_constraintTop_toBottomOf="@id/todo_time_tv"
             android:timePickerMode="spinner"
             android:layout_marginHorizontal="20dp"
