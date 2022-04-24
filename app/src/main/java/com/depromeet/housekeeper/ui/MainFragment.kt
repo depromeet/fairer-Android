@@ -44,6 +44,14 @@ class MainFragment : Fragment() {
     binding.btAddTodo.root.setOnClickListener {
       findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
     }
+
+    binding.ivLeft.setOnClickListener {
+      val monday = mainViewModel.getMondayNumDay() - 7
+      val weekDay = monday..monday + 6
+      val days = resources.getStringArray(R.array.day_array)
+      val list = weekDay.mapIndexed { index, i -> i to days[index] }.toMutableList()
+      adapter.updateDate(list)
+    }
   }
 
   private fun setAdapter() {
@@ -51,7 +59,7 @@ class MainFragment : Fragment() {
     val weekDay = monday..monday + 6
     val days = resources.getStringArray(R.array.day_array)
     val list = weekDay.mapIndexed { index, i -> i to days[index] }
-    adapter = DayOfWeekAdapter(list)
+    adapter = DayOfWeekAdapter(list.toMutableList())
     binding.rvWeek.adapter = adapter
   }
 
