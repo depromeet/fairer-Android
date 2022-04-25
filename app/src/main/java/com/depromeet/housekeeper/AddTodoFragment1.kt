@@ -75,7 +75,7 @@ class AddTodoFragment1 : Fragment() {
         binding.addTodo1NextBtn.mainFooterButton.findNavController().navigate(R.id.action_addTodoFragment1_to_addTodoFragment2)
     }
     private fun navigateToMain(){
-        binding.addTodo1Header.addTodoBackBtn.findNavController().navigate(R.id.action_addTodoFragment1_to_mainFragment)
+        binding.addTodo1Header.addTodoBackBtn.findNavController().navigateUp()
     }
 
 }
