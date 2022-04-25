@@ -55,4 +55,12 @@
     <string name="empty_chore_title">해야 할 집안일이 없어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
 
+    <!-- dummy chores -->
+    <string-array name="chore_array">
+        <item>이불 정리</item>
+        <item>화장대 정리</item>
+        <item>음식물 쓰레기 버리기</item>
+        <item>바닥 청소</item>
+    </string-array>
+
 </resources>

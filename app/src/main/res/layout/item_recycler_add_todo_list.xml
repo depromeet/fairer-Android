@@ -7,25 +7,31 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/item_add_todo_cv"
         android:layout_width="101dp"
         android:layout_height="102dp"
-        app:cardCornerRadius="6dp"
-        android:backgroundTint="@color/Normal_0">
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="6dp">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_add_todo_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/todo_item_selector"
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/item_add_todo_delete_iv"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_x_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
             <TextView
+                android:id="@+id/item_add_todo_time_tv"
                 android:layout_width="57dp"
                 android:layout_height="30dp"
                 android:gravity="left"
+                android:visibility="invisible"
                 android:text="@string/time_todo"
                 android:textSize="11sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +39,7 @@
                 android:layout_marginTop="4dp"/>
 
             <TextView
+                android:id="@+id/item_add_todo_name_tv"
                 android:layout_width="77dp"
                 android:layout_height="44dp"
                 android:text="@string/task"

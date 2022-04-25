@@ -3,7 +3,6 @@ package com.depromeet.housekeeper.ui.custom.timepicker
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.NumberPicker
 import android.widget.TimePicker
 import androidx.core.math.MathUtils
@@ -15,11 +14,11 @@ class FairerTimePicker @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : TimePicker(context, attrs) {
 
-    private val defaultInterval = 15
+    private val defaultInterval = resources.getInteger(R.integer.time_interval)
     private val minInterval = 1
     private val maxInterval = 30
 
-    private var timeInterval = defaultInterval
+    var timeInterval = defaultInterval // 외부에서 수정 가능
         set(value) {
             if (field !in minInterval..maxInterval) {
                 Timber.d("timeInterval must be between $minInterval..$maxInterval")
@@ -36,7 +35,6 @@ class FairerTimePicker @JvmOverloads constructor(
 
     @SuppressLint("PrivateApi")
     fun setInterval(
-        // @IntRange(from = 1, to = 30)
         timeInterval: Int = defaultInterval
     ) {
         try {
@@ -59,7 +57,6 @@ class FairerTimePicker @JvmOverloads constructor(
     ): Array<String> {
         val minutesArray = ArrayList<String>()
         for (i in 0 until resources.getInteger(R.integer.minutes_max) step interval) {
-            // minutesArray.add(i.toString())
             minutesArray.add(String.format("%02d", i))
         }
 

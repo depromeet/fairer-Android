@@ -6,6 +6,10 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.AddTodo2ViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,52 +35,17 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"/>
 
-            <RadioGroup
-                android:id="@+id/add_todo_filtering_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_todo2_sign_tv"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:background="@drawable/todo_filtering_selector"
-                    android:textColor="@drawable/todo_filtering_text_selector"
-                    android:button="@null"
-                    android:layout_marginEnd="5dp"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="12dp"
-                    android:textAlignment="center"
-                    android:text="설거지" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:background="@drawable/todo_filtering_selector"
-                    android:textColor="@drawable/todo_filtering_text_selector"
-                    android:button="@null"
-                    android:layout_marginEnd="5dp"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="12dp"
-                    android:textAlignment="center"
-                    android:text="냉장고 정리" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="34dp"
-                    android:background="@drawable/todo_filtering_selector"
-                    android:textColor="@drawable/todo_filtering_text_selector"
-                    android:button="@null"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="12dp"
-                    android:textAlignment="center"
-                    android:text="음식물 쓰레기 버리기" />
-            </RadioGroup>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/add_todo_chore_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:choiceMode="singleChoice"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/add_todo2_sign_tv"
+            tools:listitem="@layout/item_recycler_add_todo_list"/>
 
         <TextView
             android:id="@+id/todo_time_tv"
@@ -84,9 +53,9 @@
             android:layout_height="wrap_content"
             android:text="@string/add_direct_todo_time"
             android:textColor="@color/gray_700"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="20dp"
-            app:layout_constraintTop_toBottomOf="@id/add_todo_filtering_radio"
+            app:layout_constraintTop_toBottomOf="@id/add_todo_chore_list_rv"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
