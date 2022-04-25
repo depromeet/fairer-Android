@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
 
-class AddTodoChoreAdapter(private val list: Array<String>)
+class AddTodoChoreAdapter(private val chores: ArrayList<String>)
     : RecyclerView.Adapter<AddTodoChoreAdapter.ViewHolder>() {
 
     // for single choice
     private var selectedChore: ArrayList<Int> = arrayListOf()
 
     init {
-        for(i in list) {
-            if(list.indexOf(i) == 0) {
+        for(i in chores) {
+            if(chores.indexOf(i) == 0) {
                 // first item auto focus
                 selectedChore.add(1)
             }
@@ -24,6 +24,18 @@ class AddTodoChoreAdapter(private val list: Array<String>)
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeChore(position: Int) {
+        chores.removeAt(position)
+        if(position == chores.size && selectedChore[position] == 1) {
+            // 마지막 아이템 선택 상태에서 삭제하면 이전 포지션으로 포커스 넘어가게
+            // default : 다음 포지션으로 포커스
+            selectedChore.removeAt(position)
+            selectedChore[position - 1] = 1
+        }
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemRecyclerAddTodoListBinding = ItemRecyclerAddTodoListBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
@@ -31,10 +43,10 @@ class AddTodoChoreAdapter(private val list: Array<String>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        return holder.bind(list[position])
+        return holder.bind(chores[position])
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = chores.size
 
     inner class ViewHolder(private val binding: ItemRecyclerAddTodoListBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -55,6 +67,10 @@ class AddTodoChoreAdapter(private val list: Array<String>)
                     }
                     notifyDataSetChanged()
                 }
+            }
+
+            binding.itemAddTodoDeleteIv.setOnClickListener {
+                removeChore(adapterPosition)
             }
         }
     }

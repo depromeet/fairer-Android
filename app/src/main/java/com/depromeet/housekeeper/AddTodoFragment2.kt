@@ -60,7 +60,7 @@ class AddTodoFragment2 : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
-        val chores: Array<String> = resources.getStringArray(R.array.chore_array)
+        val chores: ArrayList<String> = resources.getStringArray(R.array.chore_array).toCollection(ArrayList<String>())
         addTodoChoreAdapter = AddTodoChoreAdapter(chores)
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
 
