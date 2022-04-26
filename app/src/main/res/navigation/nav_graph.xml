@@ -38,6 +38,9 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"/>
+    <action
+        android:id="@+id/action_addTodoFragment1_to_mainFragment"
+        app:destination="@id/mainFragment" />
   </fragment>
 
   <fragment
@@ -66,5 +69,8 @@
         app:exitAnim="@android:anim/fade_out"
         app:popEnterAnim="@android:anim/fade_in"
         app:popExitAnim="@android:anim/fade_out" />
+    <action
+        android:id="@+id/action_addTodoFragment2_to_addTodoFragment1"
+        app:destination="@id/addTodoFragment1" />
   </fragment>
 </navigation>
