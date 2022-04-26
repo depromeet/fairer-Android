@@ -7,21 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
 import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
+import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import timber.log.Timber
 
 class AddTodoFragment2 : Fragment() {
     lateinit var binding: FragmentAddTodo2Binding
     lateinit var dayRepeatAdapter: DayRepeatAdapter
+    lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
+    private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +42,7 @@ class AddTodoFragment2 : Fragment() {
 
     private fun initListener() {
         // header title
-//        binding.addTodo2Header.addTodoHeaderTv.text = "집안일 선택"
+        binding.addTodo2Header.addTodoHeaderTv.text = ""
 
         // header back button
         binding.addTodo2Header.addTodoBackBtn.setOnClickListener {
@@ -53,10 +56,14 @@ class AddTodoFragment2 : Fragment() {
                 it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
             }
         }
-
     }
 
     private fun setAdapter() {
+        // chore list rv adapter
+        val chores: ArrayList<String> = resources.getStringArray(R.array.chore_array).toCollection(ArrayList<String>())
+        addTodoChoreAdapter = AddTodoChoreAdapter(chores)
+        binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
+
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)

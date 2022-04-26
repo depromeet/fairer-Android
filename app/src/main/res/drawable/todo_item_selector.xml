@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 집안일 리스트 선택 O -->
+    <item android:state_selected="true" android:drawable="@drawable/bg_todo_item_typing_input"/>
+
+    <!-- 집안일 선택 버튼 포커스 X -->
+    <item android:state_selected="false" android:drawable="@drawable/bg_todo_item_no_input"/>
+</selector>
