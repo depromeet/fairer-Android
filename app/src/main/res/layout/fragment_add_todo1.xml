@@ -49,10 +49,10 @@
                     android:id="@+id/add_todo1_image_entrance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="8dp"
+                    android:background="@drawable/todo1_entrance_selector"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_entrance_selector"
                     app:layout_constraintEnd_toStartOf="@+id/add_todo1_image_living_room"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_Calender" />
 
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_living_room_selector"
+                    android:background="@drawable/todo1_living_room_selector"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/add_todo1_image_entrance" />
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_bathroom_selector"
+                    android:background="@drawable/todo1_bathroom_selector"
                     app:layout_constraintStart_toEndOf="@+id/add_todo1_image_living_room"
                     app:layout_constraintTop_toTopOf="@+id/add_todo1_image_entrance" />
 
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_outside_selector"
+                    android:background="@drawable/todo1_outside_selector"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_entrance"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_entrance" />
@@ -128,7 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_room_selector"
+                    android:background="@drawable/todo1_room_selector"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_living_room"
                     app:layout_constraintTop_toTopOf="@+id/add_todo1_image_outside" />
 
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
-                    android:src="@drawable/todo1_kitchen_selector"
+                    android:background="@drawable/todo1_kitchen_selector"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_bathroom"
                     app:layout_constraintTop_toTopOf="@+id/add_todo1_image_room" />
 
