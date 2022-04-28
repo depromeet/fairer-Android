@@ -16,7 +16,7 @@ class AddTodoFragment1 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
@@ -37,6 +37,11 @@ class AddTodoFragment1 : Fragment() {
 
             }
         }
+
+        binding.addTodo1Header.addTodoBackBtn.setOnClickListener{
+            navigateToMain()
+        }
+
 
         // go to 집안일 직접 추가 화면
         binding.addTodo1GoDirectBtn.setOnClickListener {
@@ -65,6 +70,9 @@ class AddTodoFragment1 : Fragment() {
 
     private fun navigateToAddTodoPage2() {
         binding.addTodo1NextBtn.mainFooterButton.findNavController().navigate(R.id.action_addTodoFragment1_to_addTodoFragment2)
+    }
+    private fun navigateToMain(){
+        binding.addTodo1Header.addTodoBackBtn.findNavController().navigateUp()
     }
 
 }
