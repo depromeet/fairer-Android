@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
 import java.util.Calendar
 
-class DayOfWeekAdapter(private val list: MutableList<Pair<Int, String>>) :
+class DayOfWeekAdapter(private val list: MutableList<Pair<String, String>>) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
 
-  fun updateDate(updateDays: MutableList<Pair<Int, String>>) {
+  fun updateDate(updateDays: MutableList<Pair<String, String>>) {
     list.clear()
     list.addAll(updateDays)
     notifyDataSetChanged()
@@ -32,9 +32,9 @@ class DayOfWeekAdapter(private val list: MutableList<Pair<Int, String>>) :
 
   inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(dayOfWeek: Pair<Int, String>) {
+    fun bind(dayOfWeek: Pair<String, String>) {
       val (number, day) = dayOfWeek
-      binding.isSelect = number == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+      binding.isSelect = number.toInt() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
       binding.tvNumDay.text = number.toString()
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
