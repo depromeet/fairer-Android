@@ -8,8 +8,12 @@ import java.util.Calendar
 import java.util.Locale
 
 class MainViewModel : ViewModel() {
-  private val calendar = Calendar.getInstance()
 
+  private val calendar: Calendar = Calendar.getInstance().apply {
+    set(Calendar.MONTH, this.get(Calendar.MONTH))
+    firstDayOfWeek = Calendar.MONDAY
+    set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+  }
   private val _currentDate: MutableStateFlow<String> =
     MutableStateFlow("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
   val currentDate: String
@@ -19,15 +23,6 @@ class MainViewModel : ViewModel() {
     MutableStateFlow(17)
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
-
-  fun setCalendar(): Int {
-    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH))
-    calendar.firstDayOfWeek = Calendar.MONDAY
-    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    return calendar.get(Calendar.DAY_OF_MONTH)
-  }
-
-  private val currentMonday = MutableStateFlow(setCalendar())
 
   fun getCurrentWeek(): List<String> {
     val format = SimpleDateFormat("MM-dd", Locale.getDefault())
@@ -41,18 +36,16 @@ class MainViewModel : ViewModel() {
   }
 
   fun getNextWeek(): List<String> {
-    val format = SimpleDateFormat("MM-dd", Locale.getDefault())
-    val days = mutableListOf<String>()
-    repeat(7) {
-      calendar.add(Calendar.DATE, 1)
-      days.add(format.format(calendar.time))
-    }
-    return days
+    return getDays()
   }
 
   fun getLastWeek(): List<String> {
-    calendar.add(Calendar.DATE,-14)
-    val format = SimpleDateFormat("M-dd", Locale.getDefault())
+    calendar.add(Calendar.DATE, -14)
+    return getDays()
+  }
+
+  private fun getDays(): MutableList<String> {
+    val format = SimpleDateFormat("MM-dd", Locale.getDefault())
     val days = mutableListOf<String>()
     repeat(7) {
       calendar.add(Calendar.DATE, 1)
