@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class DayOfWeekAdapter(private val list: MutableList<Pair<String, String>>) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
@@ -33,9 +35,10 @@ class DayOfWeekAdapter(private val list: MutableList<Pair<String, String>>) :
   inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(dayOfWeek: Pair<String, String>) {
-      val (number, day) = dayOfWeek
-      binding.isSelect = number.toInt() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-      binding.tvNumDay.text = number.toString()
+      val (date, day) = dayOfWeek
+      binding.isSelect = date == SimpleDateFormat("MM-dd",
+        Locale.getDefault()).format(Calendar.getInstance().time)
+      binding.tvNumDay.text = date.split("-")[1]
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
         //TODO ClickListener 처리

@@ -46,14 +46,14 @@ class MainFragment : Fragment() {
     }
 
     binding.ivLeft.setOnClickListener {
-      val lastWeek = mainViewModel.getLastWeek().map { it.split("-")[1] }
+      val lastWeek = mainViewModel.getLastWeek()
       val days = resources.getStringArray(R.array.day_array)
       val list = lastWeek.mapIndexed { index, i -> i to days[index] }.toMutableList()
       adapter.updateDate(list)
     }
 
     binding.ivRignt.setOnClickListener {
-      val nextWeek = mainViewModel.getNextWeek().map { it.split("-")[1] }
+      val nextWeek = mainViewModel.getNextWeek()
       val days = resources.getStringArray(R.array.day_array)
       val list = nextWeek.mapIndexed { index, i -> i to days[index] }.toMutableList()
       adapter.updateDate(list)
@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
   }
 
   private fun setAdapter() {
-    val monday = mainViewModel.getCurrentWeek().map { it.split("-")[1] }
+    val monday = mainViewModel.getCurrentWeek()
     val days = resources.getStringArray(R.array.day_array)
     val list = monday.mapIndexed { index, i -> i to days[index] }
     adapter = DayOfWeekAdapter(list.toMutableList())
