@@ -165,23 +165,21 @@
                     android:id="@+id/add_todo1_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:drawableLeft="@drawable/ic_info_outline"
                     android:text="@string/add_todo_info"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_outside" />
 
                 <View
                     android:id="@+id/add_todo1_go_direct_btn"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:background="@drawable/main_active_stroke_background"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@id/add_todo1_info"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="@id/add_todo1_info"
+                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom" />
 
                 <TextView
                     android:id="@+id/add_todo1_go_direct_btn_tv"
@@ -222,12 +220,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/add_todo1_recyclerview"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_task_text"
                     tools:listitem="@layout/item_add_todo1_task"
                     tools:itemCount="2"
@@ -237,22 +234,20 @@
                     android:id="@+id/add_todo1_info2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_info2"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_recyclerview" />
 
                 <View
                     android:id="@+id/add_todo1_go_direct_btn2"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:background="@drawable/main_active_stroke_background"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@id/add_todo1_info2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
+                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom" />
 
                 <TextView
                     android:id="@+id/add_todo1_go_direct_btn_tv2"
