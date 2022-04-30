@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.model.DayOfWeek
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment() {
@@ -46,25 +47,19 @@ class MainFragment : Fragment() {
     }
 
     binding.ivLeft.setOnClickListener {
-      val lastWeek = mainViewModel.getLastWeek()
-      val days = resources.getStringArray(R.array.day_array)
-      val list = lastWeek.mapIndexed { index, i -> i to days[index] }.toMutableList()
+      val list = mainViewModel.getLastWeek().map { DayOfWeek(date = it) }.toMutableList()
       adapter.updateDate(list)
     }
 
     binding.ivRignt.setOnClickListener {
-      val nextWeek = mainViewModel.getNextWeek()
-      val days = resources.getStringArray(R.array.day_array)
-      val list = nextWeek.mapIndexed { index, i -> i to days[index] }.toMutableList()
+      val list = mainViewModel.getNextWeek().map { DayOfWeek(date = it) }.toMutableList()
       adapter.updateDate(list)
     }
   }
 
   private fun setAdapter() {
-    val monday = mainViewModel.getCurrentWeek()
-    val days = resources.getStringArray(R.array.day_array)
-    val list = monday.mapIndexed { index, i -> i to days[index] }
-    adapter = DayOfWeekAdapter(list.toMutableList(), mainViewModel)
+    val list = mainViewModel.getCurrentWeek().map { DayOfWeek(date = it) }.toMutableList()
+    adapter = DayOfWeekAdapter(list, mainViewModel)
     binding.rvWeek.adapter = adapter
   }
 
@@ -82,7 +77,11 @@ class MainFragment : Fragment() {
         }
         binding.tvCompleteHouseChore.text = spannerString
       }
+    }
 
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.selectDate.collect {
+      }
     }
   }
 

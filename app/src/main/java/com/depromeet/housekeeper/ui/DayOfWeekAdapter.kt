@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
+import com.depromeet.housekeeper.model.DayOfWeek
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class DayOfWeekAdapter(
-  private val list: MutableList<Pair<String, String>>,
-  private val vm: MainViewModel,
+  private val list: MutableList<DayOfWeek>,
+  val vm: MainViewModel,
 ) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
 
-  fun updateDate(updateDays: MutableList<Pair<String, String>>) {
+  fun updateDate(updateDays: MutableList<DayOfWeek>) {
     list.clear()
     list.addAll(updateDays)
     notifyDataSetChanged()
@@ -37,19 +38,20 @@ class DayOfWeekAdapter(
 
   inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(dayOfWeek: Pair<String, String>) {
-      val (date, day) = dayOfWeek
-      binding.isSelect = date == SimpleDateFormat(
-        "MM-dd",
+    fun bind(dayOfWeek: DayOfWeek) {
+      val (date, day) = dayOfWeek.date.split("-")[2] to dayOfWeek.date.split("-")[3]
+      binding.isSelect = dayOfWeek.date == SimpleDateFormat(
+        "YYYY-MM-dd-EEE",
         Locale.getDefault()).format(Calendar.getInstance().time
       )
-      binding.tvNumDay.text = date.split("-")[1]
+      binding.tvNumDay.text = date
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
         vm.updateSelectDate(date.split("-")[0])
       }
     }
   }
+
 
 }
 

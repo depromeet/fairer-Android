@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     get() = _selectDate
 
   fun getCurrentWeek(): List<String> {
-    val format = SimpleDateFormat("MM-dd", Locale.getDefault())
+    val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
     val days = mutableListOf<String>()
     days.add(format.format(calendar.time))
     repeat(6) {
@@ -44,7 +44,7 @@ class MainViewModel : ViewModel() {
   }
 
   private fun getWeek(): MutableList<String> {
-    val format = SimpleDateFormat("MM-dd", Locale.getDefault())
+    val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
     val days = mutableListOf<String>()
     repeat(7) {
       calendar.add(Calendar.DATE, 1)
