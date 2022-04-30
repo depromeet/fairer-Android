@@ -31,11 +31,11 @@ class MainViewModel : ViewModel() {
       return days.map { DayOfWeek(date = it,isSelect = it == format.format(Calendar.getInstance().time)) }
   }
 
-  fun getNextWeek(): List<String> {
+  fun getNextWeek(): MutableList<DayOfWeek> {
     return getWeek()
   }
 
-  fun getLastWeek(): List<String> {
+  fun getLastWeek(): MutableList<DayOfWeek> {
     calendar.add(Calendar.DATE, -14)
     return getWeek()
   }
@@ -44,14 +44,14 @@ class MainViewModel : ViewModel() {
     _selectDate.value = "${calendar.get(Calendar.YEAR)}년 ${date}월"
   }
 
-  private fun getWeek(): MutableList<String> {
+  private fun getWeek(): MutableList<DayOfWeek> {
     val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
     val days = mutableListOf<String>()
     repeat(7) {
       calendar.add(Calendar.DATE, 1)
       days.add(format.format(calendar.time))
     }
-    return days
+    return days.map { DayOfWeek(date = it) }.toMutableList()
   }
 
   private val _completeChoreNum: MutableStateFlow<Int> =

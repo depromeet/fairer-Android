@@ -42,18 +42,20 @@ class DayOfWeekAdapter(
       binding.tvNumDay.text = date
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
-        val index = list.indexOfFirst { it.isSelect }
-        if (index != -1) {
-          list[index].isSelect = false
-        }
+        updateLastSelect()
         dayOfWeek.isSelect = !dayOfWeek.isSelect
         binding.isSelect = dayOfWeek.isSelect
         onClick.invoke(dayOfWeek)
-        notifyItemChanged(index)
       }
     }
   }
 
-
+  private fun updateLastSelect() {
+    val index = list.indexOfFirst { it.isSelect }
+    if (index != -1) {
+      list[index].isSelect = false
+    }
+    notifyItemChanged(index)
+  }
 }
 

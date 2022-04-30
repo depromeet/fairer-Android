@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.DayOfWeek
 import kotlinx.coroutines.flow.collect
 
 class MainFragment : Fragment() {
@@ -47,13 +46,11 @@ class MainFragment : Fragment() {
     }
 
     binding.ivLeft.setOnClickListener {
-      val list = mainViewModel.getLastWeek().map { DayOfWeek(date = it) }.toMutableList()
-      adapter.updateDate(list)
+      adapter.updateDate(mainViewModel.getLastWeek())
     }
 
     binding.ivRignt.setOnClickListener {
-      val list = mainViewModel.getNextWeek().map { DayOfWeek(date = it) }.toMutableList()
-      adapter.updateDate(list)
+      adapter.updateDate(mainViewModel.getNextWeek())
     }
   }
 
@@ -81,10 +78,6 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
-      mainViewModel.selectDate.collect {
-      }
-    }
   }
 
 }
