@@ -20,8 +20,9 @@ class MainViewModel : ViewModel() {
   val selectDate: StateFlow<String>
     get() = _selectDate
 
+  private val datePattern = "yyyy-MM-dd-EEE"
   fun getCurrentWeek(): MutableList<DayOfWeek> {
-    val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
     val days = mutableListOf<String>()
     days.add(format.format(calendar.time))
     repeat(6) {
@@ -35,6 +36,10 @@ class MainViewModel : ViewModel() {
       )}.toMutableList()
   }
 
+  fun updateSelectDate(date: String) {
+    _selectDate.value = "${calendar.get(Calendar.YEAR)}년 ${date}월"
+  }
+
   fun getNextWeek(): MutableList<DayOfWeek> {
     return getWeek()
   }
@@ -44,12 +49,8 @@ class MainViewModel : ViewModel() {
     return getWeek()
   }
 
-  fun updateSelectDate(date: String) {
-    _selectDate.value = "${calendar.get(Calendar.YEAR)}년 ${date}월"
-  }
-
   private fun getWeek(): MutableList<DayOfWeek> {
-    val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
     val days = mutableListOf<String>()
     repeat(7) {
       calendar.add(Calendar.DATE, 1)

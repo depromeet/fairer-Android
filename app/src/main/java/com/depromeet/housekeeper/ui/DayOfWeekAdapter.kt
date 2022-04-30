@@ -38,19 +38,21 @@ class DayOfWeekAdapter(
     fun bind(dayOfWeek: DayOfWeek) {
       val weekDate = dayOfWeek.date
       val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
-      binding.isSelect = dayOfWeek.isSelect
-      binding.tvNumDay.text = date
-      binding.tvStrDay.text = day
-      binding.layout.setOnClickListener {
-        updateLastSelect()
-        dayOfWeek.isSelect = !dayOfWeek.isSelect
-        binding.isSelect = dayOfWeek.isSelect
-        onClick.invoke(dayOfWeek)
+      binding.apply {
+        isSelect = dayOfWeek.isSelect
+        tvNumDay.text = date
+        tvStrDay.text = day
+        layout.setOnClickListener {
+          updateLastSelectView()
+          dayOfWeek.isSelect = !dayOfWeek.isSelect
+          binding.isSelect = dayOfWeek.isSelect
+          onClick.invoke(dayOfWeek)
+        }
       }
     }
   }
 
-  private fun updateLastSelect() {
+  private fun updateLastSelectView() {
     val index = list.indexOfFirst { it.isSelect }
     if (index != -1) {
       list[index].isSelect = false
