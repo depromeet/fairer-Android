@@ -65,6 +65,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="13dp"
+      app:tint="@color/gray_600"
       android:src="@drawable/ic_arrow_left"
       app:layout_constraintBottom_toBottomOf="@+id/rv_week"
       app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +110,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/rv_week" />
-    
+
     <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
     <TextView
       android:id="@+id/tv_remain_badge"

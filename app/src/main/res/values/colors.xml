@@ -12,7 +12,7 @@
   <color name="sky_blue">#9AC2FF</color>
   <color name="Positive_0">#F1F5FC</color>
   <color name="Normal_0">#F5F6F8</color>
-  
+
   <!--grey-->
   <color name="gray_100">#F2F2F2</color>
   <color name="gray_200">#D9D9D9</color>
@@ -33,4 +33,7 @@
   <color name="negative_0">#FFF8F9</color>
   <color name="negative_10">#FFD2DD</color>
   <color name="negative_20">#E93B65</color>
+
+  <!--selection-->
+  <color name="light_blue">#EEF5FF</color>
 </resources>

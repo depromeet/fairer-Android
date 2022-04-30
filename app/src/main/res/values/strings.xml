@@ -4,15 +4,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- AddTodoFragment1 -->
-    <string name="add_todo1_sign1">공간을 선택하면 세부 집안일이 나옵니다.</string>
-    <string name="add_todo1_sign2">한 공간의 집안일만 추가할 수 있습니다.</string>
-    <string name="add_todo1_direct_sign">당신이 원하는 집안일이 없나요?</string>
-    <string name="add_todo1_direct_btn_text">집안일 직접 입력하기</string>
+    <string name="add_todo_sign2">한 공간의 집안일만 추가할 수 있습니다.</string>
+    <string name="add_todo_direct_btn_text">집안일 직접 입력하기</string>
     <string name="next_btn_text">다음</string>
     <string name="add_todo_btn_text">집안일 추가</string>
     <string name="add_todo_dialog_title">같은 공간만 선택할 수 있어요</string>
     <string name="add_todo_dialog_desc">다른 공간을 선택하시면 이미 선택한 집안일이 삭제 됩니다. 다른 공간을 선택하시겠어요?</string>
     <string name="add_todo_dialog_ok_text">공간 바꾸기</string>
+    <string name="add_todo_task">세부 집안일</string>
+    <string name="add_todo_info">공간을 선택하면 세부 집안일이 나옵니다.</string>
+    <string name="add_todo_info2">원하는 집안일이 없나요?</string>
 
     <!-- AddDirectTodoFragment -->
     <string name="add_direct_todo_sign1">집안일의 상세 내용을 선택해주세요</string>
@@ -38,12 +39,14 @@
     </string-array>
 
     <string name="Clear">완료하기</string>
+
     <!--ItemRecyclerMainList-->
     <string name="Finish">끝내기</string>
     <string name="Finished">끝냈어요</string>
     <string name="time">오후 9:30</string>
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
+
 
   
   <!-- HomeFragment -->
@@ -53,5 +56,13 @@
     <string name="add_chore">집안일 추가</string>
     <string name="empty_chore_title">해야 할 집안일이 없어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
+
+    <!-- dummy chores -->
+    <string-array name="chore_array">
+        <item>이불 정리</item>
+        <item>화장대 정리</item>
+        <item>음식물 쓰레기 버리기</item>
+        <item>바닥 청소</item>
+    </string-array>
 
 </resources>
