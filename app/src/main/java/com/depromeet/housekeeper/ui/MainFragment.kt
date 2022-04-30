@@ -55,8 +55,8 @@ class MainFragment : Fragment() {
   }
 
   private fun setAdapter() {
-    val list = mainViewModel.getCurrentWeek().toMutableList()
-    adapter = DayOfWeekAdapter(list, onClick = {
+    adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
+      onClick = {
       mainViewModel.updateSelectDate(it.date.split("-")[1])
     })
     binding.rvWeek.adapter = adapter
