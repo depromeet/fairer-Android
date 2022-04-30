@@ -43,8 +43,10 @@ class DayOfWeekAdapter(
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
         val index = list.indexOfFirst { it.isSelect }
-        list[index].isSelect = false
-        dayOfWeek.isSelect =!dayOfWeek.isSelect
+        if (index != -1) {
+          list[index].isSelect = false
+        }
+        dayOfWeek.isSelect = !dayOfWeek.isSelect
         binding.isSelect = dayOfWeek.isSelect
         onClick.invoke(dayOfWeek)
         notifyItemChanged(index)
