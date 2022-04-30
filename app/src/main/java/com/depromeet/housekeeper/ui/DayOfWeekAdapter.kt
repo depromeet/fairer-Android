@@ -8,7 +8,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class DayOfWeekAdapter(private val list: MutableList<Pair<String, String>>) :
+class DayOfWeekAdapter(
+  private val list: MutableList<Pair<String, String>>,
+  private val vm: MainViewModel,
+) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
 
   fun updateDate(updateDays: MutableList<Pair<String, String>>) {
@@ -36,12 +39,14 @@ class DayOfWeekAdapter(private val list: MutableList<Pair<String, String>>) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(dayOfWeek: Pair<String, String>) {
       val (date, day) = dayOfWeek
-      binding.isSelect = date == SimpleDateFormat("MM-dd",
-        Locale.getDefault()).format(Calendar.getInstance().time)
+      binding.isSelect = date == SimpleDateFormat(
+        "MM-dd",
+        Locale.getDefault()).format(Calendar.getInstance().time
+      )
       binding.tvNumDay.text = date.split("-")[1]
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
-        //TODO ClickListener 처리
+        vm.updateSelectDate(date.split("-")[0])
       }
     }
   }

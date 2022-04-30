@@ -53,7 +53,7 @@
       android:drawableStart="@drawable/ic_calendar_today"
       android:drawablePadding="4dp"
       android:paddingStart="4dp"
-      android:text="@{String.valueOf(vm.currentDate)}"
+      android:text="@{String.valueOf(String.valueOf(vm.selectDate))}"
       android:textColor="@color/gray_900"
       android:textStyle="bold"
       app:layout_constraintStart_toStartOf="parent"

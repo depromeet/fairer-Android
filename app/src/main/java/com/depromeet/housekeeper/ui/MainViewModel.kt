@@ -14,15 +14,10 @@ class MainViewModel : ViewModel() {
     firstDayOfWeek = Calendar.MONDAY
     set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
   }
-  private val _currentDate: MutableStateFlow<String> =
+  private val _selectDate: MutableStateFlow<String> =
     MutableStateFlow("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
-  val currentDate: String
-    get() = _currentDate.value
-
-  private val _completeChoreNum: MutableStateFlow<Int> =
-    MutableStateFlow(17)
-  val completeChoreNum: StateFlow<Int>
-    get() = _completeChoreNum
+  val selectDate: StateFlow<String>
+    get() = _selectDate
 
   fun getCurrentWeek(): List<String> {
     val format = SimpleDateFormat("MM-dd", Locale.getDefault())
@@ -36,15 +31,19 @@ class MainViewModel : ViewModel() {
   }
 
   fun getNextWeek(): List<String> {
-    return getDays()
+    return getWeek()
   }
 
   fun getLastWeek(): List<String> {
     calendar.add(Calendar.DATE, -14)
-    return getDays()
+    return getWeek()
   }
 
-  private fun getDays(): MutableList<String> {
+  fun updateSelectDate(date : String){
+    _selectDate.value = "${calendar.get(Calendar.YEAR)}년 ${date}월"
+  }
+
+  private fun getWeek(): MutableList<String> {
     val format = SimpleDateFormat("MM-dd", Locale.getDefault())
     val days = mutableListOf<String>()
     repeat(7) {
@@ -53,6 +52,11 @@ class MainViewModel : ViewModel() {
     }
     return days
   }
+
+  private val _completeChoreNum: MutableStateFlow<Int> =
+    MutableStateFlow(17)
+  val completeChoreNum: StateFlow<Int>
+    get() = _completeChoreNum
 
   private val _remainChore: MutableStateFlow<Int> = MutableStateFlow(0)
   val remainChore: Int

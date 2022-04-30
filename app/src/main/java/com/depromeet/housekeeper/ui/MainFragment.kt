@@ -64,7 +64,7 @@ class MainFragment : Fragment() {
     val monday = mainViewModel.getCurrentWeek()
     val days = resources.getStringArray(R.array.day_array)
     val list = monday.mapIndexed { index, i -> i to days[index] }
-    adapter = DayOfWeekAdapter(list.toMutableList())
+    adapter = DayOfWeekAdapter(list.toMutableList(), mainViewModel)
     binding.rvWeek.adapter = adapter
   }
 
