@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
+import com.depromeet.housekeeper.model.DayOfWeek
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.text.SimpleDateFormat
@@ -19,7 +20,7 @@ class MainViewModel : ViewModel() {
   val selectDate: StateFlow<String>
     get() = _selectDate
 
-  fun getCurrentWeek(): List<String> {
+  fun getCurrentWeek(): List<DayOfWeek> {
     val format = SimpleDateFormat("YYYY-MM-dd-EEE", Locale.getDefault())
     val days = mutableListOf<String>()
     days.add(format.format(calendar.time))
@@ -27,7 +28,7 @@ class MainViewModel : ViewModel() {
       calendar.add(Calendar.DATE, 1)
       days.add(format.format(calendar.time))
     }
-    return days
+      return days.map { DayOfWeek(date = it,isSelect = it == format.format(Calendar.getInstance().time)) }
   }
 
   fun getNextWeek(): List<String> {

@@ -5,13 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
 import com.depromeet.housekeeper.model.DayOfWeek
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class DayOfWeekAdapter(
   private val list: MutableList<DayOfWeek>,
-  val vm: MainViewModel,
+  private val onClick: (DayOfWeek) -> Unit,
 ) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
 
@@ -41,14 +38,16 @@ class DayOfWeekAdapter(
     fun bind(dayOfWeek: DayOfWeek) {
       val weekDate = dayOfWeek.date
       val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
-      binding.isSelect = (dayOfWeek.date == SimpleDateFormat(
-        "YYYY-MM-dd-EEE",
-        Locale.getDefault()).format(Calendar.getInstance().time
-      ) || dayOfWeek.isSelect)
+      binding.isSelect = dayOfWeek.isSelect
       binding.tvNumDay.text = date
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
-        vm.updateSelectDate(weekDate.split("-")[1])
+        val index = list.indexOfFirst { it.isSelect }
+        list[index].isSelect = false
+        dayOfWeek.isSelect =!dayOfWeek.isSelect
+        binding.isSelect = dayOfWeek.isSelect
+        onClick.invoke(dayOfWeek)
+        notifyItemChanged(index)
       }
     }
   }
