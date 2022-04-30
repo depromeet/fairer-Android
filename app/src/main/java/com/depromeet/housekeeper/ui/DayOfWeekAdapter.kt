@@ -39,15 +39,16 @@ class DayOfWeekAdapter(
   inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(dayOfWeek: DayOfWeek) {
-      val (date, day) = dayOfWeek.date.split("-")[2] to dayOfWeek.date.split("-")[3]
-      binding.isSelect = dayOfWeek.date == SimpleDateFormat(
+      val weekDate = dayOfWeek.date
+      val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
+      binding.isSelect = (dayOfWeek.date == SimpleDateFormat(
         "YYYY-MM-dd-EEE",
         Locale.getDefault()).format(Calendar.getInstance().time
-      )
+      ) || dayOfWeek.isSelect)
       binding.tvNumDay.text = date
       binding.tvStrDay.text = day
       binding.layout.setOnClickListener {
-        vm.updateSelectDate(date.split("-")[0])
+        vm.updateSelectDate(weekDate.split("-")[1])
       }
     }
   }
