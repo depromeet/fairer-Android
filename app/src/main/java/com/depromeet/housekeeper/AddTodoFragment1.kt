@@ -30,7 +30,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        setRecyclerView()
+        setAdapter()
         initListener()
         return binding.root
     }
@@ -67,16 +67,11 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
             it.findNavController().navigateUp()
         }
 
-        myAdapter.setItemClickListener(object :AddTodo1ChoreAdapter.OnItemClickListener{
-            override fun onClick(v: View, position: Int) {
-                binding.addTodo1Group3.visibility=View.INVISIBLE
-                Timber.d("onClick")
-            }
-        })
+
 
     }
 
-    private fun setRecyclerView(){
+    private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
         binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
         val array= ArrayList<String>()
@@ -84,6 +79,12 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         array.add("설거지")
         myAdapter=AddTodo1ChoreAdapter(array)
         binding.addTodo1Recyclerview.adapter = myAdapter
+        myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
+            override fun onClick(v: View, position: Int) {
+                Timber.d("item click")
+            }
+
+        })
     }
 
 
