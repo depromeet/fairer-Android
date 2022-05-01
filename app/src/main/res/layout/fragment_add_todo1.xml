@@ -293,10 +293,16 @@
             layout="@layout/layout_main_footer_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/add_todo1_group3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="add_todo1_next_btn"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

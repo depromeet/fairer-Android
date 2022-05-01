@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,7 +14,7 @@
             android:id="@+id/add_todo1_btn_task"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="이불 정리"
+            tools:text="빨래 하기"
             android:textSize="13sp"
             android:textStyle="bold"
             android:textAlignment="center"
