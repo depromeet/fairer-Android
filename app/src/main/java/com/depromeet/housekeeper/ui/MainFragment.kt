@@ -44,14 +44,21 @@ class MainFragment : Fragment() {
     binding.btAddTodo.root.setOnClickListener {
       findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
     }
+
+    binding.ivLeft.setOnClickListener {
+      adapter.updateDate(mainViewModel.getLastWeek())
+    }
+
+    binding.ivRignt.setOnClickListener {
+      adapter.updateDate(mainViewModel.getNextWeek())
+    }
   }
 
   private fun setAdapter() {
-    val monday = mainViewModel.getMondayNumDay()
-    val weekDay = monday..monday + 6
-    val days = resources.getStringArray(R.array.day_array)
-    val list = weekDay.mapIndexed { index, i -> i to days[index] }
-    adapter = DayOfWeekAdapter(list)
+    adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
+      onClick = {
+      mainViewModel.updateSelectDate(it.date.split("-")[1])
+    })
     binding.rvWeek.adapter = adapter
   }
 
@@ -69,8 +76,8 @@ class MainFragment : Fragment() {
         }
         binding.tvCompleteHouseChore.text = spannerString
       }
-
     }
+
   }
 
 }
