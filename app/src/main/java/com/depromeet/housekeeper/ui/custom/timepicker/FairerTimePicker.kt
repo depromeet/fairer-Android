@@ -31,6 +31,7 @@ class FairerTimePicker @JvmOverloads constructor(
 
     init {
         setInterval()
+        initDisPlayedValue()
     }
 
     @SuppressLint("PrivateApi")
@@ -48,6 +49,16 @@ class FairerTimePicker @JvmOverloads constructor(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun initDisPlayedValue() {
+        hour = 9
+        minute = 0
+    }
+
+    fun setDisPlayedValue(h:Int, m: Int) {
+        hour = h
+        minute = m
     }
 
     fun getDisplayedMinutes(): Int = minute * timeInterval

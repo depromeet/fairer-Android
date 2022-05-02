@@ -12,7 +12,6 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
     : RecyclerView.Adapter<AddTodoChoreAdapter.ViewHolder>() {
 
     private var selectedChore: ArrayList<Int> = arrayListOf() // for single choice
-    private var positions:ArrayList<Int> = arrayListOf(0, 0)
     private lateinit var mItemClickListener: MyItemClickListener
 
     interface MyItemClickListener {
@@ -91,8 +90,25 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
         fun bind(chore: Chore) {
-            binding.itemAddTodoTimeTv.text = chore.scheduleTime
+            if(chore.scheduleTime == "하루 종일") {
+                binding.itemAddTodoTimeTv.text = chore.scheduleTime
+            }
+            else {
+                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduleTime)
+            }
             binding.itemAddTodoNameTv.text = chore.houseWorkName
+        }
+
+        private fun parseTime(time: String): String {
+            val temp = time.split(":")
+            val hour = temp[0].toInt()
+            val min = temp[1].toInt()
+
+            return if(hour <= 12) {
+                "오전\n${String.format("%02d", hour)}:${String.format("%02d", min)}"
+            } else {
+                "오후\n${String.format("%02d", hour - 12)}:${String.format("%02d", min)}"
+            }
         }
     }
 }

@@ -1,27 +1,20 @@
 package com.depromeet.housekeeper
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
-import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
 import com.depromeet.housekeeper.model.Chore
-import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-import kotlinx.serialization.StringFormat
 import timber.log.Timber
-import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class AddTodoFragment2 : Fragment() {
     lateinit var binding: FragmentAddTodo2Binding
@@ -29,6 +22,8 @@ class AddTodoFragment2 : Fragment() {
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
     private var curTime: String = ""
+    private var curHour:Int = 0
+    private var curMin:Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,11 +59,7 @@ class AddTodoFragment2 : Fragment() {
         binding.todoTimePicker.setOnTimeChangedListener { _, hour, _ ->
             binding.addTodo2AllDayCheckBox.isChecked = false
             val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
-            curTime = if(hour <= 12) {
-                "오전\n${String.format("%02d", hour)}:${min}"
-            } else {
-                "오후\n${String.format("%02d", hour - 12)}:${min}"
-            }
+            curTime = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
         }
 
     }
@@ -84,12 +75,13 @@ class AddTodoFragment2 : Fragment() {
         addTodoChoreAdapter = AddTodoChoreAdapter(chores)
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
 
-        var positions: ArrayList<Int> = arrayListOf(0)
+        val positions: ArrayList<Int> = arrayListOf(0)
 
         addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
-            override fun onItemClick(curPos: Int) {
+            override fun onItemClick(position: Int) {
                 // 현재 클릭하면 이전 chore 정보 업데이트 - 기준 현재 time picker & check box
-                positions.add(curPos)
+                Timber.d(chores.toString())
+                positions.add(position)
                 val prePos = positions[positions.size - 2]
                 if(binding.addTodo2AllDayCheckBox.isChecked) {
                     chores[prePos].scheduleTime = defaultTime
@@ -99,15 +91,19 @@ class AddTodoFragment2 : Fragment() {
                 }
 
                 // 현재 chore 기준으로 뷰 업데이트
-                if(chores[curPos].scheduleTime == defaultTime) {
+                if(chores[position].scheduleTime == defaultTime) {
                     binding.addTodo2AllDayCheckBox.isChecked = true
+                    // binding.todoTimePicker.initDisPlayedValue()
                 }
+//                else {
+//                    val time = parseTime(curTime)
+//                    binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
+//                }
 
 
             }
 
             override fun onRemoveChore(position: Int) {
-//                chores.removeAt(position)
                 Timber.d("남은 집안일 : ${chores.toString()}")
             }
         })
@@ -119,8 +115,11 @@ class AddTodoFragment2 : Fragment() {
 
     }
 
-    private fun getTime() {
-
+    private fun parseTime(time: String): Pair<Int, Int>{
+        val temp = time.split(":")
+        val hour = temp[0].toInt()
+        val min = temp[1].toInt()
+        return Pair(hour, min)
     }
 
 }
