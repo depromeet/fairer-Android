@@ -5,12 +5,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
+import com.depromeet.housekeeper.model.Chore
+import timber.log.Timber
 
-class AddTodoChoreAdapter(private val chores: ArrayList<String>)
+class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
     : RecyclerView.Adapter<AddTodoChoreAdapter.ViewHolder>() {
 
-    // for single choice
-    private var selectedChore: ArrayList<Int> = arrayListOf()
+    private var selectedChore: ArrayList<Int> = arrayListOf() // for single choice
+    private var positions:ArrayList<Int> = arrayListOf(0, 0)
+    private lateinit var mItemClickListener: MyItemClickListener
+
+    interface MyItemClickListener {
+        fun onItemClick(position: Int)
+        fun onRemoveChore(position: Int)
+    }
+
+
+    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
 
     init {
         for(i in chores) {
@@ -22,6 +35,7 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
                 selectedChore.add(0)
             }
         }
+        Timber.d(selectedChore.toString())
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -30,7 +44,6 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
         if(position == chores.size && selectedChore[position] == 1) {
             // 마지막 아이템 선택 상태에서 삭제하면 이전 포지션으로 포커스 넘어가게
             // default : 다음 포지션으로 포커스
-            selectedChore.removeAt(position)
             selectedChore[position - 1] = 1
         }
         notifyDataSetChanged()
@@ -42,36 +55,44 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
         return ViewHolder(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        return holder.bind(chores[position])
+        holder.bind(chores[position])
+
+        holder.binding.itemAddTodoLayout.apply {
+
+            isSelected = selectedChore[position] == 1
+            setOnClickListener {
+                mItemClickListener.onItemClick(position)
+
+                for(k in selectedChore.indices) {
+                    if(k == position) {
+                        selectedChore[k] = 1
+                    }
+                    else {
+                        selectedChore[k] = 0
+                    }
+                }
+                notifyDataSetChanged()
+            }
+        }
+
+        holder.binding.itemAddTodoDeleteIv.setOnClickListener {
+            if(chores.size > 1) {
+                removeChore(position)
+                mItemClickListener.onRemoveChore(position)
+            }
+        }
     }
 
     override fun getItemCount(): Int = chores.size
 
-    inner class ViewHolder(private val binding: ItemRecyclerAddTodoListBinding)
+    inner class ViewHolder(val binding: ItemRecyclerAddTodoListBinding)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
-        fun bind(chore: String) {
-            binding.itemAddTodoNameTv.text = chore
-
-            binding.itemAddTodoLayout.apply {
-                isSelected = selectedChore[adapterPosition] == 1
-                setOnClickListener {
-                    for(k in selectedChore.indices) {
-                        if(k == adapterPosition) {
-                            selectedChore[k] = 1
-                        }
-                        else {
-                            selectedChore[k] = 0
-                        }
-                    }
-                    notifyDataSetChanged()
-                }
-            }
-
-            binding.itemAddTodoDeleteIv.setOnClickListener {
-                removeChore(adapterPosition)
-            }
+        fun bind(chore: Chore) {
+            binding.itemAddTodoTimeTv.text = chore.scheduleTime
+            binding.itemAddTodoNameTv.text = chore.houseWorkName
         }
     }
 }

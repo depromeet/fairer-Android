@@ -44,7 +44,7 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoNextBtn.mainFooterButton.apply {
-            text = resources.getString(R.string.add_todo_btn_text)
+            text = resources.getString(R.string.add_todo_done_btn_txt)
 
             setOnClickListener {
                 it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_addTodoFragment2)

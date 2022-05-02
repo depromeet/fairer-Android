@@ -7,13 +7,14 @@
     <string name="add_todo_sign2">한 공간의 집안일만 추가할 수 있습니다.</string>
     <string name="add_todo_direct_btn_text">집안일 직접 입력하기</string>
     <string name="next_btn_text">다음</string>
-    <string name="add_todo_btn_text">집안일 추가</string>
     <string name="add_todo_dialog_title">같은 공간만 선택할 수 있어요</string>
     <string name="add_todo_dialog_desc">다른 공간을 선택하시면 이미 선택한 집안일이 삭제 됩니다. 다른 공간을 선택하시겠어요?</string>
     <string name="add_todo_dialog_ok_text">공간 바꾸기</string>
     <string name="add_todo_task">세부 집안일</string>
     <string name="add_todo_info">공간을 선택하면 세부 집안일이 나옵니다.</string>
     <string name="add_todo_info2">원하는 집안일이 없나요?</string>
+    <string name="add_todo_default_time">하루 종일</string>
+    <string name="add_todo_done_btn_txt">집안일 추가 완료</string>
 
     <!-- AddDirectTodoFragment -->
     <string name="add_direct_todo_sign1">집안일의 상세 내용을 선택해주세요</string>
@@ -21,7 +22,6 @@
     <string name="add_direct_todo_title">집안일 제목</string>
     <string name="add_direct_todo_title_hint">직접 입력</string>
     <string name="add_direct_todo_time">집안일 시간</string>
-    <string name="add_direct_todo_batch_time">일괄 시간 선택</string>
     <string name="add_direct_todo_day">다른 날에도 이 집안일 하기</string>
 
     <!-- Fairer Dialog -->

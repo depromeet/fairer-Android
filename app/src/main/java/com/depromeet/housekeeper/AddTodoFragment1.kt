@@ -28,14 +28,17 @@ class AddTodoFragment1 : Fragment() {
     
     private fun initListener() {
         binding.addTodo1Header.addTodoHeaderTb.setOnClickListener {
-            val dialog = FairerDialog(requireContext())
-            dialog.showDialog()
-            dialog.onItemClickListener = object: FairerDialog.OnItemClickListener {
-                override fun onItemClick() {
-                    // ok btn click action
-                }
+//            val dialog = FairerDialog(requireContext())
+//            dialog.showDialog()
+//            dialog.onItemClickListener = object: FairerDialog.OnItemClickListener {
+//                override fun onItemClick() {
+//                    // ok btn click action
+//                }
+//
+//            }
 
-            }
+            // temp
+            navigateToAddTodoPage2()
         }
 
         binding.addTodo1Header.addTodoBackBtn.setOnClickListener{
