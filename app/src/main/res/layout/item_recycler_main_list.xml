@@ -12,7 +12,7 @@
             android:layout_width="320dp"
             android:layout_height="104dp"
             app:cardCornerRadius="6dp"
-            android:backgroundTint="@color/Positive_0">
+            android:backgroundTint="@color/positive_0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginRight="10dp"
-                    android:textColor="@color/active_blue"/>
+                    android:textColor="@color/highlight"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,15 +25,35 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/add_todo2_sign_tv"
+            android:id="@+id/add_todo2_date_tv"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_direct_todo_sign1"
-            android:textColor="@color/gray_700"
+            android:drawablePadding="4dp"
+            android:textColor="@color/gray_900"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(vm.curDate)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_todo2_header"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            app:drawableStartCompat="@drawable/ic_calendar_today" />
+
+        <TextView
+            android:id="@+id/add_todo2_space_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Caption"
+            android:drawablePadding="4dp"
+            android:textColor="@color/gray_900"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(vm.curSpace)}"
+            app:drawableStartCompat="@drawable/ic_space"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/add_todo2_date_tv"
+            app:layout_constraintBottom_toBottomOf="@id/add_todo2_date_tv"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/add_todo_chore_list_rv"
@@ -44,7 +64,7 @@
             android:choiceMode="singleChoice"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/add_todo2_sign_tv"
+            app:layout_constraintTop_toBottomOf="@id/add_todo2_date_tv"
             tools:listitem="@layout/item_recycler_add_todo_list"/>
 
         <TextView

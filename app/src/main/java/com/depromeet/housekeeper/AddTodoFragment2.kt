@@ -1,11 +1,13 @@
 package com.depromeet.housekeeper
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -14,7 +16,6 @@ import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
 import com.depromeet.housekeeper.model.Chore
 import timber.log.Timber
-import java.text.SimpleDateFormat
 
 class AddTodoFragment2 : Fragment() {
     lateinit var binding: FragmentAddTodo2Binding
@@ -70,7 +71,6 @@ class AddTodoFragment2 : Fragment() {
             val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
             curTime = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
         }
-
     }
 
     private fun setAdapter() {
