@@ -32,17 +32,6 @@
             app:layout_constraintTop_toBottomOf="@id/add_direct_todo_header" />
 
         <TextView
-            android:id="@+id/add_direct_todo_space_sign_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_direct_todo_space"
-            android:textColor="@color/gray_700"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_direct_todo_sign_tv" />
-
-        <TextView
             android:id="@+id/add_direct_todo_title_sign_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +40,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_direct_todo_space_sign_tv" />
+            app:layout_constraintTop_toBottomOf="@id/add_direct_todo_sign_tv" />
 
         <EditText
             android:id="@+id/add_direct_todo_title_et"

@@ -39,15 +39,18 @@ class AddDirectTodoFragment : Fragment() {
             hideKeyboard(binding.addDirectTodoTitleEt)
         }
 
-        binding.addDirectTodoHeader.addTodoBackBtn.setOnClickListener {
-            it.findNavController().navigateUp()
+        binding.addDirectTodoHeader.apply {
+            addTodoBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
+            addTodoHeaderTv.text = ""
         }
 
-        binding.addDirectTodoNextBtn.mainFooterButton.apply {
+        binding.addDirectTodoDoneBtn.mainFooterButton.apply {
             text = resources.getString(R.string.add_todo_done_btn_txt)
 
             setOnClickListener {
-                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_addTodoFragment2)
+                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }
