@@ -1,5 +1,8 @@
 package com.depromeet.housekeeper.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class HouseWork(
     val assignees: List<Assignee>,
     val houseWorkId: Int,
