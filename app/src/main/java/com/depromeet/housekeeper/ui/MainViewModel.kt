@@ -1,14 +1,24 @@
 package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.model.DayOfWeek
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class MainViewModel : ViewModel() {
+
+  init {
+    getHouseWorks()
+  }
+  private val calendar = Calendar.getInstance()
 
   private val calendar: Calendar = Calendar.getInstance().apply {
     set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -71,5 +81,18 @@ class MainViewModel : ViewModel() {
   private val _endChore: MutableStateFlow<Int> = MutableStateFlow(0)
   val endChore: Int
     get() = _endChore.value
+
+  private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val houseWorks: StateFlow<HouseWorks?>
+    get() = _houseWorks
+
+
+  fun getHouseWorks() {
+    viewModelScope.launch {
+      Repository.getList("2022-05-02").collect {
+        _houseWorks.value = it
+      }
+    }
+  }
 
 }
