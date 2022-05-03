@@ -16,7 +16,6 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
 
     interface MyItemClickListener {
         fun onItemClick(position: Int)
-        fun onRemoveChore(position: Int)
     }
 
 
@@ -79,7 +78,6 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         holder.binding.itemAddTodoDeleteIv.setOnClickListener {
             if(chores.size > 1) {
                 removeChore(position)
-                mItemClickListener.onRemoveChore(position)
             }
         }
     }

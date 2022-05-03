@@ -22,8 +22,6 @@ class AddTodoFragment2 : Fragment() {
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
     private var curTime: String = ""
-    private var curHour:Int = 0
-    private var curMin:Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +50,11 @@ class AddTodoFragment2 : Fragment() {
             text = resources.getString(R.string.add_todo_done_btn_txt)
 
             setOnClickListener {
+                // 마지막 position update
+
+                // api
+
+                // 화면 전환
                 it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
             }
         }
@@ -70,7 +73,6 @@ class AddTodoFragment2 : Fragment() {
         val str = resources.getStringArray(R.array.chore_array)
         val chores: ArrayList<Chore> = arrayListOf(Chore(), Chore(), Chore(), Chore())
         chores.mapIndexed { index, chore -> chore.houseWorkName = str[index] }
-        Timber.d(chores.toString())
 
         addTodoChoreAdapter = AddTodoChoreAdapter(chores)
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
@@ -79,7 +81,7 @@ class AddTodoFragment2 : Fragment() {
 
         addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
             override fun onItemClick(position: Int) {
-                // 현재 클릭하면 이전 chore 정보 업데이트 - 기준 현재 time picker & check box
+                // 현재 chore 클릭하면 이전 chore 정보 업데이트
                 Timber.d(chores.toString())
                 positions.add(position)
                 val prePos = positions[positions.size - 2]
@@ -92,19 +94,16 @@ class AddTodoFragment2 : Fragment() {
 
                 // 현재 chore 기준으로 뷰 업데이트
                 if(chores[position].scheduleTime == defaultTime) {
+                    binding.todoTimePicker.initDisPlayedValue()
                     binding.addTodo2AllDayCheckBox.isChecked = true
-                    // binding.todoTimePicker.initDisPlayedValue()
                 }
-//                else {
-//                    val time = parseTime(curTime)
-//                    binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
-//                }
+                else {
+                    val time = parseTime(chores[position].scheduleTime)
+                    Timber.d(time.toString())
+                    binding.todoTimePicker.setDisPlayedValue(time.first, time.second / 10)
+                }
 
 
-            }
-
-            override fun onRemoveChore(position: Int) {
-                Timber.d("남은 집안일 : ${chores.toString()}")
             }
         })
 
