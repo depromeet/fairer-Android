@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface RemoteDataSource{
-  suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>>
+  suspend fun getList(scheduledDate: String): Flow<HouseWorks>
 }
