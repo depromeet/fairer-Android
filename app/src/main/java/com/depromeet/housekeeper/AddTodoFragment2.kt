@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavArgs
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
@@ -25,6 +27,7 @@ class AddTodoFragment2 : Fragment() {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
+    private val navArgs by navArgs<AddTodoFragment2Args>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +63,7 @@ class AddTodoFragment2 : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
+        val navArgsChores = navArgs.spaceChores.houseWorks //TODO("adapter list")
         val chores: ArrayList<String> = resources.getStringArray(R.array.chore_array).toCollection(ArrayList<String>())
         addTodoChoreAdapter = AddTodoChoreAdapter(chores)
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
