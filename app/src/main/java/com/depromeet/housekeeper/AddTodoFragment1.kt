@@ -5,15 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.ListAdapter
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
+import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import timber.log.Timber
 
@@ -21,6 +20,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentAddTodo1Binding
     lateinit var myAdapter:AddTodo1ChoreAdapter
     private var selected: Boolean = false
+    private val viewModel: AddTodoFragment1ViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +77,9 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         val array= ArrayList<String>()
         array.add("이불 접기")
         array.add("설거지")
-        myAdapter=AddTodo1ChoreAdapter(array)
+        myAdapter = AddTodo1ChoreAdapter(array) { chore: String, isSelect: Boolean ->
+            viewModel.updateChores(chore, isSelect)
+        }
         binding.addTodo1Recyclerview.adapter = myAdapter
         myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
             override fun onClick(v: View, position: Int) {
@@ -95,8 +97,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun navigateToAddTodoPage2() {
-        binding.addTodo1NextBtn.mainFooterButton.findNavController()
-            .navigate(R.id.action_addTodoFragment1_to_addTodoFragment2)
+        findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddTodoFragment2(
+            SpaceChores(spaceName = viewModel.selectSpace.value,houseWorks = viewModel.chores.value)))
     }
 
     private fun setDialog() {
@@ -129,6 +131,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     selected = true
                     binding.addTodo1ImageEntrance.isSelected = true
                     Timber.d("click entrance")
+                    viewModel.setSpace("entrace")
                     binding.addTodo1Group.visibility = View.INVISIBLE
                     binding.addTodo1Group2.visibility = View.VISIBLE
                     binding.addTodo1Group3.visibility=View.VISIBLE
@@ -136,6 +139,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageLivingRoom -> {
                     selected = true
                     binding.addTodo1ImageLivingRoom.isSelected = true
+                    viewModel.setSpace("livingroom")
                     Timber.d("click livingroom")
                     binding.addTodo1Group.visibility = View.INVISIBLE
                     binding.addTodo1Group2.visibility = View.VISIBLE
@@ -144,6 +148,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageBathroom -> {
                     selected = true
                     binding.addTodo1ImageBathroom.isSelected = true
+                    viewModel.setSpace("bathroom")
                     Timber.d("click bathroom")
                     binding.addTodo1Group.visibility = View.INVISIBLE
                     binding.addTodo1Group2.visibility = View.VISIBLE
@@ -152,6 +157,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageOutside -> {
                     selected = true
                     binding.addTodo1ImageOutside.isSelected = true
+                    viewModel.setSpace("outside")
                     Timber.d("click outside")
                     binding.addTodo1Group.visibility=View.INVISIBLE
                     binding.addTodo1Group2.visibility=View.VISIBLE
@@ -160,6 +166,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageRoom -> {
                     selected = true
                     binding.addTodo1ImageRoom.isSelected = true
+                    viewModel.setSpace("room")
                     Timber.d("click room")
                     binding.addTodo1Group.visibility=View.INVISIBLE
                     binding.addTodo1Group2.visibility=View.VISIBLE
@@ -168,6 +175,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageKitchen -> {
                     selected = true
                     binding.addTodo1ImageKitchen.isSelected = true
+                    viewModel.setSpace("kitchen")
                     Timber.d("click kitchen")
                     binding.addTodo1Group.visibility=View.INVISIBLE
                     binding.addTodo1Group2.visibility=View.VISIBLE

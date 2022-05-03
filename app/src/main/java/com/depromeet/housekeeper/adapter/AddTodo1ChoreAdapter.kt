@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemAddTodo1TaskBinding
 
-class AddTodo1ChoreAdapter(private val chores: ArrayList<String>,
+class AddTodo1ChoreAdapter(
+    private val chores: ArrayList<String>,
+    private val onClick: (String, Boolean) -> Unit,
 ):RecyclerView.Adapter<AddTodo1ChoreAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -41,6 +43,7 @@ class AddTodo1ChoreAdapter(private val chores: ArrayList<String>,
             binding.addTodo1BtnTask.text=chore
             binding.addTodo1BtnTask.setOnClickListener {
                 it.isSelected = !it.isSelected
+                onClick.invoke(chore,it.isSelected)
             }
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
