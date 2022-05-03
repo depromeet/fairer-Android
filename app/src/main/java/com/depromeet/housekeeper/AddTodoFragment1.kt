@@ -139,7 +139,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageLivingRoom -> {
                     selected = true
                     binding.addTodo1ImageLivingRoom.isSelected = true
-                    viewModel.setSpace("entrace")
+                    viewModel.setSpace("livingroom")
                     Timber.d("click livingroom")
                     binding.addTodo1Group.visibility = View.INVISIBLE
                     binding.addTodo1Group2.visibility = View.VISIBLE
