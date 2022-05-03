@@ -18,8 +18,6 @@ class MainViewModel : ViewModel() {
   init {
     getHouseWorks()
   }
-  private val calendar = Calendar.getInstance()
-
   private val calendar: Calendar = Calendar.getInstance().apply {
     set(Calendar.MONTH, this.get(Calendar.MONTH))
     firstDayOfWeek = Calendar.MONDAY
