@@ -124,7 +124,7 @@
             tools:listitem="@layout/item_todo_repeat_day_btn"/>
 
         <include
-            android:id="@+id/add_direct_todo_next_btn"
+            android:id="@+id/add_direct_todo_done_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

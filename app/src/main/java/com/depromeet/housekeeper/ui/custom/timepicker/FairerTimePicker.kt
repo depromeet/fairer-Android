@@ -58,7 +58,7 @@ class FairerTimePicker @JvmOverloads constructor(
 
     fun setDisPlayedValue(h:Int, m: Int) {
         hour = h
-        minute = m
+        minute = m / defaultInterval
     }
 
     fun getDisplayedMinutes(): Int = minute * timeInterval
