@@ -32,7 +32,7 @@
             android:drawablePadding="4dp"
             android:textColor="@color/gray_900"
             android:textStyle="bold"
-            android:text="@{String.valueOf(vm.curDate)}"
+            android:text="@{String.valueOf(vm.getDate())}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_todo2_header"
             android:layout_marginTop="20dp"
