@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:background="@drawable/main_footer_button_selector"
-            android:enabled="true"
+            android:enabled="false"
             android:text="text"
             android:textStyle="bold"
             android:textColor="@color/white"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
@@ -19,6 +20,7 @@ class AddTodoFragment2 : Fragment() {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
+    private val navArgs by navArgs<AddTodoFragment2Args>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +69,8 @@ class AddTodoFragment2 : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
+        val navArgsChores = navArgs.spaceChores.houseWorks //TODO("adapter list")
+
         val str = resources.getStringArray(R.array.chore_array)
         addTodo2ViewModel.chore.value.mapIndexed { index, chore -> chore.houseWorkName = str[index]}
         Timber.d(addTodo2ViewModel.getChores().toString())

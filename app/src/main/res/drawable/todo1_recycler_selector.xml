@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 버튼 포커스 O -->
-    <item android:state_checked="true">
+    <item android:state_selected="true">
         <shape android:shape="rectangle">
             <corners android:radius="6dp"/>
             <stroke
@@ -14,7 +14,7 @@
     </item>
 
     <!-- 버튼 포커스 X -->
-    <item android:state_checked="false">
+    <item android:state_selected="false">
         <shape android:shape="rectangle">
             <corners android:radius="6dp"/>
             <stroke

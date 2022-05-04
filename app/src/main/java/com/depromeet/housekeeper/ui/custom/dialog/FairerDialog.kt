@@ -41,8 +41,4 @@ class FairerDialog(context: Context) {
 
         dialog.show()
     }
-
-    interface OnDialogClickListener {
-        fun onClicked(name: String)
-    }
 }
