@@ -89,4 +89,6 @@ dependencies {
 
     implementation Dependencies.serialization
 
+    implementation Dependencies.googlelogin
+
 }

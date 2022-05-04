@@ -281,7 +281,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="add_todo1_info2,add_todo1_recyclerview,add_todo1_go_direct_btn2 ,add_todo1_go_direct_btn_tv2,add_todo1_btn_arrow2,add_todo1_task_text"/>
+                    app:constraint_referenced_ids=",add_todo1_recyclerview,add_todo1_task_text"/>
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/add_todo1_group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:constraint_referenced_ids="add_todo1_info2,add_todo1_go_direct_btn2 ,add_todo1_go_direct_btn_tv2,add_todo1_btn_arrow2"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -291,13 +297,15 @@
         <include
             android:id="@+id/add_todo1_next_btn"
             layout="@layout/layout_main_footer_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/add_todo1_group3"
+            android:id="@+id/add_todo1_group4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"

@@ -48,8 +48,7 @@
     <string name="time_todo">오전\n12시 30분</string>
 
 
-  
-  <!-- HomeFragment -->
+    <!-- HomeFragment -->
     <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
@@ -65,4 +64,6 @@
         <item>바닥 청소</item>
     </string-array>
 
+    <!--loginFragment-->
+    <string name="server_client_id">63882560814-d3o1unq4fk90c43mhhn912463irpc0go.apps.googleusercontent.com</string>
 </resources>

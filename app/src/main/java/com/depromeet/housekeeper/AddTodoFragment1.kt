@@ -77,15 +77,23 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         val array= ArrayList<String>()
         array.add("이불 접기")
         array.add("설거지")
-        myAdapter = AddTodo1ChoreAdapter(array) { chore: String, isSelect: Boolean ->
+        myAdapter = AddTodo1ChoreAdapter(array) /*{ chore: String, isSelect: Boolean ->
             viewModel.updateChores(chore, isSelect)
-        }
+        }*/
         binding.addTodo1Recyclerview.adapter = myAdapter
         myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
-            override fun onClick(v: View, position: Int) {
-                Timber.d("item click")
+            override fun onClick(v: View, chore:String, position: Int) {
+                v.isSelected = !v.isSelected
+                Timber.d("item click $position")
+                viewModel.updateChores(chore,v.isSelected)
+                binding.addTodo1NextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
+                if(viewModel.getChoreCount()>0){
+                    binding.addTodo1Group3.visibility=View.GONE
+                }
+                else{
+                    binding.addTodo1Group3.visibility=View.VISIBLE
+                }
             }
-
         })
     }
 
@@ -116,6 +124,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageKitchen.isSelected = false
                 binding.addTodo1Group.visibility=View.VISIBLE
                 binding.addTodo1Group2.visibility=View.INVISIBLE
+                binding.addTodo1Group3.visibility=View.INVISIBLE
+                binding.addTodo1Group4.visibility=View.INVISIBLE
                 myAdapter.notifyDataSetChanged()
             }
         }
@@ -132,57 +142,51 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageEntrance.isSelected = true
                     Timber.d("click entrance")
                     viewModel.setSpace("entrace")
-                    binding.addTodo1Group.visibility = View.INVISIBLE
-                    binding.addTodo1Group2.visibility = View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
                 binding.addTodo1ImageLivingRoom -> {
                     selected = true
                     binding.addTodo1ImageLivingRoom.isSelected = true
                     viewModel.setSpace("livingroom")
                     Timber.d("click livingroom")
-                    binding.addTodo1Group.visibility = View.INVISIBLE
-                    binding.addTodo1Group2.visibility = View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
                 binding.addTodo1ImageBathroom -> {
                     selected = true
                     binding.addTodo1ImageBathroom.isSelected = true
                     viewModel.setSpace("bathroom")
                     Timber.d("click bathroom")
-                    binding.addTodo1Group.visibility = View.INVISIBLE
-                    binding.addTodo1Group2.visibility = View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
                 binding.addTodo1ImageOutside -> {
                     selected = true
                     binding.addTodo1ImageOutside.isSelected = true
                     viewModel.setSpace("outside")
                     Timber.d("click outside")
-                    binding.addTodo1Group.visibility=View.INVISIBLE
-                    binding.addTodo1Group2.visibility=View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
                 binding.addTodo1ImageRoom -> {
                     selected = true
                     binding.addTodo1ImageRoom.isSelected = true
                     viewModel.setSpace("room")
                     Timber.d("click room")
-                    binding.addTodo1Group.visibility=View.INVISIBLE
-                    binding.addTodo1Group2.visibility=View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
                 binding.addTodo1ImageKitchen -> {
                     selected = true
                     binding.addTodo1ImageKitchen.isSelected = true
                     viewModel.setSpace("kitchen")
                     Timber.d("click kitchen")
-                    binding.addTodo1Group.visibility=View.INVISIBLE
-                    binding.addTodo1Group2.visibility=View.VISIBLE
-                    binding.addTodo1Group3.visibility=View.VISIBLE
+                    viewChange()
                 }
             }
         }
+    }
+    private fun viewChange(){
+        binding.addTodo1Group.visibility=View.INVISIBLE
+        binding.addTodo1Group2.visibility=View.VISIBLE
+        binding.addTodo1Group3.visibility=View.VISIBLE
+        binding.addTodo1Group4.visibility=View.VISIBLE
     }
 
 }

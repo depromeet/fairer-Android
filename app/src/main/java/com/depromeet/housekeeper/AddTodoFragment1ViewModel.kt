@@ -18,6 +18,10 @@ class AddTodoFragment1ViewModel : ViewModel() {
     _selectSpace.value = space
   }
 
+  fun getChoreCount():Int{
+    return _chores.value.size
+  }
+
   fun updateChores(chores: String, isSelect: Boolean) {
     when {
       isSelect -> if (!_chores.value.contains(chores)) {
