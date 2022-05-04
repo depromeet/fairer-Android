@@ -16,4 +16,37 @@ class AddTodo2ViewModel: ViewModel(){
         MutableStateFlow("방")
     val curSpace: StateFlow<String>
         get() = _curSpace
+
+    private val _curTime: MutableStateFlow<String> =
+        MutableStateFlow(Chore.DEFAULT_TIME)
+    val curTime: StateFlow<String>
+        get() = _curTime
+
+    fun updateTime(hour: Int, min: Int) {
+        _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
+    }
+
+    private val _positions: MutableStateFlow<ArrayList<Int>> =
+        MutableStateFlow(arrayListOf(0))
+    val positions: StateFlow<ArrayList<Int>>
+        get() = _positions
+
+    fun updatePositions(position: Int) {
+        _positions.value.add(position)
+    }
+
+    fun removePosition(position: Int) {
+        _positions.value.remove(position)
+    }
+
+    fun getPosition(type: PositionType):Int {
+        return when (type) {
+            PositionType.CUR -> _positions.value[_positions.value.size - 1]
+            PositionType.PRE -> _positions.value[_positions.value.size - 2]
+        }
+    }
+}
+
+enum class PositionType {
+    CUR, PRE
 }

@@ -1,13 +1,10 @@
 package com.depromeet.housekeeper
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -21,22 +18,18 @@ class AddTodoFragment2 : Fragment() {
     lateinit var binding: FragmentAddTodo2Binding
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
-    lateinit var defaultTime: String
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
-    private var curTime: String = ""
     private var chores: ArrayList<Chore> = arrayListOf(Chore(), Chore(), Chore(), Chore())
-    private var positions: ArrayList<Int> = arrayListOf(0)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = addTodo2ViewModel
 
-        defaultTime = resources.getString(R.string.add_todo_default_time)
         initListener()
         setAdapter()
 
@@ -57,7 +50,7 @@ class AddTodoFragment2 : Fragment() {
 
             setOnClickListener {
                 // 마지막 position update
-                updateChore(positions[positions.size - 1])
+                updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
 
                 // api
 
@@ -69,7 +62,8 @@ class AddTodoFragment2 : Fragment() {
         binding.todoTimePicker.setOnTimeChangedListener { _, hour, _ ->
             binding.addTodo2AllDayCheckBox.isChecked = false
             val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
-            curTime = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
+            addTodo2ViewModel.updateTime(hour, min)
+            Timber.d(addTodo2ViewModel.curTime.value)
         }
     }
 
@@ -84,14 +78,30 @@ class AddTodoFragment2 : Fragment() {
         addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
             override fun onItemClick(position: Int) {
                 // 현재 chore 클릭하면 이전 chore 정보 업데이트
-                positions.add(position)
-                val prePos = positions[positions.size - 2]
+                // positions.add(position)
+                // val prePos = positions[positions.size - 2]
+                addTodo2ViewModel.updatePositions(position)
+                val prePos = addTodo2ViewModel.getPosition(PositionType.PRE)
                 updateChore(prePos)
 
                 // 현재 chore 기준으로 뷰 업데이트
                 updateView(position)
             }
         })
+
+        addTodoChoreAdapter.setMyItemRemoveListener(object: AddTodoChoreAdapter.MyRemoveClickListener{
+            override fun onRemoveClick(position: Int) {
+                // 현재 Select 된 Pos 정보 -> select 되지 않아도 remove 가능하기 때문
+                val selectedPos = addTodoChoreAdapter.selectedChore.indexOf(1)
+
+                if(addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
+                    addTodo2ViewModel.updatePositions(selectedPos)
+                }
+                updateView(addTodo2ViewModel.getPosition(PositionType.CUR))
+            }
+
+        })
+
 
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
@@ -101,16 +111,14 @@ class AddTodoFragment2 : Fragment() {
     }
 
     private fun updateChore(position: Int) {
-        if(binding.addTodo2AllDayCheckBox.isChecked) {
-            chores[position].scheduleTime = defaultTime
-        }
-        else {
-            chores[position].scheduleTime = curTime
+        when {
+            binding.addTodo2AllDayCheckBox.isChecked ->  chores[position].scheduleTime = Chore.DEFAULT_TIME
+            else -> chores[position].scheduleTime = addTodo2ViewModel.curTime.value
         }
     }
 
     private fun updateView(position: Int) {
-        if(chores[position].scheduleTime == defaultTime) {
+        if(chores[position].scheduleTime == Chore.DEFAULT_TIME) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addTodo2AllDayCheckBox.isChecked = true
         }

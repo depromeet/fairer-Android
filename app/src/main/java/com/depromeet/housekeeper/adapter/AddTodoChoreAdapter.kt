@@ -11,16 +11,24 @@ import timber.log.Timber
 class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
     : RecyclerView.Adapter<AddTodoChoreAdapter.ViewHolder>() {
 
-    private var selectedChore: ArrayList<Int> = arrayListOf() // for single choice
+    var selectedChore: ArrayList<Int> = arrayListOf() // for single choice
     private lateinit var mItemClickListener: MyItemClickListener
+    private lateinit var mRemoveClickListener: MyRemoveClickListener
 
     interface MyItemClickListener {
         fun onItemClick(position: Int)
     }
 
+    interface MyRemoveClickListener {
+        fun onRemoveClick(position: Int)
+    }
 
     fun setMyItemClickListener(itemClickListener: MyItemClickListener){
         mItemClickListener = itemClickListener
+    }
+
+    fun setMyItemRemoveListener(itemRemoveListener: MyRemoveClickListener) {
+        mRemoveClickListener = itemRemoveListener
     }
 
     init {
@@ -63,12 +71,12 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
             setOnClickListener {
                 mItemClickListener.onItemClick(position)
 
-                for(k in selectedChore.indices) {
-                    if(k == position) {
-                        selectedChore[k] = 1
+                for(index in selectedChore.indices) {
+                    if(index == position) {
+                        selectedChore[index] = 1
                     }
                     else {
-                        selectedChore[k] = 0
+                        selectedChore[index] = 0
                     }
                 }
                 notifyDataSetChanged()
@@ -78,6 +86,7 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         holder.binding.itemAddTodoDeleteIv.setOnClickListener {
             if(chores.size > 1) {
                 removeChore(position)
+                mRemoveClickListener.onRemoveClick(position)
             }
         }
     }
@@ -88,7 +97,7 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
         fun bind(chore: Chore) {
-            if(chore.scheduleTime == "하루 종일") {
+            if(chore.scheduleTime == Chore.DEFAULT_TIME) {
                 binding.itemAddTodoTimeTv.text = chore.scheduleTime
             }
             else {
