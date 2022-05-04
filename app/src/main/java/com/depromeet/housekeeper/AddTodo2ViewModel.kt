@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.depromeet.housekeeper.model.Chore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import timber.log.Timber
 import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
@@ -16,6 +17,14 @@ class AddTodo2ViewModel: ViewModel(){
         MutableStateFlow("방")
     val curSpace: StateFlow<String>
         get() = _curSpace
+
+    fun updateSpace(space: String) {
+        _curSpace.value = space
+    }
+
+    fun getSpace(): String {
+        return _curSpace.value
+    }
 
     private val _curTime: MutableStateFlow<String> =
         MutableStateFlow(Chore.DEFAULT_TIME)
@@ -43,9 +52,20 @@ class AddTodo2ViewModel: ViewModel(){
     }
 
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
-        MutableStateFlow(arrayListOf(Chore(), Chore(), Chore(), Chore()))
-    val chore: StateFlow<ArrayList<Chore>>
+        MutableStateFlow(arrayListOf())
+    val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
+
+    fun initChores(space:String, choreName: List<String>) {
+        val temp = arrayListOf<Chore>()
+        choreName.map{ name ->
+            val chore = Chore()
+            chore.space = space
+            chore.houseWorkName = name
+            temp.add(chore)
+        }
+        _chores.value.addAll(temp)
+    }
 
     fun updateChore(time: String, position: Int) {
         _chores.value[position].scheduleTime = time

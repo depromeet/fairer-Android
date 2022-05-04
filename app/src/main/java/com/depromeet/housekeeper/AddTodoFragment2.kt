@@ -31,10 +31,22 @@ class AddTodoFragment2 : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = addTodo2ViewModel
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindingVm()
         initListener()
         setAdapter()
+    }
 
-        return binding.root
+    private fun bindingVm() {
+        val choreNames = navArgs.spaceChores.houseWorks
+        val space = navArgs.spaceChores.spaceName
+        addTodo2ViewModel.updateSpace(space)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
+        Timber.d(addTodo2ViewModel.getChores().toString())
     }
 
     private fun initListener() {
@@ -48,6 +60,7 @@ class AddTodoFragment2 : Fragment() {
 
         binding.addTodo2DoneBtn.mainFooterButton.apply {
             text = resources.getString(R.string.add_todo_done_btn_txt)
+            isEnabled = true
 
             setOnClickListener {
                 // 마지막 position update
@@ -69,12 +82,6 @@ class AddTodoFragment2 : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
-        val navArgsChores = navArgs.spaceChores.houseWorks //TODO("adapter list")
-
-        val str = resources.getStringArray(R.array.chore_array)
-        addTodo2ViewModel.chore.value.mapIndexed { index, chore -> chore.houseWorkName = str[index]}
-        Timber.d(addTodo2ViewModel.getChores().toString())
-
         addTodoChoreAdapter = AddTodoChoreAdapter(addTodo2ViewModel.getChores())
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
 
