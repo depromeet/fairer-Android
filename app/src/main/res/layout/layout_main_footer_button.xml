@@ -18,6 +18,8 @@
             android:textColor="@color/white"
             android:minHeight="0dp"
             android:minWidth="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

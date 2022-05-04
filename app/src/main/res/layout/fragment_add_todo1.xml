@@ -185,7 +185,7 @@
                     android:id="@+id/add_todo1_go_direct_btn_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/active_blue"
+                    android:textColor="@color/highlight"
                     android:textSize="15sp"
                     android:text="@string/add_todo_direct_btn_text"
                     android:layout_marginStart="16dp"
@@ -250,7 +250,7 @@
                     android:id="@+id/add_todo1_go_direct_btn_tv2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/active_blue"
+                    android:textColor="@color/highlight"
                     android:textSize="15sp"
                     android:text="@string/add_todo_direct_btn_text"
                     android:layout_marginStart="16dp"
@@ -310,8 +310,6 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             app:constraint_referenced_ids="add_todo1_next_btn"/>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

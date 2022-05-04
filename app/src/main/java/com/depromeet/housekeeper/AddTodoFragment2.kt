@@ -1,25 +1,18 @@
 package com.depromeet.housekeeper
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
-import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
-import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.model.Chore
 import timber.log.Timber
 
 class AddTodoFragment2 : Fragment() {
@@ -32,15 +25,28 @@ class AddTodoFragment2 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-
-        initListener()
-        setAdapter()
+        binding.vm = addTodo2ViewModel
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindingVm()
+        initListener()
+        setAdapter()
+    }
+
+    private fun bindingVm() {
+        val choreNames = navArgs.spaceChores.houseWorks
+        val space = navArgs.spaceChores.spaceName
+        addTodo2ViewModel.updateSpace(space)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
+        Timber.d(addTodo2ViewModel.getChores().toString())
     }
 
     private fun initListener() {
@@ -53,20 +59,56 @@ class AddTodoFragment2 : Fragment() {
         }
 
         binding.addTodo2DoneBtn.mainFooterButton.apply {
-            text = resources.getString(R.string.add_todo_btn_text)
+            text = resources.getString(R.string.add_todo_done_btn_txt)
+            isEnabled = true
 
             setOnClickListener {
+                // 마지막 position update
+                updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
+
+                // api
+
+                // 화면 전환
                 it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
             }
+        }
+
+        binding.todoTimePicker.setOnTimeChangedListener { _, hour, _ ->
+            binding.addTodo2AllDayCheckBox.isChecked = false
+            val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
+            addTodo2ViewModel.updateTime(hour, min)
         }
     }
 
     private fun setAdapter() {
         // chore list rv adapter
-        val navArgsChores = navArgs.spaceChores.houseWorks //TODO("adapter list")
-        val chores: ArrayList<String> = resources.getStringArray(R.array.chore_array).toCollection(ArrayList<String>())
-        addTodoChoreAdapter = AddTodoChoreAdapter(chores)
+        addTodoChoreAdapter = AddTodoChoreAdapter(addTodo2ViewModel.getChores())
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
+
+        addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
+            override fun onItemClick(position: Int) {
+                // 현재 chore 클릭하면 이전 chore 정보 업데이트
+                addTodo2ViewModel.updatePositions(position)
+                val prePos = addTodo2ViewModel.getPosition(PositionType.PRE)
+                updateChore(prePos)
+
+                // 현재 chore 기준으로 뷰 업데이트
+                updateView(position)
+            }
+        })
+
+        addTodoChoreAdapter.setMyItemRemoveListener(object: AddTodoChoreAdapter.MyRemoveClickListener{
+            override fun onRemoveClick(position: Int) {
+                // 현재 select 된 pos 정보 -> select 되지 않아도 remove 가능하기 때문
+                val selectedPos = addTodoChoreAdapter.selectedChore.indexOf(1)
+
+                if(addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
+                    addTodo2ViewModel.updatePositions(selectedPos)
+                }
+                updateView(addTodo2ViewModel.getPosition(PositionType.CUR))
+            }
+
+        })
 
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
@@ -74,4 +116,31 @@ class AddTodoFragment2 : Fragment() {
         binding.addTodoRepeatRv.adapter = dayRepeatAdapter
 
     }
+
+    private fun updateChore(position: Int) {
+        when {
+            binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(Chore.DEFAULT_TIME, position)
+            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
+        }
+    }
+
+    private fun updateView(position: Int) {
+        val chore = addTodo2ViewModel.getChore(position)
+        if(chore.scheduleTime == Chore.DEFAULT_TIME) {
+            binding.todoTimePicker.initDisPlayedValue()
+            binding.addTodo2AllDayCheckBox.isChecked = true
+        }
+        else {
+            val time = parseTime(chore.scheduleTime)
+            binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
+        }
+    }
+
+    private fun parseTime(time: String): Pair<Int, Int>{
+        val temp = time.split(":")
+        val hour = temp[0].toInt()
+        val min = temp[1].toInt()
+        return Pair(hour, min)
+    }
+
 }

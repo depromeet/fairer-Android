@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
@@ -18,6 +19,7 @@ class AddDirectTodoFragment : Fragment() {
     lateinit var binding: FragmentAddDirectTodoBinding
     lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
+    private val addDirectTodoViewModel: AddDirectTodoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +28,7 @@ class AddDirectTodoFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.vm = addDirectTodoViewModel
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         initListener()
@@ -39,15 +42,18 @@ class AddDirectTodoFragment : Fragment() {
             hideKeyboard(binding.addDirectTodoTitleEt)
         }
 
-        binding.addDirectTodoHeader.addTodoBackBtn.setOnClickListener {
-            it.findNavController().navigateUp()
+        binding.addDirectTodoHeader.apply {
+            addTodoBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
+            addTodoHeaderTv.text = ""
         }
 
-        binding.addDirectTodoNextBtn.mainFooterButton.apply {
-            text = resources.getString(R.string.add_todo_btn_text)
+        binding.addDirectTodoDoneBtn.mainFooterButton.apply {
+            text = resources.getString(R.string.add_todo_done_btn_txt)
 
             setOnClickListener {
-                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_addTodoFragment2)
+                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }

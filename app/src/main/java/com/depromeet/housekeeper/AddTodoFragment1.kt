@@ -43,8 +43,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         binding.addTodo1ImageRoom.setOnClickListener(this)
         binding.addTodo1ImageKitchen.setOnClickListener(this)
 
-
-
         // go to 집안일 직접 추가 화면
         binding.addTodo1GoDirectBtn.setOnClickListener {
             navigateToAddDirectTodoPage()

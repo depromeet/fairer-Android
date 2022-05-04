@@ -5,12 +5,31 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
+import com.depromeet.housekeeper.model.Chore
+import timber.log.Timber
 
-class AddTodoChoreAdapter(private val chores: ArrayList<String>)
+class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
     : RecyclerView.Adapter<AddTodoChoreAdapter.ViewHolder>() {
 
-    // for single choice
-    private var selectedChore: ArrayList<Int> = arrayListOf()
+    var selectedChore: ArrayList<Int> = arrayListOf() // for single choice
+    private lateinit var mItemClickListener: MyItemClickListener
+    private lateinit var mRemoveClickListener: MyRemoveClickListener
+
+    interface MyItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    interface MyRemoveClickListener {
+        fun onRemoveClick(position: Int)
+    }
+
+    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
+    fun setMyItemRemoveListener(itemRemoveListener: MyRemoveClickListener) {
+        mRemoveClickListener = itemRemoveListener
+    }
 
     init {
         for(i in chores) {
@@ -22,6 +41,7 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
                 selectedChore.add(0)
             }
         }
+        Timber.d(selectedChore.toString())
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -30,7 +50,6 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
         if(position == chores.size && selectedChore[position] == 1) {
             // 마지막 아이템 선택 상태에서 삭제하면 이전 포지션으로 포커스 넘어가게
             // default : 다음 포지션으로 포커스
-            selectedChore.removeAt(position)
             selectedChore[position - 1] = 1
         }
         notifyDataSetChanged()
@@ -42,35 +61,60 @@ class AddTodoChoreAdapter(private val chores: ArrayList<String>)
         return ViewHolder(binding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        return holder.bind(chores[position])
+        holder.bind(chores[position])
+
+        holder.binding.itemAddTodoLayout.apply {
+
+            isSelected = selectedChore[position] == 1
+            setOnClickListener {
+                mItemClickListener.onItemClick(position)
+
+                for(index in selectedChore.indices) {
+                    if(index == position) {
+                        selectedChore[index] = 1
+                    }
+                    else {
+                        selectedChore[index] = 0
+                    }
+                }
+                notifyDataSetChanged()
+            }
+        }
+
+        holder.binding.itemAddTodoDeleteIv.setOnClickListener {
+            if(chores.size > 1) {
+                removeChore(position)
+                mRemoveClickListener.onRemoveClick(position)
+            }
+        }
     }
 
     override fun getItemCount(): Int = chores.size
 
-    inner class ViewHolder(private val binding: ItemRecyclerAddTodoListBinding)
+    inner class ViewHolder(val binding: ItemRecyclerAddTodoListBinding)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
-        fun bind(chore: String) {
-            binding.itemAddTodoNameTv.text = chore
-
-            binding.itemAddTodoLayout.apply {
-                isSelected = selectedChore[adapterPosition] == 1
-                setOnClickListener {
-                    for(k in selectedChore.indices) {
-                        if(k == adapterPosition) {
-                            selectedChore[k] = 1
-                        }
-                        else {
-                            selectedChore[k] = 0
-                        }
-                    }
-                    notifyDataSetChanged()
-                }
+        fun bind(chore: Chore) {
+            if(chore.scheduleTime == Chore.DEFAULT_TIME) {
+                binding.itemAddTodoTimeTv.text = chore.scheduleTime
             }
+            else {
+                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduleTime)
+            }
+            binding.itemAddTodoNameTv.text = chore.houseWorkName
+        }
 
-            binding.itemAddTodoDeleteIv.setOnClickListener {
-                removeChore(adapterPosition)
+        private fun parseTime(time: String): String {
+            val temp = time.split(":")
+            val hour = temp[0].toInt()
+            val min = temp[1].toInt()
+
+            return if(hour <= 12) {
+                "오전\n${String.format("%02d", hour)}:${String.format("%02d", min)}"
+            } else {
+                "오후\n${String.format("%02d", hour - 12)}:${String.format("%02d", min)}"
             }
         }
     }

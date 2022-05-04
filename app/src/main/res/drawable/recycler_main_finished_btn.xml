@@ -4,7 +4,7 @@
     <corners
         android:radius="34dp"/>
     <solid
-        android:color="@color/active_blue"/>
+        android:color="@color/highlight"/>
     <size
         android:width="93dp"
         android:height="35dp"/>

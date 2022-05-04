@@ -16,10 +16,11 @@
 
             <ImageView
                 android:id="@+id/add_todo_back_btn"
-                android:layout_width="11dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_arrow_left"/>
+
             <TextView
                 android:id="@+id/add_todo_header_tv"
                 android:layout_width="wrap_content"
