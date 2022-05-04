@@ -46,6 +46,7 @@ object Dependencies {
   private const val NAV_VERSION = "2.3.5"
   const val navVersionKtx = "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
   const val navVersionUi = "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
+  const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION"
   const val navVersionDynamicFeatures =
     "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
   const val navTesting = "androidx.navigation:navigation-testing:$NAV_VERSION"
@@ -70,4 +71,7 @@ object Dependencies {
 
   private const val SERIALIZATION = "1.3.2"
   const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$SERIALIZATION"
+
+  private const val GOOGLELOGINSERVICE = "20.2.0"
+  const val googlelogin = "com.google.android.gms:play-services-auth:$GOOGLELOGINSERVICE"
 }
