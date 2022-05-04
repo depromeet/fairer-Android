@@ -35,15 +35,28 @@ class AddTodo2ViewModel: ViewModel(){
         _positions.value.add(position)
     }
 
-    fun removePosition(position: Int) {
-        _positions.value.remove(position)
-    }
-
     fun getPosition(type: PositionType):Int {
         return when (type) {
             PositionType.CUR -> _positions.value[_positions.value.size - 1]
             PositionType.PRE -> _positions.value[_positions.value.size - 2]
         }
+    }
+
+    private val _chores: MutableStateFlow<ArrayList<Chore>> =
+        MutableStateFlow(arrayListOf(Chore(), Chore(), Chore(), Chore()))
+    val chore: StateFlow<ArrayList<Chore>>
+        get() = _chores
+
+    fun updateChore(time: String, position: Int) {
+        _chores.value[position].scheduleTime = time
+    }
+
+    fun getChore(position: Int): Chore {
+        return _chores.value[position]
+    }
+
+    fun getChores() : ArrayList<Chore>{
+        return _chores.value
     }
 }
 

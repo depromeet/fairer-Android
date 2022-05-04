@@ -19,7 +19,6 @@ class AddTodoFragment2 : Fragment() {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addTodoChoreAdapter: AddTodoChoreAdapter
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
-    private var chores: ArrayList<Chore> = arrayListOf(Chore(), Chore(), Chore(), Chore())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,23 +62,21 @@ class AddTodoFragment2 : Fragment() {
             binding.addTodo2AllDayCheckBox.isChecked = false
             val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
             addTodo2ViewModel.updateTime(hour, min)
-            Timber.d(addTodo2ViewModel.curTime.value)
         }
     }
 
     private fun setAdapter() {
         // chore list rv adapter
         val str = resources.getStringArray(R.array.chore_array)
-        chores.mapIndexed { index, chore -> chore.houseWorkName = str[index] }
+        addTodo2ViewModel.chore.value.mapIndexed { index, chore -> chore.houseWorkName = str[index]}
+        Timber.d(addTodo2ViewModel.getChores().toString())
 
-        addTodoChoreAdapter = AddTodoChoreAdapter(chores)
+        addTodoChoreAdapter = AddTodoChoreAdapter(addTodo2ViewModel.getChores())
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
 
         addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
             override fun onItemClick(position: Int) {
                 // 현재 chore 클릭하면 이전 chore 정보 업데이트
-                // positions.add(position)
-                // val prePos = positions[positions.size - 2]
                 addTodo2ViewModel.updatePositions(position)
                 val prePos = addTodo2ViewModel.getPosition(PositionType.PRE)
                 updateChore(prePos)
@@ -91,7 +88,7 @@ class AddTodoFragment2 : Fragment() {
 
         addTodoChoreAdapter.setMyItemRemoveListener(object: AddTodoChoreAdapter.MyRemoveClickListener{
             override fun onRemoveClick(position: Int) {
-                // 현재 Select 된 Pos 정보 -> select 되지 않아도 remove 가능하기 때문
+                // 현재 select 된 pos 정보 -> select 되지 않아도 remove 가능하기 때문
                 val selectedPos = addTodoChoreAdapter.selectedChore.indexOf(1)
 
                 if(addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
@@ -102,7 +99,6 @@ class AddTodoFragment2 : Fragment() {
 
         })
 
-
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
@@ -112,19 +108,19 @@ class AddTodoFragment2 : Fragment() {
 
     private fun updateChore(position: Int) {
         when {
-            binding.addTodo2AllDayCheckBox.isChecked ->  chores[position].scheduleTime = Chore.DEFAULT_TIME
-            else -> chores[position].scheduleTime = addTodo2ViewModel.curTime.value
+            binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(Chore.DEFAULT_TIME, position)
+            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
         }
     }
 
     private fun updateView(position: Int) {
-        if(chores[position].scheduleTime == Chore.DEFAULT_TIME) {
+        val chore = addTodo2ViewModel.getChore(position)
+        if(chore.scheduleTime == Chore.DEFAULT_TIME) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addTodo2AllDayCheckBox.isChecked = true
         }
         else {
-            val time = parseTime(chores[position].scheduleTime)
-            Timber.d(time.toString())
+            val time = parseTime(chore.scheduleTime)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
     }
