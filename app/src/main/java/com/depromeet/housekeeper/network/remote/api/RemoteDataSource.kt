@@ -1,9 +1,11 @@
 package com.depromeet.housekeeper.network.remote.api
 
+import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
 import kotlinx.coroutines.flow.Flow
 
 
-interface RemoteDataSource{
+interface RemoteDataSource {
   suspend fun getList(scheduledDate: String): Flow<HouseWorks>
+  suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
 }
