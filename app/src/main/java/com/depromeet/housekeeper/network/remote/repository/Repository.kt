@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.flow
 object Repository : RemoteDataSource {
   private val apiService = RetrofitBuilder.apiService
   override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
-    apiService.getList(scheduledDate)
+    emit(apiService.getList(scheduledDate))
   }
 
   override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
     flow {
-      apiService.getCompletedHouseWorkNumber(scheduledDate)
+      emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
     }
 }
