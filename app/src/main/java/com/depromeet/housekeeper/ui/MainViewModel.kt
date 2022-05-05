@@ -2,9 +2,9 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.network.remote.repository.Repository
-import com.depromeet.housekeeper.model.DayOfWeek
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -17,11 +17,15 @@ class MainViewModel : ViewModel() {
 
   init {
     getHouseWorks()
+    getCompleteHouseWorkNumber()
   }
-  private val calendar: Calendar = Calendar.getInstance().apply {
-    set(Calendar.MONTH, this.get(Calendar.MONTH))
-    firstDayOfWeek = Calendar.MONDAY
-    set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+  private val calendar: Calendar by lazy {
+    return@lazy Calendar.getInstance().apply {
+      set(Calendar.MONTH, this.get(Calendar.MONTH))
+      firstDayOfWeek = Calendar.MONDAY
+      set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
   }
   private val _selectDate: MutableStateFlow<String> =
     MutableStateFlow("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
@@ -41,7 +45,8 @@ class MainViewModel : ViewModel() {
       DayOfWeek(
         date = it,
         isSelect = it == format.format(Calendar.getInstance().time)
-      )}.toMutableList()
+      )
+    }.toMutableList()
   }
 
   fun updateSelectDate(date: String) {
@@ -68,7 +73,7 @@ class MainViewModel : ViewModel() {
   }
 
   private val _completeChoreNum: MutableStateFlow<Int> =
-    MutableStateFlow(17)
+    MutableStateFlow(0)
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
@@ -93,4 +98,13 @@ class MainViewModel : ViewModel() {
     }
   }
 
+  fun getCompleteHouseWorkNumber() {
+    val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    viewModelScope.launch {
+      Repository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
+        .collect {
+          _completeChoreNum.value = it.count
+        }
+    }
+  }
 }
