@@ -5,5 +5,5 @@ import com.depromeet.housekeeper.model.HouseWork
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
-  suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<HouseWork>
+  suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<List<HouseWork>>
 }
