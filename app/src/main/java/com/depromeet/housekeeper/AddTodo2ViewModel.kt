@@ -81,7 +81,7 @@ class AddTodo2ViewModel: ViewModel(){
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduleDate = _curDate.value
+            chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
             temp.add(chore)
@@ -90,7 +90,7 @@ class AddTodo2ViewModel: ViewModel(){
     }
 
     fun updateChore(time: String, position: Int) {
-        _chores.value[position].scheduleTime = time
+        _chores.value[position].scheduledTime = time
     }
 
     fun getChore(position: Int): Chore {

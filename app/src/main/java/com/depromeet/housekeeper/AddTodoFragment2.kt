@@ -127,12 +127,12 @@ class AddTodoFragment2 : Fragment() {
 
     private fun updateView(position: Int) {
         val chore = addTodo2ViewModel.getChore(position)
-        if(chore.scheduleTime == Chore.DEFAULT_TIME) {
+        if(chore.scheduledTime == Chore.DEFAULT_TIME) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addTodo2AllDayCheckBox.isChecked = true
         }
         else {
-            val time = parseTime(chore.scheduleTime)
+            val time = parseTime(chore.scheduledTime)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
     }

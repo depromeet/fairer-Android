@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class Chore(
     var assignees: List<Int> = listOf(5, 6),
     var houseWorkName: String = "",
-    var scheduleDate: String = "yyyy-MM-dd",
-    var scheduleTime: String = DEFAULT_TIME,
+    var scheduledDate: String = "yyyy-MM-dd",
+    var scheduledTime: String = DEFAULT_TIME,
     var space: String = ""
 ) {
     companion object {
