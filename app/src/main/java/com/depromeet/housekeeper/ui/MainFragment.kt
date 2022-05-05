@@ -14,7 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
+import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 class MainFragment : Fragment() {
 
@@ -78,6 +81,11 @@ class MainFragment : Fragment() {
       }
     }
 
-  }
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.houseWorks.collect {
+        //TODO adapter list 연결
+      }
+    }
 
+  }
 }

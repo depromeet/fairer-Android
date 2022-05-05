@@ -1,10 +1,9 @@
 package com.depromeet.housekeeper
 
-import android.icu.util.LocaleData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.Chore
-import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +16,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
-
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("2022-04-23")
     val curDate: StateFlow<String>
@@ -105,8 +103,8 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks(_chores.value).collect {
-                Timber.d(it.toString())
+            Repository.createHouseWorks(Chores(_chores.value)).collect {
+                Timber.d(it.houseWorks.toString())
             }
         }
     }

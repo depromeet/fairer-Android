@@ -66,7 +66,7 @@ class AddTodoFragment2 : Fragment() {
                 // 마지막 position update
                 updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
 
-                // api
+                // 집안일 생성 api
                 addTodo2ViewModel.createHouseWorks()
 
                 // 화면 전환
@@ -110,6 +110,7 @@ class AddTodoFragment2 : Fragment() {
             }
 
         })
+
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
