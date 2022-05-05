@@ -60,8 +60,8 @@ class MainFragment : Fragment() {
   private fun setAdapter() {
     adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
       onClick = {
-      mainViewModel.updateSelectDate(it.date.split("-")[1])
-    })
+        mainViewModel.updateSelectDate(it.date.split("-")[1])
+      })
     binding.rvWeek.adapter = adapter
   }
 
@@ -73,7 +73,7 @@ class MainFragment : Fragment() {
           setSpan(
             ForegroundColorSpan(Color.parseColor("#0C6DFF")),
             this.indexOf("일") + 1,
-            binding.tvCompleteHouseChore.text.length,
+            binding.tvCompleteHouseChore.text.length - 1,
             SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
           )
         }
