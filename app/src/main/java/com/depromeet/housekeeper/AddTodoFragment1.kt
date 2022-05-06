@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class AddTodoFragment1 : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentAddTodo1Binding
-    lateinit var myAdapter:AddTodo1ChoreAdapter
+    private lateinit var myAdapter:AddTodo1ChoreAdapter
     private var selected: Boolean = false
     private val viewModel: AddTodoFragment1ViewModel by viewModels()
 
@@ -147,7 +147,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageEntrance.isEnabled = false
                     viewModel.setSpace("entrance")
                     viewModel.setChoreList("entrance")
-                    Timber.d("value : ${viewModel.choreListEntrance.value}")
                     viewChange()
                 }
                 binding.addTodo1ImageLivingRoom -> {
