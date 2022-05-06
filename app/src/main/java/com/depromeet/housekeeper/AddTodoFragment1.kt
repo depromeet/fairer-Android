@@ -31,14 +31,11 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        val gridLayoutManager = GridLayoutManager(context,3)
-        binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
 
 
         initListener()
-        bindingVm()
         setAdapter()
-
+        bindingVm()
         return binding.root
     }
 
@@ -61,7 +58,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // go to 다음 - 집안일 상세 화면
         binding.addTodo1NextBtn.mainFooterButton.apply {
             text = resources.getString(R.string.next_btn_text)
-
             setOnClickListener {
                 navigateToAddTodoPage2()
             }
@@ -73,26 +69,13 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         }
 
 
-
     }
 
     private fun setAdapter(){
+        val gridLayoutManager = GridLayoutManager(context,3)
+        binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
         myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
         binding.addTodo1Recyclerview.adapter = myAdapter
-        myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
-            override fun onClick(v: View, chore:String, position: Int) {
-                v.isSelected = !v.isSelected
-                Timber.d("item click $position")
-                viewModel.updateChores(chore,v.isSelected)
-                binding.addTodo1NextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
-                if(viewModel.getChoreCount()>0){
-                    binding.addTodo1Group3.visibility=View.GONE
-                }
-                else{
-                    binding.addTodo1Group3.visibility=View.VISIBLE
-                }
-            }
-        })
     }
 
     private fun bindingVm(){
@@ -100,50 +83,25 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
             viewModel.chorelist.collect {
                 myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
                 myAdapter.notifyDataSetChanged()
-                /*when(it){
-                    "entrance"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListEntrance.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
-                        Timber.d("recyclerview dataset changed")
-                    }
-                    "livingroom"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListLivingRoom.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
-                        Timber.d("recyclerview dataset changed")
-                    }
-                    "bathroom"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListBathroom.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
-                    }
-                    "outside"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListOutside.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
-                    }
-                    "room"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListRoom.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
+                binding.addTodo1Recyclerview.adapter = myAdapter
 
+                myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
+                    override fun onClick(v: View, chore:String, position: Int) {
+                        v.isSelected = !v.isSelected
+                        Timber.d("item click $position")
+                        viewModel.updateChores(chore,v.isSelected)
+                        binding.addTodo1NextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
+                        if(viewModel.getChoreCount()>0){
+                            binding.addTodo1Group3.visibility=View.GONE
+                        }
+                        else{
+                            binding.addTodo1Group3.visibility=View.VISIBLE
+                        }
                     }
-                    "kitchen"->{
-                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListKitchen.value!!.houseWorks)
-                        myAdapter.notifyDataSetChanged()
-                        binding.addTodo1Recyclerview.adapter = myAdapter
-                    }
-                }*/
+                })
             }
-
-
         }
-
-
     }
-
-
 
     private fun navigateToAddDirectTodoPage() {
         binding.addTodo1GoDirectBtn.findNavController()
@@ -191,7 +149,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     viewModel.setChoreList("entrance")
                     Timber.d("value : ${viewModel.choreListEntrance.value}")
                     viewChange()
-
                 }
                 binding.addTodo1ImageLivingRoom -> {
                     selected = true
@@ -236,12 +193,14 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
             }
         }
     }
+
     private fun viewChange(){
         binding.addTodo1Group.visibility=View.INVISIBLE
         binding.addTodo1Group2.visibility=View.VISIBLE
         binding.addTodo1Group3.visibility=View.VISIBLE
         binding.addTodo1Group4.visibility=View.VISIBLE
     }
+
     private  fun viewenabled(){
         binding.addTodo1ImageEntrance.isEnabled = true
         binding.addTodo1ImageLivingRoom.isEnabled = true
