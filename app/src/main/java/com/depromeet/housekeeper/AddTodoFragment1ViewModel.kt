@@ -12,6 +12,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class AddTodoFragment1ViewModel : ViewModel() {
+  init {
+    getChoreList()
+  }
+  private val _chorelist: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
+  val chorelist:StateFlow<List<String>>
+  get() = _chorelist
 
   init {
     getChoreList()
