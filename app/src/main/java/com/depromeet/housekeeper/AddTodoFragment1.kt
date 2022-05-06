@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +15,7 @@ import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class AddTodoFragment1 : Fragment(), View.OnClickListener {
@@ -29,9 +31,14 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
+        val gridLayoutManager = GridLayoutManager(context,3)
+        binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
 
-        setAdapter()
+
         initListener()
+        bindingVm()
+        setAdapter()
+
         return binding.root
     }
 
@@ -70,14 +77,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun setAdapter(){
-        val gridLayoutManager = GridLayoutManager(context,3)
-        binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
-        val array= ArrayList<String>()
-        array.add("이불 접기")
-        array.add("설거지")
-        myAdapter = AddTodo1ChoreAdapter(array) /*{ chore: String, isSelect: Boolean ->
-            viewModel.updateChores(chore, isSelect)
-        }*/
+        myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
         binding.addTodo1Recyclerview.adapter = myAdapter
         myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
             override fun onClick(v: View, chore:String, position: Int) {
@@ -93,6 +93,54 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 }
             }
         })
+    }
+
+    private fun bindingVm(){
+        lifecycleScope.launchWhenStarted {
+            viewModel.chorelist.collect {
+                myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
+                myAdapter.notifyDataSetChanged()
+                /*when(it){
+                    "entrance"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListEntrance.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+                        Timber.d("recyclerview dataset changed")
+                    }
+                    "livingroom"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListLivingRoom.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+                        Timber.d("recyclerview dataset changed")
+                    }
+                    "bathroom"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListBathroom.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+                    }
+                    "outside"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListOutside.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+                    }
+                    "room"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListRoom.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+
+                    }
+                    "kitchen"->{
+                        myAdapter=AddTodo1ChoreAdapter(viewModel.choreListKitchen.value!!.houseWorks)
+                        myAdapter.notifyDataSetChanged()
+                        binding.addTodo1Recyclerview.adapter = myAdapter
+                    }
+                }*/
+            }
+
+
+        }
+
+
     }
 
 
@@ -124,7 +172,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1Group2.visibility=View.INVISIBLE
                 binding.addTodo1Group3.visibility=View.INVISIBLE
                 binding.addTodo1Group4.visibility=View.INVISIBLE
-                myAdapter.notifyDataSetChanged()
+                viewenabled()
             }
         }
     }
@@ -138,43 +186,51 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1ImageEntrance -> {
                     selected = true
                     binding.addTodo1ImageEntrance.isSelected = true
-                    Timber.d("click entrance")
-                    viewModel.setSpace("entrace")
+                    binding.addTodo1ImageEntrance.isEnabled = false
+                    viewModel.setSpace("entrance")
+                    viewModel.setChoreList("entrance")
+                    Timber.d("value : ${viewModel.choreListEntrance.value}")
                     viewChange()
+
                 }
                 binding.addTodo1ImageLivingRoom -> {
                     selected = true
                     binding.addTodo1ImageLivingRoom.isSelected = true
+                    binding.addTodo1ImageLivingRoom.isEnabled = false
                     viewModel.setSpace("livingroom")
-                    Timber.d("click livingroom")
+                    viewModel.setChoreList("livingroom")
                     viewChange()
                 }
                 binding.addTodo1ImageBathroom -> {
                     selected = true
                     binding.addTodo1ImageBathroom.isSelected = true
+                    binding.addTodo1ImageBathroom.isEnabled = false
                     viewModel.setSpace("bathroom")
-                    Timber.d("click bathroom")
+                    viewModel.setChoreList("bathroom")
                     viewChange()
                 }
                 binding.addTodo1ImageOutside -> {
                     selected = true
                     binding.addTodo1ImageOutside.isSelected = true
+                    binding.addTodo1ImageOutside.isEnabled = false
                     viewModel.setSpace("outside")
-                    Timber.d("click outside")
+                    viewModel.setChoreList("outside")
                     viewChange()
                 }
                 binding.addTodo1ImageRoom -> {
                     selected = true
                     binding.addTodo1ImageRoom.isSelected = true
+                    binding.addTodo1ImageRoom.isEnabled = false
                     viewModel.setSpace("room")
-                    Timber.d("click room")
+                    viewModel.setChoreList("room")
                     viewChange()
                 }
                 binding.addTodo1ImageKitchen -> {
                     selected = true
                     binding.addTodo1ImageKitchen.isSelected = true
+                    binding.addTodo1ImageKitchen.isEnabled = false
                     viewModel.setSpace("kitchen")
-                    Timber.d("click kitchen")
+                    viewModel.setChoreList("kitchen")
                     viewChange()
                 }
             }
@@ -185,6 +241,15 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         binding.addTodo1Group2.visibility=View.VISIBLE
         binding.addTodo1Group3.visibility=View.VISIBLE
         binding.addTodo1Group4.visibility=View.VISIBLE
+    }
+    private  fun viewenabled(){
+        binding.addTodo1ImageEntrance.isEnabled = true
+        binding.addTodo1ImageLivingRoom.isEnabled = true
+        binding.addTodo1ImageBathroom.isEnabled = true
+        binding.addTodo1ImageOutside.isEnabled = true
+        binding.addTodo1ImageRoom.isEnabled = true
+        binding.addTodo1ImageKitchen.isEnabled = true
+
     }
 
 }

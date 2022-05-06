@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
+import com.depromeet.housekeeper.ui.MainFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -58,7 +61,7 @@ class LoginFragment : Fragment() {
 
     private fun Googlelogin() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestScopes(Scope(Scopes.DRIVE_APPFOLDER))
+            .requestScopes(Scope("https://www.googleapis.com/auth/userinfo.email"),Scope("https://www.googleapis.com/auth/userinfo.profile"),Scope("openid"))
             .requestServerAuthCode(getString(R.string.server_client_id))
             .requestEmail()
             .build()
@@ -81,6 +84,8 @@ class LoginFragment : Fragment() {
             try {
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
+                Timber.d("auth code : $authCode")
+                navigateToMain()
             } catch (e: ApiException) {
                 Timber.w("failed")
             }
@@ -91,5 +96,8 @@ class LoginFragment : Fragment() {
     private fun sendAuthCode(){
         
 
+    }
+    private fun navigateToMain() {
+        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
     }
 }
