@@ -15,7 +15,8 @@ object Repository : RemoteDataSource {
   }
 
   override suspend fun getHouseWorkList(space:String): Flow<ChoreList> = flow {
-    ChoreListApi.getChoreList(space)
-    emit(value = ChoreListApi.getChoreList(space))
+    ApiService.getChoreList(space)
+    emit(value = ApiService.getChoreList(space))
+
   }
 }
