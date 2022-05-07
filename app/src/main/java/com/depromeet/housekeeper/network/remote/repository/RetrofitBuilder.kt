@@ -18,9 +18,9 @@ object RetrofitBuilder {
 
   private val okHttpBuilder = OkHttpClient.Builder()
     .addInterceptor(httpLoggingInterceptor)
-    .connectTimeout(100, TimeUnit.SECONDS)
-    .readTimeout(100, TimeUnit.SECONDS)
-    .writeTimeout(100, TimeUnit.SECONDS)
+    .connectTimeout(1, TimeUnit.SECONDS)
+    .readTimeout(1, TimeUnit.SECONDS)
+    .writeTimeout(1, TimeUnit.SECONDS)
 
 
   private val moshi = Moshi.Builder()
