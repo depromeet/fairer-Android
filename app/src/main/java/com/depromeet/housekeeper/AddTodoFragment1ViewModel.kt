@@ -28,22 +28,22 @@ class AddTodoFragment1ViewModel : ViewModel() {
 
   fun setChoreList(space:String){
     when(space){
-      "entrance"->{
+      "ENTRANCE"->{
         _chorelist.value = _choreListEntrance.value?.houseWorks ?: emptyList()
       }
-      "livingroom"->{
+      "LIVINGROOM"->{
         _chorelist.value = _choreListLivingRoom.value?.houseWorks ?: emptyList()
       }
-      "bathroom"->{
+      "BATHROOM"->{
         _chorelist.value = _choreListBathroom.value?.houseWorks ?: emptyList()
       }
-      "outside"->{
+      "OUTSIDE"->{
         _chorelist.value = _choreListOutside.value?.houseWorks ?: emptyList()
       }
-      "room"->{
+      "ROOM"->{
         _chorelist.value = _choreListRoom.value?.houseWorks ?: emptyList()
       }
-      "kitchen"->{
+      "KITCHEN"->{
         _chorelist.value = _choreListKitchen.value?.houseWorks ?: emptyList()
       }
     }
@@ -96,22 +96,22 @@ class AddTodoFragment1ViewModel : ViewModel() {
 
   private fun getChoreList(){
     viewModelScope.launch {
-      Repository.getHouseWorkList("entrance").collect {
+      Repository.getHouseWorkList("ENTRANCE").collect {
         _choreListEntrance.value = it
       }
-      Repository.getHouseWorkList("livingroom").collect {
+      Repository.getHouseWorkList("LIVINGROOM").collect {
         _choreListLivingRoom.value = it
       }
-      Repository.getHouseWorkList("bathroom").collect {
+      Repository.getHouseWorkList("BATHROOM").collect {
         _choreListBathroom.value = it
       }
-      Repository.getHouseWorkList("outside").collect {
+      Repository.getHouseWorkList("OUTSIDE").collect {
         _choreListOutside.value = it
       }
-      Repository.getHouseWorkList("room").collect {
+      Repository.getHouseWorkList("ROOM").collect {
         _choreListRoom.value = it
       }
-      Repository.getHouseWorkList("kitchen").collect {
+      Repository.getHouseWorkList("KITCHEN").collect {
         _choreListKitchen.value = it
       }
     }
