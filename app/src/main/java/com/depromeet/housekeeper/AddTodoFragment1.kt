@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
@@ -18,12 +19,14 @@ import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.Calendar
 
 class AddTodoFragment1 : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentAddTodo1Binding
     private lateinit var myAdapter:AddTodo1ChoreAdapter
     private var selected: Boolean = false
     private val viewModel: AddTodoFragment1ViewModel by viewModels()
+    private val navArgs by navArgs<AddTodoFragment1Args>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +35,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-
+        binding.currentDate = "${navArgs.selectDate.date}요일"
+        viewModel.addCalendarView(navArgs.selectDate.date)
 
         initListener()
         setAdapter()
@@ -69,10 +73,34 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
             it.findNavController().navigateUp()
         }
 
-
+        binding.addTodo1Calender.setOnClickListener {
+            createDatePickerDialog()
+        }
     }
 
-    private fun setAdapter(){
+  private fun createDatePickerDialog() {
+      val selectDate = navArgs.selectDate.date
+
+      val calendar = Calendar.getInstance().apply {
+          set(Calendar.YEAR, selectDate.split("-")[0].toInt())
+          set(Calendar.MONTH,selectDate.split("-")[1].toInt())
+          set(Calendar.DAY_OF_MONTH,selectDate.split("-")[2].toInt())
+      }
+
+      val datePickerDialog = DatePickerDialog(
+          this.requireContext(),
+          { _, year, month, dayOfMonth ->
+              viewModel.updateCalendarView(year, month, dayOfMonth)
+          },
+          calendar.get(Calendar.YEAR),
+          calendar.get(Calendar.MONTH)-1,
+          calendar.get(Calendar.DAY_OF_MONTH),
+      )
+      datePickerDialog.show()
+  }
+
+
+  private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
         binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
         myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
@@ -80,6 +108,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun bindingVm(){
+
         lifecycleScope.launchWhenStarted {
             viewModel.chorelist.collect {
                 myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
@@ -102,6 +131,12 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 })
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.selectCalendar.collect {
+                binding.addTodo1Calender.text = "${it.date}요일"
+            }
+        }
     }
 
     private fun navigateToAddDirectTodoPage() {
@@ -110,10 +145,13 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         ))
     }
 
-    private fun navigateToAddTodoPage2() {
-        findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddTodoFragment2(
-            SpaceChores(spaceName = viewModel.selectSpace.value,houseWorks = viewModel.chores.value)))
-    }
+  private fun navigateToAddTodoPage2() {
+    findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddTodoFragment2(
+      SpaceChores(
+        spaceName = viewModel.selectSpace.value,
+        houseWorks = viewModel.chores.value,
+      ), selectDate = viewModel.selectCalendar.value))
+  }
 
     private fun setDialog() {
         val dialog = FairerDialog(requireContext())
