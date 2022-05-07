@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemAddTodo1TaskBinding
 
-class AddTodo1ChoreAdapter(
-    private val chores: ArrayList<String>,
-
-):RecyclerView.Adapter<AddTodo1ChoreAdapter.ViewHolder>() {
+class AddTodo1ChoreAdapter(private val chores: List<String>):RecyclerView.Adapter<AddTodo1ChoreAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onClick(v: View,chore:String,position: Int)
