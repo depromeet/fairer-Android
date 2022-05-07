@@ -16,6 +16,10 @@
         app:exitAnim="@android:anim/fade_out"
         app:popEnterAnim="@android:anim/fade_in"
         app:popExitAnim="@android:anim/fade_out" />
+      <argument
+        android:name="selectDate"
+        app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
+    </action>
   </fragment>
 
   <fragment
@@ -23,6 +27,9 @@
       android:name="com.depromeet.housekeeper.AddTodoFragment1"
       android:label="addTodoFragment1"
       tools:layout="@layout/fragment_add_todo1">
+    <argument
+      android:name="selectDate"
+      app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     <action
         android:id="@+id/action_addTodoFragment1_to_addTodoFragment2"
         app:destination="@id/addTodoFragment2"
@@ -33,6 +40,9 @@
       <argument
         android:name="spaceChores"
         app:argType="com.depromeet.housekeeper.model.SpaceChores" />
+      <argument
+        android:name="selectDate"
+        app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     </action>
 
     <action
@@ -73,6 +83,9 @@
     <argument
       android:name="spaceChores"
       app:argType="com.depromeet.housekeeper.model.SpaceChores" />
+    <argument
+      android:name="selectDate"
+      app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     <action
         android:id="@+id/action_addTodoFragment2_to_mainFragment"
         app:destination="@id/mainFragment"
