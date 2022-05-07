@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -38,6 +39,10 @@ class AddTodo2ViewModel: ViewModel(){
         MutableStateFlow("방")
     val curSpace: StateFlow<String>
         get() = _curSpace
+
+    fun bindingSpace():String {
+        return spaceNameMapper(_curSpace.value)
+    }
 
     fun updateSpace(space: String) {
         _curSpace.value = space

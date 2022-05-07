@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +66,21 @@ class AddDirectTodoFragment : Fragment() {
             hideKeyboard(binding.addDirectTodoTitleEt)
         }
 
+        binding.addDirectTodoTitleEt.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
+            }
+
+        })
+
         binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, hour, _ ->
             binding.addDirectTodoAllDayCheckBox.isChecked = false
             val min = binding.addDirectTodoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
@@ -88,7 +105,6 @@ class AddDirectTodoFragment : Fragment() {
                     }
                 }
             }
-
         }
 
         binding.addDirectTodoDoneBtn.mainFooterButton.apply {
@@ -96,18 +112,22 @@ class AddDirectTodoFragment : Fragment() {
             when(viewModel.curViewType.value) {
                 ViewType.ADD -> {
                     text = resources.getString(R.string.add_todo_done_btn_txt)
-                    // 집안일 이름 & 시간 업데이트
-                    updateChore()
-                    // 집안일 생성 api
-                    viewModel.createHouseWorks()
+                    setOnClickListener {
+                        // 집안일 이름 & 시간 업데이트
+                        updateChore()
+                        // 집안일 생성 api
+                        viewModel.createHouseWorks()
+                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                    }
                 }
+
                 ViewType.EDIT -> {
                     text = resources.getString(R.string.edit_todo_btn_tv)
                     // 집안일 수정 api
+                    setOnClickListener {
+
+                    }
                 }
-            }
-            setOnClickListener {
-                it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }
@@ -133,6 +153,7 @@ class AddDirectTodoFragment : Fragment() {
 
     private fun hideKeyboard(v: View) {
         imm.hideSoftInputFromWindow(v.windowToken, 0)
+        v.clearFocus()
     }
 
 

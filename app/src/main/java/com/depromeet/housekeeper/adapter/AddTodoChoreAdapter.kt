@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
 import com.depromeet.housekeeper.model.Chore
+import com.depromeet.housekeeper.model.enums.SpaceName
+import com.depromeet.housekeeper.util.spaceNameMapper
 import timber.log.Timber
 
 class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)

@@ -6,6 +6,7 @@ import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -23,7 +24,7 @@ class AddDirectTodoViewModel : ViewModel() {
     }
 
     private val _curDate: MutableStateFlow<String> =
-        MutableStateFlow("2022년 * 4월 23일 토요일")
+        MutableStateFlow("2022-04-23")
     val curDate: StateFlow<String>
         get() = _curDate
 
@@ -53,6 +54,10 @@ class AddDirectTodoViewModel : ViewModel() {
         MutableStateFlow(Chore.ETC_SPACE) // ETC
     val curSpace: StateFlow<String>
         get() = _curSpace
+
+    fun bindingSpace():String {
+        return spaceNameMapper(_curSpace.value)
+    }
 
     // 직접 추가 or 수정은 chore 개수 1
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
