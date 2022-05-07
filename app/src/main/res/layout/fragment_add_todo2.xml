@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.AddTodo2ViewModel" />
+            type="com.depromeet.housekeeper.ui.AddTodo2ViewModel" />
 
     </data>
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
-        tools:context=".AddTodoFragment2">
+        tools:context=".ui.AddTodoFragment2">
 
         <include
             layout="@layout/layout_add_todo_header"

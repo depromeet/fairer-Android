@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,9 +47,9 @@ class AddTodo2ViewModel: ViewModel(){
         return _curSpace.value
     }
 
-    private val _curTime: MutableStateFlow<String> =
-        MutableStateFlow(Chore.DEFAULT_TIME)
-    val curTime: StateFlow<String>
+    private val _curTime: MutableStateFlow<String?> =
+        MutableStateFlow(null)
+    val curTime: StateFlow<String?>
         get() = _curTime
 
     fun updateTime(hour: Int, min: Int) {

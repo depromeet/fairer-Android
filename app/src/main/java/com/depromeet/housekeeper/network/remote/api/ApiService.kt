@@ -10,9 +10,7 @@ import com.depromeet.housekeeper.model.ChoreList
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-
 interface ApiService {
-
   @POST("/api/houseworks")
   suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 

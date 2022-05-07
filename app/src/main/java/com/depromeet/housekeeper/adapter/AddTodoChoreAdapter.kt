@@ -97,11 +97,11 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
         fun bind(chore: Chore) {
-            if(chore.scheduledTime == Chore.DEFAULT_TIME) {
-                binding.itemAddTodoTimeTv.text = chore.scheduledTime
+            if(chore.scheduledTime == null) {
+                binding.itemAddTodoTimeTv.text = Chore.DEFAULT_TIME
             }
             else {
-                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduledTime)
+                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduledTime!!)
             }
             binding.itemAddTodoNameTv.text = chore.houseWorkName
         }
