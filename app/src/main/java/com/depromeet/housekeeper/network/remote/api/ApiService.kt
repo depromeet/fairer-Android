@@ -3,10 +3,11 @@ package com.depromeet.housekeeper.network.remote.api
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import retrofit2.http.Body
+import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.CompleteHouseWork
+import com.depromeet.housekeeper.model.HouseWorks
 import retrofit2.http.GET
 import retrofit2.http.POST
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.ChoreList
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -19,4 +20,9 @@ interface ApiService {
 
   @GET("/api/houseworks/{space}")
   suspend fun getChoreList(@Path("space")space:String): ChoreList
+
+  //Sample API
+  @GET("/api/houseworks/success/count")
+  suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
+
 }

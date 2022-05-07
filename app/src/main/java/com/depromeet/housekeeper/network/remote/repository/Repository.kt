@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
@@ -22,4 +23,9 @@ object Repository : RemoteDataSource {
     apiService.getChoreList(space)
     emit(value = apiService.getChoreList(space))
   }
+
+  override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
+    flow {
+      emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
+    }
 }
