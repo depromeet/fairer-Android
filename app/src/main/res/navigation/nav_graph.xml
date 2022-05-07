@@ -10,16 +10,7 @@
     android:label="mainFragment"
     tools:layout="@layout/fragment_main">
     <action
-      android:id="@+id/action_mainFragment_to_addTodoFragment1"
-      app:destination="@id/addTodoFragment1"
-      app:enterAnim="@android:anim/fade_in"
-      app:exitAnim="@android:anim/fade_out"
-      app:popEnterAnim="@android:anim/fade_in"
       app:popExitAnim="@android:anim/fade_out">
-      <argument
-        android:name="selectDate"
-        app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
-    </action>
   </fragment>
   <fragment
       android:id="@+id/addTodoFragment1"
