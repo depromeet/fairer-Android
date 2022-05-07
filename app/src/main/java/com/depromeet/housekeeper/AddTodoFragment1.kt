@@ -146,7 +146,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageEntrance.isSelected = true
                     binding.addTodo1ImageEntrance.isEnabled = false
                     viewModel.setSpace("entrance")
-                    viewModel.setChoreList("entrance")
+                    viewModel.setChoreList("ENTRANCE")
                     viewChange()
                 }
                 binding.addTodo1ImageLivingRoom -> {
@@ -154,7 +154,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageLivingRoom.isSelected = true
                     binding.addTodo1ImageLivingRoom.isEnabled = false
                     viewModel.setSpace("livingroom")
-                    viewModel.setChoreList("livingroom")
+                    viewModel.setChoreList("LIVINGROOM")
                     viewChange()
                 }
                 binding.addTodo1ImageBathroom -> {
@@ -162,7 +162,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageBathroom.isSelected = true
                     binding.addTodo1ImageBathroom.isEnabled = false
                     viewModel.setSpace("bathroom")
-                    viewModel.setChoreList("bathroom")
+                    viewModel.setChoreList("BATHROOM")
                     viewChange()
                 }
                 binding.addTodo1ImageOutside -> {
@@ -170,7 +170,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageOutside.isSelected = true
                     binding.addTodo1ImageOutside.isEnabled = false
                     viewModel.setSpace("outside")
-                    viewModel.setChoreList("outside")
+                    viewModel.setChoreList("OUTSIDE")
                     viewChange()
                 }
                 binding.addTodo1ImageRoom -> {
@@ -178,7 +178,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageRoom.isSelected = true
                     binding.addTodo1ImageRoom.isEnabled = false
                     viewModel.setSpace("room")
-                    viewModel.setChoreList("room")
+                    viewModel.setChoreList("ROOM")
                     viewChange()
                 }
                 binding.addTodo1ImageKitchen -> {
@@ -186,7 +186,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                     binding.addTodo1ImageKitchen.isSelected = true
                     binding.addTodo1ImageKitchen.isEnabled = false
                     viewModel.setSpace("kitchen")
-                    viewModel.setChoreList("kitchen")
+                    viewModel.setChoreList("KITCHEN")
                     viewChange()
                 }
             }
