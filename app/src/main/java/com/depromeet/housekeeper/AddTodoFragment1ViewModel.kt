@@ -3,11 +3,15 @@ package com.depromeet.housekeeper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AddTodoFragment1ViewModel : ViewModel() {
   init {
@@ -63,5 +67,28 @@ class AddTodoFragment1ViewModel : ViewModel() {
         _chorepreset.value = it.preset
       }
     }
+  }
+
+  private val calendar: Calendar = Calendar.getInstance().apply {
+    set(Calendar.MONTH, this.get(Calendar.MONTH))
+    firstDayOfWeek = Calendar.MONDAY
+    set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+  }
+
+  private val _selectCalendar: MutableStateFlow<DayOfWeek> = MutableStateFlow(DayOfWeek(date = ""))
+  val selectCalendar: StateFlow<DayOfWeek>
+    get() = _selectCalendar
+
+  fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
+    calendar.set(Calendar.YEAR, year)
+    calendar.set(Calendar.MONTH, month)
+    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+    val datePattern = "yyyy-MM-dd-EEE"
+    _selectCalendar.value = DayOfWeek(SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time))
+  }
+
+  fun addCalendarView(selectDate : String) {
+    _selectCalendar.value = DayOfWeek(date = selectDate)
   }
 }
