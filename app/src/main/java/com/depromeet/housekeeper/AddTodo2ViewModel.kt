@@ -1,0 +1,107 @@
+package com.depromeet.housekeeper
+
+import androidx.lifecycle.ViewModel
+import com.depromeet.housekeeper.model.Chore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import kotlin.collections.ArrayList
+
+class AddTodo2ViewModel: ViewModel(){
+    private val _curDate: MutableStateFlow<String> =
+        MutableStateFlow("2022년 * 4월 23일 토요일")
+    val curDate: StateFlow<String>
+        get() = _curDate
+
+    private val _curSpace: MutableStateFlow<String> =
+        MutableStateFlow("방")
+    val curSpace: StateFlow<String>
+        get() = _curSpace
+
+    fun updateSpace(space: String) {
+        _curSpace.value = space
+    }
+
+    fun getSpace(): String {
+        return _curSpace.value
+    }
+
+    private val _curTime: MutableStateFlow<String> =
+        MutableStateFlow(Chore.DEFAULT_TIME)
+    val curTime: StateFlow<String>
+        get() = _curTime
+
+    fun updateTime(hour: Int, min: Int) {
+        _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
+    }
+
+    private val _positions: MutableStateFlow<ArrayList<Int>> =
+        MutableStateFlow(arrayListOf(0))
+    val positions: StateFlow<ArrayList<Int>>
+        get() = _positions
+
+    fun updatePositions(position: Int) {
+        _positions.value.add(position)
+    }
+
+    fun getPosition(type: PositionType):Int {
+        return when (type) {
+            PositionType.CUR -> _positions.value[_positions.value.size - 1]
+            PositionType.PRE -> _positions.value[_positions.value.size - 2]
+        }
+    }
+
+    private val _chores: MutableStateFlow<ArrayList<Chore>> =
+        MutableStateFlow(arrayListOf())
+    val chores: StateFlow<ArrayList<Chore>>
+        get() = _chores
+
+    fun initChores(space:String, choreName: List<String>) {
+        val temp = arrayListOf<Chore>()
+        choreName.map{ name ->
+            val chore = Chore()
+            chore.space = space
+            chore.houseWorkName = name
+            temp.add(chore)
+        }
+        _chores.value.addAll(temp)
+    }
+
+    fun updateChore(time: String, position: Int) {
+        _chores.value[position].scheduleTime = time
+    }
+
+    fun getChore(position: Int): Chore {
+        return _chores.value[position]
+    }
+
+    fun getChores() : ArrayList<Chore>{
+        return _chores.value
+    }
+
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.MONTH, this.get(Calendar.MONTH))
+        firstDayOfWeek = Calendar.MONDAY
+        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String>
+        get() = _selectCalendar
+
+    fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        val datePattern = "yyyy-MM-dd-EEE"
+        _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+    }
+}
+
+enum class PositionType {
+    CUR, PRE
+}
