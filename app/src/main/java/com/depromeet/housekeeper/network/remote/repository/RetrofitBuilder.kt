@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
   private const val BASE_URL = "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
@@ -15,7 +16,12 @@ object RetrofitBuilder {
     level = HttpLoggingInterceptor.Level.BODY
   }
 
-  private val okHttpBuilder = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+  private val okHttpBuilder = OkHttpClient.Builder()
+    .addInterceptor(httpLoggingInterceptor)
+    .connectTimeout(1, TimeUnit.SECONDS)
+    .readTimeout(1, TimeUnit.SECONDS)
+    .writeTimeout(1, TimeUnit.SECONDS)
+
 
   private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

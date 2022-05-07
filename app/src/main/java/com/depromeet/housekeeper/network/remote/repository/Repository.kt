@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -15,4 +16,9 @@ object Repository : RemoteDataSource {
   override suspend fun getHouseWorkList(space: String): Flow<ChoreList> = flow {
     emit(apiService.getChoreList(space))
   }
+
+  override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
+    flow {
+      emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
+    }
 }
