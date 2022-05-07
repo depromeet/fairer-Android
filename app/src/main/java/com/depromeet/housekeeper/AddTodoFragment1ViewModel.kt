@@ -2,14 +2,12 @@ package com.depromeet.housekeeper
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
 import com.depromeet.housekeeper.model.ChoreList
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class AddTodoFragment1ViewModel : ViewModel() {
   init {
