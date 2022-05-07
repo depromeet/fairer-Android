@@ -8,7 +8,11 @@
 
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.ui.AddTodo2ViewModel" />
+            type="com.depromeet.housekeeper.AddTodo2ViewModel" />
+    
+        <variable
+          name="currentDate"
+          type="String" />
 
     </data>
 
@@ -23,21 +27,24 @@
             android:id="@+id/add_todo2_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        
         <TextView
-            android:id="@+id/add_todo2_date_tv"
-            style="@style/Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
-            android:textColor="@color/gray_900"
-            android:textStyle="bold"
-            android:text="@{String.valueOf(vm.getDate())}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_todo2_header"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            app:drawableStartCompat="@drawable/ic_calendar_today" />
+          android:id="@+id/add_todo2_date_tv"
+          style="@style/Caption"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:drawableStart="@drawable/ic_calendar_today"
+          android:drawablePadding="4dp"
+          android:textColor="@color/gray_900"
+          android:paddingStart="4dp"
+          android:textStyle="bold"
+          android:text="@{currentDate}"
+          tools:text="2022년 * 4월 25일"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/add_todo2_header"
+          android:layout_marginTop="20dp"
+          android:layout_marginStart="20dp"
+          app:drawableStartCompat="@drawable/ic_calendar_today" />
 
         <TextView
             android:id="@+id/add_todo2_space_tv"
@@ -54,7 +61,7 @@
             app:layout_constraintTop_toTopOf="@id/add_todo2_date_tv"
             app:layout_constraintBottom_toBottomOf="@id/add_todo2_date_tv"
             />
-
+        
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/add_todo_chore_list_rv"
             android:layout_width="match_parent"
