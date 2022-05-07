@@ -15,7 +15,7 @@ import java.util.Locale
 
 class AddTodoFragment1ViewModel : ViewModel() {
   init {
-    getChoreList()
+   // getChoreList()
   }
   private val _chorepreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
   val chorepreset: StateFlow <List<ChoreList>>
