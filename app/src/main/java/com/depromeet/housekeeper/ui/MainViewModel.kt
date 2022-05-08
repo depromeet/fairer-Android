@@ -87,6 +87,10 @@ class MainViewModel : ViewModel() {
   val houseWorks: StateFlow<HouseWorks?>
     get() = _houseWorks
   
+  private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
+  val currentState: StateFlow<CurrentState?>
+    get() = _currentState
+
   private fun getHouseWorks() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
@@ -104,5 +108,13 @@ class MainViewModel : ViewModel() {
           _completeChoreNum.value = it.count
         }
     }
+  }
+  fun updateState(afterState : CurrentState) {
+    _currentState.value = afterState
+  }
+
+  enum class CurrentState {
+    REMAIN,
+    DONE
   }
 }
