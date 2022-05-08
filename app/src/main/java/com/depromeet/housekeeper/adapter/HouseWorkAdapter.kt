@@ -5,6 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.model.HouseWork
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class HouseWorkAdapter(
   private val list: MutableList<HouseWork>,
@@ -41,9 +45,14 @@ class HouseWorkAdapter(
 
   override fun getItemCount(): Int = list.size
 
+  private val datePattern = "HH:MM"
+  private val format = SimpleDateFormat(datePattern, Locale.getDefault())
+
   inner class ViewHolder(private val binding: ItemHouseworkBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(houseWork: HouseWork) {
+
+      binding.isOver = houseWork.scheduledTime < format.format(Calendar.getInstance().time)
       binding.tvMainTitle.text = houseWork.houseWorkName
       binding.tvMainTime.text = getTime(houseWork)
       binding.tvMainArea.text = houseWork.space
