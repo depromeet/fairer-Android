@@ -12,12 +12,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
 
@@ -62,6 +64,12 @@ class AddDirectTodoFragment : Fragment() {
             ViewType.EDIT -> {
                 viewModel.initEditChore()
             }
+        }
+
+        lifecycleScope.launchWhenStarted {
+          viewModel.selectCalendar.collect {
+            binding.addDirectTodoDateTv.text = "${it}요일"
+          }
         }
     }
 
