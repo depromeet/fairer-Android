@@ -18,8 +18,10 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.util.Calendar
 
 class MainFragment : Fragment() {
@@ -64,6 +66,14 @@ class MainFragment : Fragment() {
 
     binding.tvMonth.setOnClickListener {
       createDatePickerDialog()
+    }
+
+    binding.tvRemain.setOnClickListener {
+      mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
+    }
+
+    binding.tvEnd.setOnClickListener {
+      mainViewModel.updateState(MainViewModel.CurrentState.DONE)
     }
   }
 
@@ -117,22 +127,27 @@ class MainFragment : Fragment() {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
+          binding.isEmpty = it.countDone == 0
           binding.tvRemainBadge.text = it.countLeft.toString()
           binding.tvEndBadge.text = it.countDone.toString()
 
           binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
-          //TODO 남은 집안일, 끝낸 집안일 상태에 따라 다르게 처리 해줘야함
-          val remainChoreList = houseWork.houseWorks.filter { !it.success }
-            .sortedBy { it.scheduledTime }
-            .toMutableList()
-          val doneChoreList = houseWork.houseWorks
-            .filter { it.success }
-            .sortedBy { it.scheduledTime }
-            .toMutableList()
-          houseWorkAdapter?.updateDate(remainChoreList)
+          updateHouseWorkData(houseWork)
         }
       }
     }
+
+    lifecycleScope.launchWhenResumed {
+      mainViewModel.currentState.collect {
+        binding.isSelectDone = it == MainViewModel.CurrentState.DONE
+        binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+
+        mainViewModel.houseWorks.value?.let {
+          updateHouseWorkData(it)
+        }
+      }
+    }
+
 
 
     lifecycleScope.launchWhenStarted {
@@ -142,5 +157,23 @@ class MainFragment : Fragment() {
         binding.tvMonth.text = "${year}년 ${month}월"
       }
     }
+  }
+
+  private fun updateHouseWorkData(houseWork: HouseWorks) {
+    val list = when (mainViewModel.currentState.value) {
+      MainViewModel.CurrentState.REMAIN -> {
+        houseWork.houseWorks
+          .filter { !it.success }
+          .sortedBy { it.scheduledTime }
+          .toMutableList()
+      }
+      else -> {
+        houseWork.houseWorks
+          .filter { it.success }
+          .sortedBy { it.scheduledTime }
+          .toMutableList()
+      }
+    }
+    houseWorkAdapter?.updateDate(list)
   }
 }
