@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.util.spaceNameMapper
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -55,7 +56,7 @@ class HouseWorkAdapter(
       binding.isOver = houseWork.scheduledTime < format.format(Calendar.getInstance().time)
       binding.tvMainTitle.text = houseWork.houseWorkName
       binding.tvMainTime.text = getTime(houseWork)
-      binding.tvMainArea.text = houseWork.space
+      binding.tvMainArea.text = spaceNameMapper(houseWork.space)
     }
   }
 }
