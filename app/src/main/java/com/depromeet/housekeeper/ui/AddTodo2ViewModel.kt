@@ -113,6 +113,25 @@ class AddTodo2ViewModel: ViewModel(){
             }
         }
     }
+
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.MONTH, this.get(Calendar.MONTH))
+        firstDayOfWeek = Calendar.MONDAY
+        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String>
+        get() = _selectCalendar
+
+    fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        val datePattern = "yyyy-MM-dd-EEE"
+        _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+    }
 }
 
 enum class PositionType {
