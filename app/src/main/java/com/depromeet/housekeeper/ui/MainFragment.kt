@@ -18,9 +18,8 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 import java.util.Calendar
 
 class MainFragment : Fragment() {
@@ -95,7 +94,7 @@ class MainFragment : Fragment() {
 
     }
     binding.rvHouseWork.adapter = houseWorkAdapter
-
+    binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
   }
 
   private fun bindingVm() {
