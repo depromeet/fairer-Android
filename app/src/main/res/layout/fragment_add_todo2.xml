@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.AddTodo2ViewModel" />
+            type="com.depromeet.housekeeper.ui.AddTodo2ViewModel" />
 
     </data>
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
-        tools:context=".AddTodoFragment2">
+        tools:context=".ui.AddTodoFragment2">
 
         <include
             layout="@layout/layout_add_todo_header"
@@ -32,7 +32,7 @@
             android:drawablePadding="4dp"
             android:textColor="@color/gray_900"
             android:textStyle="bold"
-            android:text="@{String.valueOf(vm.curDate)}"
+            android:text="@{String.valueOf(vm.getDate())}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_todo2_header"
             android:layout_marginTop="20dp"
@@ -47,7 +47,7 @@
             android:drawablePadding="4dp"
             android:textColor="@color/gray_900"
             android:textStyle="bold"
-            android:text="@{String.valueOf(vm.curSpace)}"
+            android:text="@{String.valueOf(vm.bindingSpace())}"
             app:drawableStartCompat="@drawable/ic_space"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"

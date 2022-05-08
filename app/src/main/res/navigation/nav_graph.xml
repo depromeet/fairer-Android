@@ -41,17 +41,21 @@
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"/>
-    <action
-        android:id="@+id/action_addTodoFragment1_to_mainFragment"
-        app:destination="@id/mainFragment" />
+        app:popExitAnim="@anim/slide_out_right">
+      <argument
+          android:name="viewType"
+          app:argType="com.depromeet.housekeeper.model.enums.ViewType" />
+    </action>
   </fragment>
 
   <fragment
       android:id="@+id/addDirectTodoFragment"
-      android:name="com.depromeet.housekeeper.AddDirectTodoFragment"
+      android:name="com.depromeet.housekeeper.ui.AddDirectTodoFragment"
       android:label="addDirectTodoFragment"
       tools:layout="@layout/fragment_add_direct_todo">
+    <argument
+        android:name="viewType"
+        app:argType="com.depromeet.housekeeper.model.enums.ViewType" />
     <action
         android:id="@+id/action_addDirectTodoFragment_to_mainFragment"
         app:destination="@id/mainFragment"
@@ -63,7 +67,7 @@
 
   <fragment
     android:id="@+id/addTodoFragment2"
-    android:name="com.depromeet.housekeeper.AddTodoFragment2"
+    android:name="com.depromeet.housekeeper.ui.AddTodoFragment2"
     android:label="addTodoFragment2"
     tools:layout="@layout/fragment_add_todo2">
     <argument

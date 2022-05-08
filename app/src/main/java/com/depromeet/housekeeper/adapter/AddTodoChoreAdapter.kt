@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
 import com.depromeet.housekeeper.model.Chore
+import com.depromeet.housekeeper.model.enums.SpaceName
+import com.depromeet.housekeeper.util.spaceNameMapper
 import timber.log.Timber
 
 class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
@@ -97,11 +99,11 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("NotifyDataSetChanged")
         fun bind(chore: Chore) {
-            if(chore.scheduleTime == Chore.DEFAULT_TIME) {
-                binding.itemAddTodoTimeTv.text = chore.scheduleTime
+            if(chore.scheduledTime == null) {
+                binding.itemAddTodoTimeTv.text = Chore.DEFAULT_TIME
             }
             else {
-                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduleTime)
+                binding.itemAddTodoTimeTv.text = parseTime(chore.scheduledTime!!)
             }
             binding.itemAddTodoNameTv.text = chore.houseWorkName
         }

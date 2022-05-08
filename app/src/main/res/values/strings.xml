@@ -16,12 +16,14 @@
     <string name="add_todo_done_btn_txt">집안일 추가 완료</string>
 
     <!-- AddDirectTodoFragment -->
-    <string name="add_direct_todo_sign1">집안일의 상세 내용을 선택해주세요</string>
-    <string name="add_direct_todo_space">집안일 공간</string>
     <string name="add_direct_todo_title">집안일 제목</string>
     <string name="add_direct_todo_title_hint">직접 입력</string>
     <string name="add_direct_todo_time">집안일 시간</string>
     <string name="add_direct_todo_day">다른 날에도 이 집안일 하기</string>
+    <string name="remove_todo_tv">삭제</string>
+    <string name="edit_todo_btn_tv">수정 완료</string>
+    <string name="add_direct_todo_space_tv">기타 공간</string>
+
 
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_text">취소</string>

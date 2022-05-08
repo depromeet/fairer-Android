@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
@@ -66,7 +67,8 @@ class AddTodoFragment2 : Fragment() {
                 // 마지막 position update
                 updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
 
-                // api
+                // 집안일 생성 api
+                addTodo2ViewModel.createHouseWorks()
 
                 // 화면 전환
                 it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
@@ -120,18 +122,18 @@ class AddTodoFragment2 : Fragment() {
     private fun updateChore(position: Int) {
         when {
             binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(Chore.DEFAULT_TIME, position)
-            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
+            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value!!, position)
         }
     }
 
     private fun updateView(position: Int) {
         val chore = addTodo2ViewModel.getChore(position)
-        if(chore.scheduleTime == Chore.DEFAULT_TIME) {
+        if(chore.scheduledTime == null) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addTodo2AllDayCheckBox.isChecked = true
         }
         else {
-            val time = parseTime(chore.scheduleTime)
+            val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
     }
