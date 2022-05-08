@@ -9,6 +9,18 @@
       name="vm"
       type="com.depromeet.housekeeper.ui.MainViewModel" />
   
+    <variable
+      name="isSelectRemain"
+      type="boolean" />
+  
+    <variable
+      name="isSelectDone"
+      type="boolean" />
+  
+    <variable
+      name="isEmpty"
+      type="boolean" />
+    
   </data>
   
   <ScrollView
@@ -121,10 +133,10 @@
         android:layout_width="28dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:background="@drawable/main_active_badge"
+        android:background="@{isEmpty ? @drawable/main_empty_badge : isSelectRemain ? @drawable/main_active_badge : @drawable/main_inactive_badge}"
         android:gravity="center"
         android:padding="1dp"
-        android:textColor="@color/white"
+        android:textColor="@{isSelectRemain ? @color/white : @color/gray_400}"
         app:layout_constraintBottom_toBottomOf="@id/tv_remain"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_remain"
@@ -138,8 +150,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:text="@string/remained_chore"
-        android:textColor="@color/gray_900"
-        android:textStyle="bold"
+        android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
+        app:textStyle='@{isSelectRemain ? "bold" : "normal"}'
         app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
         app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
         tools:text="@string/remained_chore" />
@@ -152,10 +164,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/main_inactive_badge"
+        android:background="@{isEmpty ? @drawable/main_empty_badge : isSelectDone ? @drawable/main_active_badge : @drawable/main_inactive_badge}"
         android:gravity="center"
         android:padding="1dp"
-        android:textColor="@color/gray_400"
+        android:textColor="@{isSelectDone ? @color/white : @color/gray_400}"
         app:layout_constraintBottom_toBottomOf="@id/tv_end"
         app:layout_constraintEnd_toStartOf="@id/tv_end"
         app:layout_constraintTop_toTopOf="@id/tv_end"
@@ -169,7 +181,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
         android:text="@string/completed_chore"
-        android:textColor="@color/gray_400"
+        app:textStyle='@{isSelectDone ? "bold" : "normal"}'
+        android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
         tools:text="@string/completed_chore" />
