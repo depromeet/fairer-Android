@@ -17,7 +17,7 @@
     
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       tools:context=".ui.MainFragment">
       
       <ImageView
@@ -124,7 +124,6 @@
         android:background="@drawable/main_active_badge"
         android:gravity="center"
         android:padding="1dp"
-        android:text="@{String.valueOf(vm.remainChore)}"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/tv_remain"
         app:layout_constraintStart_toStartOf="parent"
@@ -156,7 +155,6 @@
         android:background="@drawable/main_inactive_badge"
         android:gravity="center"
         android:padding="1dp"
-        android:text="@{String.valueOf(vm.endChore)}"
         android:textColor="@color/gray_400"
         app:layout_constraintBottom_toBottomOf="@id/tv_end"
         app:layout_constraintEnd_toStartOf="@id/tv_end"
