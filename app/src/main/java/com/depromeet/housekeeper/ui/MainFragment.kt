@@ -8,13 +8,17 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
+import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.model.HouseWork
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
@@ -22,7 +26,9 @@ import java.util.Calendar
 class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
-  lateinit var adapter: DayOfWeekAdapter
+  private lateinit var dayOfAdapter: DayOfWeekAdapter
+
+  private var houseWorkAdapter: HouseWorkAdapter? = null
   private val mainViewModel: MainViewModel by viewModels()
 
   override fun onCreateView(
@@ -50,11 +56,11 @@ class MainFragment : Fragment() {
     }
 
     binding.ivLeft.setOnClickListener {
-      adapter.updateDate(mainViewModel.getLastWeek())
+      dayOfAdapter.updateDate(mainViewModel.getLastWeek())
     }
 
     binding.ivRignt.setOnClickListener {
-      adapter.updateDate(mainViewModel.getNextWeek())
+      dayOfAdapter.updateDate(mainViewModel.getNextWeek())
     }
 
     binding.tvMonth.setOnClickListener {
@@ -78,11 +84,18 @@ class MainFragment : Fragment() {
 
 
   private fun setAdapter() {
-    adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
+    dayOfAdapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
       onClick = {
         mainViewModel.updateSelectDate(it)
       })
-    binding.rvWeek.adapter = adapter
+    binding.rvWeek.adapter = dayOfAdapter
+
+    val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+    houseWorkAdapter = HouseWorkAdapter(list) {
+
+    }
+    binding.rvHouseWork.adapter = houseWorkAdapter
+
   }
 
   private fun bindingVm() {
@@ -102,8 +115,11 @@ class MainFragment : Fragment() {
     }
 
     lifecycleScope.launchWhenStarted {
-      mainViewModel.houseWorks.collect {
-        //TODO adapter list 연결
+      mainViewModel.houseWorks.collect { houseWork ->
+        houseWork?.let {
+          binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
+          houseWorkAdapter?.updateDate(houseWork.houseWorks.toMutableList())
+        }
       }
     }
 
