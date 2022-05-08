@@ -140,13 +140,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         }
     }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.selectCalendar.collect {
-                binding.addTodo1Calender.text = "${it.date}요일"
-            }
-        }
-    }
-
   private fun navigateToAddDirectTodoPage() {
     binding.addTodo1GoDirectBtn.findNavController()
       .navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
