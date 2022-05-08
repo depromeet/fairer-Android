@@ -140,12 +140,13 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun navigateToAddDirectTodoPage() {
-      binding.addTodo1GoDirectBtn.findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
-            viewModel.selectCalendar.value,
-            ViewType.ADD
-        ))
-    }
+  private fun navigateToAddDirectTodoPage() {
+    binding.addTodo1GoDirectBtn.findNavController()
+      .navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
+        ViewType.ADD,
+        viewModel.selectCalendar.value,
+      ))
+  }
 
   private fun navigateToAddTodoPage2() {
     findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddTodoFragment2(
