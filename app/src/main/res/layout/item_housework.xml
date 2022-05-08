@@ -12,7 +12,8 @@
     android:layout_width="match_parent"
     android:layout_height="104dp"
     android:backgroundTint="@color/positive_0"
-    app:cardCornerRadius="6dp">
+    app:cardCornerRadius="6dp"
+    app:cardElevation="0dp">
     
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -33,11 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
-        tools:text="TEXT"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/iv_main_icon"
-        app:layout_constraintTop_toTopOf="@+id/iv_main_icon" />
+        app:layout_constraintTop_toTopOf="@+id/iv_main_icon"
+        tools:text="TEXT" />
       
       <ImageView
         android:id="@+id/iv_main_time_icon"
