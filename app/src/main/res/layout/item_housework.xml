@@ -4,14 +4,17 @@
   xmlns:tools="http://schemas.android.com/tools">
   
   <data>
-  
+    
+    <variable
+      name="isOver"
+      type="boolean" />
   
   </data>
   
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="104dp"
-    android:backgroundTint="@color/positive_0"
+    android:backgroundTint="@{isOver ? @color/negative_10: @color/positive_0}"
     app:cardCornerRadius="6dp"
     app:cardElevation="0dp">
     
@@ -25,7 +28,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="2dp"
-        android:src="@drawable/ic_main"
+        android:src="@drawable/ic_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
       
@@ -34,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
+        android:textColor="@color/gray_900"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/iv_main_icon"
@@ -45,6 +49,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:src="@drawable/ic_time"
+        android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
       
@@ -64,6 +69,7 @@
         android:layout_height="16dp"
         android:layout_marginLeft="8dp"
         android:src="@drawable/ic_marker"
+        android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_main_time" />
       
