@@ -49,5 +49,4 @@ class HouseWorkAdapter(
       binding.tvMainArea.text = houseWork.space
     }
   }
-
 }
