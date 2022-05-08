@@ -83,19 +83,10 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _remainChore: MutableStateFlow<Int> = MutableStateFlow(0)
-  val remainChore: Int
-    get() = _remainChore.value
-
-  private val _endChore: MutableStateFlow<Int> = MutableStateFlow(0)
-  val endChore: Int
-    get() = _endChore.value
-
   private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
   val houseWorks: StateFlow<HouseWorks?>
     get() = _houseWorks
-
-
+  
   private fun getHouseWorks() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
