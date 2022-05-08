@@ -104,7 +104,7 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       //TODO("집안일 수정 이동")
-    }, {
+    },{
       //TODO("집안일 완료하기 API 연동")
     }
     )
@@ -186,7 +186,9 @@ class MainFragment : Fragment() {
     val lastIndex = list.indexOfLast {
       !it.success && it.scheduledTime < format.format(Calendar.getInstance().time)
     }
-    list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
+    if (lastIndex != -1) {
+      list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
+    }
     houseWorkAdapter?.updateDate(list)
   }
 }

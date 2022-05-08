@@ -13,7 +13,8 @@ import java.util.Locale
 
 class HouseWorkAdapter(
   private val list: MutableList<HouseWork>,
-  private val onClick: (HouseWork) -> Unit,
+  private val onClick: ((HouseWork) -> Unit),
+  private val onDone: ((HouseWork) -> Unit),
 ) : RecyclerView.Adapter<HouseWorkAdapter.ViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
