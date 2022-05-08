@@ -8,6 +8,10 @@
     <variable
       name="isOver"
       type="boolean" />
+    
+    <variable
+      name="success"
+      type="boolean" />
   
   </data>
   
@@ -59,8 +63,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:text="@string/time"
-        android:textSize="13sp"
         android:textColor="@color/gray_900"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
       
@@ -79,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        android:textSize="13sp"
         android:textColor="@color/gray_900"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_marker" />
       
@@ -88,9 +92,11 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/recycler_main_finish_btn"
-        android:text="@string/Finish"
-        android:textColor="@color/highlight"
+        android:background="@{success ? @drawable/recycler_main_finished_btn : @drawable/recycler_main_finish_btn}"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@{success ? @string/Finished : @string/Finish}"
+        android:textColor="@{success ? @color/white : @color/highlight}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     
