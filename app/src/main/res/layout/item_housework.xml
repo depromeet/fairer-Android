@@ -60,6 +60,7 @@
         android:paddingLeft="4dp"
         android:text="@string/time"
         android:textSize="13sp"
+        android:textColor="@color/gray_900"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
       
@@ -78,8 +79,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        android:text="방"
         android:textSize="13sp"
+        android:textColor="@color/gray_900"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_marker" />
       
