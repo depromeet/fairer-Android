@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
@@ -28,6 +29,7 @@ class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
     val RC_SIGN_IN = 1
     lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val viewModel: LoginFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +58,6 @@ class LoginFragment : Fragment() {
         if (account == null) {
             //이미 로그인 되어 있을시 다른 fragment로 이동
         }
-
     }
 
     private fun Googlelogin() {
@@ -85,7 +86,11 @@ class LoginFragment : Fragment() {
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
                 Timber.d("auth code : $authCode")
-                navigateToMain()
+                if (authCode != null) {
+                    viewModel.getAuthcode(authCode)
+                }
+                viewModel.getLoginResponse()
+                //navigateToMain()
             } catch (e: ApiException) {
                 Timber.w("failed")
             }
@@ -94,7 +99,6 @@ class LoginFragment : Fragment() {
 
     }
     private fun sendAuthCode(){
-        
 
     }
     private fun navigateToMain() {
