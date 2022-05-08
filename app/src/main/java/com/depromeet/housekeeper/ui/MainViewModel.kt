@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class MainViewModel : ViewModel() {
@@ -20,19 +21,24 @@ class MainViewModel : ViewModel() {
     getCompleteHouseWorkNumber()
   }
 
-  private val calendar: Calendar by lazy {
-    return@lazy Calendar.getInstance().apply {
-      set(Calendar.MONTH, this.get(Calendar.MONTH))
-      firstDayOfWeek = Calendar.MONDAY
-      set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    }
+  private val calendar: Calendar = Calendar.getInstance().apply {
+    set(Calendar.MONTH, this.get(Calendar.MONTH))
+    firstDayOfWeek = Calendar.MONDAY
+    set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
   }
-  private val _selectDate: MutableStateFlow<String> =
-    MutableStateFlow("${calendar.get(Calendar.YEAR)}년 ${calendar.get(Calendar.MONTH) + 1}월")
-  val selectDate: StateFlow<String>
-    get() = _selectDate
+
+  fun getCalendar(): Calendar {
+    return this.calendar
+  }
 
   private val datePattern = "yyyy-MM-dd-EEE"
+  private val format = SimpleDateFormat(datePattern, Locale.getDefault())
+
+  private val _dayOfWeek: MutableStateFlow<DayOfWeek> =
+    MutableStateFlow(DayOfWeek(date = format.format(Date(System.currentTimeMillis()))))
+  val dayOfWeek: StateFlow<DayOfWeek>
+    get() = _dayOfWeek
+
   fun getCurrentWeek(): MutableList<DayOfWeek> {
     val format = SimpleDateFormat(datePattern, Locale.getDefault())
     val days = mutableListOf<String>()
@@ -49,8 +55,8 @@ class MainViewModel : ViewModel() {
     }.toMutableList()
   }
 
-  fun updateSelectDate(date: String) {
-    _selectDate.value = "${calendar.get(Calendar.YEAR)}년 ${date}월"
+  fun updateSelectDate(date: DayOfWeek) {
+    _dayOfWeek.value = date
   }
 
   fun getNextWeek(): MutableList<DayOfWeek> {
@@ -90,15 +96,16 @@ class MainViewModel : ViewModel() {
     get() = _houseWorks
 
 
-  fun getHouseWorks() {
+  private fun getHouseWorks() {
+    val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
-      Repository.getList("2022-05-02").collect {
+      Repository.getList(requestFormat.format(Calendar.getInstance().time)).collect {
         _houseWorks.value = it
       }
     }
   }
 
-  fun getCompleteHouseWorkNumber() {
+  private fun getCompleteHouseWorkNumber() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
       Repository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))

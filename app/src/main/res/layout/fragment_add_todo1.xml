@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+  <data>
+    <variable
+      name="currentDate"
+      type="String" />
 
     </data>
 
@@ -34,20 +37,27 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/add_todo1_Calender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="23dp"
-                    android:text="임시입니다."
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <ImageButton
+  
+              <TextView
+                android:id="@+id/add_todo1_Calender"
+                style="@style/Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="23dp"
+                android:drawableStart="@drawable/ic_calendar_today"
+                android:drawablePadding="4dp"
+                android:textColor="@color/gray_900"
+                android:paddingStart="4dp"
+                android:textStyle="bold"
+                android:text="@{currentDate}"
+                tools:text="2022년 * 4월 25일"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+  
+              
+              <ImageButton
                     android:id="@+id/add_todo1_image_entrance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

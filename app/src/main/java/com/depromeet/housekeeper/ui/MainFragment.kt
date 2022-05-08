@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -14,10 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
-import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.Calendar
 
 class MainFragment : Fragment() {
 
@@ -45,7 +45,8 @@ class MainFragment : Fragment() {
 
   private fun setListener() {
     binding.btAddTodo.root.setOnClickListener {
-      findNavController().navigate(R.id.action_mainFragment_to_addTodoFragment1)
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTodoFragment1(
+        mainViewModel.dayOfWeek.value))
     }
 
     binding.ivLeft.setOnClickListener {
@@ -55,12 +56,31 @@ class MainFragment : Fragment() {
     binding.ivRignt.setOnClickListener {
       adapter.updateDate(mainViewModel.getNextWeek())
     }
+
+    binding.tvMonth.setOnClickListener {
+      createDatePickerDialog()
+    }
   }
+
+  private fun createDatePickerDialog() {
+    val calendar = mainViewModel.getCalendar()
+    val datePickerDialog = DatePickerDialog(
+      this.requireContext(),
+      { _, year, month, dayOfMonth ->
+      },
+      calendar.get(Calendar.YEAR),
+      calendar.get(Calendar.MONTH),
+      calendar.get(Calendar.DAY_OF_MONTH) - 1,
+    )
+    datePickerDialog.show()
+
+  }
+
 
   private fun setAdapter() {
     adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
       onClick = {
-        mainViewModel.updateSelectDate(it.date.split("-")[1])
+        mainViewModel.updateSelectDate(it)
       })
     binding.rvWeek.adapter = adapter
   }
@@ -84,6 +104,15 @@ class MainFragment : Fragment() {
     lifecycleScope.launchWhenStarted {
       mainViewModel.houseWorks.collect {
         //TODO adapter list 연결
+      }
+    }
+
+
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.dayOfWeek.collect {
+        val year = it.date.split("-")[0]
+        val month = it.date.split("-")[1]
+        binding.tvMonth.text = "${year}년 ${month}월"
       }
     }
 
