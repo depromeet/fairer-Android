@@ -21,8 +21,9 @@ import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -82,6 +83,7 @@ class MainFragment : Fragment() {
     val datePickerDialog = DatePickerDialog(
       this.requireContext(),
       { _, year, month, dayOfMonth ->
+        //TODO("DayOfWeek Adapter 변경")
       },
       calendar.get(Calendar.YEAR),
       calendar.get(Calendar.MONTH),
@@ -100,9 +102,12 @@ class MainFragment : Fragment() {
     binding.rvWeek.adapter = dayOfAdapter
 
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
-    houseWorkAdapter = HouseWorkAdapter(list) {
-
+    houseWorkAdapter = HouseWorkAdapter(list, onClick = {
+      //TODO("집안일 수정 이동")
+    }, {
+      //TODO("집안일 완료하기 API 연동")
     }
+    )
     binding.rvHouseWork.adapter = houseWorkAdapter
     binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
   }
@@ -127,7 +132,8 @@ class MainFragment : Fragment() {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
-          binding.isEmpty = it.countDone == 0
+          binding.isEmptyDone = it.countDone == 0
+          binding.isEmptyRemain = it.countLeft == 0
           binding.tvRemainBadge.text = it.countLeft.toString()
           binding.tvEndBadge.text = it.countDone.toString()
 
@@ -174,6 +180,13 @@ class MainFragment : Fragment() {
           .toMutableList()
       }
     }
+    val datePattern = "HH:MM"
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
+
+    val lastIndex = list.indexOfLast {
+      !it.success && it.scheduledTime < format.format(Calendar.getInstance().time)
+    }
+    list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
     houseWorkAdapter?.updateDate(list)
   }
 }
