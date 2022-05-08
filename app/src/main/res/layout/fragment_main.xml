@@ -18,7 +18,11 @@
       type="boolean" />
   
     <variable
-      name="isEmpty"
+      name="isEmptyRemain"
+      type="boolean" />
+  
+    <variable
+      name="isEmptyDone"
       type="boolean" />
     
   </data>
@@ -133,7 +137,7 @@
         android:layout_width="28dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:background="@{isEmpty ? @drawable/main_empty_badge : isSelectRemain ? @drawable/main_active_badge : @drawable/main_inactive_badge}"
+        android:background="@{isSelectRemain ? isEmptyRemain ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
         android:gravity="center"
         android:padding="1dp"
         android:textColor="@{isSelectRemain ? @color/white : @color/gray_400}"
@@ -164,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginEnd="8dp"
-        android:background="@{isEmpty ? @drawable/main_empty_badge : isSelectDone ? @drawable/main_active_badge : @drawable/main_inactive_badge}"
+        android:background="@{isSelectDone ? isEmptyDone ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
         android:gravity="center"
         android:padding="1dp"
         android:textColor="@{isSelectDone ? @color/white : @color/gray_400}"
