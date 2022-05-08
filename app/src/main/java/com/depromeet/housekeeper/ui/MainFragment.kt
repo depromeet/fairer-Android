@@ -115,9 +115,21 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenStarted {
       mainViewModel.houseWorks.collect { houseWork ->
+
         houseWork?.let {
+          binding.tvRemainBadge.text = it.countLeft.toString()
+          binding.tvEndBadge.text = it.countDone.toString()
+
           binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
-          houseWorkAdapter?.updateDate(houseWork.houseWorks.toMutableList())
+          //TODO 남은 집안일, 끝낸 집안일 상태에 따라 다르게 처리 해줘야함
+          val remainChoreList = houseWork.houseWorks.filter { !it.success }
+            .sortedBy { it.scheduledTime }
+            .toMutableList()
+          val doneChoreList = houseWork.houseWorks
+            .filter { it.success }
+            .sortedBy { it.scheduledTime }
+            .toMutableList()
+          houseWorkAdapter?.updateDate(remainChoreList)
         }
       }
     }
@@ -130,6 +142,5 @@ class MainFragment : Fragment() {
         binding.tvMonth.text = "${year}년 ${month}월"
       }
     }
-
   }
 }
