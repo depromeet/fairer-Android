@@ -100,7 +100,7 @@ class HouseWorkAdapter(
     }
   }
 
-  inner class NowViewHolder(private val binding: ItemNowBinding) :
+  inner class NowViewHolder(binding: ItemNowBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind() {}
   }
