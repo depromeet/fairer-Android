@@ -1,7 +1,5 @@
 package com.depromeet.housekeeper.model
 
-import androidx.annotation.Nullable
-import com.squareup.moshi.JsonClass
 import kotlinx.serialization.Serializable
 
 @Serializable
