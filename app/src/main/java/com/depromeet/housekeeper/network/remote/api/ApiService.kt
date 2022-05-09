@@ -4,6 +4,7 @@ import com.depromeet.housekeeper.model.ChorePreset
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import retrofit2.http.Body
@@ -27,6 +28,6 @@ interface ApiService {
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
   @PATCH("/api/houseworks/{houseWorkId}")
-  suspend fun updateChoreState(@Path("houseWorkId") houseWorkId: Int): UpdateChoreResponse
+  suspend fun updateChoreState(@Path("houseWorkId") houseWorkId: Int, @Body updateChoreBody : UpdateChoreBody): UpdateChoreResponse
 
 }

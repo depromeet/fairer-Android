@@ -5,6 +5,7 @@ import com.depromeet.housekeeper.model.ChoreList
 import com.depromeet.housekeeper.model.ChorePreset
 import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
@@ -31,8 +32,11 @@ object Repository : RemoteDataSource {
       emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
     }
 
-  override suspend fun updateChoreState(houseWorkId: Int): Flow<UpdateChoreResponse> =
+  override suspend fun updateChoreState(
+    houseWorkId: Int,
+    updateChoreBody: UpdateChoreBody,
+  ): Flow<UpdateChoreResponse> =
     flow {
-      emit(apiService.updateChoreState(houseWorkId))
+      emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
     }
 }
