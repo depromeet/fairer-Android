@@ -45,7 +45,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.signInButton.setSize(SignInButton.SIZE_STANDARD)
         binding.signInButton.setOnClickListener {
             signIn()
         }
