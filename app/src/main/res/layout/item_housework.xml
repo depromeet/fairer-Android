@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv_main_icon"
         tools:text="TEXT" />
       
-      <ImageView
+      <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_main_time_icon"
         android:layout_width="16dp"
         android:layout_height="16dp"
@@ -67,8 +67,8 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
-      
-      <ImageView
+  
+      <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_main_marker"
         android:layout_width="16dp"
         android:layout_height="16dp"
