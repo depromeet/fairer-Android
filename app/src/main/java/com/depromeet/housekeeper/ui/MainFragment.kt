@@ -19,10 +19,8 @@ import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -136,6 +134,10 @@ class MainFragment : Fragment() {
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
           binding.isEmptyRemain = it.countLeft == 0
+
+          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
+
           binding.tvRemainBadge.text = it.countLeft.toString()
           binding.tvEndBadge.text = it.countDone.toString()
 
@@ -149,6 +151,7 @@ class MainFragment : Fragment() {
       mainViewModel.currentState.collect {
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
