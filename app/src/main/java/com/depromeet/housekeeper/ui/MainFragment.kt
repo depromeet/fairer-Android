@@ -19,8 +19,10 @@ import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -104,8 +106,8 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       //TODO("집안일 수정 이동")
-    },{
-      //TODO("집안일 완료하기 API 연동")
+    }, {
+      mainViewModel.updateChoreState(it.houseWorkId)
     }
     )
     binding.rvHouseWork.adapter = houseWorkAdapter
@@ -128,7 +130,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenResumed {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
@@ -184,7 +186,7 @@ class MainFragment : Fragment() {
     val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
     val lastIndex = list.indexOfLast {
-      !it.success && it.scheduledTime < format.format(Calendar.getInstance().time)
+      !it.success && it.scheduledTime!! < format.format(Calendar.getInstance().time)
     }
     if (lastIndex != -1) {
       list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
