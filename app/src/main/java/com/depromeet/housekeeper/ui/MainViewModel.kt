@@ -83,18 +83,13 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _remainChore: MutableStateFlow<Int> = MutableStateFlow(0)
-  val remainChore: Int
-    get() = _remainChore.value
-
-  private val _endChore: MutableStateFlow<Int> = MutableStateFlow(0)
-  val endChore: Int
-    get() = _endChore.value
-
   private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
   val houseWorks: StateFlow<HouseWorks?>
     get() = _houseWorks
-
+  
+  private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
+  val currentState: StateFlow<CurrentState?>
+    get() = _currentState
 
   private fun getHouseWorks() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -113,5 +108,13 @@ class MainViewModel : ViewModel() {
           _completeChoreNum.value = it.count
         }
     }
+  }
+  fun updateState(afterState : CurrentState) {
+    _currentState.value = afterState
+  }
+
+  enum class CurrentState {
+    REMAIN,
+    DONE
   }
 }

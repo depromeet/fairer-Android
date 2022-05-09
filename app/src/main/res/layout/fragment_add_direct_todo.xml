@@ -26,10 +26,8 @@
             android:id="@+id/add_direct_todo_header"
             layout="@layout/layout_add_todo_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="2dp" />
-
+            android:layout_height="wrap_content" />
+    
         <TextView
           android:id="@+id/add_direct_todo_date_tv"
           style="@style/Caption"

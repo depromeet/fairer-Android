@@ -17,7 +17,7 @@ object Repository : RemoteDataSource {
     apiService.createHouseWorks(houseWorks)
   }
   override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
-    apiService.getList(scheduledDate)
+    emit(apiService.getList(scheduledDate))
   }
 
   override suspend fun getHouseWorkList(): Flow<ChorePreset> = flow {
