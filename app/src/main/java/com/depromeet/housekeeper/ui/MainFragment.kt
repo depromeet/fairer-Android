@@ -150,7 +150,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenResumed {
+    lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
@@ -167,6 +167,7 @@ class MainFragment : Fragment() {
         val year = it.date.split("-")[0]
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
+        mainViewModel.getHouseWorks()
       }
     }
   }
