@@ -28,10 +28,6 @@ class MainViewModel : ViewModel() {
     set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
   }
 
-  fun getCalendar(): Calendar {
-    return this.calendar
-  }
-
   private val datePattern = "yyyy-MM-dd-EEE"
   private val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
