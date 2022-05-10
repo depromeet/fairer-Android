@@ -91,4 +91,6 @@ dependencies {
 
     implementation Dependencies.googlelogin
 
+    implementation Dependencies.preferencesDatastore
+
 }

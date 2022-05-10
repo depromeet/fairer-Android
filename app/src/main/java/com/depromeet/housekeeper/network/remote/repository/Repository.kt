@@ -1,5 +1,9 @@
 package com.depromeet.housekeeper.network.remote.repository
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
@@ -9,6 +13,7 @@ import kotlinx.coroutines.flow.flow
 
 object Repository : RemoteDataSource {
   private val apiService = RetrofitBuilder.apiService
+  val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "loginToken")
 
   override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> = flow {
     apiService.createHouseWorks(houseWorks)

@@ -74,4 +74,7 @@ object Dependencies {
 
   private const val GOOGLELOGINSERVICE = "20.2.0"
   const val googlelogin = "com.google.android.gms:play-services-auth:$GOOGLELOGINSERVICE"
+
+  private const val DATASTORE = "1.0.0"
+  const val preferencesDatastore = "androidx.datastore:datastore-preferences:$DATASTORE"
 }
