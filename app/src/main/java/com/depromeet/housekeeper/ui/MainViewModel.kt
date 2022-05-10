@@ -52,6 +52,32 @@ class MainViewModel : ViewModel() {
     }.toMutableList()
   }
 
+  fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
+    calendar.set(Calendar.YEAR, year)
+    calendar.set(Calendar.MONTH, month)
+    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
+    val selectDate = format.format(calendar.time)
+    _dayOfWeek.value = DayOfWeek(selectDate, true)
+
+    calendar.firstDayOfWeek = Calendar.MONDAY
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+    val days = mutableListOf<String>()
+    days.add(format.format(calendar.time))
+    repeat(6) {
+      calendar.add(Calendar.DATE, 1)
+      days.add(format.format(calendar.time))
+    }
+    return days.map {
+      DayOfWeek(
+        date = it,
+        isSelect = it == selectDate
+      )
+    }.toMutableList()
+  }
+
   fun updateSelectDate(date: DayOfWeek) {
     _dayOfWeek.value = date
   }
