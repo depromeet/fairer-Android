@@ -18,7 +18,6 @@ import java.util.Locale
 class MainViewModel : ViewModel() {
 
   init {
-    getHouseWorks()
     getCompleteHouseWorkNumber()
   }
 
@@ -109,15 +108,19 @@ class MainViewModel : ViewModel() {
   private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
   val houseWorks: StateFlow<HouseWorks?>
     get() = _houseWorks
-  
+
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
     get() = _currentState
 
-  private fun getHouseWorks() {
-    val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+  fun getHouseWorks() {
+    //TODO 성능 개선 필요
+    val dayOfWeekDate = dayOfWeek.value.date
+    val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
+    val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
+
     viewModelScope.launch {
-      Repository.getList(requestFormat.format(Calendar.getInstance().time)).collect {
+      Repository.getList(requestDate).collect {
         _houseWorks.value = it
       }
     }
