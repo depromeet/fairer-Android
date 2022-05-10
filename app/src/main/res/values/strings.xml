@@ -55,7 +55,9 @@
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
     <string name="empty_chore_title">해야 할 집안일이 없어요</string>
+    <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
+    <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">

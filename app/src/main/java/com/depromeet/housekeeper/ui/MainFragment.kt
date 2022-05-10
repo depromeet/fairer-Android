@@ -104,8 +104,8 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       //TODO("집안일 수정 이동")
-    },{
-      //TODO("집안일 완료하기 API 연동")
+    }, {
+      mainViewModel.updateChoreState(it.houseWorkId)
     }
     )
     binding.rvHouseWork.adapter = houseWorkAdapter
@@ -128,12 +128,16 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenResumed {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
           binding.isEmptyRemain = it.countLeft == 0
+
+          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
+
           binding.tvRemainBadge.text = it.countLeft.toString()
           binding.tvEndBadge.text = it.countDone.toString()
 
@@ -147,6 +151,7 @@ class MainFragment : Fragment() {
       mainViewModel.currentState.collect {
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
@@ -184,7 +189,7 @@ class MainFragment : Fragment() {
     val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
     val lastIndex = list.indexOfLast {
-      !it.success && it.scheduledTime < format.format(Calendar.getInstance().time)
+      !it.success && it.scheduledTime!! < format.format(Calendar.getInstance().time)
     }
     if (lastIndex != -1) {
       list.add(lastIndex + 1, list[lastIndex].copy(now = 1))

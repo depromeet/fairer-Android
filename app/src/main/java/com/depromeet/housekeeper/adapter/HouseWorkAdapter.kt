@@ -7,6 +7,7 @@ import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.databinding.ItemNowBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -18,12 +19,15 @@ class HouseWorkAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
-    val hour = houseWork.scheduledTime.split(":")[0].toInt()
-    val min = houseWork.scheduledTime.split(":")[1]
-    return when {
-      hour > 12 -> "오후 ${hour % 12}:${min}"
-      else -> "오전 ${hour}:${min}"
-    }
+    houseWork.scheduledTime?.let {
+      val hour = houseWork.scheduledTime.split(":")[0].toInt()
+      val min = houseWork.scheduledTime.split(":")[1]
+      return when {
+        hour > 12 -> "오후 ${hour % 12}:${min}"
+        else -> "오전 ${hour}:${min}"
+      }
+    } ?: return "하루 종일"
+
   }
 
   fun updateDate(houseWork: MutableList<HouseWork>) {
@@ -78,17 +82,25 @@ class HouseWorkAdapter(
 
       binding.isOver = when {
         houseWork.success -> false
+        houseWork.scheduledTime == null -> false
         else -> houseWork.scheduledTime < format.format(Calendar.getInstance().time)
       }
       binding.success = houseWork.success
-
       binding.tvMainTitle.text = houseWork.houseWorkName
       binding.tvMainTime.text = getTime(houseWork)
       binding.tvMainArea.text = spaceNameMapper(houseWork.space)
+
+      binding.root.setOnClickListener {
+        onClick.invoke(houseWork)
+      }
+
+      binding.btDone.setOnClickListener {
+        onDone.invoke(houseWork)
+      }
     }
   }
 
-  inner class NowViewHolder(private val binding: ItemNowBinding) :
+  inner class NowViewHolder(binding: ItemNowBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind() {}
   }

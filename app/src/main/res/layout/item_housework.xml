@@ -89,6 +89,7 @@
         app:layout_constraintStart_toEndOf="@id/iv_main_marker" />
       
       <Button
+        android:id="@+id/bt_done"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginRight="10dp"

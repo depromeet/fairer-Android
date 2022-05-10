@@ -8,7 +8,7 @@ data class HouseWork(
   val houseWorkId: Int,
   val houseWorkName: String,
   val scheduledDate: String,
-  val scheduledTime: String,
+  val scheduledTime: String?,
   val space: String,
   val success: Boolean,
   val successDateTime: String?,

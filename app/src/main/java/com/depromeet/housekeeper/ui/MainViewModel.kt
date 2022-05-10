@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -109,8 +110,24 @@ class MainViewModel : ViewModel() {
         }
     }
   }
-  fun updateState(afterState : CurrentState) {
+
+  fun updateState(afterState: CurrentState) {
     _currentState.value = afterState
+  }
+
+  fun updateChoreState(houWorkId: Int) {
+    val toBeStatus = when (currentState.value) {
+      CurrentState.REMAIN -> 1
+      else -> 0
+    }
+    viewModelScope.launch {
+      Repository.updateChoreState(
+        houseWorkId = houWorkId,
+        updateChoreBody = UpdateChoreBody(toBeStatus)
+      ).collect {
+        getHouseWorks()
+      }
+    }
   }
 
   enum class CurrentState {
