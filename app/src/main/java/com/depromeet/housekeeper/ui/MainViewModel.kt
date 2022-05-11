@@ -18,7 +18,6 @@ import java.util.Locale
 class MainViewModel : ViewModel() {
 
   init {
-    getHouseWorks()
     getCompleteHouseWorkNumber()
   }
 
@@ -26,10 +25,6 @@ class MainViewModel : ViewModel() {
     set(Calendar.MONTH, this.get(Calendar.MONTH))
     firstDayOfWeek = Calendar.MONDAY
     set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-  }
-
-  fun getCalendar(): Calendar {
-    return this.calendar
   }
 
   private val datePattern = "yyyy-MM-dd-EEE"
@@ -52,6 +47,32 @@ class MainViewModel : ViewModel() {
       DayOfWeek(
         date = it,
         isSelect = it == format.format(Calendar.getInstance().time)
+      )
+    }.toMutableList()
+  }
+
+  fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
+    calendar.set(Calendar.YEAR, year)
+    calendar.set(Calendar.MONTH, month)
+    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
+    val selectDate = format.format(calendar.time)
+    _dayOfWeek.value = DayOfWeek(selectDate, true)
+
+    calendar.firstDayOfWeek = Calendar.MONDAY
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+
+    val days = mutableListOf<String>()
+    days.add(format.format(calendar.time))
+    repeat(6) {
+      calendar.add(Calendar.DATE, 1)
+      days.add(format.format(calendar.time))
+    }
+    return days.map {
+      DayOfWeek(
+        date = it,
+        isSelect = it == selectDate
       )
     }.toMutableList()
   }
@@ -87,15 +108,19 @@ class MainViewModel : ViewModel() {
   private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
   val houseWorks: StateFlow<HouseWorks?>
     get() = _houseWorks
-  
+
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
     get() = _currentState
 
-  private fun getHouseWorks() {
-    val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+  fun getHouseWorks() {
+    //TODO 성능 개선 필요
+    val dayOfWeekDate = dayOfWeek.value.date
+    val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
+    val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
+
     viewModelScope.launch {
-      Repository.getList(requestFormat.format(Calendar.getInstance().time)).collect {
+      Repository.getList(requestDate).collect {
         _houseWorks.value = it
       }
     }

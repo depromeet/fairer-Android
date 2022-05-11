@@ -79,20 +79,22 @@ class MainFragment : Fragment() {
   }
 
   private fun createDatePickerDialog() {
-    val calendar = mainViewModel.getCalendar()
+    val currentDate = mainViewModel.dayOfWeek.value
+
     val datePickerDialog = DatePickerDialog(
       this.requireContext(),
       { _, year, month, dayOfMonth ->
         //TODO("DayOfWeek Adapter 변경")
+        val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+        dayOfAdapter.updateDate(list)
       },
-      calendar.get(Calendar.YEAR),
-      calendar.get(Calendar.MONTH),
-      calendar.get(Calendar.DAY_OF_MONTH) - 1,
+      currentDate.date.split("-")[0].toInt(),
+      currentDate.date.split("-")[1].toInt() - 1,
+      currentDate.date.split("-")[2].toInt(),
     )
     datePickerDialog.show()
 
   }
-
 
   private fun setAdapter() {
     dayOfAdapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
@@ -103,6 +105,7 @@ class MainFragment : Fragment() {
 
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
+      it
       //TODO("집안일 수정 이동")
     }, {
       mainViewModel.updateChoreState(it.houseWorkId)
@@ -147,7 +150,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenResumed {
+    lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
@@ -159,13 +162,12 @@ class MainFragment : Fragment() {
       }
     }
 
-
-
     lifecycleScope.launchWhenStarted {
       mainViewModel.dayOfWeek.collect {
         val year = it.date.split("-")[0]
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
+        mainViewModel.getHouseWorks()
       }
     }
   }
