@@ -74,8 +74,13 @@ class AddDirectTodoViewModel : ViewModel() {
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
-    fun initEditChore() {
+    fun initEditChore(chore: Chore) {
         // main에서 받아온 집안일 정보 init
+        _chores.value[0].scheduledDate = chore.scheduledDate
+        _chores.value[0].houseWorkName = chore.houseWorkName
+        _chores.value[0].scheduledTime = chore.scheduledTime
+        _chores.value[0].space = chore.space
+        _chores.value[0].assignees = chore.assignees
     }
 
     // 집안일 직접 추가 api
@@ -104,6 +109,28 @@ class AddDirectTodoViewModel : ViewModel() {
 
         val datePattern = "yyyy-MM-dd-EEE"
         _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+    }
+
+    private val _houseWorkId: MutableStateFlow<Int> = MutableStateFlow(-1)
+    val houseWorkId: StateFlow<Int>
+        get() = _houseWorkId
+
+    fun setHouseWorkId(id: Int) {
+        _houseWorkId.value = id
+    }
+
+    fun editHouseWork() {
+        viewModelScope.launch {
+            Repository.editHouseWork(_houseWorkId.value, _chores.value[0]).collect {
+                Timber.d(it.toString())
+            }
+        }
+    }
+
+    fun deleteHouseWork() {
+        viewModelScope.launch {
+            Repository.deleteHouseWork(_houseWorkId.value)
+        }
     }
 
 }

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
+import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -62,7 +63,7 @@ class AddDirectTodoFragment : Fragment() {
                 viewModel.initDirectChore()
             }
             ViewType.EDIT -> {
-                viewModel.initEditChore()
+                onEditView()
             }
         }
 
@@ -167,6 +168,21 @@ class AddDirectTodoFragment : Fragment() {
             calendar.get(Calendar.DAY_OF_MONTH),
         )
         datePickerDialog.show()
+    }
+
+    private fun onEditView() {
+        // set arg
+        val houseWork = navArgs.houseWork
+        val assignees: List<Int> = arrayListOf()
+        houseWork.assignees.map {
+            assignees.plus(it.memberId)
+        }
+        val chore = Chore(assignees, houseWork.houseWorkName, houseWork.scheduledDate, houseWork.scheduledTime, houseWork.space)
+
+        // viewmodel update
+        viewModel.initEditChore(chore)
+
+        // ui update
     }
 
     private fun updateChore() {

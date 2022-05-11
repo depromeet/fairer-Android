@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
+import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
@@ -145,6 +146,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
       .navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
         ViewType.ADD,
         viewModel.selectCalendar.value,
+          HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
       ))
   }
 

@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.depromeet.housekeeper.AddTodoFragment1Directions
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
@@ -79,20 +81,22 @@ class MainFragment : Fragment() {
   }
 
   private fun createDatePickerDialog() {
-    val calendar = mainViewModel.getCalendar()
+    val currentDate = mainViewModel.dayOfWeek.value
+
     val datePickerDialog = DatePickerDialog(
       this.requireContext(),
       { _, year, month, dayOfMonth ->
         //TODO("DayOfWeek Adapter 변경")
+        val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+        dayOfAdapter.updateDate(list)
       },
-      calendar.get(Calendar.YEAR),
-      calendar.get(Calendar.MONTH),
-      calendar.get(Calendar.DAY_OF_MONTH) - 1,
+      currentDate.date.split("-")[0].toInt(),
+      currentDate.date.split("-")[1].toInt() - 1,
+      currentDate.date.split("-")[2].toInt(),
     )
     datePickerDialog.show()
 
   }
-
 
   private fun setAdapter() {
     dayOfAdapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
@@ -103,9 +107,12 @@ class MainFragment : Fragment() {
 
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
+      it
       //TODO("집안일 수정 이동")
-    },{
-      //TODO("집안일 완료하기 API 연동")
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
+        viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
+    }, {
+      mainViewModel.updateChoreState(it.houseWorkId)
     }
     )
     binding.rvHouseWork.adapter = houseWorkAdapter
@@ -128,12 +135,16 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenResumed {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
           binding.isEmptyRemain = it.countLeft == 0
+
+          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
+
           binding.tvRemainBadge.text = it.countLeft.toString()
           binding.tvEndBadge.text = it.countDone.toString()
 
@@ -143,10 +154,11 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenResumed {
+    lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
@@ -154,13 +166,12 @@ class MainFragment : Fragment() {
       }
     }
 
-
-
     lifecycleScope.launchWhenStarted {
       mainViewModel.dayOfWeek.collect {
         val year = it.date.split("-")[0]
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
+        mainViewModel.getHouseWorks()
       }
     }
   }

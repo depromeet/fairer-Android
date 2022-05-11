@@ -1,8 +1,9 @@
 package com.depromeet.housekeeper.model
 
-import kotlinx.serialization.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class HouseWork(
   val assignees: List<Assignee>,
   val houseWorkId: Int,
@@ -13,4 +14,4 @@ data class HouseWork(
   val success: Boolean,
   val successDateTime: String?,
   var now: Int = 0,
-)
+): Parcelable
