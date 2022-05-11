@@ -8,21 +8,19 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
-import com.depromeet.housekeeper.ui.MainFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.Scopes
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.io.IOException
+
 
 
 class LoginFragment : Fragment() {
@@ -54,8 +52,19 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account == null) {
-            //이미 로그인 되어 있을시 다른 fragment로 이동
+        if (account != null) {
+            //이미 로그인 되어 있을시
+
+            viewModel.getTokens()
+            lifecycleScope.launchWhenStarted {
+                viewModel.AccessToken.collect {
+                    Timber.d("accesstoken : ${viewModel.AccessToken.value}")
+                }
+                viewModel.RefreshToken.collect {
+                    Timber.d("refreshtoken : ${viewModel.RefreshToken.value}")
+                }
+            }
+            //navigateToMain()
         }
     }
 
@@ -84,20 +93,18 @@ class LoginFragment : Fragment() {
             try {
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
-                Timber.d("auth code : $authCode")
+
                 if (authCode != null) {
                     viewModel.getAuthcode(authCode)
+                    Timber.d("auth code : ${viewModel.AuthCode.value}")
                 }
                 viewModel.getLoginResponse()
-                //navigateToMain()
+                navigateToMain()
             } catch (e: ApiException) {
                 Timber.w("failed")
             }
         }
 
-
-    }
-    private fun sendAuthCode(){
 
     }
     private fun navigateToMain() {
