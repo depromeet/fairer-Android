@@ -18,7 +18,7 @@ class HouseWorkAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
-    val hour = houseWork.scheduledTime.split(":")[0].toInt()
+    val hour = houseWork.scheduledTime!!.split(":")[0].toInt()
     val min = houseWork.scheduledTime.split(":")[1]
     return when {
       hour > 12 -> "오후 ${hour % 12}:${min}"
@@ -78,7 +78,7 @@ class HouseWorkAdapter(
 
       binding.isOver = when {
         houseWork.success -> false
-        else -> houseWork.scheduledTime < format.format(Calendar.getInstance().time)
+        else -> houseWork.scheduledTime!! < format.format(Calendar.getInstance().time)
       }
       binding.success = houseWork.success
 
