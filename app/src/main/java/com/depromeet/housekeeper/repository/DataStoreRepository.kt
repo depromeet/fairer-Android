@@ -1,9 +1,8 @@
-package com.depromeet.housekeeper.Repository
+package com.depromeet.housekeeper.repository
 
 import com.depromeet.housekeeper.model.DataStoreManager
 import com.depromeet.housekeeper.util.DataStoreKey
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class DataStoreRepository constructor(private val dataStoreManager: DataStoreManager) {
 

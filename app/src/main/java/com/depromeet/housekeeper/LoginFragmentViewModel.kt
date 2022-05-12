@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.Repository.DataStoreRepository
+import com.depromeet.housekeeper.repository.DataStoreRepository
 import com.depromeet.housekeeper.model.DataStoreManager
 import com.depromeet.housekeeper.model.SocialType
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
