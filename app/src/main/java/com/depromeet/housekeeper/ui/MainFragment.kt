@@ -109,8 +109,9 @@ class MainFragment : Fragment() {
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
       //TODO("집안일 수정 이동")
+      val dayOfWeek= DayOfWeek(it.scheduledDate, false)
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
-        viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
+        viewType = ViewType.EDIT, houseWork = it, selectDate = dayOfWeek))
     }, {
       mainViewModel.updateChoreState(it.houseWorkId)
     }

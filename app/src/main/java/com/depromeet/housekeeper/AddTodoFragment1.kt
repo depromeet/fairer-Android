@@ -144,9 +144,9 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
   private fun navigateToAddDirectTodoPage() {
     binding.addTodo1GoDirectBtn.findNavController()
       .navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
-        ViewType.ADD,
-        viewModel.selectCalendar.value,
-          HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
+        viewType = ViewType.ADD,
+        selectDate = viewModel.selectCalendar.value,
+        houseWork = HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
       ))
   }
 
@@ -161,7 +161,9 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     private fun setDialog() {
         val dialog = FairerDialog(requireContext())
         Timber.d("set dialog")
-        dialog.showDialog()
+        val title = resources.getString(R.string.add_todo_dialog_title)
+        val desc = resources.getString(R.string.add_todo_dialog_desc)
+        dialog.showDialog(title, desc)
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 selected = false

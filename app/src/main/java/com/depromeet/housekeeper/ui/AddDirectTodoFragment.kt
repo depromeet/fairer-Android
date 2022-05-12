@@ -14,12 +14,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
@@ -41,7 +44,6 @@ class AddDirectTodoFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
         binding.currentDate = "${navArgs.selectDate.date}요일"
-
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -66,12 +68,14 @@ class AddDirectTodoFragment : Fragment() {
                 onEditView()
             }
         }
+        binding.space = spaceNameMapper(viewModel.chores.value[0].space)
 
         lifecycleScope.launchWhenStarted {
           viewModel.selectCalendar.collect {
             binding.addDirectTodoDateTv.text = "${it}요일"
           }
         }
+
     }
 
     private fun initListener() {
@@ -98,6 +102,9 @@ class AddDirectTodoFragment : Fragment() {
             binding.addDirectTodoAllDayCheckBox.isChecked = false
             val min = binding.addDirectTodoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
             viewModel.updateTime(hour, min)
+
+            // 수정 첫 화면에서 타임피커 건들면 수정 버튼 활성화
+            binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = true
         }
 
         binding.addDirectTodoHeader.apply {
@@ -116,8 +123,9 @@ class AddDirectTodoFragment : Fragment() {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             // delete api
-                            viewModel.deleteHouseWork()
-                            it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                            showDeleteDialog()
+//                            viewModel.deleteHouseWork()
+//                            it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                         }
                     }
                 }
@@ -129,10 +137,9 @@ class AddDirectTodoFragment : Fragment() {
             when(viewModel.curViewType.value) {
                 ViewType.ADD -> {
                     text = resources.getString(R.string.add_todo_done_btn_txt)
+                    // 집안일 생성 api
                     setOnClickListener {
-                        // 집안일 이름 & 시간 업데이트
                         updateChore()
-                        // 집안일 생성 api
                         viewModel.createHouseWorks()
                         it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
@@ -142,7 +149,9 @@ class AddDirectTodoFragment : Fragment() {
                     text = resources.getString(R.string.edit_todo_btn_tv)
                     // 집안일 수정 api
                     setOnClickListener {
-
+                        updateChore()
+                        viewModel.editHouseWork()
+                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
             }
@@ -185,8 +194,19 @@ class AddDirectTodoFragment : Fragment() {
 
         // viewmodel update
         viewModel.initEditChore(chore)
+        viewModel.setHouseWorkId(houseWork.houseWorkId)
 
         // ui update
+        initUi()
+    }
+
+    private fun initUi() {
+        binding.addDirectTodoTitleEt.setText(viewModel.chores.value[0].houseWorkName)
+        if(viewModel.chores.value[0].scheduledTime != null) {
+            val time: Pair<Int, Int> = parseTime(viewModel.chores.value[0].scheduledTime!!)
+            binding.addDirectTodoTimePicker.setDisPlayedValue(time.first, time.second)
+            binding.addDirectTodoAllDayCheckBox.isChecked = false
+        }
     }
 
     private fun updateChore() {
@@ -211,6 +231,27 @@ class AddDirectTodoFragment : Fragment() {
     private fun hideKeyboard(v: View) {
         imm.hideSoftInputFromWindow(v.windowToken, 0)
         v.clearFocus()
+    }
+
+    private fun parseTime(time: String): Pair<Int, Int>{
+        val temp = time.split(":")
+        val hour = temp[0].toInt()
+        val min = temp[1].toInt()
+        return Pair(hour, min)
+    }
+
+    private fun showDeleteDialog() {
+        val dialog = FairerDialog(requireContext())
+        val title = resources.getString(R.string.fairer_dialog_delete_title)
+        val desc = resources.getString(R.string.fairer_dialog_delete_desc)
+        dialog.showDialog(title, desc)
+
+        dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
+            override fun onItemClick() {
+                viewModel.deleteHouseWork()
+                findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+            }
+        }
     }
 
 
