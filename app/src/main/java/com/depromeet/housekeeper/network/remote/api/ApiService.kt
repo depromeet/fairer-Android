@@ -1,19 +1,10 @@
 package com.depromeet.housekeeper.network.remote.api
 
 
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.depromeet.housekeeper.network.remote.model.LoginResponse
+import retrofit2.http.*
 
 interface ApiService {
   @POST("/api/houseworks")
