@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.depromeet.housekeeper.AddTodoFragment1Directions
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
@@ -108,10 +107,9 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
-      //TODO("집안일 수정 이동")
       val dayOfWeek= DayOfWeek(it.scheduledDate, false)
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
-        viewType = ViewType.EDIT, houseWork = it, selectDate = dayOfWeek))
+        viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
     }, {
       mainViewModel.updateChoreState(it.houseWorkId)
     }

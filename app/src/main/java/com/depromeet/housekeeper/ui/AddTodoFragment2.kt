@@ -15,7 +15,6 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddTodo2Binding
-import com.depromeet.housekeeper.model.Chore
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
