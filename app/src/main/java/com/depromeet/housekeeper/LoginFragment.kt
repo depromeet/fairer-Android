@@ -47,17 +47,13 @@ class LoginFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             signIn()
         }
-
     }
 
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
         if (account != null) {
-            //이미 로그인 되어 있을시
             viewModel.getTokens()
-            Timber.d("accesstoken : ${viewModel.AccessToken.value}")
-            Timber.d("refreshtoken : ${viewModel.RefreshToken.value}")
             navigateToMain()
         }
     }
@@ -86,10 +82,8 @@ class LoginFragment : Fragment() {
             try {
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
-
                 if (authCode != null) {
                     viewModel.getAuthcode(authCode)
-                    Timber.d("auth code : ${viewModel.AuthCode.value}")
                 }
                 viewModel.getLoginResponse()
                 navigateToMain()

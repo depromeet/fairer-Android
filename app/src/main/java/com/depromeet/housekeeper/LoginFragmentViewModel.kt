@@ -58,12 +58,11 @@ class LoginFragmentViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+
     fun getTokens(){
-        Timber.d("viewmodel gettoken()")
             runBlocking {
                 _AccessToken.value = dataStoreRepository.getAccessToken("null").first()
                 _RefreshToken.value = dataStoreRepository.getRefreshToken("null").first()
             }
         }
-
 }
