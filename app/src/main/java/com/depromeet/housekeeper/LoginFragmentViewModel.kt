@@ -9,14 +9,13 @@ import com.depromeet.housekeeper.model.DataStoreManager
 import com.depromeet.housekeeper.model.SocialType
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import com.depromeet.housekeeper.network.remote.repository.Repository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class LoginFragmentViewModel(application: Application) : AndroidViewModel(application) {
-    val context : Context = application
+    private val context : Context = application
     private val dataStoreRepository : DataStoreRepository = DataStoreRepository(DataStoreManager(context))
     private val SocialType : SocialType = SocialType("GOOGLE")
 
@@ -60,17 +59,11 @@ class LoginFragmentViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun getTokens(){
-        viewModelScope.launch {
-            _Response.value?.let {
-                dataStoreRepository.getAccessToken("null").collect {
-                    _AccessToken.value = it
-                }
-            }
-            _Response.value?.let {
-                dataStoreRepository.getRefreshToken("null").collect {
-                    _RefreshToken.value = it
-                }
+        Timber.d("viewmodel gettoken()")
+            runBlocking {
+                _AccessToken.value = dataStoreRepository.getAccessToken("null").first()
+                _RefreshToken.value = dataStoreRepository.getRefreshToken("null").first()
             }
         }
-    }
+
 }

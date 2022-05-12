@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -54,17 +55,10 @@ class LoginFragment : Fragment() {
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
         if (account != null) {
             //이미 로그인 되어 있을시
-
             viewModel.getTokens()
-            lifecycleScope.launchWhenStarted {
-                viewModel.AccessToken.collect {
-                    Timber.d("accesstoken : ${viewModel.AccessToken.value}")
-                }
-                viewModel.RefreshToken.collect {
-                    Timber.d("refreshtoken : ${viewModel.RefreshToken.value}")
-                }
-            }
-            //navigateToMain()
+            Timber.d("accesstoken : ${viewModel.AccessToken.value}")
+            Timber.d("refreshtoken : ${viewModel.RefreshToken.value}")
+            navigateToMain()
         }
     }
 
@@ -84,7 +78,6 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
@@ -104,10 +97,10 @@ class LoginFragment : Fragment() {
                 Timber.w("failed")
             }
         }
-
-
     }
+
     private fun navigateToMain() {
         findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
     }
+
 }
