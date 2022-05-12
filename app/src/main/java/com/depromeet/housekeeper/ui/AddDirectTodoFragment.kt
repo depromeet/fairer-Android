@@ -107,14 +107,18 @@ class AddDirectTodoFragment : Fragment() {
             addTodoHeaderTv.text = ""
 
             // delete 분기 처리
-            if(viewModel.curViewType.value == ViewType.ADD) {
-                addTodoHeaderRightTv.visibility = View.GONE
-            }
-            else if(viewModel.curViewType.value == ViewType.EDIT) {
-                addTodoHeaderRightTv.apply {
-                    visibility = View.VISIBLE
-                    setOnClickListener {
-                        // delete api
+            when(viewModel.curViewType.value) {
+                ViewType.ADD -> {
+                    addTodoHeaderRightTv.visibility = View.GONE
+                }
+                ViewType.EDIT -> {
+                    addTodoHeaderRightTv.apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+                            // delete api
+                            viewModel.deleteHouseWork()
+                            it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        }
                     }
                 }
             }
