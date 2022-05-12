@@ -157,9 +157,10 @@ class AddTodoFragment2 : Fragment() {
 
     private fun updateChore(position: Int) {
         when {
-            binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(Chore.DEFAULT_TIME, position)
+            binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(null, position)
             else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value!!, position)
         }
+        Timber.d(addTodo2ViewModel.chores.value.toString())
     }
 
     private fun updateView(position: Int) {

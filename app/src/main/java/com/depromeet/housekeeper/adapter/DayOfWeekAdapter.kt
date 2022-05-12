@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.ui
+package com.depromeet.housekeeper.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

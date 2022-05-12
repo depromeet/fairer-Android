@@ -1,6 +1,12 @@
 package com.depromeet.housekeeper.network.remote.repository
 
-import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.Chores
+import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.ChorePreset
+import com.depromeet.housekeeper.model.CompleteHouseWork
+import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.UpdateChoreBody
+import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
@@ -13,8 +19,9 @@ object Repository : RemoteDataSource {
   override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> = flow {
     apiService.createHouseWorks(houseWorks)
   }
+
   override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
-    apiService.getList(scheduledDate)
+    emit(apiService.getList(scheduledDate))
   }
 
   override suspend fun getHouseWorkList(): Flow<ChorePreset> = flow {
@@ -29,4 +36,13 @@ object Repository : RemoteDataSource {
   override suspend fun getGoogleLogin(auth: String, socialType: SocialType): Flow<LoginResponse> = flow {
     emit(apiService.googlelogin(auth, socialType))
   }
+
+  override suspend fun updateChoreState(
+    houseWorkId: Int,
+    updateChoreBody: UpdateChoreBody,
+  ): Flow<UpdateChoreResponse> =
+    flow {
+      emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
+    }
+
 }

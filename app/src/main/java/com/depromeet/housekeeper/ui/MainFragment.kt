@@ -8,21 +8,29 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
+import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
-  lateinit var adapter: DayOfWeekAdapter
+  private lateinit var dayOfAdapter: DayOfWeekAdapter
+
+  private var houseWorkAdapter: HouseWorkAdapter? = null
   private val mainViewModel: MainViewModel by viewModels()
 
   override fun onCreateView(
@@ -50,39 +58,61 @@ class MainFragment : Fragment() {
     }
 
     binding.ivLeft.setOnClickListener {
-      adapter.updateDate(mainViewModel.getLastWeek())
+      dayOfAdapter.updateDate(mainViewModel.getLastWeek())
     }
 
     binding.ivRignt.setOnClickListener {
-      adapter.updateDate(mainViewModel.getNextWeek())
+      dayOfAdapter.updateDate(mainViewModel.getNextWeek())
     }
 
     binding.tvMonth.setOnClickListener {
       createDatePickerDialog()
     }
+
+    binding.tvRemain.setOnClickListener {
+      mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
+    }
+
+    binding.tvEnd.setOnClickListener {
+      mainViewModel.updateState(MainViewModel.CurrentState.DONE)
+    }
   }
 
   private fun createDatePickerDialog() {
-    val calendar = mainViewModel.getCalendar()
+    val currentDate = mainViewModel.dayOfWeek.value
+
     val datePickerDialog = DatePickerDialog(
       this.requireContext(),
       { _, year, month, dayOfMonth ->
+        //TODO("DayOfWeek Adapter 변경")
+        val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+        dayOfAdapter.updateDate(list)
       },
-      calendar.get(Calendar.YEAR),
-      calendar.get(Calendar.MONTH),
-      calendar.get(Calendar.DAY_OF_MONTH) - 1,
+      currentDate.date.split("-")[0].toInt(),
+      currentDate.date.split("-")[1].toInt() - 1,
+      currentDate.date.split("-")[2].toInt(),
     )
     datePickerDialog.show()
 
   }
 
-
   private fun setAdapter() {
-    adapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
+    dayOfAdapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
       onClick = {
         mainViewModel.updateSelectDate(it)
       })
-    binding.rvWeek.adapter = adapter
+    binding.rvWeek.adapter = dayOfAdapter
+
+    val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+    houseWorkAdapter = HouseWorkAdapter(list, onClick = {
+      it
+      //TODO("집안일 수정 이동")
+    }, {
+      mainViewModel.updateChoreState(it.houseWorkId)
+    }
+    )
+    binding.rvHouseWork.adapter = houseWorkAdapter
+    binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
   }
 
   private fun bindingVm() {
@@ -101,20 +131,71 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
-      mainViewModel.houseWorks.collect {
-        //TODO adapter list 연결
+    lifecycleScope.launchWhenResumed {
+      mainViewModel.houseWorks.collect { houseWork ->
+
+        houseWork?.let {
+          binding.isEmptyDone = it.countDone == 0
+          binding.isEmptyRemain = it.countLeft == 0
+
+          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
+
+          binding.tvRemainBadge.text = it.countLeft.toString()
+          binding.tvEndBadge.text = it.countDone.toString()
+
+          binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
+          updateHouseWorkData(houseWork)
+        }
       }
     }
 
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.currentState.collect {
+        binding.isSelectDone = it == MainViewModel.CurrentState.DONE
+        binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
+
+        mainViewModel.houseWorks.value?.let {
+          updateHouseWorkData(it)
+        }
+      }
+    }
 
     lifecycleScope.launchWhenStarted {
       mainViewModel.dayOfWeek.collect {
         val year = it.date.split("-")[0]
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
+        mainViewModel.getHouseWorks()
       }
     }
+  }
 
+  private fun updateHouseWorkData(houseWork: HouseWorks) {
+    val list = when (mainViewModel.currentState.value) {
+      MainViewModel.CurrentState.REMAIN -> {
+        houseWork.houseWorks
+          .filter { !it.success }
+          .sortedBy { it.scheduledTime }
+          .toMutableList()
+      }
+      else -> {
+        houseWork.houseWorks
+          .filter { it.success }
+          .sortedBy { it.scheduledTime }
+          .toMutableList()
+      }
+    }
+    val datePattern = "HH:MM"
+    val format = SimpleDateFormat(datePattern, Locale.getDefault())
+
+    val lastIndex = list.indexOfLast {
+      !it.success && it.scheduledTime!! < format.format(Calendar.getInstance().time)
+    }
+    if (lastIndex != -1) {
+      list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
+    }
+    houseWorkAdapter?.updateDate(list)
   }
 }

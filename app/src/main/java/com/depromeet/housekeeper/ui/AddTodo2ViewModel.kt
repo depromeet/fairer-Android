@@ -94,7 +94,7 @@ class AddTodo2ViewModel: ViewModel(){
         _chores.value.addAll(temp)
     }
 
-    fun updateChore(time: String, position: Int) {
+    fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
     }
 
