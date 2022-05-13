@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_todo_default_time"
             android:textColor="@color/gray_700"
-            android:buttonTint="@color/highlight"
+            android:buttonTint="@{vm.curTime == null ? @color/highlight : @color/gray_200}"
             android:layout_marginEnd="20dp"
             android:checked="true"
             app:layout_constraintEnd_toEndOf="parent"

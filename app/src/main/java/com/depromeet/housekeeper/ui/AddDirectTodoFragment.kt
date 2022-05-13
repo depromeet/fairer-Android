@@ -121,8 +121,6 @@ class AddDirectTodoFragment : Fragment() {
                         setOnClickListener {
                             // delete api
                             showDeleteDialog()
-//                            viewModel.deleteHouseWork()
-//                            it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                         }
                     }
                 }

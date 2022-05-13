@@ -18,7 +18,7 @@ import java.util.Locale
 class MainViewModel : ViewModel() {
 
   init {
-    getCompleteHouseWorkNumber()
+    // getCompleteHouseWorkNumber()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
