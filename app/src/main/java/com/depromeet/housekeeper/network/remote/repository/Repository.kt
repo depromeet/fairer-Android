@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper.network.remote.repository
 
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.ChoreList
 import com.depromeet.housekeeper.model.ChorePreset
 import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
@@ -31,6 +31,14 @@ object Repository : RemoteDataSource {
     flow {
       emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
     }
+
+  override suspend fun deleteHouseWork(id: Int) {
+    apiService.deleteHouseWork(id)
+  }
+
+  override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {
+    apiService.editHouseWork(id, chore)
+  }
 
   override suspend fun updateChoreState(
     houseWorkId: Int,

@@ -1,12 +1,14 @@
 package com.depromeet.housekeeper.network.remote.api
 
+import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
+import retrofit2.http.*
 import com.depromeet.housekeeper.model.ChorePreset
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.CompleteHouseWork
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.model.UpdateChoreResponse
-import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -27,7 +29,12 @@ interface ApiService {
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
+  @DELETE("/api/houseworks/{id}")
+  suspend fun deleteHouseWork(@Path("id") id: Int)
+
+  @PUT("/api/houseworks/{id}")
+  suspend fun editHouseWork(@Path("id") id: Int, @Body chore: Chore): HouseWork
+
   @PATCH("/api/houseworks/{houseWorkId}")
   suspend fun updateChoreState(@Path("houseWorkId") houseWorkId: Int, @Body updateChoreBody : UpdateChoreBody): UpdateChoreResponse
-
 }

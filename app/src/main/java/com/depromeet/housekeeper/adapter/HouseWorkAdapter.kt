@@ -7,7 +7,6 @@ import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.databinding.ItemNowBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -19,6 +18,7 @@ class HouseWorkAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
+
     houseWork.scheduledTime?.let {
       val hour = houseWork.scheduledTime.split(":")[0].toInt()
       val min = houseWork.scheduledTime.split(":")[1]
@@ -27,7 +27,6 @@ class HouseWorkAdapter(
         else -> "오전 ${hour}:${min}"
       }
     } ?: return "하루 종일"
-
   }
 
   fun updateDate(houseWork: MutableList<HouseWork>) {

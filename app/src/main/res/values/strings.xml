@@ -28,6 +28,9 @@
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_text">취소</string>
     <string name="fairer_dialog_ok_text">확인</string>
+    <string name="fairer_dialog_delete_title">집안일을 삭제하시겠어요?</string>
+    <string name="fairer_dialog_delete_desc">삭제하시면 다시 복구할 수 없습니다.</string>
+
 
     <string-array name="day_array">
         <item>월</item>

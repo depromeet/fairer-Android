@@ -13,6 +13,10 @@
           name="currentDate"
           type="String" />
 
+        <variable
+            name="space"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +59,7 @@
             android:drawablePadding="4dp"
             android:textColor="@color/gray_900"
             android:textStyle="bold"
-            android:text="@{String.valueOf(vm.bindingSpace())}"
+            android:text="@{space}"
             app:drawableStartCompat="@drawable/ic_space"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
