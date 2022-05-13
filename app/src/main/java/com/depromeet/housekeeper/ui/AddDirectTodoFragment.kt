@@ -21,6 +21,7 @@ import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
@@ -84,13 +85,9 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoTitleEt.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
@@ -241,10 +238,8 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun showDeleteDialog() {
-        val dialog = FairerDialog(requireContext())
-        val title = resources.getString(R.string.fairer_dialog_delete_title)
-        val desc = resources.getString(R.string.fairer_dialog_delete_desc)
-        dialog.showDialog(title, desc)
+        val dialog = FairerDialog(requireContext(), DialogType.DELETE)
+        dialog.showDialog()
 
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
@@ -253,6 +248,4 @@ class AddDirectTodoFragment : Fragment() {
             }
         }
     }
-
-
 }
