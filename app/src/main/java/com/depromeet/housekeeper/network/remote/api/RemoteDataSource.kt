@@ -11,14 +11,13 @@ import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 
 interface RemoteDataSource {
-  suspend fun createHouseWorks(authorization:String, houseWorks: Chores): Flow<HouseWorkCreateResponse>
-  suspend fun getList(authorization:String, scheduledDate: String): Flow<HouseWorks>
-  suspend fun getHouseWorkList(authorization:String): Flow<ChorePreset>
-  suspend fun getCompletedHouseWorkNumber(authorization:String, scheduledDate: String): Flow<CompleteHouseWork>
-  suspend fun deleteHouseWork(authorization:String, id: Int)
-  suspend fun editHouseWork(authorization:String, id: Int, chore: Chore): Flow<HouseWork>
+  suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse>
+  suspend fun getList(scheduledDate: String): Flow<HouseWorks>
+  suspend fun getHouseWorkList(): Flow<ChorePreset>
+  suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
+  suspend fun deleteHouseWork(id: Int)
+  suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork>
   suspend fun updateChoreState(
-    authorization:String,
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>

@@ -108,7 +108,7 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSRUZSRVNIIiwiYXVkIjoiOCIsImlhdCI6MTY1MjI4NDc5OCwiZXhwIjoxNzUyMjg0Nzk4fQ.M2cs46k7E49ChKhuILu831mk5Vyx3Kfne-Cvx8yDgSTs6TkCnevmK_Fe2YRz2baChV-0zVolFqwHgGiqEFpolQ", Chores(_chores.value)).collect {
+            Repository.createHouseWorks(Chores(_chores.value)).collect {
                 Timber.d(it.houseWorks.toString())
             }
         }

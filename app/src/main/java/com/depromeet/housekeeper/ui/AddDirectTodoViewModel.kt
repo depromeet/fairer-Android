@@ -117,7 +117,7 @@ class AddDirectTodoViewModel : ViewModel() {
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSRUZSRVNIIiwiYXVkIjoiOCIsImlhdCI6MTY1MjI4NDc5OCwiZXhwIjoxNzUyMjg0Nzk4fQ.M2cs46k7E49ChKhuILu831mk5Vyx3Kfne-Cvx8yDgSTs6TkCnevmK_Fe2YRz2baChV-0zVolFqwHgGiqEFpolQ", Chores(_chores.value)).collect {
+            Repository.createHouseWorks(Chores(_chores.value)).collect {
                 Timber.d(it.houseWorks.toString())
             }
         }
@@ -125,7 +125,7 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun editHouseWork() {
         viewModelScope.launch {
-            Repository.editHouseWork("", _houseWorkId.value, _chores.value[0]).collect {
+            Repository.editHouseWork(houseWorkId.value, _chores.value[0]).collect {
                 Timber.d(it.toString())
             }
         }
@@ -133,7 +133,7 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun deleteHouseWork() {
         viewModelScope.launch {
-            Repository.deleteHouseWork("", _houseWorkId.value)
+            Repository.deleteHouseWork(houseWorkId.value)
         }
     }
 

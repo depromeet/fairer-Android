@@ -15,37 +15,36 @@ import kotlinx.coroutines.flow.flow
 object Repository : RemoteDataSource {
   private val apiService = RetrofitBuilder.apiService
 
-  override suspend fun createHouseWorks(authorization: String, houseWorks: Chores): Flow<HouseWorkCreateResponse> = flow {
-    apiService.createHouseWorks(authorization, houseWorks)
+  override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> = flow {
+    apiService.createHouseWorks(houseWorks)
   }
 
-  override suspend fun getList(authorization:String, scheduledDate: String): Flow<HouseWorks> = flow {
-    emit(apiService.getList(authorization, scheduledDate))
+  override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
+    emit(apiService.getList(scheduledDate))
   }
 
-  override suspend fun getHouseWorkList(authorization:String): Flow<ChorePreset> = flow {
-    emit(apiService.getChoreList(authorization))
+  override suspend fun getHouseWorkList(): Flow<ChorePreset> = flow {
+    emit(apiService.getChoreList())
   }
 
-  override suspend fun getCompletedHouseWorkNumber(authorization: String, scheduledDate: String): Flow<CompleteHouseWork> =
+  override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
     flow {
-      emit(apiService.getCompletedHouseWorkNumber(authorization, scheduledDate))
+      emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
     }
 
-  override suspend fun deleteHouseWork(authorization: String, id: Int) {
-    apiService.deleteHouseWork(authorization, id)
+  override suspend fun deleteHouseWork(id: Int) {
+    apiService.deleteHouseWork(id)
   }
 
-  override suspend fun editHouseWork(authorization: String, id: Int, chore: Chore): Flow<HouseWork> = flow {
-    apiService.editHouseWork(authorization, id, chore)
+  override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {
+    apiService.editHouseWork(id, chore)
   }
 
   override suspend fun updateChoreState(
-    authorization:String,
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse> =
     flow {
-      emit(apiService.updateChoreState(authorization, houseWorkId, updateChoreBody))
+      emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
     }
 }
