@@ -120,7 +120,7 @@ class MainViewModel : ViewModel() {
     val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
 
     viewModelScope.launch {
-      Repository.getList("2022-05-02").collect {
+      Repository.getList("jwt","2022-05-02").collect {
         _houseWorks.value = it
       }
     }
@@ -129,7 +129,7 @@ class MainViewModel : ViewModel() {
   private fun getCompleteHouseWorkNumber() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
-      Repository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
+      Repository.getCompletedHouseWorkNumber("jwt", requestFormat.format(Calendar.getInstance().time))
         .collect {
           _completeChoreNum.value = it.count
         }
@@ -147,6 +147,7 @@ class MainViewModel : ViewModel() {
     }
     viewModelScope.launch {
       Repository.updateChoreState(
+        authorization = "jwt",
         houseWorkId = houWorkId,
         updateChoreBody = UpdateChoreBody(toBeStatus)
       ).collect {

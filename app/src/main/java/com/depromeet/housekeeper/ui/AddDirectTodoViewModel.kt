@@ -77,8 +77,10 @@ class AddDirectTodoViewModel : ViewModel() {
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initDirectChore() {
+    fun initDirectChore(curDate: String) {
         // 기타 공간 직접 추가 집안일 정보 init
+        val dates = parseDate(curDate)
+        _curDate.value = "${dates.first}-${dates.second}-${dates.third}"
         _chores.value[0].scheduledDate = _curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
@@ -115,7 +117,7 @@ class AddDirectTodoViewModel : ViewModel() {
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks(Chores(_chores.value)).collect {
+            Repository.createHouseWorks("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSRUZSRVNIIiwiYXVkIjoiOCIsImlhdCI6MTY1MjI4NDc5OCwiZXhwIjoxNzUyMjg0Nzk4fQ.M2cs46k7E49ChKhuILu831mk5Vyx3Kfne-Cvx8yDgSTs6TkCnevmK_Fe2YRz2baChV-0zVolFqwHgGiqEFpolQ", Chores(_chores.value)).collect {
                 Timber.d(it.houseWorks.toString())
             }
         }
@@ -123,7 +125,7 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun editHouseWork() {
         viewModelScope.launch {
-            Repository.editHouseWork(_houseWorkId.value, _chores.value[0]).collect {
+            Repository.editHouseWork("", _houseWorkId.value, _chores.value[0]).collect {
                 Timber.d(it.toString())
             }
         }
@@ -131,8 +133,12 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun deleteHouseWork() {
         viewModelScope.launch {
-            Repository.deleteHouseWork(_houseWorkId.value)
+            Repository.deleteHouseWork("", _houseWorkId.value)
         }
     }
 
+    fun parseDate(date: String): Triple<String, String, String> {
+        val str = date.split("-")
+        return Triple(str[0], str[1], str[2])
+    }
 }

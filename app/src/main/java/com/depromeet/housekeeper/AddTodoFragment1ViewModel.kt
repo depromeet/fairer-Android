@@ -63,7 +63,7 @@ class AddTodoFragment1ViewModel : ViewModel() {
 
   private fun getChoreList() {
     viewModelScope.launch {
-      Repository.getHouseWorkList().collect {
+      Repository.getHouseWorkList("jwt").collect {
         _chorepreset.value = it.preset
       }
     }
