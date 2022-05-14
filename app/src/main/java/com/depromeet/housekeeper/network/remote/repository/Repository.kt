@@ -31,9 +31,14 @@ object Repository : RemoteDataSource {
   override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
     flow {
       emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
-    
-  override suspend fun getGoogleLogin(auth: String, socialType: SocialType): Flow<LoginResponse> = flow {
+    }
+
+  override suspend fun getGoogleLogin(
+    auth: String,
+    socialType: SocialType,
+  ): Flow<LoginResponse> = flow {
     emit(apiService.googlelogin(auth, socialType))
+  }
 
   override suspend fun deleteHouseWork(id: Int) {
     apiService.deleteHouseWork(id)
@@ -50,5 +55,4 @@ object Repository : RemoteDataSource {
     flow {
       emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
     }
-
 }
