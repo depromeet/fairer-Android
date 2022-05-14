@@ -3,7 +3,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/nav_graph"
-  app:startDestination="@id/loginFragment">
+  app:startDestination="@id/mainFragment">
+
   <fragment
     android:id="@+id/mainFragment"
     android:name="com.depromeet.housekeeper.ui.MainFragment"
@@ -20,7 +21,23 @@
         android:name="selectDate"
         app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     </action>
+
+    <action
+      android:id="@+id/action_mainFragment_to_addDirectTodoFragment"
+      app:destination="@id/addDirectTodoFragment"
+      app:enterAnim="@android:anim/fade_in"
+      app:exitAnim="@android:anim/fade_out"
+      app:popEnterAnim="@android:anim/fade_in"
+      app:popExitAnim="@android:anim/fade_out">
+      <argument
+          android:name="viewType"
+          app:argType="com.depromeet.housekeeper.model.enums.ViewType" />
+      <argument
+          android:name="houseWork"
+          app:argType="com.depromeet.housekeeper.model.HouseWork" />
+    </action>
   </fragment>
+
   <fragment
       android:id="@+id/addTodoFragment1"
       android:name="com.depromeet.housekeeper.AddTodoFragment1"
@@ -58,6 +75,7 @@
         android:name="selectDate"
         app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     </action>
+
     <action
         android:id="@+id/action_addTodoFragment1_to_mainFragment"
         app:destination="@id/mainFragment" >
@@ -78,6 +96,9 @@
     <argument
       android:name="selectDate"
       app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
+    <argument
+        android:name="houseWork"
+        app:argType="com.depromeet.housekeeper.model.HouseWork" />
     <action
         android:id="@+id/action_addDirectTodoFragment_to_mainFragment"
         app:destination="@id/mainFragment"

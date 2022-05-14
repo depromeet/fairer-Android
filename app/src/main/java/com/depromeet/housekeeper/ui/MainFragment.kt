@@ -18,7 +18,8 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
@@ -106,7 +107,9 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
-      //TODO("집안일 수정 이동")
+      val dayOfWeek= DayOfWeek(it.scheduledDate, false)
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
+        viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
     }, {
       mainViewModel.updateChoreState(it.houseWorkId)
     }
