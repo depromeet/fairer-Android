@@ -72,4 +72,6 @@
 
     <!--loginFragment-->
     <string name="server_client_id">63882560814-d3o1unq4fk90c43mhhn912463irpc0go.apps.googleusercontent.com</string>
+    <string name="login_text">Google 계정으로 로그인</string>
+    <string name="login_logo_text">페어러와 함께\n평화로운 하루를 보내세요</string>
 </resources>

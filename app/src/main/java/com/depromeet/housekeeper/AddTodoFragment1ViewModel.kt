@@ -18,7 +18,7 @@ class AddTodoFragment1ViewModel : ViewModel() {
     getChoreList()
   }
   private val _chorepreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
-  val chorepreset: StateFlow <List<ChoreList>>
+  val chorepreset: StateFlow<List<ChoreList>>
     get() = _chorepreset
 
   private val _chorelist: MutableStateFlow<List<String>> = MutableStateFlow(listOf())

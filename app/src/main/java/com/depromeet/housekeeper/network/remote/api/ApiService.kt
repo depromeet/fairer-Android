@@ -1,5 +1,7 @@
 package com.depromeet.housekeeper.network.remote.api
 
+
+import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import retrofit2.http.*
@@ -29,6 +31,10 @@ interface ApiService {
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
+
+  @POST("/api/oauth/login")
+  suspend fun googlelogin(@Header("Authorization")auth : String, @Body socialType : SocialType): LoginResponse
+  
   @DELETE("/api/houseworks/{id}")
   suspend fun deleteHouseWork(@Path("id") id: Int)
 
