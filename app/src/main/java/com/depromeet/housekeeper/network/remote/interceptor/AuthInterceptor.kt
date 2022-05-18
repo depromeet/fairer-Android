@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.network.remote.interceptor
 
+import com.depromeet.housekeeper.local.PrefsManager
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.IOException
@@ -9,7 +10,7 @@ class AuthInterceptor : Interceptor {
   override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
     proceed(
       request().newBuilder()
-        .addHeader("AUTHORIZATION", CoroutineScopDataStoreRepository().getAccessToken("null").toString())
+        .addHeader("AUTHORIZATION", PrefsManager.accessToken)
         .build()
     )
   }
