@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.network.remote.api.ApiService
+import com.depromeet.housekeeper.network.remote.interceptor.AuthInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -22,6 +23,7 @@ object RetrofitBuilder {
     .connectTimeout(1, TimeUnit.SECONDS)
     .readTimeout(1, TimeUnit.SECONDS)
     .writeTimeout(1, TimeUnit.SECONDS)
+    .addInterceptor(AuthInterceptor())
 
 
   private val moshi = Moshi.Builder()
@@ -30,7 +32,8 @@ object RetrofitBuilder {
 
   private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
-    .client(okHttpBuilder.build())
+    .client(okHttpBuilder.build()
+    )
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .build()
