@@ -38,8 +38,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.currentDate = "${navArgs.selectDate.date}요일"
         viewModel.addCalendarView(navArgs.selectDate.date)
+        binding.currentDate = viewModel.bindingDate()
 
         initListener()
         setAdapter()
@@ -136,7 +136,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
 
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
-                binding.addTodo1Calender.text = "${it.date}요일"
+                binding.addTodo1Calender.text = viewModel.bindingDate()
             }
         }
     }

@@ -44,7 +44,7 @@ class AddDirectTodoFragment : Fragment() {
             R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
-        viewModel.updateSelectDate(navArgs.selectDate.date)
+        viewModel.addCalendarView(navArgs.selectDate.date)
         binding.currentDate = viewModel.bindingDate()
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

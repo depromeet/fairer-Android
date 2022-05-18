@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.enums.DayString
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
@@ -108,8 +107,8 @@ class AddDirectTodoViewModel : ViewModel() {
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
 
-    fun updateSelectDate(date: String) {
-        _selectCalendar.value = date
+    fun addCalendarView(selectDate : String) {
+        _selectCalendar.value = selectDate
     }
 
     fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
@@ -150,5 +149,4 @@ class AddDirectTodoViewModel : ViewModel() {
         val day = dayMapper(str[3])
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
     }
-
 }
