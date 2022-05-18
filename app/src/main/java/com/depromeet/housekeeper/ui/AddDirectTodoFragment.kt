@@ -21,6 +21,7 @@ import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
@@ -43,7 +44,8 @@ class AddDirectTodoFragment : Fragment() {
             R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
-        binding.currentDate = "${navArgs.selectDate.date}요일"
+        viewModel.addCalendarView(navArgs.selectDate.date)
+        binding.currentDate = viewModel.bindingDate()
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -62,7 +64,7 @@ class AddDirectTodoFragment : Fragment() {
 
         when(viewModel.curViewType.value) {
             ViewType.ADD -> {
-                viewModel.initDirectChore()
+                viewModel.initDirectChore(navArgs.selectDate.date)
             }
             ViewType.EDIT -> {
                 onEditView()
@@ -72,7 +74,7 @@ class AddDirectTodoFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
           viewModel.selectCalendar.collect {
-            binding.addDirectTodoDateTv.text = "${it}요일"
+            binding.addDirectTodoDateTv.text = viewModel.bindingDate()
           }
         }
 
@@ -84,13 +86,9 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoTitleEt.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(p0: Editable?) {
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
@@ -124,8 +122,6 @@ class AddDirectTodoFragment : Fragment() {
                         setOnClickListener {
                             // delete api
                             showDeleteDialog()
-//                            viewModel.deleteHouseWork()
-//                            it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                         }
                     }
                 }
@@ -241,10 +237,8 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun showDeleteDialog() {
-        val dialog = FairerDialog(requireContext())
-        val title = resources.getString(R.string.fairer_dialog_delete_title)
-        val desc = resources.getString(R.string.fairer_dialog_delete_desc)
-        dialog.showDialog(title, desc)
+        val dialog = FairerDialog(requireContext(), DialogType.DELETE)
+        dialog.showDialog()
 
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
@@ -253,6 +247,4 @@ class AddDirectTodoFragment : Fragment() {
             }
         }
     }
-
-
 }

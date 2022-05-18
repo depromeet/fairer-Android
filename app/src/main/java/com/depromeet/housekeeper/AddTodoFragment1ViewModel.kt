@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.dayMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -79,6 +80,10 @@ class AddTodoFragment1ViewModel : ViewModel() {
   val selectCalendar: StateFlow<DayOfWeek>
     get() = _selectCalendar
 
+  fun updateSelectDate(date: String) {
+    _selectCalendar.value = DayOfWeek(date)
+  }
+
   fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
     calendar.set(Calendar.YEAR, year)
     calendar.set(Calendar.MONTH, month)
@@ -90,5 +95,12 @@ class AddTodoFragment1ViewModel : ViewModel() {
 
   fun addCalendarView(selectDate : String) {
     _selectCalendar.value = DayOfWeek(date = selectDate)
+  }
+
+  fun bindingDate(): String {
+    // yyyy-mm-dd-eee
+    val str = _selectCalendar.value.date.split("-")
+    val day = dayMapper(str[3])
+    return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
   }
 }

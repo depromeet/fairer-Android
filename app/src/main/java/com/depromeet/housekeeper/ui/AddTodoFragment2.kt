@@ -34,7 +34,8 @@ class AddTodoFragment2 : Fragment() {
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
     binding.lifecycleOwner = this.viewLifecycleOwner
     binding.vm = addTodo2ViewModel
-    binding.currentDate = "${navArgs.selectDate.date}요일"
+    addTodo2ViewModel.addCalendarView(navArgs.selectDate.date)
+    binding.currentDate = addTodo2ViewModel.bindingDate()
     return binding.root
   }
 
@@ -54,7 +55,7 @@ class AddTodoFragment2 : Fragment() {
 
       lifecycleScope.launchWhenStarted {
         addTodo2ViewModel.selectCalendar.collect {
-          binding.addTodo2DateTv.text = "${it}요일"
+          binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
         }
       }
     }

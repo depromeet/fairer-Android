@@ -6,6 +6,8 @@ import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.dayMapper
+import com.depromeet.housekeeper.util.parseDate
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -77,8 +79,10 @@ class AddDirectTodoViewModel : ViewModel() {
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initDirectChore() {
+    fun initDirectChore(curDate: String) {
         // 기타 공간 직접 추가 집안일 정보 init
+        val dates = parseDate(curDate)
+        _curDate.value = "${dates.first}-${dates.second}-${dates.third}"
         _chores.value[0].scheduledDate = _curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
@@ -103,6 +107,10 @@ class AddDirectTodoViewModel : ViewModel() {
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
 
+    fun addCalendarView(selectDate : String) {
+        _selectCalendar.value = selectDate
+    }
+
     fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
@@ -123,7 +131,7 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun editHouseWork() {
         viewModelScope.launch {
-            Repository.editHouseWork(_houseWorkId.value, _chores.value[0]).collect {
+            Repository.editHouseWork(houseWorkId.value, _chores.value[0]).collect {
                 Timber.d(it.toString())
             }
         }
@@ -131,8 +139,14 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun deleteHouseWork() {
         viewModelScope.launch {
-            Repository.deleteHouseWork(_houseWorkId.value)
+            Repository.deleteHouseWork(houseWorkId.value)
         }
     }
 
+    fun bindingDate(): String {
+        // yyyy-mm-dd-eee
+        val str = _selectCalendar.value.split("-")
+        val day = dayMapper(str[3])
+        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+    }
 }
