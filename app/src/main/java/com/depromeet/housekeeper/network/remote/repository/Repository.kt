@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.model.UpdateChoreBody
 import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
+import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -31,6 +32,13 @@ object Repository : RemoteDataSource {
     flow {
       emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
     }
+
+  override suspend fun getGoogleLogin(
+    auth: String,
+    socialType: SocialType,
+  ): Flow<LoginResponse> = flow {
+    emit(apiService.googlelogin(auth, socialType))
+  }
 
   override suspend fun deleteHouseWork(id: Int) {
     apiService.deleteHouseWork(id)

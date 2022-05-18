@@ -111,7 +111,6 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun bindingVm(){
-
         lifecycleScope.launchWhenStarted {
             viewModel.chorelist.collect {
                 myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
