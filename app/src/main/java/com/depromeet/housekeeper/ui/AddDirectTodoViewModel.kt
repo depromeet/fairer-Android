@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
+import com.depromeet.housekeeper.model.enums.DayString
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.dayMapper
+import com.depromeet.housekeeper.util.parseDate
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -105,6 +108,10 @@ class AddDirectTodoViewModel : ViewModel() {
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
 
+    fun updateSelectDate(date: String) {
+        _selectCalendar.value = date
+    }
+
     fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
@@ -137,8 +144,11 @@ class AddDirectTodoViewModel : ViewModel() {
         }
     }
 
-    fun parseDate(date: String): Triple<String, String, String> {
-        val str = date.split("-")
-        return Triple(str[0], str[1], str[2])
+    fun bindingDate(): String {
+        // yyyy-mm-dd-eee
+        val str = _selectCalendar.value.split("-")
+        val day = dayMapper(str[3])
+        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
     }
+
 }

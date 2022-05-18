@@ -32,7 +32,7 @@ class AddTodo2ViewModel: ViewModel(){
         val year = LocalDate.parse(_curDate.value).year.toString()
         val month = LocalDate.parse(_curDate.value).month.toString()
         val day = LocalDate.parse(_curDate.value).dayOfMonth.toString()
-        return "${year}년 * ${month}월 ${day}일 "
+        return "${year}년 ${month}월 ${day}일 "
     }
 
     private val _curSpace: MutableStateFlow<String> =

@@ -18,7 +18,7 @@ import java.util.Locale
 class MainViewModel : ViewModel() {
 
   init {
-    getCompleteHouseWorkNumber()
+    // getCompleteHouseWorkNumber()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
@@ -120,7 +120,7 @@ class MainViewModel : ViewModel() {
     val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
 
     viewModelScope.launch {
-      Repository.getList("2022-05-02").collect {
+      Repository.getList("2022-05-14").collect {
         _houseWorks.value = it
       }
     }

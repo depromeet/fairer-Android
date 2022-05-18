@@ -44,7 +44,8 @@ class AddDirectTodoFragment : Fragment() {
             R.layout.fragment_add_direct_todo, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
-        binding.currentDate = "${navArgs.selectDate.date}요일"
+        viewModel.updateSelectDate(navArgs.selectDate.date)
+        binding.currentDate = viewModel.bindingDate()
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -73,7 +74,7 @@ class AddDirectTodoFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
           viewModel.selectCalendar.collect {
-            binding.addDirectTodoDateTv.text = "${it}요일"
+            binding.addDirectTodoDateTv.text = viewModel.bindingDate()
           }
         }
 
