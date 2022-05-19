@@ -95,11 +95,11 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
-    val dayOfWeekDate = curDate.value
-    val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
-    val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
+        val dayOfWeekDate = curDate.value
+        val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
+        val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
 
-    _chores.value[position].scheduledDate = requestDate
+        _chores.value[position].scheduledDate = requestDate
     }
 
     fun getChore(position: Int): Chore {

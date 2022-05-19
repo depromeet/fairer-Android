@@ -62,7 +62,7 @@ class AddDirectTodoFragment : Fragment() {
 
         when(viewModel.curViewType.value) {
             ViewType.ADD -> {
-                viewModel.initDirectChore()
+                viewModel.initDirectChore(navArgs.selectDate.date)
             }
             ViewType.EDIT -> {
                 onEditView()
