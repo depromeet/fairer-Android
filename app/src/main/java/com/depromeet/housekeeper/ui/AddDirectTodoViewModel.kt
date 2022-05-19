@@ -36,7 +36,7 @@ class AddDirectTodoViewModel : ViewModel() {
     }
 
     private val _curDate: MutableStateFlow<String> =
-        MutableStateFlow("2022-04-23")
+        MutableStateFlow("")
     val curDate: StateFlow<String>
         get() = _curDate
 
