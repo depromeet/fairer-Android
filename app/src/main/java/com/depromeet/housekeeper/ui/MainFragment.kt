@@ -107,7 +107,7 @@ class MainFragment : Fragment() {
     val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
-      val dayOfWeek= DayOfWeek(it.scheduledDate, false)
+      val dayOfWeek = DayOfWeek(it.scheduledDate, false)
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
         viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
     }, {
@@ -196,7 +196,7 @@ class MainFragment : Fragment() {
     val lastIndex = list.indexOfLast {
       !it.success && it.scheduledTime ?: "" < format.format(Calendar.getInstance().time)
     }
-    if (lastIndex != -1) {
+    if (lastIndex != -1 && lastIndex != 0) {
       list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
     }
     houseWorkAdapter?.updateDate(list)
