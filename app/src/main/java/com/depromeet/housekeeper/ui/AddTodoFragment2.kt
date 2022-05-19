@@ -49,9 +49,10 @@ class AddTodoFragment2 : Fragment() {
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         addTodo2ViewModel.updateSpace(space)
-        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames, navArgs.selectDate.date)
         Timber.d(addTodo2ViewModel.getChores().toString())
 
+      addTodo2ViewModel.setDate(navArgs.selectDate.date)
       lifecycleScope.launchWhenStarted {
         addTodo2ViewModel.selectCalendar.collect {
           binding.addTodo2DateTv.text = "${it}요일"
