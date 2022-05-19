@@ -190,15 +190,6 @@ class MainFragment : Fragment() {
           .toMutableList()
       }
     }
-    val datePattern = "HH:MM"
-    val format = SimpleDateFormat(datePattern, Locale.getDefault())
-
-    val lastIndex = list.indexOfLast {
-      !it.success && it.scheduledTime ?: "" < format.format(Calendar.getInstance().time)
-    }
-    if (lastIndex != -1 && lastIndex != 0) {
-      list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
-    }
     houseWorkAdapter?.updateDate(list)
   }
 }
