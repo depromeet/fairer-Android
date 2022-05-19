@@ -120,7 +120,7 @@ class MainViewModel : ViewModel() {
     val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
 
     viewModelScope.launch {
-      Repository.getList("2022-05-02").collect {
+      Repository.getList(requestDate).collect {
         _houseWorks.value = it
       }
     }
