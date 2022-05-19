@@ -23,10 +23,9 @@ class AddTodo2ViewModel: ViewModel(){
     get() = _curDate
 
     private val datePattern = "yyyy-MM-dd"
-  fun setDate(date: String) {
-    _curDate.value = date
-        _curDate.value = format.format(Calendar.getInstance().time)
-  }
+    fun setDate(date: String) {
+      _curDate.value = date
+    }
 
     fun getDate(): String {
         val year = LocalDate.parse(_curDate.value).year.toString()

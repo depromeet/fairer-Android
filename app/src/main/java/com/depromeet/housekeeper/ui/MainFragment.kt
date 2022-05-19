@@ -194,7 +194,7 @@ class MainFragment : Fragment() {
     val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
     val lastIndex = list.indexOfLast {
-      !it.success && it.scheduledTime!! < format.format(Calendar.getInstance().time)
+      !it.success && it.scheduledTime ?: "" < format.format(Calendar.getInstance().time)
     }
     if (lastIndex != -1) {
       list.add(lastIndex + 1, list[lastIndex].copy(now = 1))
