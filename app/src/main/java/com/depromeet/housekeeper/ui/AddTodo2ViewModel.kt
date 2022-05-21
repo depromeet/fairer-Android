@@ -19,14 +19,13 @@ import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
-        MutableStateFlow("2022-04-23")
-    val curDate: StateFlow<String>
-        get() = _curDate
+    MutableStateFlow("")
+  val curDate: StateFlow<String>
+    get() = _curDate
 
     private val datePattern = "yyyy-MM-dd"
-    fun setDate() {
-        val format = SimpleDateFormat(datePattern, Locale.getDefault())
-        _curDate.value = format.format(Calendar.getInstance().time)
+    fun setDate(date: String) {
+      _curDate.value = date
     }
 
     fun getDate(): String {
@@ -83,11 +82,11 @@ class AddTodo2ViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initChores(space:String, choreName: List<String>) {
+    fun initChores(space:String, choreName: List<String>, date: String) {
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduledDate = _curDate.value
+            chore.scheduledDate = date
             chore.space = space.uppercase()
             chore.houseWorkName = name
             temp.add(chore)
@@ -97,6 +96,11 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
+        val dayOfWeekDate = curDate.value
+        val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
+        val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
+
+        _chores.value[position].scheduledDate = requestDate
     }
 
     fun getChore(position: Int): Chore {
@@ -121,9 +125,9 @@ class AddTodo2ViewModel: ViewModel(){
         set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     }
 
-    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
-    val selectCalendar: StateFlow<String>
-        get() = _selectCalendar
+  private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+  val selectCalendar: StateFlow<String>
+    get() = _selectCalendar
 
     fun addCalendarView(selectDate : String) {
         _selectCalendar.value = selectDate

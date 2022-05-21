@@ -28,7 +28,6 @@ class AddDirectTodoViewModel : ViewModel() {
         _curViewType.value = viewType
     }
 
-
     private val _houseWorkId: MutableStateFlow<Int> = MutableStateFlow(-1)
     val houseWorkId: StateFlow<Int>
         get() = _houseWorkId
@@ -38,7 +37,7 @@ class AddDirectTodoViewModel : ViewModel() {
     }
 
     private val _curDate: MutableStateFlow<String> =
-        MutableStateFlow("2022-04-23")
+        MutableStateFlow("")
     val curDate: StateFlow<String>
         get() = _curDate
 
@@ -79,11 +78,11 @@ class AddDirectTodoViewModel : ViewModel() {
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initDirectChore(curDate: String) {
+    fun initDirectChore(date : String) {
         // 기타 공간 직접 추가 집안일 정보 init
-        val dates = parseDate(curDate)
-        _curDate.value = "${dates.first}-${dates.second}-${dates.third}"
-        _chores.value[0].scheduledDate = _curDate.value
+        val lastIndex = date.indexOfLast { it == '-' }
+        val requestDate = date.dropLast(date.length - lastIndex)
+        _chores.value[0].scheduledDate = requestDate
         _chores.value[0].space = Chore.ETC_SPACE
     }
 

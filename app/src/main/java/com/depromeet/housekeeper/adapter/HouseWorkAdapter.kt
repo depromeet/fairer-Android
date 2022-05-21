@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
-import com.depromeet.housekeeper.databinding.ItemNowBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import java.text.SimpleDateFormat
@@ -15,7 +14,7 @@ class HouseWorkAdapter(
   private val list: MutableList<HouseWork>,
   private val onClick: (HouseWork) -> Unit,
   private val onDone: (HouseWork) -> Unit,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
 
@@ -35,24 +34,13 @@ class HouseWorkAdapter(
     notifyDataSetChanged()
   }
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-    return when (viewType) {
-      NOW -> {
-        NowViewHolder(
-          ItemNowBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false
-          ))
-
-      }
-      else ->
-        ItemViewHolder(
-          ItemHouseworkBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false
-          )
-        )
-    }
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+    return ItemViewHolder(
+      ItemHouseworkBinding.inflate(LayoutInflater.from(parent.context),
+        parent,
+        false
+      )
+    )
 
   }
 
@@ -60,15 +48,9 @@ class HouseWorkAdapter(
     return list[position].now
   }
 
-  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-    when (list[position].now) {
-      ITEM -> {
-        (holder as ItemViewHolder).bind(list[position])
-      }
-      else -> (holder as NowViewHolder).bind()
-    }
+  override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+    holder.bind(list[position])
   }
-
 
   override fun getItemCount(): Int = list.size
 
@@ -98,16 +80,4 @@ class HouseWorkAdapter(
       }
     }
   }
-
-  inner class NowViewHolder(binding: ItemNowBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    fun bind() {}
-  }
-
-  companion object {
-    const val ITEM = 0
-    const val NOW = 1
-  }
-
-
 }
