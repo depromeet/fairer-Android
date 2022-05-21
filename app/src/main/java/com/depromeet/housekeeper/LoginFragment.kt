@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.DataStoreManager
 import com.depromeet.housekeeper.repository.DataStoreRepository
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -104,6 +105,7 @@ class LoginFragment : Fragment() {
       viewModel.response.collect { response ->
         Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
         response?.run {
+          PrefsManager.setTokens(response.accessToken, response.refreshToken)
           DataStoreRepository(
             DataStoreManager(requireContext())).saveAccessToken(
             response.accessToken

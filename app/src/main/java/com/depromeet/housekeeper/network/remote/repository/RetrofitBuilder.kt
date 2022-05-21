@@ -1,11 +1,15 @@
 package com.depromeet.housekeeper.network.remote.repository
 
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.network.remote.api.ApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -18,11 +22,11 @@ object RetrofitBuilder {
   }
 
   private val okHttpBuilder = OkHttpClient.Builder()
-    .addInterceptor(httpLoggingInterceptor)
+    .addInterceptor(AuthInterceptor())
+    .addNetworkInterceptor(httpLoggingInterceptor)
     .connectTimeout(1, TimeUnit.SECONDS)
     .readTimeout(1, TimeUnit.SECONDS)
     .writeTimeout(1, TimeUnit.SECONDS)
-
 
   private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -36,4 +40,15 @@ object RetrofitBuilder {
     .build()
 
   val apiService: ApiService = retrofit.create(ApiService::class.java)
+
+  private class AuthInterceptor : Interceptor {
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
+      proceed(
+        request().newBuilder()
+          .addHeader("AUTHORIZATION", PrefsManager.accessToken)
+          .build()
+      )
+    }
+  }
 }
