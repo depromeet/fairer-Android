@@ -18,6 +18,7 @@ import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -37,8 +38,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.currentDate = "${navArgs.selectDate.date}요일"
         viewModel.addCalendarView(navArgs.selectDate.date)
+        binding.currentDate = viewModel.bindingDate()
 
         initListener()
         setAdapter()
@@ -135,7 +136,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
 
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
-                binding.addTodo1Calender.text = "${it.date}요일"
+                binding.addTodo1Calender.text = viewModel.bindingDate()
             }
         }
     }
@@ -158,11 +159,9 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
   }
 
     private fun setDialog() {
-        val dialog = FairerDialog(requireContext())
+        val dialog = FairerDialog(requireContext(), DialogType.CHANGE)
         Timber.d("set dialog")
-        val title = resources.getString(R.string.add_todo_dialog_title)
-        val desc = resources.getString(R.string.add_todo_dialog_desc)
-        dialog.showDialog(title, desc)
+        dialog.showDialog()
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 selected = false

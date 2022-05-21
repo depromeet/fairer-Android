@@ -13,31 +13,39 @@ import androidx.databinding.DataBindingUtil
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.DialogFairerBinding
 
-class FairerDialog(context: Context) {
+class FairerDialog(private val context: Context, private val type: DialogType) {
     lateinit var onItemClickListener: OnItemClickListener
     private val dialog = Dialog(context)
-
 
     interface OnItemClickListener {
         fun onItemClick()
     }
 
-    fun showDialog(title: String, desc: String) {
+    fun showDialog() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.dialog_fairer)
 
         val btnDialogCancel = dialog.findViewById<AppCompatButton>(R.id.dialog_fairer_cancel_btn)
         val btnDialogOk = dialog.findViewById<AppCompatButton>(R.id.dialog_fairer_ok_btn)
-        val dTitle = dialog.findViewById<TextView>(R.id.dialog_fairer_title_tv)
-        val dDesc = dialog.findViewById<TextView>(R.id.dialog_fairer_desc_tv)
+        val tvDialogTitle = dialog.findViewById<TextView>(R.id.dialog_fairer_title_tv)
+        val tvDialogDesc = dialog.findViewById<TextView>(R.id.dialog_fairer_desc_tv)
 
         dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
-        dTitle.text = title
-        dDesc.text = desc
+        when (type) {
+            DialogType.CHANGE -> {
+                tvDialogTitle.setText(R.string.add_todo_dialog_title)
+                tvDialogDesc.setText(R.string.add_todo_dialog_desc)
+            }
+
+            DialogType.DELETE -> {
+                tvDialogTitle.setText(R.string.fairer_dialog_delete_title)
+                tvDialogDesc.setText(R.string.fairer_dialog_delete_desc)
+            }
+        }
 
         btnDialogCancel.setOnClickListener {
             dialog.dismiss()
@@ -50,4 +58,8 @@ class FairerDialog(context: Context) {
 
         dialog.show()
     }
+}
+
+enum class DialogType {
+    CHANGE, DELETE
 }
