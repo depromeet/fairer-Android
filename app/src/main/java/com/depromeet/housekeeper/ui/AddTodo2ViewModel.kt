@@ -23,9 +23,10 @@ class AddTodo2ViewModel: ViewModel(){
   val curDate: StateFlow<String>
     get() = _curDate
 
-    private val datePattern = "yyyy-MM-dd"
     fun setDate(date: String) {
-      _curDate.value = date
+      val lastIndex = _curDate.value.indexOfLast { it == '-' }
+      val requestDate = _curDate.value.dropLast(_curDate.value.length - lastIndex)
+      _curDate.value = requestDate
     }
 
     fun getDate(): String {
