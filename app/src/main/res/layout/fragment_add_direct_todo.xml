@@ -104,16 +104,27 @@
 
         <CheckBox
             android:id="@+id/add_direct_todo_all_day_check_box"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:checked="true"
+            android:layout_marginEnd="8dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/check_box_selector"
+            app:layout_constraintTop_toTopOf="@id/add_direct_todo_time_sign_tv"
+            app:layout_constraintBottom_toBottomOf="@id/add_direct_todo_time_sign_tv"
+            app:layout_constraintEnd_toStartOf="@id/add_direct_all_time_sign_tv" />
+
+        <TextView
+            android:id="@+id/add_direct_all_time_sign_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="@string/add_todo_default_time"
+            android:textSize="13sp"
             android:textColor="@color/gray_700"
-            android:buttonTint="@color/highlight"
             android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/add_direct_todo_time_sign_tv"
-            app:layout_constraintBottom_toBottomOf="@id/add_direct_todo_time_sign_tv"/>
+            app:layout_constraintBottom_toBottomOf="@id/add_direct_todo_all_day_check_box"
+            app:layout_constraintTop_toTopOf="@id/add_direct_todo_all_day_check_box"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
             android:id="@+id/add_direct_todo_time_picker"
