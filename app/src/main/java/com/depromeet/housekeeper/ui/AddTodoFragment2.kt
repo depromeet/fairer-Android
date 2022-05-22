@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -62,12 +63,15 @@ class AddTodoFragment2 : Fragment() {
       }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initListener() {
         // header title
         binding.addTodo2Header.addTodoHeaderTv.text = ""
 
         // header back button
         binding.addTodo2Header.addTodoBackBtn.setOnClickListener {
+            // addTodo2ViewModel.clearChore()
+            // addTodoChoreAdapter.clearChore()
             it.findNavController().navigateUp()
         }
 
@@ -88,10 +92,17 @@ class AddTodoFragment2 : Fragment() {
             }
         }
 
-        binding.todoTimePicker.setOnTimeChangedListener { _, hour, _ ->
+        binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
             binding.addTodo2AllDayCheckBox.isChecked = false
-            val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
-            addTodo2ViewModel.updateTime(hour, min)
+            val time = binding.todoTimePicker.getDisPlayedTime()
+            addTodo2ViewModel.updateTime(time.first, time.second)
+        }
+
+        binding.addTodo2AllDayCheckBox.apply {
+            setOnClickListener {
+                val time = binding.todoTimePicker.getDisPlayedTime()
+                addTodo2ViewModel.updateTime(time.first, time.second)
+            }
         }
 
         binding.addTodo2DateTv.setOnClickListener {
@@ -161,7 +172,7 @@ class AddTodoFragment2 : Fragment() {
     private fun updateChore(position: Int) {
         when {
             binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(null, position)
-            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value?:"", position)
+            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
         }
         Timber.d(addTodo2ViewModel.chores.value.toString())
     }

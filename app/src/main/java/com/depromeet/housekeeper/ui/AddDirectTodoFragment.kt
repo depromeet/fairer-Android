@@ -98,13 +98,20 @@ class AddDirectTodoFragment : Fragment() {
         })
 
 
-        binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, hour, _ ->
+        binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, _, _ ->
             binding.addDirectTodoAllDayCheckBox.isChecked = false
-            val min = binding.addDirectTodoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
-            viewModel.updateTime(hour, min)
+            val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
+            viewModel.updateTime(time.first, time.second)
 
             // 수정 첫 화면에서 타임피커 건들면 수정 버튼 활성화
             // binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = true
+        }
+
+        binding.addDirectTodoAllDayCheckBox.apply {
+            setOnClickListener {
+                val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
+                viewModel.updateTime(time.first, time.second)
+            }
         }
 
         binding.addDirectTodoHeader.apply {

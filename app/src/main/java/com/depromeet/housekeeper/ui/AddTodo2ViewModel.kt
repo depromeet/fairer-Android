@@ -111,6 +111,10 @@ class AddTodo2ViewModel: ViewModel(){
         }
     }
 
+    fun clearChore() {
+        _chores.value.clear()
+    }
+
     fun createHouseWorks() {
         viewModelScope.launch {
             Repository.createHouseWorks(Chores(_chores.value)).collect {

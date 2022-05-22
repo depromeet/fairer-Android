@@ -57,6 +57,12 @@ class AddTodoChoreAdapter(private val chores: ArrayList<Chore>)
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearChore() {
+        chores.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemRecyclerAddTodoListBinding = ItemRecyclerAddTodoListBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
