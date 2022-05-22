@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chores
@@ -24,16 +25,13 @@ class AddTodo2ViewModel: ViewModel(){
     get() = _curDate
 
     fun setDate(date: String) {
-      val lastIndex = _curDate.value.indexOfLast { it == '-' }
-      val requestDate = _curDate.value.dropLast(_curDate.value.length - lastIndex)
-      _curDate.value = requestDate
+        val lastIndex = date.indexOfLast { it == '-' }
+        val requestDate = date.dropLast(date.length - lastIndex)
+        _curDate.value = requestDate
     }
 
     fun getDate(): String {
-        val year = LocalDate.parse(_curDate.value).year.toString()
-        val month = LocalDate.parse(_curDate.value).month.toString()
-        val day = LocalDate.parse(_curDate.value).dayOfMonth.toString()
-        return "${year}년 ${month}월 ${day}일 "
+        return _curDate.value
     }
 
     private val _curSpace: MutableStateFlow<String> =
@@ -83,11 +81,11 @@ class AddTodo2ViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initChores(space:String, choreName: List<String>, date: String) {
+    fun initChores(space:String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduledDate = date
+            chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
             temp.add(chore)
@@ -97,11 +95,6 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
-        val dayOfWeekDate = curDate.value
-        val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
-        val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
-
-        _chores.value[position].scheduledDate = requestDate
     }
 
     fun getChore(position: Int): Chore {
@@ -110,6 +103,12 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun getChores() : ArrayList<Chore>{
         return _chores.value
+    }
+
+    fun updateChoreDate() {
+        _chores.value.map { chore ->
+            chore.scheduledDate = _curDate.value
+        }
     }
 
     fun createHouseWorks() {
@@ -148,6 +147,7 @@ class AddTodo2ViewModel: ViewModel(){
         // yyyy-mm-dd-eee
         val str = _selectCalendar.value.split("-")
         val day = dayMapper(str[3])
+        setDate(_selectCalendar.value)
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
     }
 }

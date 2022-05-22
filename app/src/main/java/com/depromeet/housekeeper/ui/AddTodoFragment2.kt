@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,10 +51,10 @@ class AddTodoFragment2 : Fragment() {
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         addTodo2ViewModel.updateSpace(space)
-        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames, navArgs.selectDate.date)
+        addTodo2ViewModel.setDate(navArgs.selectDate.date)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
         Timber.d(addTodo2ViewModel.getChores().toString())
 
-      addTodo2ViewModel.setDate(navArgs.selectDate.date)
       lifecycleScope.launchWhenStarted {
         addTodo2ViewModel.selectCalendar.collect {
           binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
@@ -77,6 +78,7 @@ class AddTodoFragment2 : Fragment() {
             setOnClickListener {
                 // 마지막 position update
                 updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
+                addTodo2ViewModel.updateChoreDate()
 
                 // 집안일 생성 api
                 addTodo2ViewModel.createHouseWorks()

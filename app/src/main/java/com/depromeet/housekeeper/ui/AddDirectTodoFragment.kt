@@ -61,10 +61,11 @@ class AddDirectTodoFragment : Fragment() {
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
+        viewModel.setDate(navArgs.selectDate.date)
 
         when(viewModel.curViewType.value) {
             ViewType.ADD -> {
-                viewModel.initDirectChore(navArgs.selectDate.date)
+                viewModel.initDirectChore()
             }
             ViewType.EDIT -> {
                 onEditView()
@@ -96,13 +97,14 @@ class AddDirectTodoFragment : Fragment() {
 
         })
 
+
         binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, hour, _ ->
             binding.addDirectTodoAllDayCheckBox.isChecked = false
             val min = binding.addDirectTodoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
             viewModel.updateTime(hour, min)
 
             // 수정 첫 화면에서 타임피커 건들면 수정 버튼 활성화
-            binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = true
+            // binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = true
         }
 
         binding.addDirectTodoHeader.apply {
@@ -129,6 +131,7 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoDoneBtn.mainFooterButton.apply {
+            isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
             // edit 분기 처리
             when(viewModel.curViewType.value) {
                 ViewType.ADD -> {
@@ -214,6 +217,10 @@ class AddDirectTodoFragment : Fragment() {
             binding.addDirectTodoAllDayCheckBox.isChecked ->  viewModel.updateChoreTime(null)
             else -> viewModel.updateChoreTime(viewModel.curTime.value!!)
         }
+
+        //date set
+        viewModel.updateChoreDate()
+
         Timber.d(viewModel.chores.value.toString())
     }
 
