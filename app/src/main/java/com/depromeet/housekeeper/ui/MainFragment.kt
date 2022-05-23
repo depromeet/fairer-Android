@@ -155,9 +155,11 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
+        val houseWork = mainViewModel.houseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
-        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible =
+          it == MainViewModel.CurrentState.REMAIN && (houseWork.countDone > 0 && houseWork.countLeft == 0)
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
