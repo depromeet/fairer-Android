@@ -50,13 +50,14 @@ class AddTodoFragment2 : Fragment() {
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         addTodo2ViewModel.updateSpace(space)
-        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames, navArgs.selectDate.date)
+        addTodo2ViewModel.setDate(navArgs.selectDate.date)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
         Timber.d(addTodo2ViewModel.getChores().toString())
 
-      addTodo2ViewModel.setDate(navArgs.selectDate.date)
       lifecycleScope.launchWhenStarted {
         addTodo2ViewModel.selectCalendar.collect {
           binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
+          //TODO(Calendaer View Dialog 호출 되고 Chore 에 해당 date 업데이트 필요)
         }
       }
     }
