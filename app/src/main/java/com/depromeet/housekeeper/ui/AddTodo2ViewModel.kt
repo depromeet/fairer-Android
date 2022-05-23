@@ -13,29 +13,19 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
     MutableStateFlow("")
-  val curDate: StateFlow<String>
+    val curDate: StateFlow<String>
     get() = _curDate
 
-    private val datePattern = "yyyy-MM-dd"
-
     fun setDate(date: String) {
-      val lastIndex = date.indexOfLast { it == '-' }
-      val requestDate = date.dropLast(date.length - lastIndex)
-      _curDate.value = requestDate
-    }
-
-    fun getDate(): String {
-        val year = LocalDate.parse(_curDate.value).year.toString()
-        val month = LocalDate.parse(_curDate.value).month.toString()
-        val day = LocalDate.parse(_curDate.value).dayOfMonth.toString()
-        return "${year}년 ${month}월 ${day}일 "
+        val lastIndex = date.indexOfLast { it == '-' }
+        val requestDate = date.dropLast(date.length - lastIndex)
+        _curDate.value = requestDate
     }
 
     private val _curSpace: MutableStateFlow<String> =
@@ -89,7 +79,7 @@ class AddTodo2ViewModel: ViewModel(){
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduledDate = curDate.value
+            chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
             temp.add(chore)
@@ -107,6 +97,12 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun getChores() : ArrayList<Chore>{
         return _chores.value
+    }
+
+    fun updateChoreDate() {
+        _chores.value.map { chore ->
+            chore.scheduledDate = _curDate.value
+        }
     }
 
     fun createHouseWorks() {
@@ -145,6 +141,7 @@ class AddTodo2ViewModel: ViewModel(){
         // yyyy-mm-dd-eee
         val str = _selectCalendar.value.split("-")
         val day = dayMapper(str[3])
+        setDate(_selectCalendar.value)
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
     }
 }
