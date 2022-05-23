@@ -19,17 +19,13 @@ import kotlin.collections.ArrayList
 class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
     MutableStateFlow("")
-  val curDate: StateFlow<String>
+    val curDate: StateFlow<String>
     get() = _curDate
 
     fun setDate(date: String) {
         val lastIndex = date.indexOfLast { it == '-' }
         val requestDate = date.dropLast(date.length - lastIndex)
         _curDate.value = requestDate
-    }
-
-    fun getDate(): String {
-        return _curDate.value
     }
 
     private val _curSpace: MutableStateFlow<String> =
@@ -107,10 +103,6 @@ class AddTodo2ViewModel: ViewModel(){
         _chores.value.map { chore ->
             chore.scheduledDate = _curDate.value
         }
-    }
-
-    fun clearChore() {
-        _chores.value.clear()
     }
 
     fun createHouseWorks() {

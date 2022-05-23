@@ -77,9 +77,6 @@ class AddDirectTodoViewModel : ViewModel() {
     val curSpace: StateFlow<String>
         get() = _curSpace
 
-    fun bindingSpace():String {
-        return spaceNameMapper(_curSpace.value)
-    }
 
     // 직접 추가 or 수정은 chore 개수 1
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
