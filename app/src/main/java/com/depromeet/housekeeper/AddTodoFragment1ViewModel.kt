@@ -34,6 +34,10 @@ class AddTodoFragment1ViewModel : ViewModel() {
   val chores: StateFlow<List<String>>
     get() = _chores
 
+  fun clearChore() {
+    _chores.value = emptyList()
+  }
+
   fun setChoreList(space: String) {
     for (i in 0 until _chorepreset.value.size){
       if(space == _chorepreset.value[i].space){
