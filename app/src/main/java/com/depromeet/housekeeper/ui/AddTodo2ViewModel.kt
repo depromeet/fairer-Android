@@ -24,8 +24,11 @@ class AddTodo2ViewModel: ViewModel(){
     get() = _curDate
 
     private val datePattern = "yyyy-MM-dd"
+
     fun setDate(date: String) {
-      _curDate.value = date
+      val lastIndex = date.indexOfLast { it == '-' }
+      val requestDate = date.dropLast(date.length - lastIndex)
+      _curDate.value = requestDate
     }
 
     fun getDate(): String {
@@ -82,11 +85,11 @@ class AddTodo2ViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initChores(space:String, choreName: List<String>, date: String) {
+    fun initChores(space:String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduledDate = date
+            chore.scheduledDate = curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
             temp.add(chore)
@@ -96,11 +99,6 @@ class AddTodo2ViewModel: ViewModel(){
 
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
-        val dayOfWeekDate = curDate.value
-        val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
-        val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
-
-        _chores.value[position].scheduledDate = requestDate
     }
 
     fun getChore(position: Int): Chore {
