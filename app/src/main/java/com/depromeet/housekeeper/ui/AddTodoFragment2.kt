@@ -69,8 +69,6 @@ class AddTodoFragment2 : Fragment() {
 
         // header back button
         binding.addTodo2Header.addTodoBackBtn.setOnClickListener {
-            // addTodo2ViewModel.clearChore()
-            // addTodoChoreAdapter.clearChore()
             it.findNavController().navigateUp()
         }
 

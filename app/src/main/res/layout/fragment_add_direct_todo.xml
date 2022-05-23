@@ -83,7 +83,6 @@
             android:layout_height="36dp"
             android:background="@drawable/main_inactive_stroke_background"
             android:hint="@string/add_direct_todo_title_hint"
-            android:textCursorDrawable="@drawable/bg_fairer_cursor"
             android:textColorHint="@color/gray_400"
             android:textColor="@color/gray_900"
             android:textSize="14sp"

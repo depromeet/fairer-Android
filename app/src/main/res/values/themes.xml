@@ -13,10 +13,10 @@
     <item name="android:statusBarColor">@color/white</item>
     <item name="android:windowLightStatusBar">true</item>
     <!-- Customize your theme here. -->
+    <!-- Fairer EditText -->
     <item name="android:textCursorDrawable">@color/highlight</item>
     <item name="android:textSelectHandle">@color/highlight</item>
-    <item name="android:textSelectHandleLeft">@color/highlight</item>
-    <item name="android:textSelectHandleRight">@color/highlight</item>
+    <item name="colorAccent">@color/highlight</item>
     <item name="android:textColorHighlight">@color/positive_10</item>
   </style>
 

@@ -102,9 +102,6 @@ class AddDirectTodoFragment : Fragment() {
             binding.addDirectTodoAllDayCheckBox.isChecked = false
             val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
             viewModel.updateTime(time.first, time.second)
-
-            // 수정 첫 화면에서 타임피커 건들면 수정 버튼 활성화
-            // binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = true
         }
 
         binding.addDirectTodoAllDayCheckBox.apply {
