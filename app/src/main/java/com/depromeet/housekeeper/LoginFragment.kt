@@ -106,10 +106,6 @@ class LoginFragment : Fragment() {
         Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
         response?.run {
           PrefsManager.setTokens(response.accessToken, response.refreshToken)
-          DataStoreRepository(
-            DataStoreManager(requireContext())).saveAccessToken(
-            response.accessToken
-          )
           navigateToMain()
         }
       }

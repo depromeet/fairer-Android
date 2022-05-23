@@ -3,7 +3,6 @@ package com.depromeet.housekeeper.repository
 import com.depromeet.housekeeper.model.DataStoreManager
 import com.depromeet.housekeeper.util.DataStoreKey
 import kotlinx.coroutines.flow.Flow
-
 class DataStoreRepository constructor(private val dataStoreManager: DataStoreManager) {
 
     suspend fun saveAccessToken(accessToken: String){
