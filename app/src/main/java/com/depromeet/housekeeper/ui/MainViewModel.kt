@@ -118,7 +118,6 @@ class MainViewModel : ViewModel() {
     val dayOfWeekDate = dayOfWeek.value.date
     val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
     val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
-
     viewModelScope.launch {
       Repository.getList(requestDate).collect {
         _houseWorks.value = it
