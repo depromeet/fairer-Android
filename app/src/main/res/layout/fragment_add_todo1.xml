@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
-        android:paddingTop="22dp">
+        >
 
         <include
             android:id="@+id/add_todo1_header"
@@ -244,6 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_info2"
+                    android:textColor="@color/gray_300"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_recyclerview" />
 
@@ -252,7 +253,8 @@
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:background="@drawable/main_active_stroke_background"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="48dp"
                     app:layout_constraintTop_toBottomOf="@id/add_todo1_info2"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom" />
