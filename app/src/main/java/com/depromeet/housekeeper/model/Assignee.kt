@@ -8,3 +8,4 @@ data class Assignee(
     val memberId: Int,
     val memberName: String,
 ) : Parcelable
+
