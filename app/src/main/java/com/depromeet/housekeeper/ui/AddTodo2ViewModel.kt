@@ -20,7 +20,7 @@ class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
     val curDate: StateFlow<String>
-        get() = _curDate
+    get() = _curDate
 
     fun setDate(date: String) {
         val lastIndex = date.indexOfLast { it == '-' }
