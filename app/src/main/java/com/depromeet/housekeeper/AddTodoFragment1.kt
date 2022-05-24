@@ -20,6 +20,7 @@ import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
@@ -106,6 +107,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
   private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
         binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
+        binding.addTodo1Recyclerview.addItemDecoration(VerticalItemDecorator(10))
         myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
         binding.addTodo1Recyclerview.adapter = myAdapter
     }
