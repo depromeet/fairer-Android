@@ -141,7 +141,8 @@ class MainFragment : Fragment() {
           binding.isEmptyDone = it.countDone == 0
           binding.isEmptyRemain = it.countLeft == 0
 
-          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutDoneScreen.root.isVisible =
+            mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
           binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
 
           binding.tvRemainBadge.text = it.countLeft.toString()
@@ -155,9 +156,11 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
+        val houseWork = mainViewModel.houseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
-        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible =
+          it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
