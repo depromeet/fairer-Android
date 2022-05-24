@@ -123,6 +123,7 @@ class MainViewModel : ViewModel() {
         _houseWorks.value = it
       }
     }
+    getCompleteHouseWorkNumber()
   }
 
   private fun getCompleteHouseWorkNumber() {
