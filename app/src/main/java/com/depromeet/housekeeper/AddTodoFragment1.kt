@@ -158,7 +158,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
       ), selectDate = viewModel.selectCalendar.value))
   }
 
-    private fun setDialog() {
+    private fun setDialog(space : View?) {
         val dialog = FairerDialog(requireContext(), DialogType.CHANGE)
         Timber.d("set dialog")
         dialog.showDialog()
@@ -175,17 +175,18 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1Group2.visibility=View.INVISIBLE
                 binding.addTodo1Group3.visibility=View.INVISIBLE
                 binding.addTodo1Group4.visibility=View.INVISIBLE
-                viewenabled()
+                viewEnabled()
+                onClick(space)
             }
         }
     }
 
-    override fun onClick(p0: View?) {
+    override fun onClick(space: View?) {
         if (selected) {
-            setDialog()
+            setDialog(space)
         }
         else {
-            when (p0) {
+            when (space) {
                 binding.addTodo1ImageEntrance -> {
                     selected = true
                     binding.addTodo1ImageEntrance.isSelected = true
@@ -245,7 +246,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         binding.addTodo1Group4.visibility=View.VISIBLE
     }
 
-    private  fun viewenabled(){
+    private  fun viewEnabled(){
         binding.addTodo1ImageEntrance.isEnabled = true
         binding.addTodo1ImageLivingRoom.isEnabled = true
         binding.addTodo1ImageBathroom.isEnabled = true
