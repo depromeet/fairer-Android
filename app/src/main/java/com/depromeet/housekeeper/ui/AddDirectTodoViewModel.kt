@@ -7,7 +7,6 @@ import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
-import com.depromeet.housekeeper.util.parseDate
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,6 +40,16 @@ class AddDirectTodoViewModel : ViewModel() {
     val curDate: StateFlow<String>
         get() = _curDate
 
+    fun setDate(date: String) {
+        val lastIndex = date.indexOfLast { it == '-' }
+        val requestDate = date.dropLast(date.length - lastIndex)
+        _curDate.value = requestDate
+    }
+
+    fun updateChoreDate() {
+        _chores.value[0].scheduledDate = _curDate.value
+    }
+
     private val _curChoreName: MutableStateFlow<String> =
         MutableStateFlow("")
     val curChoreName: StateFlow<String?>
@@ -68,9 +77,6 @@ class AddDirectTodoViewModel : ViewModel() {
     val curSpace: StateFlow<String>
         get() = _curSpace
 
-    fun bindingSpace():String {
-        return spaceNameMapper(_curSpace.value)
-    }
 
     // 직접 추가 or 수정은 chore 개수 1
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
@@ -78,16 +84,16 @@ class AddDirectTodoViewModel : ViewModel() {
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initDirectChore(date : String) {
-        // 기타 공간 직접 추가 집안일 정보 init
-        val lastIndex = date.indexOfLast { it == '-' }
-        val requestDate = date.dropLast(date.length - lastIndex)
-        _chores.value[0].scheduledDate = requestDate
+    fun initDirectChore() {
+        _chores.value[0].scheduledDate = _curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
     fun initEditChore(chore: Chore) {
         // main에서 받아온 집안일 정보 init
+        _curDate.value = chore.scheduledDate
+        _curTime.value = chore.scheduledTime
+
         _chores.value[0].scheduledDate = chore.scheduledDate
         _chores.value[0].houseWorkName = chore.houseWorkName
         _chores.value[0].scheduledTime = chore.scheduledTime
@@ -144,6 +150,7 @@ class AddDirectTodoViewModel : ViewModel() {
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
+        setDate(_selectCalendar.value)
         val str = _selectCalendar.value.split("-")
         val day = dayMapper(str[3])
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"

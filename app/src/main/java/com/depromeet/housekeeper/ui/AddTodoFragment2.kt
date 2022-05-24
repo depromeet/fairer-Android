@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -50,10 +51,10 @@ class AddTodoFragment2 : Fragment() {
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         addTodo2ViewModel.updateSpace(space)
-        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames, navArgs.selectDate.date)
+        addTodo2ViewModel.setDate(navArgs.selectDate.date)
+        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
         Timber.d(addTodo2ViewModel.getChores().toString())
 
-      addTodo2ViewModel.setDate(navArgs.selectDate.date)
       lifecycleScope.launchWhenStarted {
         addTodo2ViewModel.selectCalendar.collect {
           binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
@@ -61,6 +62,7 @@ class AddTodoFragment2 : Fragment() {
       }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initListener() {
         // header title
         binding.addTodo2Header.addTodoHeaderTv.text = ""
@@ -77,6 +79,7 @@ class AddTodoFragment2 : Fragment() {
             setOnClickListener {
                 // 마지막 position update
                 updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
+                addTodo2ViewModel.updateChoreDate()
 
                 // 집안일 생성 api
                 addTodo2ViewModel.createHouseWorks()
@@ -86,10 +89,17 @@ class AddTodoFragment2 : Fragment() {
             }
         }
 
-        binding.todoTimePicker.setOnTimeChangedListener { _, hour, _ ->
+        binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
             binding.addTodo2AllDayCheckBox.isChecked = false
-            val min = binding.todoTimePicker.getDisplayedMinutes() // 10분 단위로 받는 메소드
-            addTodo2ViewModel.updateTime(hour, min)
+            val time = binding.todoTimePicker.getDisPlayedTime()
+            addTodo2ViewModel.updateTime(time.first, time.second)
+        }
+
+        binding.addTodo2AllDayCheckBox.apply {
+            setOnClickListener {
+                val time = binding.todoTimePicker.getDisPlayedTime()
+                addTodo2ViewModel.updateTime(time.first, time.second)
+            }
         }
 
         binding.addTodo2DateTv.setOnClickListener {
@@ -159,7 +169,7 @@ class AddTodoFragment2 : Fragment() {
     private fun updateChore(position: Int) {
         when {
             binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(null, position)
-            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value?:"", position)
+            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
         }
         Timber.d(addTodo2ViewModel.chores.value.toString())
     }
