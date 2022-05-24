@@ -70,9 +70,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_Calender" />
 
                 <ImageView
+                    android:id="@+id/entrance_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_entrance"
+                    android:layout_marginTop="7dp"
                     app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_entrance"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_entrance"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_entrance"
@@ -92,10 +94,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_living_room"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_living_room"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_living_room"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_living_room"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_living_room" />
+                    app:layout_constraintTop_toTopOf="@+id/entrance_badge" />
 
                 <ImageButton
                     android:id="@+id/add_todo1_image_bathroom"
@@ -111,10 +112,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_bath_room"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_bathroom"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_bathroom"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_bathroom"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_bathroom" />
+                    app:layout_constraintTop_toTopOf="@+id/entrance_badge" />
 
                 <ImageButton
                     android:id="@+id/add_todo1_image_outside"
@@ -128,9 +128,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_entrance" />
 
                 <ImageView
+                    android:id="@+id/outside_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_outside"
+                    android:layout_marginTop="7dp"
                     app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_outside"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_outside"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_outside"
@@ -149,10 +151,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_room"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_room"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_room"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_room"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_room" />
+                    app:layout_constraintTop_toTopOf="@+id/outside_badge" />
 
                 <ImageButton
                     android:id="@+id/add_todo1_image_kitchen"
@@ -167,10 +168,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_kitchen"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_kitchen"
                     app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_kitchen"
                     app:layout_constraintStart_toStartOf="@+id/add_todo1_image_kitchen"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_kitchen" />
+                    app:layout_constraintTop_toTopOf="@+id/outside_badge" />
 
                 <TextView
                     android:id="@+id/add_todo1_info"
