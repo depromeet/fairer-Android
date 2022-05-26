@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -53,6 +54,12 @@ class MainFragment : Fragment() {
   }
 
   private fun setListener() {
+    activity?.onBackPressedDispatcher?.addCallback(object : OnBackPressedCallback(true) {
+      override fun handleOnBackPressed() {
+        requireActivity().finish()
+      }
+    })
+    
     binding.btAddTodo.root.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTodoFragment1(
         mainViewModel.dayOfWeek.value))
