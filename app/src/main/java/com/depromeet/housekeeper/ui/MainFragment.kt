@@ -19,13 +19,11 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -181,6 +179,12 @@ class MainFragment : Fragment() {
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
         mainViewModel.getHouseWorks()
+      }
+    }
+
+    lifecycleScope.launchWhenCreated {
+      mainViewModel.networkError.collect {
+        binding.isConnectedNetwork = it
       }
     }
   }
