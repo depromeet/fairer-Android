@@ -79,6 +79,12 @@ class AddDirectTodoFragment : Fragment() {
           }
         }
 
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.isConnectedNetwork = it
+            }
+        }
+
     }
 
     private fun initListener() {
