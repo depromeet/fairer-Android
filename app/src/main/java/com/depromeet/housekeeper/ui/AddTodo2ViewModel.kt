@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
-    MutableStateFlow("")
+        MutableStateFlow("")
     val curDate: StateFlow<String>
     get() = _curDate
 
@@ -119,9 +119,9 @@ class AddTodo2ViewModel: ViewModel(){
         set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     }
 
-  private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
-  val selectCalendar: StateFlow<String>
-    get() = _selectCalendar
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String>
+        get() = _selectCalendar
 
     fun addCalendarView(selectDate : String) {
         _selectCalendar.value = selectDate
