@@ -17,7 +17,7 @@ object Repository : RemoteDataSource {
   private val apiService = RetrofitBuilder.apiService
 
   override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> = flow {
-    apiService.createHouseWorks(houseWorks)
+    emit(apiService.createHouseWorks(houseWorks))
   }
 
   override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
