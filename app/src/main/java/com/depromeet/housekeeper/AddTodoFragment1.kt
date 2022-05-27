@@ -141,6 +141,12 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1Calender.text = viewModel.bindingDate()
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.isConnectedNetwork = it
+            }
+        }
     }
 
   private fun navigateToAddDirectTodoPage() {
