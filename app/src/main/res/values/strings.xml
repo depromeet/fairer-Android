@@ -61,6 +61,8 @@
     <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
+    <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
+    <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">
