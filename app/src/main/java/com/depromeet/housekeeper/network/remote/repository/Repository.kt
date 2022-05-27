@@ -40,9 +40,11 @@ object Repository : RemoteDataSource {
     emit(apiService.googlelogin(auth, socialType))
   }
 
-  override suspend fun deleteHouseWork(id: Int) {
-    apiService.deleteHouseWork(id)
-  }
+  override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
+    flow {
+      emit(apiService.deleteHouseWork(id))
+    }
+
 
   override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {
     apiService.editHouseWork(id, chore)
