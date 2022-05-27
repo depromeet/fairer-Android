@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class LoginFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,12 +20,15 @@ class LoginFragmentViewModel(application: Application) : AndroidViewModel(applic
 
   fun requestLogin(authCode: String) {
     viewModelScope.launch {
-      Repository.getGoogleLogin(authCode,
-        SocialType("GOOGLE"))
-        .collect {
+      Repository.getGoogleLogin(
+        authCode, SocialType("GOOGLE")
+      ).runCatching {
+        collect {
           _response.value = it
         }
+      }.onFailure {
+        Timber.e("$it")
+      }
     }
   }
-
 }
