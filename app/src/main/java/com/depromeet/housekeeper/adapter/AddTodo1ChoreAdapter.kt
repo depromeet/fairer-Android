@@ -34,10 +34,6 @@ class AddTodo1ChoreAdapter(private val chores: List<String>):RecyclerView.Adapte
     inner class ViewHolder(private val binding:ItemAddTodo1TaskBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(chore:String){
             binding.addTodo1BtnTask.text=chore
-            binding.addTodo1BtnTask.setOnClickListener {
-                //it.isSelected = !it.isSelected
-
-            }
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {
@@ -45,7 +41,6 @@ class AddTodo1ChoreAdapter(private val chores: List<String>):RecyclerView.Adapte
                     itemClickListener?.onClick(itemView,chore,pos)
                 }
             }
-
         }
     }
 
