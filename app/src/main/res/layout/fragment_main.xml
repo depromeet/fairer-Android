@@ -5,6 +5,8 @@
   
   <data>
     
+    <import type="android.view.View" />
+    
     <variable
       name="vm"
       type="com.depromeet.housekeeper.ui.MainViewModel" />
@@ -24,6 +26,10 @@
     <variable
       name="isEmptyDone"
       type="boolean" />
+    
+    <variable
+      name="isConnectedNetwork"
+      type="boolean" />
   
   </data>
   
@@ -34,193 +40,210 @@
     
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       tools:context=".ui.MainFragment">
       
       <ImageView
+        android:id="@+id/tv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/ic_fairer"
-        app:layout_constraintBottom_toTopOf="@id/tv_complete_house_chore"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
       
-      <TextView
-        android:id="@+id/tv_complete_house_chore"
-        style="@style/Body"
-        android:layout_width="wrap_content"
-        android:layout_height="29dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="77dp"
-        android:background="@drawable/home_positive_backgorund_8"
-        android:gravity="center"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:text="@string/complete_chore"
-        android:textColor="@color/gray_900"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/complete_chore" />
-      
-      <TextView
-        android:id="@+id/tv_month"
-        style="@style/Caption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="43dp"
-        android:drawableStart="@drawable/ic_calendar_today"
-        android:drawablePadding="4dp"
-        android:paddingStart="4dp"
-        android:textColor="@color/gray_900"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
-        tools:text="2022년 * 4월" />
-      
-      <ImageView
-        android:id="@+id/iv_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:src="@drawable/ic_arrow_left"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_week"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_week"
-        app:tint="@color/gray_600" />
-      
-      <ImageView
-        android:id="@+id/iv_rignt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
-        android:src="@drawable/ic_arrow_right"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_week"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_week" />
-      
-      <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_week"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toStartOf="@id/iv_rignt"
-        app:layout_constraintStart_toEndOf="@id/iv_left"
-        app:layout_constraintTop_toBottomOf="@id/tv_month"
-        tools:listitem="@layout/item_day_of_week" />
-      
-      
       <include
-        android:id="@+id/bt_add_todo"
-        style="@style/Body"
-        layout="@layout/layout_home_add_chore"
+        android:id="@+id/layoutNetwork"
+        layout="@layout/layout_disconnected_network"
         android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="190dp"
+        android:visibility="@{isConnectedNetwork ? View.VISIBLE : View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_week" />
+        app:layout_constraintTop_toTopOf="parent" />
       
-      <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
-      <TextView
-        android:id="@+id/tv_remain_badge"
-        style="@style/Caption"
-        android:layout_width="28dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:background="@{isSelectRemain ? isEmptyRemain ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
-        android:gravity="center"
-        android:padding="1dp"
-        android:textColor="@{isSelectRemain ? @color/white : @color/gray_400}"
-        app:layout_constraintBottom_toBottomOf="@id/tv_remain"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_remain"
-        tools:text="0" />
-      
-      <TextView
-        android:id="@+id/tv_remain"
-        style="@style/SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/remained_chore"
-        android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
-        app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
-        app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
-        app:textStyle='@{isSelectRemain ? "bold" : "normal"}'
-        tools:text="@string/remained_chore" />
-      
-      <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
-      <TextView
-        android:id="@+id/tv_end_badge"
-        style="@style/Caption"
-        android:layout_width="28dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginEnd="8dp"
-        android:background="@{isSelectDone ? isEmptyDone ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
-        android:gravity="center"
-        android:padding="1dp"
-        android:textColor="@{isSelectDone ? @color/white : @color/gray_400}"
-        app:layout_constraintBottom_toBottomOf="@id/tv_end"
-        app:layout_constraintEnd_toStartOf="@id/tv_end"
-        app:layout_constraintTop_toTopOf="@id/tv_end"
-        tools:text="0" />
-      
-      <TextView
-        android:id="@+id/tv_end"
-        style="@style/SubTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/completed_chore"
-        android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
-        app:textStyle='@{isSelectDone ? "bold" : "normal"}'
-        tools:text="@string/completed_chore" />
-      
-      <include
-        android:id="@+id/layoutEmptyScreen"
-        layout="@layout/layout_home_empty_screen"
+      <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_end" />
-      
-      <include
-        android:id="@+id/layoutDoneScreen"
-        layout="@layout/layout_home_done_screen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_end" />
-      
-      <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_houseWork"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_end"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_housework" />
-    
+        android:layout_height="match_parent"
+        android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}">
+        
+        <TextView
+          android:id="@+id/tv_complete_house_chore"
+          style="@style/Body"
+          android:layout_width="wrap_content"
+          android:layout_height="29dp"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="77dp"
+          android:background="@drawable/home_positive_backgorund_8"
+          android:gravity="center"
+          android:paddingStart="8dp"
+          android:paddingEnd="8dp"
+          android:text="@string/complete_chore"
+          android:textColor="@color/gray_900"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:text="@string/complete_chore" />
+        
+        <TextView
+          android:id="@+id/tv_month"
+          style="@style/Caption"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="43dp"
+          android:drawableStart="@drawable/ic_calendar_today"
+          android:drawablePadding="4dp"
+          android:paddingStart="4dp"
+          android:textColor="@color/gray_900"
+          android:textStyle="bold"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/tv_complete_house_chore"
+          tools:text="2022년 * 4월" />
+        
+        <ImageView
+          android:id="@+id/iv_left"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="13dp"
+          android:src="@drawable/ic_arrow_left"
+          app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/rv_week"
+          app:tint="@color/gray_600" />
+        
+        <ImageView
+          android:id="@+id/iv_rignt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="13dp"
+          android:src="@drawable/ic_arrow_right"
+          app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/rv_week" />
+        
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rv_week"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="4dp"
+          android:layout_marginTop="16dp"
+          android:layout_marginEnd="4dp"
+          android:orientation="horizontal"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          app:layout_constraintEnd_toStartOf="@id/iv_rignt"
+          app:layout_constraintStart_toEndOf="@id/iv_left"
+          app:layout_constraintTop_toBottomOf="@id/tv_month"
+          tools:listitem="@layout/item_day_of_week" />
+        
+        
+        <include
+          android:id="@+id/bt_add_todo"
+          style="@style/Body"
+          layout="@layout/layout_home_add_chore"
+          android:layout_width="0dp"
+          android:layout_height="45dp"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="8dp"
+          android:layout_marginEnd="20dp"
+          android:paddingStart="20dp"
+          android:paddingEnd="20dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/rv_week" />
+        
+        <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
+        <TextView
+          android:id="@+id/tv_remain_badge"
+          style="@style/Caption"
+          android:layout_width="28dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="21dp"
+          android:background="@{isSelectRemain ? isEmptyRemain ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
+          android:gravity="center"
+          android:padding="1dp"
+          android:textColor="@{isSelectRemain ? @color/white : @color/gray_400}"
+          app:layout_constraintBottom_toBottomOf="@id/tv_remain"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@id/tv_remain"
+          tools:text="0" />
+        
+        <TextView
+          android:id="@+id/tv_remain"
+          style="@style/SubTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="12dp"
+          android:text="@string/remained_chore"
+          android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
+          app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
+          app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+          app:textStyle='@{isSelectRemain ? "bold" : "normal"}'
+          tools:text="@string/remained_chore" />
+        
+        <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
+        <TextView
+          android:id="@+id/tv_end_badge"
+          style="@style/Caption"
+          android:layout_width="28dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="21dp"
+          android:layout_marginEnd="8dp"
+          android:background="@{isSelectDone ? isEmptyDone ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
+          android:gravity="center"
+          android:padding="1dp"
+          android:textColor="@{isSelectDone ? @color/white : @color/gray_400}"
+          app:layout_constraintBottom_toBottomOf="@id/tv_end"
+          app:layout_constraintEnd_toStartOf="@id/tv_end"
+          app:layout_constraintTop_toTopOf="@id/tv_end"
+          tools:text="0" />
+        
+        <TextView
+          android:id="@+id/tv_end"
+          style="@style/SubTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:layout_marginEnd="20dp"
+          android:text="@string/completed_chore"
+          android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+          app:textStyle='@{isSelectDone ? "bold" : "normal"}'
+          tools:text="@string/completed_chore" />
+        
+        <include
+          android:id="@+id/layoutEmptyScreen"
+          layout="@layout/layout_home_empty_screen"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toBottomOf="@id/tv_end" />
+        
+        <include
+          android:id="@+id/layoutDoneScreen"
+          layout="@layout/layout_home_done_screen"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toBottomOf="@id/tv_end" />
+        
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/rv_houseWork"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="16dp"
+          android:layout_marginEnd="20dp"
+          android:orientation="vertical"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/tv_end"
+          tools:itemCount="3"
+          tools:listitem="@layout/item_housework" />
+      </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </ScrollView>
 </layout>
