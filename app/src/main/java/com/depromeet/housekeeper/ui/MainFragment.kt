@@ -52,12 +52,6 @@ class MainFragment : Fragment() {
   }
 
   private fun setListener() {
-    activity?.onBackPressedDispatcher?.addCallback(object : OnBackPressedCallback(true) {
-      override fun handleOnBackPressed() {
-        requireActivity().finish()
-      }
-    })
-    
     binding.btAddTodo.root.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTodoFragment1(
         mainViewModel.dayOfWeek.value))
