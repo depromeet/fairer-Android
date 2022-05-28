@@ -125,7 +125,7 @@ class MainFragment : Fragment() {
           setSpan(
             ForegroundColorSpan(Color.parseColor("#0C6DFF")),
             this.indexOf("일") + 1,
-            binding.tvCompleteHouseChore.text.length - 1,
+            format.length - 1,
             SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
           )
         }
