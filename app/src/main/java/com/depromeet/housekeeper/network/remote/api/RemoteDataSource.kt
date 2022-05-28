@@ -17,7 +17,7 @@ interface RemoteDataSource {
   suspend fun getHouseWorkList(): Flow<ChorePreset>
   suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
   suspend fun getGoogleLogin(auth: String, socialType: SocialType): Flow<LoginResponse>
-  suspend fun deleteHouseWork(id: Int)
+  suspend fun deleteHouseWork(id: Int): Flow<Unit>
   suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork>
   suspend fun updateChoreState(
     houseWorkId: Int,

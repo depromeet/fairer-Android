@@ -113,6 +113,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun bindingVm(){
+        viewModel.clearChore()
+        selected = false
         lifecycleScope.launchWhenStarted {
             viewModel.chorelist.collect {
                 myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
@@ -139,6 +141,12 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
                 binding.addTodo1Calender.text = viewModel.bindingDate()
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.isConnectedNetwork = it
             }
         }
     }

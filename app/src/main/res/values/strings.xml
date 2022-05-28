@@ -8,7 +8,7 @@
     <string name="add_todo_direct_btn_text">집안일 직접 입력하기</string>
     <string name="next_btn_text">다음</string>
     <string name="add_todo_dialog_title">같은 공간만 선택할 수 있어요</string>
-    <string name="add_todo_dialog_desc">다른 공간을 선택하시면 이미 선택한 집안일이 삭제 됩니다. 다른 공간을 선택하시겠어요?</string>
+    <string name="add_todo_dialog_desc">다른 공간을 선택하시면 이미 선택한 집안일이\n삭제 됩니다. 다른 공간을 선택하시겠어요?</string>
     <string name="add_todo_task">세부 집안일</string>
     <string name="add_todo_info">공간을 선택하면 세부 집안일이 나옵니다.</string>
     <string name="add_todo_info2">원하는 집안일이 없나요?</string>
@@ -61,6 +61,8 @@
     <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
+    <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
+    <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">

@@ -7,11 +7,14 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.Response
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
@@ -22,11 +25,11 @@ object RetrofitBuilder {
   }
 
   private val okHttpBuilder = OkHttpClient.Builder()
-    .addInterceptor(AuthInterceptor())
+    .addInterceptor(NetworkInterceptor())
     .addNetworkInterceptor(httpLoggingInterceptor)
-    .connectTimeout(1, TimeUnit.SECONDS)
-    .readTimeout(1, TimeUnit.SECONDS)
-    .writeTimeout(1, TimeUnit.SECONDS)
+    .connectTimeout(5, TimeUnit.SECONDS)
+    .readTimeout(5, TimeUnit.SECONDS)
+    .writeTimeout(5, TimeUnit.SECONDS)
 
   private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -41,14 +44,27 @@ object RetrofitBuilder {
 
   val apiService: ApiService = retrofit.create(ApiService::class.java)
 
-  private class AuthInterceptor : Interceptor {
+  private class NetworkInterceptor : Interceptor {
     @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
-      proceed(
-        request().newBuilder()
-          .addHeader("AUTHORIZATION", PrefsManager.accessToken)
+    override fun intercept(chain: Interceptor.Chain): Response {
+      val request = chain.request()
+      return try {
+        chain.proceed(
+          request.newBuilder()
+            .addHeader("AUTHORIZATION", PrefsManager.accessToken)
+            .build()
+        )
+      } catch (e: Exception) {
+        Response.Builder()
+          .request(request)
+          .protocol(Protocol.HTTP_1_1)
+          .code(NETWORK_ERROR)
+          .message(e.message ?: "")
+          .body(ResponseBody.create(null, e.message ?: ""))
           .build()
-      )
+      }
     }
   }
+
+  private const val NETWORK_ERROR = 1001
 }

@@ -113,24 +113,38 @@ class MainViewModel : ViewModel() {
   val currentState: StateFlow<CurrentState?>
     get() = _currentState
 
+  private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val networkError: StateFlow<Boolean>
+    get() = _networkError
+
   fun getHouseWorks() {
     //TODO 성능 개선 필요
     val dayOfWeekDate = dayOfWeek.value.date
     val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
     val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
     viewModelScope.launch {
-      Repository.getList(requestDate).collect {
-        _houseWorks.value = it
-      }
+      Repository.getList(requestDate)
+        .runCatching {
+          collect {
+            _houseWorks.value = it
+          }
+        }.onFailure {
+          _networkError.value = true
+        }
     }
+    getCompleteHouseWorkNumber()
   }
 
   private fun getCompleteHouseWorkNumber() {
     val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     viewModelScope.launch {
       Repository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
-        .collect {
-          _completeChoreNum.value = it.count
+        .runCatching {
+          collect {
+            _completeChoreNum.value = it.count
+          }
+        }.onFailure {
+          _networkError.value = true
         }
     }
   }
@@ -148,8 +162,12 @@ class MainViewModel : ViewModel() {
       Repository.updateChoreState(
         houseWorkId = houWorkId,
         updateChoreBody = UpdateChoreBody(toBeStatus)
-      ).collect {
-        getHouseWorks()
+      ).runCatching {
+        collect {
+          getHouseWorks()
+        }
+      }.onFailure {
+        _networkError.value = true
       }
     }
   }
