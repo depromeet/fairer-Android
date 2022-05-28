@@ -1,9 +1,12 @@
 package com.depromeet.housekeeper.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.Chore
+import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -18,7 +21,7 @@ import kotlin.collections.ArrayList
 
 class AddTodo2ViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
-    MutableStateFlow("")
+        MutableStateFlow("")
     val curDate: StateFlow<String>
     get() = _curDate
 
@@ -105,13 +108,27 @@ class AddTodo2ViewModel: ViewModel(){
         }
     }
 
+  private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val networkError: StateFlow<Boolean>
+    get() = _networkError
+
+    private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> = MutableStateFlow(null)
+    val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
+        get() = _houseWorkCreateResponse
+
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks(Chores(_chores.value)).collect {
-                Timber.d(it.houseWorks.toString())
+            Repository.createHouseWorks(Chores(_chores.value))
+                .runCatching {
+                    collect {
+                        Timber.d(it.houseWorks.toString())
+                        _houseWorkCreateResponse.value = it.houseWorks
+                    }
+                }.onFailure {
+                    _networkError.value = true
+                }
             }
         }
-    }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -119,9 +136,9 @@ class AddTodo2ViewModel: ViewModel(){
         set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     }
 
-  private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
-  val selectCalendar: StateFlow<String>
-    get() = _selectCalendar
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String>
+        get() = _selectCalendar
 
     fun addCalendarView(selectDate : String) {
         _selectCalendar.value = selectDate

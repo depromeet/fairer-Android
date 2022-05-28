@@ -5,9 +5,15 @@
   
   <data>
     
+    <import type="android.view.View" />
+    
     <variable
       name="currentDate"
       type="String" />
+    
+    <variable
+      name="isConnectedNetwork"
+      type="boolean" />
   
   </data>
   
@@ -22,24 +28,32 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
     
+    <include
+      android:id="@+id/layoutNetwork"
+      layout="@layout/layout_disconnected_network"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:visibility="@{isConnectedNetwork ? View.VISIBLE : View.GONE}"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+    
     <ScrollView
       android:id="@+id/add_todo1_scrollView"
       android:layout_width="match_parent"
       android:layout_height="0dp"
-      android:clipToPadding="false"
       android:orientation="vertical"
-      android:paddingBottom="48dp"
-      android:scrollbarStyle="outsideOverlay"
+      android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}"
       app:layout_constraintBottom_toTopOf="@+id/add_todo1_next_btn"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/add_todo1_header">
+      app:layout_constraintTop_toBottomOf="@id/add_todo1_header"
+      app:layout_constraintVertical_bias="0.0">
       
       <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_todo1_ImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@drawable/main_white_background">
         
         <TextView
           android:id="@+id/add_todo1_Calender"
