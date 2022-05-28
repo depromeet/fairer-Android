@@ -133,7 +133,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenResumed {
+    lifecycleScope.launchWhenCreated {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
@@ -153,7 +153,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenCreated {
       mainViewModel.currentState.collect {
         val houseWork = mainViewModel.houseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE

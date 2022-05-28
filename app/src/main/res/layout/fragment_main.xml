@@ -220,6 +220,7 @@
           layout="@layout/layout_home_empty_screen"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:visibility="gone"
           app:layout_constraintTop_toBottomOf="@id/tv_end" />
         
         <include
@@ -227,6 +228,7 @@
           layout="@layout/layout_home_done_screen"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:visibility="gone"
           app:layout_constraintTop_toBottomOf="@id/tv_end" />
         
         <androidx.recyclerview.widget.RecyclerView
