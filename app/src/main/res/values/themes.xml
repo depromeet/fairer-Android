@@ -26,10 +26,9 @@
 
   <style name="Theme.HouseKeeper.SplashScreen" parent="Theme.SplashScreen">
     <item name="windowSplashScreenBackground">@color/white</item>
-    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo_splash</item>
     <item name="postSplashScreenTheme">@style/Theme.HouseKeeper</item>
-    <item name="windowSplashScreenAnimationDuration">300</item>
+    <item name="windowSplashScreenAnimationDuration">1000</item>
   </style>
-
 
 </resources>
