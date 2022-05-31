@@ -195,6 +195,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:textColor="@color/gray_500"
+                    android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_info_outline"
                     android:text="@string/add_todo_info"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
@@ -203,7 +205,7 @@
                 <View
                     android:id="@+id/add_todo1_go_direct_btn"
                     android:layout_width="0dp"
-                    android:layout_height="45dp"
+                    android:layout_height="46dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/main_active_stroke_background"
                     app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
@@ -216,9 +218,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/add_todo_direct_btn_text"
-                    android:textColor="@color/highlight"
+                    android:textColor="@color/gray_700"
                     android:textSize="15sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_go_direct_btn"
                     app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn" />
@@ -262,6 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_info2"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_300"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/add_todo1_recyclerview" />
@@ -269,8 +271,8 @@
                 <View
                     android:id="@+id/add_todo1_go_direct_btn2"
                     android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/main_active_stroke_background"
                     app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
@@ -282,9 +284,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/add_todo_direct_btn_text"
-                    android:textColor="@color/highlight"
+                    android:textColor="@color/gray_700"
                     android:textSize="15sp"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn2"
                     app:layout_constraintStart_toStartOf="@id/add_todo1_go_direct_btn2"
                     app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn2" />
