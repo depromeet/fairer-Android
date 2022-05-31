@@ -24,5 +24,11 @@
     <item name="colorControlNormal">@color/highlight</item>
   </style>
 
+  <style name="Theme.HouseKeeper.SplashScreen" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/white</item>
+    <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+    <item name="postSplashScreenTheme">@style/Theme.HouseKeeper</item>
+    <item name="windowSplashScreenAnimationDuration">1000</item>
+  </style>
 
 </resources>

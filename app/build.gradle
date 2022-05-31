@@ -93,4 +93,6 @@ dependencies {
 
     implementation Dependencies.preferencesDatastore
 
+    implementation Dependencies.splashscreen
+
 }
