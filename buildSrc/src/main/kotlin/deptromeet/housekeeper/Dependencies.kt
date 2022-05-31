@@ -77,4 +77,7 @@ object Dependencies {
 
   private const val DATASTORE = "1.0.0"
   const val preferencesDatastore = "androidx.datastore:datastore-preferences:$DATASTORE"
+
+  private const val SPLASHSCREEN = "1.0.0-beta02"
+  const val splashscreen = "androidx.core:core-splashscreen:$SPLASHSCREEN"
 }

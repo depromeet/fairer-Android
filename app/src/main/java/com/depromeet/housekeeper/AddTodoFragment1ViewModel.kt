@@ -66,11 +66,21 @@ class AddTodoFragment1ViewModel : ViewModel() {
     }
   }
 
+  private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val networkError: StateFlow<Boolean>
+    get() = _networkError
+
   private fun getChoreList() {
     viewModelScope.launch {
-      Repository.getHouseWorkList().collect {
-        _chorepreset.value = it.preset
-      }
+      Repository.getHouseWorkList()
+        .runCatching {
+          collect {
+            _chorepreset.value = it.preset
+          }
+        }.onFailure {
+          _networkError.value = true
+        }
+
     }
   }
 

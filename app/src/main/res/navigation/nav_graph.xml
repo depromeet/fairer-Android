@@ -4,7 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/nav_graph"
   app:startDestination="@id/loginFragment">
-
+  
   <fragment
     android:id="@+id/mainFragment"
     android:name="com.depromeet.housekeeper.ui.MainFragment"
@@ -76,13 +76,7 @@
         app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
     </action>
 
-    <action
-        android:id="@+id/action_addTodoFragment1_to_mainFragment"
-        app:destination="@id/mainFragment" >
-    <argument
-      android:name="selectDate"
-      app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
-    </action>
+
   </fragment>
 
   <fragment
@@ -126,9 +120,7 @@
         app:exitAnim="@android:anim/fade_out"
         app:popEnterAnim="@android:anim/fade_in"
         app:popExitAnim="@android:anim/fade_out" />
-    <action
-        android:id="@+id/action_addTodoFragment2_to_addTodoFragment1"
-        app:destination="@id/addTodoFragment1" />
+
   </fragment>
   <fragment
       android:id="@+id/loginFragment"
@@ -136,7 +128,9 @@
       tools:layout="@layout/fragment_login"
       android:label="LoginFragment" >
     <action
-        android:id="@+id/action_loginFragment_to_mainFragment"
-        app:destination="@id/mainFragment" />
+      android:id="@+id/action_loginFragment_to_mainFragment"
+      app:destination="@id/mainFragment"
+      app:popUpTo="@id/loginFragment"
+      app:popUpToInclusive="true" />
   </fragment>
 </navigation>

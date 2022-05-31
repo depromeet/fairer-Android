@@ -3,14 +3,15 @@ package com.depromeet.housekeeper.ui
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.AddTodoChoreAdapter
@@ -60,6 +61,21 @@ class AddTodoFragment2 : Fragment() {
           binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
         }
       }
+
+      lifecycleScope.launchWhenCreated {
+        addTodo2ViewModel.networkError.collect {
+          binding.isConnectedNetwork = it
+        }
+      }
+
+      lifecycleScope.launchWhenCreated {
+        addTodo2ViewModel.houseWorkCreateResponse.collect {
+          if (it?.any { it.success } == false) {
+            // 화면 전환
+            findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
+          }
+        }
+      }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -83,9 +99,6 @@ class AddTodoFragment2 : Fragment() {
 
                 // 집안일 생성 api
                 addTodo2ViewModel.createHouseWorks()
-
-                // 화면 전환
-                it.findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
             }
         }
 

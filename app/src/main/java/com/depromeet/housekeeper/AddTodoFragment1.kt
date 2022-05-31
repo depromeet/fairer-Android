@@ -20,6 +20,7 @@ import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.Calendar
@@ -106,6 +107,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
   private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
         binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
+        binding.addTodo1Recyclerview.addItemDecoration(VerticalItemDecorator(10))
         myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
         binding.addTodo1Recyclerview.adapter = myAdapter
     }
@@ -141,6 +143,12 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1Calender.text = viewModel.bindingDate()
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.isConnectedNetwork = it
+            }
+        }
     }
 
   private fun navigateToAddDirectTodoPage() {
@@ -160,7 +168,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
       ), selectDate = viewModel.selectCalendar.value))
   }
 
-    private fun setDialog() {
+    private fun setDialog(space : View?) {
         val dialog = FairerDialog(requireContext(), DialogType.CHANGE)
         Timber.d("set dialog")
         dialog.showDialog()
@@ -177,17 +185,18 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
                 binding.addTodo1Group2.visibility=View.INVISIBLE
                 binding.addTodo1Group3.visibility=View.INVISIBLE
                 binding.addTodo1Group4.visibility=View.INVISIBLE
-                viewenabled()
+                viewEnabled()
+                onClick(space)
             }
         }
     }
 
-    override fun onClick(p0: View?) {
+    override fun onClick(space: View?) {
         if (selected) {
-            setDialog()
+            setDialog(space)
         }
         else {
-            when (p0) {
+            when (space) {
                 binding.addTodo1ImageEntrance -> {
                     selected = true
                     binding.addTodo1ImageEntrance.isSelected = true
@@ -247,7 +256,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         binding.addTodo1Group4.visibility=View.VISIBLE
     }
 
-    private  fun viewenabled(){
+    private  fun viewEnabled(){
         binding.addTodo1ImageEntrance.isEnabled = true
         binding.addTodo1ImageLivingRoom.isEnabled = true
         binding.addTodo1ImageBathroom.isEnabled = true

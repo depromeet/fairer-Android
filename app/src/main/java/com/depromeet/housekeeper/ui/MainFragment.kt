@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -18,13 +19,11 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -47,6 +46,7 @@ class MainFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
     setAdapter()
     bindingVm()
     setListener()
@@ -126,7 +126,7 @@ class MainFragment : Fragment() {
           setSpan(
             ForegroundColorSpan(Color.parseColor("#0C6DFF")),
             this.indexOf("일") + 1,
-            binding.tvCompleteHouseChore.text.length - 1,
+            format.length - 1,
             SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
           )
         }
@@ -134,14 +134,15 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenResumed {
+    lifecycleScope.launchWhenCreated {
       mainViewModel.houseWorks.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
           binding.isEmptyRemain = it.countLeft == 0
 
-          binding.layoutDoneScreen.root.isVisible = (it.countLeft == 0 && it.countDone > 0)
+          binding.layoutDoneScreen.root.isVisible =
+            mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
           binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
 
           binding.tvRemainBadge.text = it.countLeft.toString()
@@ -153,11 +154,13 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenCreated {
       mainViewModel.currentState.collect {
+        val houseWork = mainViewModel.houseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
-        binding.layoutDoneScreen.root.isVisible = it == MainViewModel.CurrentState.REMAIN
+        binding.layoutDoneScreen.root.isVisible =
+          it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
         mainViewModel.houseWorks.value?.let {
           updateHouseWorkData(it)
@@ -171,6 +174,12 @@ class MainFragment : Fragment() {
         val month = it.date.split("-")[1]
         binding.tvMonth.text = "${year}년 ${month}월"
         mainViewModel.getHouseWorks()
+      }
+    }
+
+    lifecycleScope.launchWhenCreated {
+      mainViewModel.networkError.collect {
+        binding.isConnectedNetwork = it
       }
     }
   }

@@ -12,10 +12,11 @@
     android:usesCleartextTraffic="true"
     android:roundIcon="@mipmap/ic_launcher_fairer_round"
     android:supportsRtl="true"
-    android:theme="@style/Theme.HouseKeeper">
+    android:theme="@style/Theme.HouseKeeper.SplashScreen">
     <activity
-      android:name=".MainActivity"
-      android:exported="true">
+        android:name=".MainActivity"
+        android:theme="@style/Theme.HouseKeeper.SplashScreen"
+        android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         
