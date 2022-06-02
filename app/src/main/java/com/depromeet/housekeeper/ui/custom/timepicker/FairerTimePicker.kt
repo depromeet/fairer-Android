@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui.custom.timepicker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.util.AttributeSet
 import android.widget.NumberPicker
 import android.widget.TimePicker
@@ -39,9 +40,12 @@ class FairerTimePicker @JvmOverloads constructor(
         timeInterval: Int = defaultInterval
     ) {
         try {
-            val classForId = Class.forName("com.android.internal.R\$id")
-            val fieldId = classForId.getField("minute").getInt(null)
-            (this.findViewById(fieldId) as NumberPicker).apply {
+            (this.findViewById(
+                Resources.getSystem().getIdentifier(
+                    "minute",
+                    "id",
+                    "android"
+                )) as NumberPicker).apply {
                 minValue = resources.getInteger(R.integer.minutes_min)
                 maxValue = resources.getInteger(R.integer.minutes_max) / timeInterval - 1
                 displayedValues = getDisplayedValue()
