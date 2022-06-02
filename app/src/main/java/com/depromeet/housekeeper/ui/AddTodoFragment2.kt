@@ -28,18 +28,18 @@ class AddTodoFragment2 : Fragment() {
     private val addTodo2ViewModel: AddTodo2ViewModel by viewModels()
     private val navArgs by navArgs<AddTodoFragment2Args>()
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?,
-  ): View {
-    // Inflate the layout for this fragment
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
-    binding.lifecycleOwner = this.viewLifecycleOwner
-    binding.vm = addTodo2ViewModel
-    addTodo2ViewModel.addCalendarView(navArgs.selectDate.date)
-    binding.currentDate = addTodo2ViewModel.bindingDate()
-    return binding.root
-  }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo2, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.vm = addTodo2ViewModel
+        addTodo2ViewModel.addCalendarView(navArgs.selectDate.date)
+        binding.currentDate = addTodo2ViewModel.bindingDate()
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,26 +56,26 @@ class AddTodoFragment2 : Fragment() {
         addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
         Timber.d(addTodo2ViewModel.getChores().toString())
 
-      lifecycleScope.launchWhenStarted {
-        addTodo2ViewModel.selectCalendar.collect {
-          binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
+        lifecycleScope.launchWhenStarted {
+            addTodo2ViewModel.selectCalendar.collect {
+                binding.addTodo2DateTv.text = addTodo2ViewModel.bindingDate()
+            }
         }
-      }
 
-      lifecycleScope.launchWhenCreated {
-        addTodo2ViewModel.networkError.collect {
-          binding.isConnectedNetwork = it
+        lifecycleScope.launchWhenCreated {
+            addTodo2ViewModel.networkError.collect {
+                binding.isConnectedNetwork = it
+            }
         }
-      }
 
-      lifecycleScope.launchWhenCreated {
-        addTodo2ViewModel.houseWorkCreateResponse.collect {
-          if (it?.any { it.success } == false) {
-            // 화면 전환
-            findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
-          }
+        lifecycleScope.launchWhenCreated {
+            addTodo2ViewModel.houseWorkCreateResponse.collect {
+                if (it?.any { it.success } == false) {
+                    // 화면 전환
+                    findNavController().navigate(R.id.action_addTodoFragment2_to_mainFragment)
+                }
+            }
         }
-      }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -116,30 +116,30 @@ class AddTodoFragment2 : Fragment() {
         }
 
         binding.addTodo2DateTv.setOnClickListener {
-          createDatePickerDialog()
+            createDatePickerDialog()
         }
     }
 
-  private fun createDatePickerDialog() {
-    val selectDate = navArgs.selectDate.date
+    private fun createDatePickerDialog() {
+        val selectDate = navArgs.selectDate.date
 
-    val calendar = Calendar.getInstance().apply {
-      set(Calendar.YEAR, selectDate.split("-")[0].toInt())
-      set(Calendar.MONTH,selectDate.split("-")[1].toInt())
-      set(Calendar.DAY_OF_MONTH,selectDate.split("-")[2].toInt())
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.YEAR, selectDate.split("-")[0].toInt())
+            set(Calendar.MONTH, selectDate.split("-")[1].toInt())
+            set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
+        }
+
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                addTodo2ViewModel.updateCalendarView(year, month, dayOfMonth)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) - 1,
+            calendar.get(Calendar.DAY_OF_MONTH),
+        )
+        datePickerDialog.show()
     }
-
-    val datePickerDialog = DatePickerDialog(
-      this.requireContext(),
-      { _, year, month, dayOfMonth ->
-        addTodo2ViewModel.updateCalendarView(year, month, dayOfMonth)
-      },
-      calendar.get(Calendar.YEAR),
-      calendar.get(Calendar.MONTH)-1,
-      calendar.get(Calendar.DAY_OF_MONTH),
-    )
-    datePickerDialog.show()
-  }
 
 
     private fun setAdapter() {
@@ -147,7 +147,8 @@ class AddTodoFragment2 : Fragment() {
         addTodoChoreAdapter = AddTodoChoreAdapter(addTodo2ViewModel.getChores())
         binding.addTodoChoreListRv.adapter = addTodoChoreAdapter
 
-        addTodoChoreAdapter.setMyItemClickListener(object: AddTodoChoreAdapter.MyItemClickListener{
+        addTodoChoreAdapter.setMyItemClickListener(object :
+            AddTodoChoreAdapter.MyItemClickListener {
             override fun onItemClick(position: Int) {
                 // 현재 chore 클릭하면 이전 chore 정보 업데이트
                 addTodo2ViewModel.updatePositions(position)
@@ -159,12 +160,13 @@ class AddTodoFragment2 : Fragment() {
             }
         })
 
-        addTodoChoreAdapter.setMyItemRemoveListener(object: AddTodoChoreAdapter.MyRemoveClickListener{
+        addTodoChoreAdapter.setMyItemRemoveListener(object :
+            AddTodoChoreAdapter.MyRemoveClickListener {
             override fun onRemoveClick(position: Int) {
                 // 현재 select 된 pos 정보 -> select 되지 않아도 remove 가능하기 때문
                 val selectedPos = addTodoChoreAdapter.selectedChore.indexOf(1)
 
-                if(addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
+                if (addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
                     addTodo2ViewModel.updatePositions(selectedPos)
                 }
                 updateView(addTodo2ViewModel.getPosition(PositionType.CUR))
@@ -181,7 +183,10 @@ class AddTodoFragment2 : Fragment() {
 
     private fun updateChore(position: Int) {
         when {
-            binding.addTodo2AllDayCheckBox.isChecked ->  addTodo2ViewModel.updateChore(null, position)
+            binding.addTodo2AllDayCheckBox.isChecked -> addTodo2ViewModel.updateChore(
+                null,
+                position
+            )
             else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
         }
         Timber.d(addTodo2ViewModel.chores.value.toString())
@@ -189,17 +194,16 @@ class AddTodoFragment2 : Fragment() {
 
     private fun updateView(position: Int) {
         val chore = addTodo2ViewModel.getChore(position)
-        if(chore.scheduledTime == null) {
+        if (chore.scheduledTime == null) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addTodo2AllDayCheckBox.isChecked = true
-        }
-        else {
+        } else {
             val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
     }
 
-    private fun parseTime(time: String): Pair<Int, Int>{
+    private fun parseTime(time: String): Pair<Int, Int> {
         val temp = time.split(":")
         val hour = temp[0].toInt()
         val min = temp[1].toInt()
