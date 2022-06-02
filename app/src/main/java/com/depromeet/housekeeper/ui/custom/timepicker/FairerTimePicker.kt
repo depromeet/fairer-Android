@@ -42,10 +42,10 @@ class FairerTimePicker @JvmOverloads constructor(
         try {
             (this.findViewById(
                 Resources.getSystem().getIdentifier(
-                "minute",
-                "id",
-                "android"
-            )) as NumberPicker).apply {
+                    "minute",
+                    "id",
+                    "android"
+                )) as NumberPicker).apply {
                 minValue = resources.getInteger(R.integer.minutes_min)
                 maxValue = resources.getInteger(R.integer.minutes_max) / timeInterval - 1
                 displayedValues = getDisplayedValue()
