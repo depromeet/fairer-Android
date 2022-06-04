@@ -11,7 +11,7 @@
         android:layout_height="68dp">
 
         <Button
-            android:id="@+id/add_todo1_btn_task"
+            android:id="@+id/select_space_btn_task"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:text="빨래 하기"

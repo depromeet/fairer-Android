@@ -23,8 +23,8 @@
         android:background="@drawable/main_white_background">
 
         <include
-            android:id="@+id/add_todo1_header"
-            layout="@layout/layout_add_todo1_header"
+            android:id="@+id/select_space_header"
+            layout="@layout/layout_select_space_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -40,14 +40,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
-            android:id="@+id/add_todo1_scrollView"
+            android:id="@+id/select_space_scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/add_todo1_next_btn"
+            app:layout_constraintBottom_toTopOf="@+id/select_space_next_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_todo1_header"
+            app:layout_constraintTop_toBottomOf="@id/select_space_header"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +58,7 @@
                 android:paddingBottom="48dp">
 
                 <TextView
-                    android:id="@+id/add_todo1_Calender"
+                    android:id="@+id/select_space_Calender"
                     style="@style/Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,15 +77,15 @@
 
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_entrance"
+                    android:id="@+id/select_space_image_entrance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/todo1_entrance_selector"
                     android:padding="0dp"
-                    app:layout_constraintEnd_toStartOf="@+id/add_todo1_image_living_room"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_Calender" />
+                    app:layout_constraintEnd_toStartOf="@+id/select_space_image_living_room"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_Calender" />
 
                 <ImageView
                     android:id="@+id/entrance_badge"
@@ -93,57 +93,57 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:src="@drawable/ic_room_name_entrance"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_entrance"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_entrance"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_entrance" />
+                    app:layout_constraintBottom_toBottomOf="@+id/select_space_image_entrance"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_entrance"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_entrance"
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance" />
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_living_room"
+                    android:id="@+id/select_space_image_living_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/todo1_living_room_selector"
                     android:padding="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_entrance" />
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_living_room"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_living_room"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_living_room"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_living_room"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_living_room"
                     app:layout_constraintTop_toTopOf="@+id/entrance_badge" />
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_bathroom"
+                    android:id="@+id/select_space_image_bathroom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/todo1_bathroom_selector"
                     android:padding="0dp"
-                    app:layout_constraintStart_toEndOf="@+id/add_todo1_image_living_room"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_entrance" />
+                    app:layout_constraintStart_toEndOf="@+id/select_space_image_living_room"
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_bath_room"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_bathroom"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_bathroom"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_bathroom"
                     app:layout_constraintTop_toTopOf="@+id/entrance_badge" />
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_outside"
+                    android:id="@+id/select_space_image_outside"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/todo1_outside_selector"
                     android:padding="0dp"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_entrance"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_entrance" />
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_entrance"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_image_entrance" />
 
                 <ImageView
                     android:id="@+id/outside_badge"
@@ -151,47 +151,47 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:src="@drawable/ic_room_name_outside"
-                    app:layout_constraintBottom_toBottomOf="@+id/add_todo1_image_outside"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_outside"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_outside"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_outside" />
+                    app:layout_constraintBottom_toBottomOf="@+id/select_space_image_outside"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_outside"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_outside"
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_outside" />
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_room"
+                    android:id="@+id/select_space_image_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/todo1_room_selector"
                     android:padding="0dp"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_living_room"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_outside" />
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_living_room"
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_outside" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_room"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_room"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_room"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_room"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_room"
                     app:layout_constraintTop_toTopOf="@+id/outside_badge" />
 
                 <ImageButton
-                    android:id="@+id/add_todo1_image_kitchen"
+                    android:id="@+id/select_space_image_kitchen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/todo1_kitchen_selector"
                     android:padding="0dp"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_bathroom"
-                    app:layout_constraintTop_toTopOf="@+id/add_todo1_image_room" />
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_bathroom"
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_room" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_room_name_kitchen"
-                    app:layout_constraintEnd_toEndOf="@+id/add_todo1_image_kitchen"
-                    app:layout_constraintStart_toStartOf="@+id/add_todo1_image_kitchen"
+                    app:layout_constraintEnd_toEndOf="@+id/select_space_image_kitchen"
+                    app:layout_constraintStart_toStartOf="@+id/select_space_image_kitchen"
                     app:layout_constraintTop_toTopOf="@+id/outside_badge" />
 
                 <TextView
-                    android:id="@+id/add_todo1_info"
+                    android:id="@+id/select_space_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -199,127 +199,127 @@
                     android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_info_outline"
                     android:text="@string/add_todo_info"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_outside" />
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
 
                 <View
-                    android:id="@+id/add_todo1_go_direct_btn"
+                    android:id="@+id/select_space_go_direct_btn"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/main_active_stroke_background"
-                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_info"
-                    app:layout_constraintTop_toBottomOf="@id/add_todo1_info" />
+                    app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@id/select_space_info"
+                    app:layout_constraintTop_toBottomOf="@id/select_space_info" />
 
                 <TextView
-                    android:id="@+id/add_todo1_go_direct_btn_tv"
+                    android:id="@+id/select_space_go_direct_btn_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/add_todo_direct_btn_text"
                     android:textColor="@color/gray_700"
                     android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_go_direct_btn"
-                    app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn" />
+                    app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn"
+                    app:layout_constraintStart_toStartOf="@id/select_space_go_direct_btn"
+                    app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn" />
 
                 <ImageView
-                    android:id="@+id/add_todo1_btn_arrow"
+                    android:id="@+id/select_space_btn_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_arrow"
-                    app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn"
-                    app:layout_constraintEnd_toEndOf="@id/add_todo1_go_direct_btn"
-                    app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn" />
+                    app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn"
+                    app:layout_constraintEnd_toEndOf="@id/select_space_go_direct_btn"
+                    app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn" />
 
                 <TextView
-                    android:id="@+id/add_todo1_task_text"
+                    android:id="@+id/select_space_task_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_task"
                     android:textColor="@color/gray_600"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_image_outside" />
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/add_todo1_recyclerview"
+                    android:id="@+id/select_space_recyclerview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_task_text"
+                    app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_task_text"
                     tools:itemCount="2"
-                    tools:listitem="@layout/item_add_todo1_task"
+                    tools:listitem="@layout/item_select_space_task"
                     tools:text="빨래하기" />
 
                 <TextView
-                    android:id="@+id/add_todo1_info2"
+                    android:id="@+id/select_space_info2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_info2"
                     android:textSize="14sp"
                     android:textColor="@color/gray_300"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/add_todo1_recyclerview" />
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_recyclerview" />
 
                 <View
-                    android:id="@+id/add_todo1_go_direct_btn2"
+                    android:id="@+id/select_space_go_direct_btn2"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/main_active_stroke_background"
-                    app:layout_constraintEnd_toEndOf="@id/add_todo1_image_bathroom"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@id/add_todo1_info2" />
+                    app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
+                    app:layout_constraintTop_toBottomOf="@id/select_space_info2" />
 
                 <TextView
-                    android:id="@+id/add_todo1_go_direct_btn_tv2"
+                    android:id="@+id/select_space_go_direct_btn_tv2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="@string/add_todo_direct_btn_text"
                     android:textColor="@color/gray_700"
                     android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn2"
-                    app:layout_constraintStart_toStartOf="@id/add_todo1_go_direct_btn2"
-                    app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn2" />
+                    app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn2"
+                    app:layout_constraintStart_toStartOf="@id/select_space_go_direct_btn2"
+                    app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn2" />
 
                 <ImageView
-                    android:id="@+id/add_todo1_btn_arrow2"
+                    android:id="@+id/select_space_btn_arrow2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_arrow"
-                    app:layout_constraintBottom_toBottomOf="@id/add_todo1_go_direct_btn2"
-                    app:layout_constraintEnd_toEndOf="@id/add_todo1_go_direct_btn2"
-                    app:layout_constraintTop_toTopOf="@id/add_todo1_go_direct_btn2" />
+                    app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn2"
+                    app:layout_constraintEnd_toEndOf="@id/select_space_go_direct_btn2"
+                    app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn2" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/add_todo1_group"
+                    android:id="@+id/select_space_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
-                    app:constraint_referenced_ids="add_todo1_info,add_todo1_go_direct_btn ,add_todo1_go_direct_btn_tv,add_todo1_btn_arrow" />
+                    app:constraint_referenced_ids="select_space_info,select_space_go_direct_btn ,select_space_go_direct_btn_tv,select_space_btn_arrow" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/add_todo1_group2"
+                    android:id="@+id/select_space_group2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids=",add_todo1_recyclerview,add_todo1_task_text" />
+                    app:constraint_referenced_ids=",select_space_recyclerview,select_space_task_text" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/add_todo1_group3"
+                    android:id="@+id/select_space_group3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="add_todo1_info2,add_todo1_go_direct_btn2 ,add_todo1_go_direct_btn_tv2,add_todo1_btn_arrow2" />
+                    app:constraint_referenced_ids="select_space_info2,select_space_go_direct_btn2 ,select_space_go_direct_btn_tv2,select_space_btn_arrow2" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -327,7 +327,7 @@
         </ScrollView>
 
         <include
-            android:id="@+id/add_todo1_next_btn"
+            android:id="@+id/select_space_next_btn"
             layout="@layout/layout_main_footer_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -336,11 +336,11 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/add_todo1_group4"
+            android:id="@+id/select_space_group4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:constraint_referenced_ids="add_todo1_next_btn" />
+            app:constraint_referenced_ids="select_space_next_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
