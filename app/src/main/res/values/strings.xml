@@ -72,8 +72,13 @@
         <item>바닥 청소</item>
     </string-array>
 
-    <!--loginFragment-->
+    <!--LoginFragment-->
     <string name="server_client_id">720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com</string>
     <string name="login_text">Google 계정으로 로그인</string>
-    <string name="login_logo_text">페어러와 함께\n평화로운 하루를 보내세요</string>
+    <string name="login_logo_text">평화로운 집안일,\n페어러가 도와줄게요</string>
+
+    <!--SignNameFragment-->
+    <string name="sign_name_text">이름을 입력해주세요.</string>
+    <string name="sign_name_hint">이름</string>
+    <string name="sign_name_next_btn_text">입력 완료</string>
 </resources>
