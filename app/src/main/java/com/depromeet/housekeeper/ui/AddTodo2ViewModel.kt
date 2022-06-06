@@ -1,12 +1,10 @@
 package com.depromeet.housekeeper.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.HouseWork
-import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
