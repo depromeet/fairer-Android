@@ -24,7 +24,7 @@
 
         <include
             android:id="@+id/add_todo1_header"
-            layout="@layout/layout_add_todo1_header"
+            layout="@layout/layout_add_todo_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

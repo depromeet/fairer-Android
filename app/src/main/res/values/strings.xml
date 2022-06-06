@@ -76,4 +76,6 @@
     <string name="server_client_id">720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com</string>
     <string name="login_text">Google 계정으로 로그인</string>
     <string name="login_logo_text">페어러와 함께\n평화로운 하루를 보내세요</string>
+
+    <string name="setting_header_title">설정</string>
 </resources>

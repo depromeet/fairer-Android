@@ -77,6 +77,10 @@ class MainFragment : Fragment() {
     binding.tvEnd.setOnClickListener {
       mainViewModel.updateState(MainViewModel.CurrentState.DONE)
     }
+
+    binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
+    }
   }
 
   private fun createDatePickerDialog() {
