@@ -1,5 +1,79 @@
 <resources>
-  <string name="app_name">HouseKeeper</string>
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">fairer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- AddTodoFragment1 -->
+    <string name="add_todo_sign2">한 공간의 집안일만 추가할 수 있습니다.</string>
+    <string name="add_todo_direct_btn_text">집안일 직접 입력하기</string>
+    <string name="next_btn_text">다음</string>
+    <string name="add_todo_dialog_title">같은 공간만 선택할 수 있어요</string>
+    <string name="add_todo_dialog_desc">다른 공간을 선택하시면 이미 선택한 집안일이\n삭제 됩니다. 다른 공간을 선택하시겠어요?</string>
+    <string name="add_todo_task">세부 집안일</string>
+    <string name="add_todo_info">공간을 선택하면 세부 집안일이 나옵니다.</string>
+    <string name="add_todo_info2">원하는 집안일이 없나요?</string>
+    <string name="add_todo_default_time">하루 종일</string>
+    <string name="add_todo_done_btn_txt">집안일 추가 완료</string>
+
+    <!-- AddDirectTodoFragment -->
+    <string name="add_direct_todo_title">집안일 제목</string>
+    <string name="add_direct_todo_title_hint">직접 입력</string>
+    <string name="add_direct_todo_time">집안일 시간</string>
+    <string name="add_direct_todo_day">다른 날에도 이 집안일 하기</string>
+    <string name="remove_todo_tv">삭제</string>
+    <string name="edit_todo_btn_tv">수정 완료</string>
+    <string name="add_direct_todo_space_tv">기타 공간</string>
+
+
+    <!-- Fairer Dialog -->
+    <string name="fairer_dialog_cancel_text">취소</string>
+    <string name="fairer_dialog_ok_text">확인</string>
+    <string name="fairer_dialog_delete_title">집안일을 삭제하시겠어요?</string>
+    <string name="fairer_dialog_delete_desc">삭제하시면 다시 복구할 수 없습니다.</string>
+
+
+    <string-array name="day_array">
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+        <item>일</item>
+    </string-array>
+
+    <string name="Clear">완료하기</string>
+
+    <!--ItemRecyclerMainList-->
+    <string name="Finish">끝내기</string>
+    <string name="Finished">끝냈어요</string>
+    <string name="time">오후 9:30</string>
+    <string name="task">이불 정리</string>
+    <string name="time_todo">오전\n12시 30분</string>
+
+
+    <!-- HomeFragment -->
+    <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
+    <string name="completed_chore">끝낸 집안일</string>
+    <string name="remained_chore">남은 집안일</string>
+    <string name="add_chore">집안일 추가</string>
+    <string name="empty_chore_title">해야 할 집안일이 없어요</string>
+    <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
+    <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
+    <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
+    <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
+    <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
+
+    <!-- dummy chores -->
+    <string-array name="chore_array">
+        <item>이불 정리</item>
+        <item>화장대 정리</item>
+        <item>음식물 쓰레기 버리기</item>
+        <item>바닥 청소</item>
+    </string-array>
+
+    <!--loginFragment-->
+    <string name="server_client_id">720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com</string>
+    <string name="login_text">Google 계정으로 로그인</string>
+    <string name="login_logo_text">페어러와 함께\n평화로운 하루를 보내세요</string>
 </resources>

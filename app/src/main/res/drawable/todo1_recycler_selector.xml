@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 버튼 포커스 O -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/highlight" />
+            <solid
+                android:color="@color/light_blue"/>
+        </shape>
+    </item>
+
+    <!-- 버튼 포커스 X -->
+    <item android:state_selected="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="6dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/gray_100" />
+
+        </shape>
+    </item>
+</selector>

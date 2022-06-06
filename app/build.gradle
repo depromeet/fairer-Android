@@ -6,6 +6,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("kotlin-android")
     id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -19,6 +22,8 @@ android {
         versionName Config.VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
     }
 
     buildTypes {
@@ -46,6 +51,7 @@ dependencies {
     implementation Dependencies.material
     implementation Dependencies.constraintLayout
     implementation Dependencies.junit
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation Dependencies.testExtJunit
     androidTestImplementation Dependencies.espressoCore
 
@@ -68,5 +74,25 @@ dependencies {
     implementation Dependencies.navVersionUi
     implementation Dependencies.navVersionDynamicFeatures
     androidTestImplementation Dependencies.navTesting
+
+    implementation Dependencies.okhttp
+    implementation Dependencies.okhttpLogging
+
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitAdapter
+    implementation Dependencies.moshiConverter
+    implementation Dependencies.coroutineAdapter
+
+    implementation Dependencies.moshi
+    implementation Dependencies.moshiKotlin
+    kapt Dependencies.moshiCodegen
+
+    implementation Dependencies.serialization
+
+    implementation Dependencies.googlelogin
+
+    implementation Dependencies.preferencesDatastore
+
+    implementation Dependencies.splashscreen
 
 }

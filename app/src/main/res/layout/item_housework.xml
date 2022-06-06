@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+    
+    <variable
+      name="isOver"
+      type="boolean" />
+    
+    <variable
+      name="success"
+      type="boolean" />
+  
+  </data>
+  
+  <androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="104dp"
+    android:backgroundTint="@{isOver ? @color/negative_10: @color/positive_0}"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="0dp">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="14dp">
+      
+      <ImageView
+        android:id="@+id/iv_main_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/ic_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+      
+      <TextView
+        android:id="@+id/tv_main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:textColor="@color/gray_900"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_main_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_main_icon"
+        tools:text="TEXT" />
+      
+      <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_main_time_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_time"
+        android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+      
+      <TextView
+        android:id="@+id/tv_main_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:text="@string/time"
+        android:textColor="@color/gray_900"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
+  
+      <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_main_marker"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_marker"
+        android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_main_time" />
+      
+      <TextView
+        android:id="@+id/tv_main_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:textColor="@color/gray_900"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_main_marker" />
+      
+      <Button
+        android:id="@+id/bt_done"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginRight="10dp"
+        android:background="@{success ? @drawable/recycler_main_finished_btn : @drawable/recycler_main_finish_btn}"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@{success ? @string/Finished : @string/Finish}"
+        android:textColor="@{success ? @color/white : @color/highlight}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  
+  </androidx.cardview.widget.CardView>
+
+</layout>
