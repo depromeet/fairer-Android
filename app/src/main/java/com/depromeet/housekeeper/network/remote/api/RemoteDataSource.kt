@@ -23,4 +23,5 @@ interface RemoteDataSource {
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
+  suspend fun logout(auth: String): Flow<Unit>
 }
