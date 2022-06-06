@@ -72,9 +72,13 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
             }
         }
 
-        // header 뒤로 가기
-        binding.addTodo1Header.addTodoBackBtn.setOnClickListener {
-            it.findNavController().navigateUp()
+        // init header
+        binding.addTodo1Header.apply {
+            addTodoHeaderTv.text = ""
+
+            addTodoBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
         }
 
         binding.addTodo1Calender.setOnClickListener {
