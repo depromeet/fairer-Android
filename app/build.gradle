@@ -39,11 +39,12 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField 'boolean', 'IS_DEBUG', 'false'
         }
         debug {
             minifyEnabled false
             debuggable true
-            applicationIdSuffix ".debug"
+            buildConfigField 'boolean', 'IS_DEBUG', 'true'
         }
     }
     compileOptions {
