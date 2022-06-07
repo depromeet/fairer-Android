@@ -1,60 +1,109 @@
 package com.depromeet.housekeeper.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.databinding.FragmentInviteBinding
+import com.kakao.sdk.common.util.KakaoCustomTabsClient
+import com.kakao.sdk.link.LinkClient
+import com.kakao.sdk.link.WebSharerClient
+import com.kakao.sdk.template.model.Link
+import com.kakao.sdk.template.model.TextTemplate
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InviteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InviteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var binding:FragmentInviteBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_invite, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_invite, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InviteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InviteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListener()
+    }
+
+    private fun initListener() {
+
+        binding.inviteHeader.apply {
+            addTodoHeaderTv.text = ""
+
+            addTodoBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
+        }
+
+        binding.inviteKakaoShareBtn.setOnClickListener {
+            onKakaoShare(requireContext())
+        }
+
+
+    }
+
+    private fun onKakaoShare(context: Context) {
+
+        // TODO("템플릿 변경 필요")
+        val defaultText = TextTemplate(
+            text = """
+            공유할 텍스트
+        """.trimIndent(),
+            link = Link(
+                webUrl = "https://developers.kakao.com",
+                mobileWebUrl = "https://developers.kakao.com"
+            )
+        )
+
+        // 카카오톡 설치여부 확인
+        if (LinkClient.instance.isKakaoLinkAvailable(context)) {
+            // 카카오톡으로 카카오톡 공유 가능
+            LinkClient.instance.defaultTemplate(context, defaultText) { linkResult, error ->
+                if (error != null) {
+                    Timber.d("카카오톡 공유 실패 ${error.message}")
+                }
+                else if (linkResult != null) {
+                    Timber.d("카카오톡 공유 성공 ${linkResult.intent}")
+                    startActivity(linkResult.intent)
+
+                    // 카카오톡 공유에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
+                    Timber.d("Warning Msg: ${linkResult.warningMsg}")
+                    Timber.d("Argument Msg: ${linkResult.argumentMsg}")
                 }
             }
+        } else {
+            // 카카오톡 미설치: 웹 공유 사용 권장
+            // 웹 공유 예시 코드
+            val sharerUrl = WebSharerClient.instance.defaultTemplateUri(defaultText)
+
+            // CustomTabs으로 웹 브라우저 열기
+
+            // 1. CustomTabs으로 Chrome 브라우저 열기
+            try {
+                KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
+            } catch (e: UnsupportedOperationException) {
+                // Chrome 브라우저가 없을 때 예외처리
+            }
+
+            // 2. CustomTabs으로 디바이스 기본 브라우저 열기
+            try {
+                KakaoCustomTabsClient.open(context, sharerUrl)
+            } catch (e: ActivityNotFoundException) {
+                // 인터넷 브라우저가 없을 때 예외처리
+            }
+        }
     }
+
+
 }

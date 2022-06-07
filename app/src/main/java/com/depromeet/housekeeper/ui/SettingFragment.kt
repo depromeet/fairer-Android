@@ -50,6 +50,10 @@ class SettingFragment : Fragment() {
             }
         }
 
+        binding.spaceRow.setOnClickListener {
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToInviteFragment())
+        }
+
         binding.logoutRow.setOnClickListener {
             viewModel.signOut(requireContext())
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToLoginFragment())

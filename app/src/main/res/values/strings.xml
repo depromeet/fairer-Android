@@ -97,6 +97,6 @@
 
 
     <!-- social app key -->
-    <string name="kakao_native_app_key">d16a9978adb770f94c7ba98df76bd292</string>
+    <string name="KAKAO_NATIVE_APP_KEY">d16a9978adb770f94c7ba98df76bd292</string>
 
 </resources>
