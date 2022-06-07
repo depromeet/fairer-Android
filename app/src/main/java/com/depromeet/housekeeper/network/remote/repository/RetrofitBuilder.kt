@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
+import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.network.remote.api.ApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -18,7 +19,11 @@ import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
-  private const val BASE_URL = "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
+  private const val DEBUG_URL =
+    "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
+  private const val RELEASE_URL =
+    "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
+  private val BASE_URL: String = if (BuildConfig.IS_DEBUG) DEBUG_URL else RELEASE_URL
 
   private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
