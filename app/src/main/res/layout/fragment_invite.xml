@@ -85,7 +85,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_positive_10_box"
-            app:layout_constraintBottom_toTopOf="@id/invite_share_btn"
+            app:layout_constraintBottom_toTopOf="@id/invite_kakao_share_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
         <TextView
@@ -104,12 +104,12 @@
             android:drawableStart="@drawable/ic_copy" />
 
         <View
-            android:id="@+id/invite_share_btn"
+            android:id="@+id/invite_kakao_share_btn"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="24dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_highlight_box"
+            android:background="@drawable/bg_kakao_box"
             app:layout_constraintBottom_toTopOf="@id/invite_skip_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -117,14 +117,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:text="@string/invite_btn_text_share"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="@id/invite_share_btn"
-            app:layout_constraintEnd_toEndOf="@id/invite_share_btn"
-            app:layout_constraintTop_toTopOf="@id/invite_share_btn"
-            app:layout_constraintBottom_toBottomOf="@id/invite_share_btn"
+            app:layout_constraintStart_toStartOf="@id/invite_kakao_share_btn"
+            app:layout_constraintEnd_toEndOf="@id/invite_kakao_share_btn"
+            app:layout_constraintTop_toTopOf="@id/invite_kakao_share_btn"
+            app:layout_constraintBottom_toBottomOf="@id/invite_kakao_share_btn"
             android:drawablePadding="6dp"
             android:drawableStart="@drawable/ic_share" />
 

@@ -30,7 +30,8 @@ class SettingViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    fun logout() {
+    // logout api
+    private fun logout() {
         viewModelScope.launch {
             Repository.logout(PrefsManager.refreshToken)
                 .runCatching {
@@ -46,6 +47,8 @@ class SettingViewModel : ViewModel() {
 
     // google sign out
     fun signOut(context: Context) {
+        logout()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()

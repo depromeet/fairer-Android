@@ -51,7 +51,6 @@ class SettingFragment : Fragment() {
         }
 
         binding.logoutRow.setOnClickListener {
-            viewModel.logout()
             viewModel.signOut(requireContext())
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToLoginFragment())
         }

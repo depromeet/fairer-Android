@@ -91,9 +91,12 @@
     <string name="invite_main_desc">앞으로 함께 집안일을 관리할 가족, 친구, 룸메이트 누구든 초대해주세요!</string>
     <string name="invite_sign_highlight">즐거운 우리집</string>
     <string name="invite_sign_normal">의 초대코드</string>
-    <string name="invite_btn_text_copy">코드 복사하기</string>
-    <string name="invite_btn_text_share">초대링크 공유하기</string>
+    <string name="invite_btn_text_copy">초대코드 복사하기</string>
+    <string name="invite_btn_text_share">카카오톡 공유하기</string>
     <string name="invite_btn_text_skip">건너뛰기</string>
 
+
+    <!-- social app key -->
+    <string name="kakao_native_app_key">d16a9978adb770f94c7ba98df76bd292</string>
 
 </resources>

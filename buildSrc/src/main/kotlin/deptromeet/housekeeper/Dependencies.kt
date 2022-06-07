@@ -80,4 +80,7 @@ object Dependencies {
 
   private const val SPLASHSCREEN = "1.0.0-beta02"
   const val splashscreen = "androidx.core:core-splashscreen:$SPLASHSCREEN"
+
+  private const val KAKAO_SDK = "2.10.0"
+  const val kakaoSdk = "com.kakao.sdk:v2-link:$KAKAO_SDK"
 }
