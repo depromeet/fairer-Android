@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingBinding

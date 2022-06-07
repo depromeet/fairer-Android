@@ -1,16 +1,18 @@
 package com.depromeet.housekeeper.ui
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
-import com.kakao.sdk.common.util.KakaoCustomTabsClient
-import com.kakao.sdk.link.LinkClient
-import com.kakao.sdk.link.WebSharerClient
-import com.kakao.sdk.template.model.Link
-import com.kakao.sdk.template.model.TextTemplate
-import timber.log.Timber
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
 
 class InviteViewModel : ViewModel() {
+    private val _groupName: MutableStateFlow<String> =
+        MutableStateFlow("즐거운 우리집")
+    val groupName: StateFlow<String>
+        get() = _groupName
 
+    private val _inviteCode: MutableStateFlow<String> =
+        MutableStateFlow("ABCDEFG")
+    val inviteCode: StateFlow<String>
+        get() = _inviteCode
 }
