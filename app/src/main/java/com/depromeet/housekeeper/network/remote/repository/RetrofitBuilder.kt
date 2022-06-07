@@ -22,7 +22,7 @@ object RetrofitBuilder {
   private const val DEBUG_URL =
     "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
   private const val RELEASE_URL =
-    "http://ec2-13-125-232-180.ap-northeast-2.compute.amazonaws.com:8080"
+    "https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com"
   private val BASE_URL: String = if (BuildConfig.IS_DEBUG) DEBUG_URL else RELEASE_URL
 
   private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
