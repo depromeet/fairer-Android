@@ -9,7 +9,10 @@ class SignNameViewModel : ViewModel() {
     val inputName : StateFlow<String>
     get() = _inputName
 
-    fun setinputname(name:String){
+
+
+    fun setInputName(name:String){
         _inputName.value = name
     }
+
 }
