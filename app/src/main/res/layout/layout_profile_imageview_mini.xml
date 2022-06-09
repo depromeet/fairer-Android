@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
+        <variable
+            name="isSelected"
+            type="boolean" />
+        <variable
+            name="isSelectRemain"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View
+            android:id="@+id/sign_profile_imageview_bg"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_profile_imageview_selector"
+            tool:background="@drawable/bg_profile_imageview_inactive"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

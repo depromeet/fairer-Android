@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/sign_profile_header"
+            layout="@layout/layout_select_space_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_profile_text"
+            style="@style/Heading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/sign_profile_text"
+            android:textColor="@color/gray_800"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_header" />
+
+        <include
+            android:id="@+id/sign_profile_imageview"
+            layout="@layout/layout_profile_imageview"
+            bind:vm="@{vm}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_text" />
+
+        <TextView
+            android:id="@+id/sign_profile_select_text"
+            style="@style/Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/sign_profile_select_text"
+            android:textColor="@color/gray_600"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_imageview" />
+
+
+        <ImageView
+            android:id="@+id/sign_profile_select_imageview1"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_profile_imageview_selector"
+            android:padding="10dp"
+            android:src="@drawable/ic_profile1"
+            android:onClick="@{vm.onClick}"
+            app:isSelected="@{vm.isSelectedView==1 ? true : false}"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_profile_select_text" />
+
+        <ImageView
+            android:id="@+id/sign_profile_select_imageview2"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_profile_imageview_selector"
+            android:padding="10dp"
+            android:src="@drawable/ic_profile2"
+            android:onClick="@{vm.onClick}"
+            app:isSelected="@{vm.isSelectedView==2 ? true : false}"
+            app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sign_profile_select_imageview1"
+            app:layout_constraintTop_toTopOf="@+id/sign_profile_select_imageview1" />
+
+        <ImageView
+            android:id="@+id/sign_profile_select_imageview3"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_profile_imageview_selector"
+            android:padding="10dp"
+            android:src="@drawable/ic_profile3"
+            android:onClick="@{vm.onClick}"
+            app:isSelected="@{vm.isSelectedView==3 ? true : false}"
+            app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sign_profile_select_imageview2"
+            app:layout_constraintTop_toTopOf="@+id/sign_profile_select_imageview1" />
+
+        <ImageView
+            android:id="@+id/sign_profile_select_imageview4"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_profile_imageview_selector"
+            android:padding="10dp"
+            android:src="@drawable/ic_profile4"
+            android:onClick="@{vm.onClick}"
+            app:isSelected="@{vm.isSelectedView==4 ? true : false}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sign_profile_select_imageview3"
+            app:layout_constraintTop_toTopOf="@+id/sign_profile_select_imageview1" />
+
+
+        <include
+            android:id="@+id/sign_name_next_btn"
+            layout="@layout/layout_main_footer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
