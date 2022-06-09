@@ -10,7 +10,7 @@
     
     <variable
       name="vm"
-      type="com.depromeet.housekeeper.ui.AddTodo2ViewModel" />
+      type="com.depromeet.housekeeper.ui.AddHouseWorkViewModel" />
     
     <variable
       name="currentDate"
@@ -26,10 +26,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_white_background"
-    tools:context=".ui.AddTodoFragment2">
+    tools:context=".ui.AddHouseWorkFramgent">
   
     <include
-      android:id="@+id/add_todo2_header"
+      android:id="@+id/add_house_work_header"
       layout="@layout/layout_add_todo_header"
       android:layout_width="match_parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -55,10 +55,10 @@
       app:layout_constraintStart_toStartOf="parent"
       android:layout_marginTop="56dp"
       android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}"
-      app:layout_constraintTop_toBottomOf="@id/add_todo2_header">
+      app:layout_constraintTop_toBottomOf="@id/add_house_work_header">
   
       <TextView
-        android:id="@+id/add_todo2_date_tv"
+        android:id="@+id/add_house_work_date_tv"
         style="@style/Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         tools:text="2022년 * 4월 25일" />
       
       <TextView
-        android:id="@+id/add_todo2_space_tv"
+        android:id="@+id/add_house_work_space_tv"
         style="@style/Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,12 +86,12 @@
         android:textColor="@color/gray_900"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_space"
-        app:layout_constraintBottom_toBottomOf="@id/add_todo2_date_tv"
+        app:layout_constraintBottom_toBottomOf="@id/add_house_work_date_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/add_todo2_date_tv" />
+        app:layout_constraintTop_toTopOf="@id/add_house_work_date_tv" />
       
       <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/add_todo_chore_list_rv"
+        android:id="@+id/add_house_work_chore_list_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -99,7 +99,7 @@
         android:choiceMode="singleChoice"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/add_todo2_date_tv"
+        app:layout_constraintTop_toBottomOf="@id/add_house_work_date_tv"
         tools:listitem="@layout/item_recycler_add_todo_list" />
       
       <TextView
@@ -111,10 +111,10 @@
         android:text="@string/add_direct_todo_time"
         android:textColor="@color/gray_700"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_todo_chore_list_rv" />
+        app:layout_constraintTop_toBottomOf="@id/add_house_work_chore_list_rv" />
       
       <CheckBox
-        android:id="@+id/add_todo2_all_day_check_box"
+        android:id="@+id/add_house_work_all_day_check_box"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginEnd="8dp"
@@ -122,20 +122,20 @@
         android:button="@android:color/transparent"
         android:checked="true"
         app:layout_constraintBottom_toBottomOf="@id/todo_time_tv"
-        app:layout_constraintEnd_toStartOf="@id/add_todo_all_time_sign_tv"
+        app:layout_constraintEnd_toStartOf="@id/add_house_work_all_time_sign_tv"
         app:layout_constraintTop_toTopOf="@id/todo_time_tv" />
       
       <TextView
-        android:id="@+id/add_todo_all_time_sign_tv"
+        android:id="@+id/add_house_work_all_time_sign_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:text="@string/add_todo_default_time"
         android:textColor="@color/gray_700"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@id/add_todo2_all_day_check_box"
+        app:layout_constraintBottom_toBottomOf="@id/add_house_work_all_day_check_box"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/add_todo2_all_day_check_box" />
+        app:layout_constraintTop_toTopOf="@id/add_house_work_all_day_check_box" />
       
       <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
         android:id="@+id/todo_time_picker"
@@ -162,7 +162,7 @@
         app:layout_constraintTop_toBottomOf="@id/todo_time_picker" />
       
       <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/add_todo_repeat_rv"
+        android:id="@+id/add_house_work_repeat_rv"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginHorizontal="15dp"
@@ -175,7 +175,7 @@
         tools:listitem="@layout/item_todo_repeat_day_btn" />
       
       <include
-        android:id="@+id/add_todo2_done_btn"
+        android:id="@+id/add_house_work_done_btn"
         layout="@layout/layout_main_footer_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

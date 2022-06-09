@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.housekeeper.databinding.ItemAddTodo1TaskBinding
+import com.depromeet.housekeeper.databinding.ItemSelectSpaceTaskBinding
 
-class AddTodo1ChoreAdapter(private val chores: List<String>):RecyclerView.Adapter<AddTodo1ChoreAdapter.ViewHolder>() {
+class SelectSpaceChoreAdapter(private val chores: List<String>):RecyclerView.Adapter<SelectSpaceChoreAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onClick(v: View,chore:String,position: Int)
@@ -20,24 +20,24 @@ class AddTodo1ChoreAdapter(private val chores: List<String>):RecyclerView.Adapte
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AddTodo1ChoreAdapter.ViewHolder {
-        val binding:ItemAddTodo1TaskBinding = ItemAddTodo1TaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    ): SelectSpaceChoreAdapter.ViewHolder {
+        val binding:ItemSelectSpaceTaskBinding = ItemSelectSpaceTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AddTodo1ChoreAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SelectSpaceChoreAdapter.ViewHolder, position: Int) {
         return holder.bind(chores[position])
     }
 
     override fun getItemCount(): Int =chores.size
 
-    inner class ViewHolder(private val binding:ItemAddTodo1TaskBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding:ItemSelectSpaceTaskBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(chore:String){
-            binding.addTodo1BtnTask.text=chore
+            binding.selectSpaceBtnTask.text=chore
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {
-                binding.addTodo1BtnTask.setOnClickListener {
+                binding.selectSpaceBtnTask.setOnClickListener {
                     itemClickListener?.onClick(itemView,chore,pos)
                 }
             }
