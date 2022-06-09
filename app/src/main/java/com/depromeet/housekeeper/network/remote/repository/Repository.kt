@@ -57,4 +57,10 @@ object Repository : RemoteDataSource {
     flow {
       emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
     }
+
+  override suspend fun logout(
+    auth: String
+  ): Flow<Unit> = flow {
+    emit(apiService.logout(auth))
+  }
 }

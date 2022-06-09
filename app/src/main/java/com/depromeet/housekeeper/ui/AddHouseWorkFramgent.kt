@@ -81,10 +81,10 @@ class AddHouseWorkFramgent : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun initListener() {
         // header title
-        binding.addHouseWorkHeader.addTodoHeaderTv.text = ""
+        binding.addHouseWorkHeader.defaultHeaderTitleTv.text = ""
 
         // header back button
-        binding.addHouseWorkHeader.addTodoBackBtn.setOnClickListener {
+        binding.addHouseWorkHeader.defaultHeaderBackBtn.setOnClickListener {
             it.findNavController().navigateUp()
         }
 

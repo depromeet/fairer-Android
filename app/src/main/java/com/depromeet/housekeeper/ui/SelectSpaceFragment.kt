@@ -74,8 +74,11 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         }
 
         // header 뒤로 가기
-        binding.selectSpaceHeader.addTodoBackBtn.setOnClickListener {
-            it.findNavController().navigateUp()
+        binding.selectSpaceHeader.apply {
+            defaultHeaderTitleTv.text = ""
+            defaultHeaderBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
         }
 
         binding.selectSpaceCalender.setOnClickListener {

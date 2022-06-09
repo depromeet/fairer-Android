@@ -72,7 +72,7 @@
         <item>바닥 청소</item>
     </string-array>
 
-    <!--LoginFragment-->
+    <!--loginFragment-->
     <string name="server_client_id">720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com</string>
     <string name="login_text">Google 계정으로 로그인</string>
     <string name="login_logo_text">평화로운 집안일,\n페어러가 도와줄게요</string>
@@ -96,5 +96,65 @@
     <string name="join_group_join_space">하우스 참여</string>
     <string name="join_group_join_space_button">집안일 하우스 참여하기</string>
     <string name="join_group_join_space_info">기존에 만들어진 하우스에 참여하고 싶다면 선택해주세요.</string>
+
+    <!-- settingFragment -->
+    <string name="setting_header_title">설정</string>
+    <string name="setting_account_row_text">계정</string>
+    <string name="setting_space_row_text">공간관리</string>
+    <string name="setting_contact_row_text">문의하기</string>
+    <string name="setting_info_row_text">정보</string>
+    <string name="setting_version_row_text">버전</string>
+    <string name="setting_logout_row_text">로그아웃</string>
+
+    <!-- inviteFragment -->
+    <string name="invite_main_title">공간에 사람을 초대해주세요.</string>
+    <string name="invite_main_desc">앞으로 함께 집안일을 관리할 가족, 친구, 룸메이트 누구든 초대해주세요!</string>
+    <string name="invite_sign_highlight">즐거운 우리집</string>
+    <string name="invite_sign_normal">의 초대코드</string>
+    <string name="invite_btn_text_copy">초대코드 복사하기</string>
+    <string name="invite_btn_text_share">카카오톡 공유하기</string>
+    <string name="invite_btn_text_skip">건너뛰기</string>
+
+    <!-- contractFragment -->
+    <string name="contact_header_text">문의하기</string>
+    <string name="contact_sign_text">궁금한 점이 있으신가요?</string>
+    <string name="contact_sign_email">이메일</string>
+    <string name="fairer_email"><u>faireran@gmail.com</u></string>
+    <string name="contact_sign_instagram">Instagram</string>
+    <string name="fairer_instagram">\@fairer.official</string>
+
+
+
+    <!-- social app key -->
+    <string name="KAKAO_NATIVE_APP_KEY">d16a9978adb770f94c7ba98df76bd292</string>
+    <string name="login_logo_text">페어러와 함께\n평화로운 하루를 보내세요</string>
+
+    <!-- settingFragment -->
+    <string name="setting_header_title">설정</string>
+    <string name="setting_account_row_text">계정</string>
+    <string name="setting_space_row_text">공간관리</string>
+    <string name="setting_contact_row_text">문의하기</string>
+    <string name="setting_info_row_text">정보</string>
+    <string name="setting_version_row_text">버전</string>
+    <string name="setting_logout_row_text">로그아웃</string>
+
+    <!-- inviteFragment -->
+    <string name="invite_main_title">공간에 사람을 초대해주세요.</string>
+    <string name="invite_main_desc">앞으로 함께 집안일을 관리할 가족, 친구, 룸메이트 누구든 초대해주세요!</string>
+    <string name="invite_sign_highlight">즐거운 우리집</string>
+    <string name="invite_sign_normal">의 초대코드</string>
+    <string name="invite_btn_text_copy">초대코드 복사하기</string>
+    <string name="invite_btn_text_share">카카오톡 공유하기</string>
+    <string name="invite_btn_text_skip">건너뛰기</string>
+
+    <!-- contractFragment -->
+    <string name="contact_header_text">문의하기</string>
+    <string name="contact_sign_text">궁금한 점이 있으신가요?</string>
+    <string name="contact_sign_email">이메일</string>
+    <string name="fairer_email"><u>faireran@gmail.com</u></string>
+    <string name="contact_sign_instagram">Instagram</string>
+    <string name="fairer_instagram">\@fairer.official</string>
+    <!-- social app key -->
+    <string name="KAKAO_NATIVE_APP_KEY">d16a9978adb770f94c7ba98df76bd292</string>
 
 </resources>
