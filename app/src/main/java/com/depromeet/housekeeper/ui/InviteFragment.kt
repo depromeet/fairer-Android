@@ -42,9 +42,9 @@ class InviteFragment : Fragment() {
     private fun initListener() {
 
         binding.inviteHeader.apply {
-            addTodoHeaderTv.text = ""
+            defaultHeaderTitleTv.text = ""
 
-            addTodoBackBtn.setOnClickListener {
+            defaultHeaderBackBtn.setOnClickListener {
                 it.findNavController().navigateUp()
             }
         }

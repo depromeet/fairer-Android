@@ -13,7 +13,7 @@
             android:id="@+id/contact_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/layout_add_todo_header" />
+            layout="@layout/layout_default_header" />
 
         <TextView
             android:id="@+id/contact_sign_tv"

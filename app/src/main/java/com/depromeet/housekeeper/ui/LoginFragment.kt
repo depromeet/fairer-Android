@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.google.android.gms.auth.api.signin.*
@@ -25,7 +26,7 @@ class LoginFragment : Fragment() {
   lateinit var binding: FragmentLoginBinding
   private val RC_SIGN_IN = 1
   lateinit var mGoogleSignInClient: GoogleSignInClient
-  private val viewModel: LoginFragmentViewModel by viewModels()
+  private val viewModel: LoginViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,

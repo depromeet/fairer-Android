@@ -31,8 +31,8 @@ class ContactFragment : Fragment() {
 
     private fun initListener() {
         binding.contactHeader.apply {
-            addTodoHeaderTv.text = resources.getString(R.string.contact_header_text)
-            addTodoBackBtn.setOnClickListener {
+            defaultHeaderTitleTv.text = resources.getString(R.string.contact_header_text)
+            defaultHeaderBackBtn.setOnClickListener {
                 it.findNavController().navigateUp()
             }
         }

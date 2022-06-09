@@ -42,9 +42,9 @@ class SettingFragment : Fragment() {
     private fun initListener() {
 
         binding.settingHeader.apply {
-            addTodoHeaderTv.text = resources.getString(R.string.setting_header_title)
+            defaultHeaderTitleTv.text = resources.getString(R.string.setting_header_title)
 
-            addTodoBackBtn.setOnClickListener {
+            defaultHeaderBackBtn.setOnClickListener {
                 it.findNavController().navigateUp()
             }
         }

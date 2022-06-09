@@ -2,8 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.Chore
+import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
@@ -15,9 +15,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class AddTodo2ViewModel: ViewModel(){
+class AddHouseWorkViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
     val curDate: StateFlow<String>

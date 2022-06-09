@@ -118,18 +118,18 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoHeader.apply {
-            addTodoBackBtn.setOnClickListener {
+            defaultHeaderBackBtn.setOnClickListener {
                 it.findNavController().navigateUp()
             }
-            addTodoHeaderTv.text = ""
+            defaultHeaderTitleTv.text = ""
 
             // delete 분기 처리
             when(viewModel.curViewType.value) {
                 ViewType.ADD -> {
-                    addTodoHeaderRightTv.visibility = View.GONE
+                    defaultHeaderRightTv.visibility = View.GONE
                 }
                 ViewType.EDIT -> {
-                    addTodoHeaderRightTv.apply {
+                    defaultHeaderRightTv.apply {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             // delete api
