@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import kotlinx.coroutines.flow.collect
@@ -52,7 +53,7 @@ class SignNameFragment : Fragment() {
             viewmodel.setinputname(binding.signNameEt.text.toString())
         }
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            //findNavController().navigate()
+            findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(viewmodel.inputName.value))
         }
     }
 }
