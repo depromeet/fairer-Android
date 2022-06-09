@@ -25,4 +25,11 @@ object PrefsManager {
       putString(REFRESH_TOKEN, refreshToken)
     }?.apply()
   }
+
+  fun deleteTokens() {
+    prefs.edit()?.apply {
+      remove(ACCESS_TOKEN)
+      remove(REFRESH_TOKEN)
+    }?.apply()
+  }
 }

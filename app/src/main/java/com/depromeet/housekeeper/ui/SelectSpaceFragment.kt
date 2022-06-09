@@ -1,20 +1,21 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.depromeet.housekeeper.adapter.AddTodo1ChoreAdapter
-import com.depromeet.housekeeper.databinding.FragmentAddTodo1Binding
+import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.adapter.SelectSpaceChoreAdapter
+import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
@@ -23,21 +24,21 @@ import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.util.Calendar
+import java.util.*
 
-class AddTodoFragment1 : Fragment(), View.OnClickListener {
-    lateinit var binding: FragmentAddTodo1Binding
-    private lateinit var myAdapter:AddTodo1ChoreAdapter
+class SelectSpaceFragment : Fragment(), View.OnClickListener {
+    lateinit var binding: FragmentSelectSpaceBinding
+    private lateinit var myAdapter:SelectSpaceChoreAdapter
     private var selected: Boolean = false
-    private val viewModel: AddTodoFragment1ViewModel by viewModels()
-    private val navArgs by navArgs<AddTodoFragment1Args>()
+    private val viewModel: SelectSpaceViewModel by viewModels()
+    private val navArgs by navArgs<SelectSpaceFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_todo1, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_space, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         viewModel.addCalendarView(navArgs.selectDate.date)
         binding.currentDate = viewModel.bindingDate()
@@ -49,23 +50,23 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun initListener() {
-        binding.addTodo1ImageEntrance.setOnClickListener(this)
-        binding.addTodo1ImageLivingRoom.setOnClickListener(this)
-        binding.addTodo1ImageBathroom.setOnClickListener(this)
-        binding.addTodo1ImageOutside.setOnClickListener(this)
-        binding.addTodo1ImageRoom.setOnClickListener(this)
-        binding.addTodo1ImageKitchen.setOnClickListener(this)
+        binding.selectSpaceImageEntrance.setOnClickListener(this)
+        binding.selectSpaceImageLivingRoom.setOnClickListener(this)
+        binding.selectSpaceImageBathroom.setOnClickListener(this)
+        binding.selectSpaceImageOutside.setOnClickListener(this)
+        binding.selectSpaceImageRoom.setOnClickListener(this)
+        binding.selectSpaceImageKitchen.setOnClickListener(this)
 
         // go to 집안일 직접 추가 화면
-        binding.addTodo1GoDirectBtn.setOnClickListener {
+        binding.selectSpaceGoDirectBtn.setOnClickListener {
             navigateToAddDirectTodoPage()
         }
-        binding.addTodo1GoDirectBtn2.setOnClickListener {
+        binding.selectSpaceGoDirectBtn2.setOnClickListener {
             navigateToAddDirectTodoPage()
         }
 
         // go to 다음 - 집안일 상세 화면
-        binding.addTodo1NextBtn.mainFooterButton.apply {
+        binding.selectSpaceNextBtn.mainFooterButton.apply {
             text = resources.getString(R.string.next_btn_text)
             setOnClickListener {
                 navigateToAddTodoPage2()
@@ -73,11 +74,14 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         }
 
         // header 뒤로 가기
-        binding.addTodo1Header.addTodoBackBtn.setOnClickListener {
-            it.findNavController().navigateUp()
+        binding.selectSpaceHeader.apply {
+            defaultHeaderTitleTv.text = ""
+            defaultHeaderBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
         }
 
-        binding.addTodo1Calender.setOnClickListener {
+        binding.selectSpaceCalender.setOnClickListener {
             createDatePickerDialog()
         }
     }
@@ -106,10 +110,10 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
 
   private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
-        binding.addTodo1Recyclerview.layoutManager=gridLayoutManager
-        binding.addTodo1Recyclerview.addItemDecoration(VerticalItemDecorator(10))
-        myAdapter = AddTodo1ChoreAdapter(emptyList<String>())
-        binding.addTodo1Recyclerview.adapter = myAdapter
+        binding.selectSpaceRecyclerview.layoutManager=gridLayoutManager
+        binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(10))
+        myAdapter = SelectSpaceChoreAdapter(emptyList<String>())
+        binding.selectSpaceRecyclerview.adapter = myAdapter
     }
 
     private fun bindingVm(){
@@ -117,21 +121,21 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         selected = false
         lifecycleScope.launchWhenStarted {
             viewModel.chorelist.collect {
-                myAdapter = AddTodo1ChoreAdapter(viewModel.chorelist.value)
+                myAdapter = SelectSpaceChoreAdapter(viewModel.chorelist.value)
                 myAdapter.notifyDataSetChanged()
-                binding.addTodo1Recyclerview.adapter = myAdapter
+                binding.selectSpaceRecyclerview.adapter = myAdapter
 
-                myAdapter.setItemClickListener(object: AddTodo1ChoreAdapter.OnItemClickListener{
+                myAdapter.setItemClickListener(object: SelectSpaceChoreAdapter.OnItemClickListener{
                     override fun onClick(v: View, chore:String, position: Int) {
                         v.isSelected = !v.isSelected
                         Timber.d("item click $position")
                         viewModel.updateChores(chore,v.isSelected)
-                        binding.addTodo1NextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
+                        binding.selectSpaceNextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
                         if(viewModel.getChoreCount()>0){
-                            binding.addTodo1Group3.visibility=View.GONE
+                            binding.selectSpaceGroup3.visibility=View.GONE
                         }
                         else{
-                            binding.addTodo1Group3.visibility=View.VISIBLE
+                            binding.selectSpaceGroup3.visibility=View.VISIBLE
                         }
                     }
                 })
@@ -140,7 +144,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
 
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
-                binding.addTodo1Calender.text = viewModel.bindingDate()
+                binding.selectSpaceCalender.text = viewModel.bindingDate()
             }
         }
 
@@ -152,8 +156,8 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
   private fun navigateToAddDirectTodoPage() {
-    binding.addTodo1GoDirectBtn.findNavController()
-      .navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddDirectTodoFragment(
+    binding.selectSpaceGoDirectBtn.findNavController()
+      .navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddDirectTodoFragment(
         viewType = ViewType.ADD,
         selectDate = viewModel.selectCalendar.value,
         houseWork = HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
@@ -161,7 +165,7 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
   }
 
   private fun navigateToAddTodoPage2() {
-    findNavController().navigate(AddTodoFragment1Directions.actionAddTodoFragment1ToAddTodoFragment2(
+    findNavController().navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddHouseWorkFramgent(
       SpaceChores(
         spaceName = viewModel.selectSpace.value,
         houseWorks = viewModel.chores.value,
@@ -175,16 +179,16 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 selected = false
-                binding.addTodo1ImageEntrance.isSelected = false
-                binding.addTodo1ImageLivingRoom.isSelected = false
-                binding.addTodo1ImageBathroom.isSelected = false
-                binding.addTodo1ImageOutside.isSelected = false
-                binding.addTodo1ImageRoom.isSelected = false
-                binding.addTodo1ImageKitchen.isSelected = false
-                binding.addTodo1Group.visibility=View.VISIBLE
-                binding.addTodo1Group2.visibility=View.INVISIBLE
-                binding.addTodo1Group3.visibility=View.INVISIBLE
-                binding.addTodo1Group4.visibility=View.INVISIBLE
+                binding.selectSpaceImageEntrance.isSelected = false
+                binding.selectSpaceImageLivingRoom.isSelected = false
+                binding.selectSpaceImageBathroom.isSelected = false
+                binding.selectSpaceImageOutside.isSelected = false
+                binding.selectSpaceImageRoom.isSelected = false
+                binding.selectSpaceImageKitchen.isSelected = false
+                binding.selectSpaceGroup.visibility=View.VISIBLE
+                binding.selectSpaceGroup2.visibility=View.INVISIBLE
+                binding.selectSpaceGroup3.visibility=View.INVISIBLE
+                binding.selectSpaceGroup4.visibility=View.INVISIBLE
                 viewEnabled()
                 onClick(space)
             }
@@ -197,50 +201,50 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
         }
         else {
             when (space) {
-                binding.addTodo1ImageEntrance -> {
+                binding.selectSpaceImageEntrance -> {
                     selected = true
-                    binding.addTodo1ImageEntrance.isSelected = true
-                    binding.addTodo1ImageEntrance.isEnabled = false
+                    binding.selectSpaceImageEntrance.isSelected = true
+                    binding.selectSpaceImageEntrance.isEnabled = false
                     viewModel.setSpace("ENTRANCE")
                     viewModel.setChoreList("ENTRANCE")
                     viewChange()
                 }
-                binding.addTodo1ImageLivingRoom -> {
+                binding.selectSpaceImageLivingRoom -> {
                     selected = true
-                    binding.addTodo1ImageLivingRoom.isSelected = true
-                    binding.addTodo1ImageLivingRoom.isEnabled = false
+                    binding.selectSpaceImageLivingRoom.isSelected = true
+                    binding.selectSpaceImageLivingRoom.isEnabled = false
                     viewModel.setSpace("LIVINGROOM")
                     viewModel.setChoreList("LIVINGROOM")
                     viewChange()
                 }
-                binding.addTodo1ImageBathroom -> {
+                binding.selectSpaceImageBathroom -> {
                     selected = true
-                    binding.addTodo1ImageBathroom.isSelected = true
-                    binding.addTodo1ImageBathroom.isEnabled = false
+                    binding.selectSpaceImageBathroom.isSelected = true
+                    binding.selectSpaceImageBathroom.isEnabled = false
                     viewModel.setSpace("BATHROOM")
                     viewModel.setChoreList("BATHROOM")
                     viewChange()
                 }
-                binding.addTodo1ImageOutside -> {
+                binding.selectSpaceImageOutside -> {
                     selected = true
-                    binding.addTodo1ImageOutside.isSelected = true
-                    binding.addTodo1ImageOutside.isEnabled = false
+                    binding.selectSpaceImageOutside.isSelected = true
+                    binding.selectSpaceImageOutside.isEnabled = false
                     viewModel.setSpace("OUTSIDE")
                     viewModel.setChoreList("OUTSIDE")
                     viewChange()
                 }
-                binding.addTodo1ImageRoom -> {
+                binding.selectSpaceImageRoom -> {
                     selected = true
-                    binding.addTodo1ImageRoom.isSelected = true
-                    binding.addTodo1ImageRoom.isEnabled = false
+                    binding.selectSpaceImageRoom.isSelected = true
+                    binding.selectSpaceImageRoom.isEnabled = false
                     viewModel.setSpace("ROOM")
                     viewModel.setChoreList("ROOM")
                     viewChange()
                 }
-                binding.addTodo1ImageKitchen -> {
+                binding.selectSpaceImageKitchen -> {
                     selected = true
-                    binding.addTodo1ImageKitchen.isSelected = true
-                    binding.addTodo1ImageKitchen.isEnabled = false
+                    binding.selectSpaceImageKitchen.isSelected = true
+                    binding.selectSpaceImageKitchen.isEnabled = false
                     viewModel.setSpace("KITCHEN")
                     viewModel.setChoreList("KITCHEN")
                     viewChange()
@@ -250,19 +254,19 @@ class AddTodoFragment1 : Fragment(), View.OnClickListener {
     }
 
     private fun viewChange(){
-        binding.addTodo1Group.visibility=View.INVISIBLE
-        binding.addTodo1Group2.visibility=View.VISIBLE
-        binding.addTodo1Group3.visibility=View.VISIBLE
-        binding.addTodo1Group4.visibility=View.VISIBLE
+        binding.selectSpaceGroup.visibility=View.INVISIBLE
+        binding.selectSpaceGroup2.visibility=View.VISIBLE
+        binding.selectSpaceGroup3.visibility=View.VISIBLE
+        binding.selectSpaceGroup4.visibility=View.VISIBLE
     }
 
     private  fun viewEnabled(){
-        binding.addTodo1ImageEntrance.isEnabled = true
-        binding.addTodo1ImageLivingRoom.isEnabled = true
-        binding.addTodo1ImageBathroom.isEnabled = true
-        binding.addTodo1ImageOutside.isEnabled = true
-        binding.addTodo1ImageRoom.isEnabled = true
-        binding.addTodo1ImageKitchen.isEnabled = true
+        binding.selectSpaceImageEntrance.isEnabled = true
+        binding.selectSpaceImageLivingRoom.isEnabled = true
+        binding.selectSpaceImageBathroom.isEnabled = true
+        binding.selectSpaceImageOutside.isEnabled = true
+        binding.selectSpaceImageRoom.isEnabled = true
+        binding.selectSpaceImageKitchen.isEnabled = true
 
     }
 

@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
-class AddTodoFragment1ViewModel : ViewModel() {
+class SelectSpaceViewModel : ViewModel() {
   init {
     getChoreList()
   }

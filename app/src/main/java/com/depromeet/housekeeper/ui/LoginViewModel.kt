@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class LoginFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
   private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)
   val response: StateFlow<LoginResponse?>

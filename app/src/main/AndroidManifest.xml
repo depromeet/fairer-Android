@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.depromeet.housekeeper">
-  
+
+  <!--queries에 카카오톡 패키지 추가-->
+  <queries>
+    <package android:name="com.kakao.talk" />
+  </queries>
+
   <uses-permission android:name="android.permission.INTERNET"/>
-  
+
   <application
     android:name=".HouseKeeperApplication"
     android:allowBackup="true"
@@ -19,8 +24,12 @@
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-        
+
         <category android:name="android.intent.category.LAUNCHER" />
+
+        <!-- "kakao${YOUR_NATIVE_APP_KEY}://kakaolink" 형식의 앱 실행 스킴을 설정하는데 사용 -->
+        <data android:host="kakaolink"
+            android:scheme="kakaod16a9978adb770f94c7ba98df76bd292" />
       </intent-filter>
     </activity>
   </application>

@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,17 +18,18 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
   private lateinit var dayOfAdapter: DayOfWeekAdapter
-
   private var houseWorkAdapter: HouseWorkAdapter? = null
   private val mainViewModel: MainViewModel by viewModels()
 
@@ -54,7 +54,7 @@ class MainFragment : Fragment() {
 
   private fun setListener() {
     binding.btAddTodo.root.setOnClickListener {
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTodoFragment1(
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
         mainViewModel.dayOfWeek.value))
     }
 
@@ -76,6 +76,10 @@ class MainFragment : Fragment() {
 
     binding.tvEnd.setOnClickListener {
       mainViewModel.updateState(MainViewModel.CurrentState.DONE)
+    }
+
+    binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
   }
 
