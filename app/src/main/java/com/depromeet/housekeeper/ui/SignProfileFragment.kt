@@ -52,8 +52,9 @@ class SignProfileFragment : Fragment() {
     }
 
     private fun initListener() {
+        binding.signProfileHeader.defaultHeaderTitleTv.text = ""
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_profile_next_btn_text)
-        binding.signProfileHeader.addTodoBackBtn.setOnClickListener {
+        binding.signProfileHeader.defaultHeaderBackBtn.setOnClickListener {
             findNavController().navigateUp()
         }
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {

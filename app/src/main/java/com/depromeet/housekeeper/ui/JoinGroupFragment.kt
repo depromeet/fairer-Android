@@ -35,7 +35,8 @@ class JoinGroupFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.joinGroupHeader.addTodoBackBtn.setOnClickListener {
+        binding.joinGroupHeader.defaultHeaderTitleTv.text = ""
+        binding.joinGroupHeader.defaultHeaderBackBtn.setOnClickListener {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
