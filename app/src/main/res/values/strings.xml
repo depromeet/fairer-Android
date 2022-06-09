@@ -122,6 +122,11 @@
     <string name="fairer_email"><u>faireran@gmail.com</u></string>
     <string name="contact_sign_instagram">Instagram</string>
     <string name="fairer_instagram">\@fairer.official</string>
+
+    <!-- policyFragment -->
+    <string name="policy_header_title">정보</string>
+    <string name="policy_content_text">@string/policy_script</string>
+
     <!-- social app key -->
     <string name="KAKAO_NATIVE_APP_KEY">d16a9978adb770f94c7ba98df76bd292</string>
 
