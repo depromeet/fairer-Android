@@ -24,7 +24,7 @@ class SignProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_profile,container,false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewmodel
