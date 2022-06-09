@@ -23,7 +23,8 @@
 
         <TextView
             android:id="@+id/join_group_main_text"
-            style="@style/Heading.H2"
+            style="@style/Body"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
