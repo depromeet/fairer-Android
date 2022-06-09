@@ -59,6 +59,7 @@ class SignNameFragment : Fragment() {
             val emailPattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*"
             if (!value.matches(emailPattern.toRegex())) {
                 binding.isError = true
+                binding.signNameNextBtn.mainFooterButton.isEnabled = false
             } else {
                 binding.isError = false
                 binding.signNameNextBtn.mainFooterButton.isEnabled = viewmodel.inputName.value!=""

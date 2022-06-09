@@ -51,6 +51,8 @@
             android:text="@string/sign_name_error"
             app:layout_constraintTop_toBottomOf="@id/sign_name_et"
             app:layout_constraintStart_toStartOf="@id/sign_name_et"
+            style="@style/Body"
+            android:textSize="14sp"
             android:layout_marginTop="8dp"
             android:textColor="@color/negative_20"
             android:visibility="@{isError ? View.VISIBLE : View.INVISIBLE}"/>
