@@ -43,4 +43,7 @@ interface ApiService {
 
   @PATCH("/api/houseworks/{houseWorkId}")
   suspend fun updateChoreState(@Path("houseWorkId") houseWorkId: Int, @Body updateChoreBody : UpdateChoreBody): UpdateChoreResponse
+
+  @POST("/api/oauth/logout")
+  suspend fun logout(@Header("Authorization")auth : String)
 }

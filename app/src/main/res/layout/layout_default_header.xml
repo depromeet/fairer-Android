@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/add_todo_header_tb"
+            android:id="@+id/default_header_tb"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
@@ -15,24 +15,25 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/add_todo_back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:id="@+id/default_header_back_btn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="6dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/ic_arrow_left"/>
 
             <TextView
-                android:id="@+id/add_todo_header_tv"
+                android:id="@+id/default_header_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="title"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/add_todo_header_right_tv"
+                android:id="@+id/default_header_right_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remove_todo_tv"
