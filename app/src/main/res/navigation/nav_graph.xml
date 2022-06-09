@@ -161,6 +161,16 @@
             app:popExitAnim="@anim/slide_out_right"/>
 
         <action
+            android:id="@+id/action_settingFragment_to_contactFragment"
+            app:destination="@+id/contactFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+
+
+        <action
             android:id="@+id/action_settingFragment_to_loginFragment"
             app:destination="@+id/loginFragment"
             app:enterAnim="@android:anim/fade_in"
@@ -176,5 +186,12 @@
         android:name="com.depromeet.housekeeper.ui.InviteFragment"
         android:label="InviteFragment"
         tools:layout="@layout/fragment_invite">
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.depromeet.housekeeper.ui.ContactFragment"
+        android:label="ContactFragment"
+        tools:layout="@layout/fragment_contact">
     </fragment>
 </navigation>

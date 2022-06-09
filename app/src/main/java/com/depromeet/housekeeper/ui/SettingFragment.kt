@@ -53,6 +53,10 @@ class SettingFragment : Fragment() {
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToInviteFragment())
         }
 
+        binding.contactRow.setOnClickListener {
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToContactFragment())
+        }
+
         binding.logoutRow.setOnClickListener {
             viewModel.signOut(requireContext())
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToLoginFragment())
