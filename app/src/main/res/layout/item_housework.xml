@@ -32,7 +32,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="2dp"
-        android:src="@drawable/ic_profile"
+        android:src="@drawable/ic_profile1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
       

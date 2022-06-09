@@ -6,9 +6,9 @@
   <queries>
     <package android:name="com.kakao.talk" />
   </queries>
-  
+
   <uses-permission android:name="android.permission.INTERNET"/>
-  
+
   <application
     android:name=".HouseKeeperApplication"
     android:allowBackup="true"
@@ -24,7 +24,7 @@
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-        
+
         <category android:name="android.intent.category.LAUNCHER" />
 
         <!-- "kakao${YOUR_NATIVE_APP_KEY}://kakaolink" 형식의 앱 실행 스킴을 설정하는데 사용 -->

@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
     super.onStart()
     val account = GoogleSignIn.getLastSignedInAccount(requireContext())
     if (account != null) {
-      navigateToMain()
+      navigateToSignName()
     }
   }
 
@@ -100,13 +100,13 @@ class LoginFragment : Fragment() {
         Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
         response?.run {
           PrefsManager.setTokens(response.accessToken, response.refreshToken)
-          navigateToMain()
+          navigateToSignName()
         }
       }
     }
   }
 
-  private fun navigateToMain() {
-    findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+  private fun navigateToSignName() {
+    findNavController().navigate(R.id.action_loginFragment_to_signNameFragment)
   }
 }

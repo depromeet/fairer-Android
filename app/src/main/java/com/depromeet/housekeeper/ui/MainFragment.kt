@@ -30,7 +30,6 @@ class MainFragment : Fragment() {
 
   lateinit var binding: FragmentMainBinding
   private lateinit var dayOfAdapter: DayOfWeekAdapter
-
   private var houseWorkAdapter: HouseWorkAdapter? = null
   private val mainViewModel: MainViewModel by viewModels()
 
