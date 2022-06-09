@@ -27,7 +27,7 @@
             android:textSize="20sp"
             android:textColor="@color/gray_800"
             style="@style/Heading.H2"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="83dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:inputType="textPersonName"
             android:hint="@string/sign_name_hint"
             android:background="@drawable/sign_name_edit_text_background"/>

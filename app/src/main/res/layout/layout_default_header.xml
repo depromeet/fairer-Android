@@ -26,11 +26,10 @@
                 android:id="@+id/default_header_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="title"
-                android:textSize="14sp"
+                style="@style/Title.T2"
+                android:textStyle="bold"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/default_header_right_tv"
