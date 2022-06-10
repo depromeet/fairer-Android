@@ -17,7 +17,6 @@
             name="viewType"
             type="com.depromeet.housekeeper.model.enums.SignViewType" />
 
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +74,7 @@
                 android:visibility="@{isError ? View.VISIBLE : View.INVISIBLE}"/>
 
         </LinearLayout>
-
+      
         <include
             android:id="@+id/sign_name_next_btn"
             layout="@layout/layout_main_footer_button"

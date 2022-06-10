@@ -21,6 +21,4 @@ class SignNameViewModel : ViewModel() {
     fun setViewType(viewType : SignViewType){
         _viewType.value = viewType
     }
-
-
 }

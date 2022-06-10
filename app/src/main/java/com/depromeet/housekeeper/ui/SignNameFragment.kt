@@ -44,7 +44,6 @@ class SignNameFragment : Fragment() {
     }
 
     private fun initListener() {
-        viewmodel.setViewType(navArgs.viewType)
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             findNavController().navigate(
@@ -69,5 +68,4 @@ class SignNameFragment : Fragment() {
             }
         }
     }
-
 }
