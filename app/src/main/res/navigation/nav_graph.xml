@@ -156,9 +156,12 @@
         android:name="com.depromeet.housekeeper.ui.SignNameFragment"
         android:label="SignNameFragment"
         tools:layout="@layout/fragment_sign_name">
+        <argument
+            android:name="viewType"
+            app:argType="com.depromeet.housekeeper.model.enums.SignViewType"/>
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
-            app:destination="@id/signProfileFragment"></action>
+            app:destination="@id/signProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/signProfileFragment"
