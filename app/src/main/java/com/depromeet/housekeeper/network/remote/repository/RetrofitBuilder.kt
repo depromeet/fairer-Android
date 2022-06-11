@@ -56,7 +56,7 @@ object RetrofitBuilder {
       return try {
         chain.proceed(
           request.newBuilder()
-            .addHeader("AUTHORIZATION", PrefsManager.accessToken)
+            .addHeader("Authorization", PrefsManager.accessToken.ifEmpty { PrefsManager.authCode })
             .build()
         )
       } catch (e: Exception) {

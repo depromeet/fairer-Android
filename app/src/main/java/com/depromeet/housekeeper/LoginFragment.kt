@@ -87,7 +87,8 @@ class LoginFragment : Fragment() {
         val account = task.getResult(ApiException::class.java)
         val authCode = account.serverAuthCode
         if (authCode != null) {
-          viewModel.requestLogin(authCode)
+          PrefsManager.setAuthCode(authCode)
+          viewModel.requestLogin()
         }
         Timber.d("!! $authCode")
       } catch (e: ApiException) {
