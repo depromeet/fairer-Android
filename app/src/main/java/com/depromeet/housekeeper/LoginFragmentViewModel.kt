@@ -18,11 +18,9 @@ class LoginFragmentViewModel(application: Application) : AndroidViewModel(applic
   val response: StateFlow<LoginResponse?>
     get() = _response
 
-  fun requestLogin(authCode: String) {
+  fun requestLogin() {
     viewModelScope.launch {
-      Repository.getGoogleLogin(
-        authCode, SocialType("GOOGLE")
-      ).runCatching {
+      Repository.getGoogleLogin(SocialType("GOOGLE")).runCatching {
         collect {
           _response.value = it
         }
