@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingBinding
+import com.depromeet.housekeeper.ui.custom.dialog.DialogType
+import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 
 class SettingFragment : Fragment() {
     lateinit var binding:FragmentSettingBinding
@@ -57,9 +60,24 @@ class SettingFragment : Fragment() {
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToContactFragment())
         }
 
+        binding.policyRow.setOnClickListener {
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToPolicyFragment())
+        }
+
         binding.logoutRow.setOnClickListener {
-            viewModel.signOut(requireContext())
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToLoginFragment())
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = FairerDialog(requireContext(), DialogType.LOGOUT)
+        dialog.showDialog()
+
+        dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
+            override fun onItemClick() {
+                viewModel.signOut(requireContext())
+                findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
+            }
         }
     }
 

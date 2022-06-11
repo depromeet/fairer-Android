@@ -221,7 +221,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
 
-
+        <action
+            android:id="@+id/action_settingFragment_to_policyFragment"
+            app:destination="@id/policyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
 
         <action
             android:id="@+id/action_settingFragment_to_loginFragment"
@@ -250,4 +256,10 @@
         android:label="ContactFragment"
         tools:layout="@layout/fragment_contact">
     </fragment>
+
+    <fragment
+        android:id="@+id/policyFragment"
+        android:name="com.depromeet.housekeeper.ui.PolicyFragment"
+        android:label="PolicyFragment"
+        tools:layout="@layout/fragment_policy" />
 </navigation>

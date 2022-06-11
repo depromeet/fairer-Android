@@ -16,13 +16,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/add_todo_back_btn"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="6dp"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/ic_arrow_left"/>
-
                 android:id="@+id/fairer_logo_iv"
                 android:layout_width="50dp"
                 android:layout_height="16dp"
