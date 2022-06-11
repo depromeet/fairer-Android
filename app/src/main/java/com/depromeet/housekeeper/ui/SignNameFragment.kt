@@ -9,12 +9,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
+import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.model.enums.SignViewType
 
 class SignNameFragment : Fragment() {
     lateinit var binding : FragmentSignNameBinding
     private val viewmodel : SignNameViewModel by viewModels()
+    private val navArgs by navArgs<SignNameFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,24 +35,37 @@ class SignNameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListener()
         bindingvm()
+        initListener()
         validateName()
     }
 
     private fun bindingvm() {
-
-
+        viewmodel.setViewType(navArgs.viewType)
+        binding.viewType = viewmodel.viewType.value
     }
 
     private fun initListener() {
+        binding.signNameHeader.defaultHeaderTitleTv.text = ""
+        binding.signNameHeader.defaultHeaderBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            findNavController().navigate(
-                SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                    viewmodel.inputName.value
-                )
-            )
+            when(viewmodel.viewType.value){
+                SignViewType.UserName -> {
+                    findNavController().navigate(
+                        SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
+                            name = viewmodel.inputName.value,viewType = ProfileViewType.Sign))
+                }
+                SignViewType.GroupName -> {
+                    findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)
+                    }
+                SignViewType.InviteCode -> {
+                    findNavController().navigate(R.id.action_signNameFragment_to_mainFragment)
+                }
+            }
+
         }
     }
 

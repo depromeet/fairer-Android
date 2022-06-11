@@ -3,19 +3,13 @@ package com.depromeet.housekeeper.ui.custom.dialog
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.DataBindingUtil
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.databinding.DialogFairerBinding
 
 class FairerDialog(private val context: Context, private val type: DialogType) {
     lateinit var onItemClickListener: OnItemClickListener
@@ -53,6 +47,18 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
                 tvDialogTitle.setText(R.string.fairer_dialog_delete_title)
                 tvDialogDesc.setText(R.string.fairer_dialog_delete_desc)
             }
+            DialogType.LOGOUT -> {
+                tvDialogTitle.setText(R.string.fairer_dialog_logout_title)
+                tvDialogDesc.text = ""
+                btnDialogOk.setText(R.string.fairer_dialog_logout_btn_text)
+                btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
+            }
+            DialogType.EXIT -> {
+                tvDialogTitle.setText(R.string.fairer_dialog_exit_title)
+                tvDialogDesc.setText(R.string.fairer_dialog_exit_desc)
+                btnDialogOk.setText(R.string.fairer_dialog_exit_btn_text)
+                btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
+            }
         }
 
         outsideDialog.setOnClickListener {
@@ -73,5 +79,5 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
 }
 
 enum class DialogType {
-    CHANGE, DELETE
+    CHANGE, DELETE, LOGOUT, EXIT
 }

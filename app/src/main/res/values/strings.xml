@@ -26,10 +26,15 @@
 
 
     <!-- Fairer Dialog -->
-    <string name="fairer_dialog_cancel_text">취소</string>
-    <string name="fairer_dialog_ok_text">확인</string>
+    <string name="fairer_dialog_cancel_btn_text">취소</string>
+    <string name="fairer_dialog_ok_btn_text">확인</string>
+    <string name="fairer_dialog_logout_btn_text">로그아웃</string>
+    <string name="fairer_dialog_exit_btn_text">그룹 나가기</string>
     <string name="fairer_dialog_delete_title">집안일을 삭제하시겠어요?</string>
     <string name="fairer_dialog_delete_desc">삭제하시면 다시 복구할 수 없습니다.</string>
+    <string name="fairer_dialog_logout_title">로그아웃 하시겠습니까?</string>
+    <string name="fairer_dialog_exit_title">정말 나가시겠습니까?</string>
+    <string name="fairer_dialog_exit_desc">모든 집안일 기록이 사라집니다.</string>
 
 
     <string-array name="day_array">
@@ -79,7 +84,7 @@
 
     <!--SignNameFragment-->
     <string name="sign_name_text">이름을 입력해주세요.</string>
-    <string name="sign_name_hint">이름</string>
+    <string name="sign_name_hint">예) 홍길동</string>
     <string name="sign_name_next_btn_text">입력 완료</string>
     <string name="sign_name_error">&amp;,!,#,@,^와 같은 특수문자는 입력하실 수 없어요.</string>
 
@@ -129,5 +134,18 @@
 
     <!-- social app key -->
     <string name="KAKAO_NATIVE_APP_KEY">d16a9978adb770f94c7ba98df76bd292</string>
+
+    <!--GroupNameFragment-->
+    <string name="group_name_sub_text">집의 특성을 잘 보여줄 수 있는 이름도 좋아요!</string>
+    <string name="group_name_text">하우스의 이름을 입력해주세요.</string>
+    <string name="group_name_hint">예) 즐거운 우리집</string>
+
+    <!--InviteCodeFragment-->
+    <string name="invite_code_text">초대코드를 입력해주세요.</string>
+    <string name="invite_code_sub_text">초대코드를 입력 후 바로 공간에 참여할 수 있어요!</string>
+    <string name="invite_code_hint">10글자 입력</string>
+
+    <!--ModifyGroupName-->
+    <string name="modify_group_name_text">하우스 이름 변경</string>
 
 </resources>

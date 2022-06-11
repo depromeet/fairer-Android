@@ -3,6 +3,8 @@ package com.depromeet.housekeeper.util
 import android.graphics.Typeface
 import android.widget.ImageView
 import android.widget.TextView
+import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.model.enums.SignViewType
 
 
 object BindingAdapter {
@@ -24,5 +26,24 @@ object BindingAdapter {
   @JvmStatic
   fun isSelected(imageView: ImageView, isTrue : Boolean){
     imageView.isSelected = isTrue
+  }
+
+  @androidx.databinding.BindingAdapter("app:signViewType")
+  @JvmStatic
+  fun signViewType(textView: TextView, signViewType:SignViewType){
+    when(signViewType){
+      SignViewType.UserName -> {
+        textView.setText(R.string.sign_name_text)
+      }
+      SignViewType.GroupName -> {
+        textView.setText(R.string.group_name_text)
+      }
+      SignViewType.InviteCode -> {
+        textView.setText(R.string.invite_code_text)
+      }
+      SignViewType.ModifyGroupName -> {
+        textView.setText(R.string.modify_group_name_text)
+      }
+    }
   }
 }
