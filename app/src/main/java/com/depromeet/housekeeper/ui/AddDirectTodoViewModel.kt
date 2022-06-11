@@ -159,7 +159,9 @@ class AddDirectTodoViewModel : ViewModel() {
     viewModelScope.launch {
       Repository.deleteHouseWork(houseWorkId.value)
         .runCatching {
+        collect{
 
+        }
       }.onFailure {
         _networkError.value = true
       }
