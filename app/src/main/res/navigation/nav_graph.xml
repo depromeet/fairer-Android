@@ -156,9 +156,18 @@
         android:name="com.depromeet.housekeeper.ui.SignNameFragment"
         android:label="SignNameFragment"
         tools:layout="@layout/fragment_sign_name">
+        <argument
+            android:name="viewType"
+            app:argType="com.depromeet.housekeeper.model.enums.SignViewType"/>
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
-            app:destination="@id/signProfileFragment"></action>
+            app:destination="@id/signProfileFragment" />
+        <action
+            android:id="@+id/action_signNameFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_signNameFragment_to_inviteFragment"
+            app:destination="@id/inviteFragment" />
     </fragment>
     <fragment
         android:id="@+id/signProfileFragment"
@@ -167,7 +176,11 @@
         tools:layout="@layout/fragment_sign_profile">
         <argument
             android:name="name"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="viewType"
+            app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
         <action
             android:id="@+id/action_signProfileFragment_to_joinGroupFragment"
             app:destination="@id/joinGroupFragment" />
@@ -179,10 +192,11 @@
         tools:layout="@layout/fragment_join_group">
         <argument
             android:name="name"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
         <action
-            android:id="@+id/action_joinGroupFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_joinGroupFragment_to_signNameFragment"
+            app:destination="@id/signNameFragment" />
     </fragment>
 
     <fragment
@@ -231,6 +245,9 @@
         android:name="com.depromeet.housekeeper.ui.InviteFragment"
         android:label="InviteFragment"
         tools:layout="@layout/fragment_invite">
+        <action
+            android:id="@+id/action_inviteFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
     <fragment

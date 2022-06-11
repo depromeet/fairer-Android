@@ -3,10 +3,15 @@ package com.depromeet.housekeeper.ui
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.model.enums.ProfileViewType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class SignProfileViewModel : ViewModel() {
+    private val _viewType : MutableStateFlow<ProfileViewType> = MutableStateFlow(ProfileViewType.Sign)
+    val viewType : StateFlow<ProfileViewType>
+        get() = _viewType
+
     private val _isSelectedView: MutableStateFlow<Int> = MutableStateFlow(0)
     val isSelectedView: StateFlow<Int>
         get() = _isSelectedView
@@ -41,8 +46,8 @@ class SignProfileViewModel : ViewModel() {
                 _selectedImage.value = R.drawable.ic_profile4
             }
         }
-
-
     }
-
+    fun setViewType(viewType : ProfileViewType){
+        _viewType.value = viewType
+    }
 }

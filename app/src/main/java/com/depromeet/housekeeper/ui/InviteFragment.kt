@@ -7,14 +7,15 @@ import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -62,6 +63,10 @@ class InviteFragment : Fragment() {
 
         binding.inviteKakaoShareBtn.setOnClickListener {
             onKakaoShare(requireContext())
+        }
+
+        binding.inviteSkipBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_inviteFragment_to_mainFragment)
         }
 
     }

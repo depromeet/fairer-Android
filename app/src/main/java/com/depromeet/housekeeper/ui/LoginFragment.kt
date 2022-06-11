@@ -13,7 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.local.PrefsManager
-import com.google.android.gms.auth.api.signin.*
+import com.depromeet.housekeeper.model.enums.SignViewType
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
@@ -107,6 +111,6 @@ class LoginFragment : Fragment() {
   }
 
   private fun navigateToSignName() {
-    findNavController().navigate(R.id.action_loginFragment_to_signNameFragment)
+    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName))
   }
 }

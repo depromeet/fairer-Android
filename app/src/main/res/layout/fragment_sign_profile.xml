@@ -5,10 +5,14 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
 
+        <variable
+            name="viewType"
+            type="com.depromeet.housekeeper.model.enums.ProfileViewType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +73,7 @@
             android:background="@drawable/bg_profile_imageview_selector"
             android:padding="10dp"
             android:src="@drawable/ic_profile1"
-            android:onClick="@{vm.onClick}"
+            android:onClick="@{vm::onClick}"
             app:isSelected="@{vm.isSelectedView==1 ? true : false}"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview2"
@@ -84,7 +88,7 @@
             android:background="@drawable/bg_profile_imageview_selector"
             android:padding="10dp"
             android:src="@drawable/ic_profile2"
-            android:onClick="@{vm.onClick}"
+            android:onClick="@{vm::onClick}"
             app:isSelected="@{vm.isSelectedView==2 ? true : false}"
             app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview3"
             app:layout_constraintHorizontal_bias="0.5"
@@ -98,7 +102,7 @@
             android:background="@drawable/bg_profile_imageview_selector"
             android:padding="10dp"
             android:src="@drawable/ic_profile3"
-            android:onClick="@{vm.onClick}"
+            android:onClick="@{vm::onClick}"
             app:isSelected="@{vm.isSelectedView==3 ? true : false}"
             app:layout_constraintEnd_toStartOf="@+id/sign_profile_select_imageview4"
             app:layout_constraintHorizontal_bias="0.5"
@@ -112,7 +116,7 @@
             android:background="@drawable/bg_profile_imageview_selector"
             android:padding="10dp"
             android:src="@drawable/ic_profile4"
-            android:onClick="@{vm.onClick}"
+            android:onClick="@{vm::onClick}"
             app:isSelected="@{vm.isSelectedView==4 ? true : false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
