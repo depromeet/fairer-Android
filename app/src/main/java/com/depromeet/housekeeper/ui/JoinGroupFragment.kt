@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
+import com.depromeet.housekeeper.model.enums.SignViewType
 
 class JoinGroupFragment : Fragment() {
     lateinit var binding : FragmentJoinGroupBinding
@@ -40,7 +41,10 @@ class JoinGroupFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
-            findNavController().navigate(R.id.action_joinGroupFragment_to_mainFragment)
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName))
+        }
+        binding.joinGroupJoinSpaceButton.setOnClickListener {
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode))
         }
 
     }

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
+import com.depromeet.housekeeper.model.enums.SignViewType
 
 class SignNameFragment : Fragment() {
     lateinit var binding : FragmentSignNameBinding
@@ -44,13 +45,26 @@ class SignNameFragment : Fragment() {
     }
 
     private fun initListener() {
+        binding.signNameHeader.defaultHeaderTitleTv.text = ""
+        binding.signNameHeader.defaultHeaderBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            findNavController().navigate(
-                SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                    viewmodel.inputName.value
-                )
-            )
+            when(viewmodel.viewType.value){
+                SignViewType.UserName -> {
+                    findNavController().navigate(
+                        SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
+                            viewmodel.inputName.value))
+                }
+                SignViewType.GroupName -> {
+                    findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)
+                    }
+                SignViewType.InviteCode -> {
+                    findNavController().navigate(R.id.action_signNameFragment_to_mainFragment)
+                }
+            }
+
         }
     }
 

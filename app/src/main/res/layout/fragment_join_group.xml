@@ -21,7 +21,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="invisible"/>
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/join_group_main_text"
@@ -112,7 +111,7 @@
             android:layout_height="56dp"
             android:background="@drawable/join_group_normal_background"
             android:layout_marginHorizontal="24dp"
-            android:text="@string/join_group_make_space_button"
+            android:text="@string/join_group_join_space_button"
             android:textColor="@color/gray_800"
             android:textSize="16sp"
             android:textStyle="bold"

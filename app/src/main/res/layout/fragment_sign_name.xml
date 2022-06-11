@@ -29,6 +29,12 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+            <include
+                android:id="@+id/sign_name_header"
+                layout="@layout/layout_default_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewType==SignViewType.UserName ? View.INVISIBLE : View.VISIBLE}"/>
             <TextView
                 android:id="@+id/sign_name_text"
                 android:layout_width="wrap_content"

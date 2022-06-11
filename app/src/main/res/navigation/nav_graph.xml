@@ -162,6 +162,12 @@
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
             app:destination="@id/signProfileFragment" />
+        <action
+            android:id="@+id/action_signNameFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_signNameFragment_to_inviteFragment"
+            app:destination="@id/inviteFragment" />
     </fragment>
     <fragment
         android:id="@+id/signProfileFragment"
@@ -184,8 +190,8 @@
             android:name="name"
             app:argType="string" />
         <action
-            android:id="@+id/action_joinGroupFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_joinGroupFragment_to_signNameFragment"
+            app:destination="@id/signNameFragment" />
     </fragment>
 
     <fragment
