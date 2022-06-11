@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
+import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 
 class SignNameFragment : Fragment() {
@@ -34,8 +35,8 @@ class SignNameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListener()
         bindingvm()
+        initListener()
         validateName()
     }
 
@@ -55,7 +56,7 @@ class SignNameFragment : Fragment() {
                 SignViewType.UserName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                            viewmodel.inputName.value))
+                            viewmodel.inputName.value,ProfileViewType.Sign))
                 }
                 SignViewType.GroupName -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)

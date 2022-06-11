@@ -39,13 +39,13 @@
                 android:id="@+id/sign_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewType==SignViewType.UserName ? @string/sign_name_text : viewType==SignViewType.GroupName ? @string/group_name_text : @string/invite_code_text}"
+                app:signViewType="@{viewType}"
                 tool:text="@string/sign_name_text"
                 android:textSize="20sp"
                 android:textColor="@color/gray_800"
                 style="@style/Heading.H2"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="83dp" />
+                android:layout_marginTop="24dp" />
             <TextView
                 android:id="@+id/sign_name_sub_text"
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="4dp"
                 android:textSize="16sp"
                 android:text="@{viewType==SignViewType.GroupName ? @string/group_name_sub_text : @string/invite_code_sub_text}"
-                android:visibility="@{viewType!=SignViewType.UserName ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{viewType==SignViewType.UserName||viewType==SignViewType.ModifyGroupName ? View.GONE : View.VISIBLE}"/>
             <EditText
                 android:id="@+id/sign_name_et"
                 android:layout_width="match_parent"
@@ -65,6 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:textSize="20sp"
                 android:inputType="textPersonName"
+                android:maxLength="10"
                 android:hint="@{viewType==SignViewType.UserName ? @string/sign_name_hint : viewType==SignViewType.GroupName ? @string/group_name_hint : @string/invite_code_hint}"
                 android:background="@drawable/sign_name_edit_text_background"/>
             <TextView

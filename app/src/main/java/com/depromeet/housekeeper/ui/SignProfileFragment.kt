@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class SignProfileFragment : Fragment() {
     lateinit var binding : FragmentSignProfileBinding
-    private val viewmodel : SignProfileViewModel by viewModels()
+    private val viewModel : SignProfileViewModel by viewModels()
     private val navArgs by navArgs<SignProfileFragmentArgs>()
 
     override fun onCreateView(
@@ -27,7 +27,7 @@ class SignProfileFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_profile,container,false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.vm = viewmodel
+        binding.vm = viewModel
         return binding.root
     }
 
@@ -39,12 +39,13 @@ class SignProfileFragment : Fragment() {
     }
 
     private fun bindingVm() {
+        viewModel.setViewType(navArgs.viewType)
+        binding.viewType = viewModel.viewType.value
         lifecycleScope.launchWhenCreated {
-            viewmodel.isSelected.collect {
+            viewModel.isSelected.collect {
                 if(it){
                     binding.signNameNextBtn.mainFooterButton.isEnabled = true
                 }
-
             }
         }
 

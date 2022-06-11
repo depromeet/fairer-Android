@@ -53,7 +53,7 @@ class JoinGroupFragment : Fragment() {
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
         spanText.apply{
             setSpan(ForegroundColorSpan(resources.getColor(R.color.highlight)),
-                6,6+navArgs.name.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                6,6+navArgs.name!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         binding.joinGroupMainText.text = spanText
     }

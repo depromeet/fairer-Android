@@ -5,10 +5,14 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
 
+        <variable
+            name="viewType"
+            type="com.depromeet.housekeeper.model.enums.ProfileViewType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
