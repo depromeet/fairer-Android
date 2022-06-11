@@ -8,6 +8,7 @@ object PrefsManager {
 
   private const val ACCESS_TOKEN = "ACCESS_TOKEN"
   private const val REFRESH_TOKEN = "REFRESH_TOKEN"
+  private const val AUTH_CODE = "AUTH_CODE"
 
   fun init(context: Context) {
     prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
@@ -19,10 +20,19 @@ object PrefsManager {
   val refreshToken: String
     get() = prefs.getString(REFRESH_TOKEN, "").toString()
 
+  val authCode: String
+    get() = prefs.getString(AUTH_CODE, "").toString()
+
   fun setTokens(accessToken: String, refreshToken: String) {
     prefs.edit()?.apply {
       putString(ACCESS_TOKEN, accessToken)
       putString(REFRESH_TOKEN, refreshToken)
+    }?.apply()
+  }
+
+  fun setAuthCode(authCode: String) {
+    prefs.edit()?.apply {
+      putString(AUTH_CODE, authCode)
     }?.apply()
   }
 }
