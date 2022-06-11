@@ -56,7 +56,7 @@ class SignNameFragment : Fragment() {
                 SignViewType.UserName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                            viewmodel.inputName.value,ProfileViewType.Sign))
+                            name = viewmodel.inputName.value,viewType = ProfileViewType.Sign))
                 }
                 SignViewType.GroupName -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)
