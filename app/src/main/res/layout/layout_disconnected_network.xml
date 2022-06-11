@@ -20,7 +20,7 @@
       android:src="@drawable/ic_network_state" />
     
     <TextView
-      style="@style/SubTitle"
+      style="@style/Title.T1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="12dp"
@@ -30,7 +30,7 @@
       tools:text="@string/disconnected_network_title" />
     
     <TextView
-      style="@style/SubTitle"
+      style="@style/Title.T1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="6dp"

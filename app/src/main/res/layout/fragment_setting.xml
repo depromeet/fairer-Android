@@ -46,7 +46,7 @@
                 android:drawableStart="@drawable/ic_my_page"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_account_row_text"
-                android:textSize="14sp"
+                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -75,7 +75,7 @@
                 android:drawableStart="@drawable/ic_my_page"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_space_row_text"
-                android:textSize="14sp"
+                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -104,7 +104,7 @@
                 android:drawableStart="@drawable/ic_my_page"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_contact_row_text"
-                android:textSize="14sp"
+                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -117,7 +117,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/info_row"
+            android:id="@+id/policy_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="@drawable/bg_under_line"
@@ -133,7 +133,7 @@
                 android:drawableStart="@drawable/ic_my_page"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_info_row_text"
-                android:textSize="14sp"
+                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -152,7 +152,7 @@
             android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/info_row">
+            app:layout_constraintTop_toBottomOf="@id/policy_row">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@string/setting_version_row_text"
-                android:textSize="14sp"
+                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <TextView
@@ -172,8 +172,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@{version}"
-                android:textColor="@color/gray_800"
-                android:textSize="14sp" />
+                style="@style/Body.B2"
+                android:textColor="@color/gray_800" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
