@@ -83,8 +83,4 @@ object Dependencies {
 
   private const val KAKAO_SDK = "2.10.0"
   const val kakaoSdk = "com.kakao.sdk:v2-link:$KAKAO_SDK"
-
-  private const val GLIDE = "4.13.0"
-  const val glide ="com.github.bumptech.glide:glide:$GLIDE"
-  const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
 }

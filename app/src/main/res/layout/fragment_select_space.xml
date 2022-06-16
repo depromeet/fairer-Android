@@ -247,10 +247,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/select_space_recyclerview"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:paddingHorizontal="24dp"
+                    app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
+                    app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_task_text"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_select_space_task"
@@ -311,7 +312,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="select_space_recyclerview,select_space_task_text" />
+                    app:constraint_referenced_ids=",select_space_recyclerview,select_space_task_text" />
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/select_space_group3"

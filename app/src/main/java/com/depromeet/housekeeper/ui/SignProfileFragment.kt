@@ -10,18 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
-import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class SignProfileFragment : Fragment() {
-    lateinit var binding: FragmentSignProfileBinding
-    private val viewModel: SignProfileViewModel by viewModels()
-    private lateinit var myAdapter: SignProfileAdapter
+    lateinit var binding : FragmentSignProfileBinding
+    private val viewModel : SignProfileViewModel by viewModels()
     private val navArgs by navArgs<SignProfileFragmentArgs>()
 
     override fun onCreateView(
@@ -29,8 +25,7 @@ class SignProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_sign_profile, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_profile,container,false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
         return binding.root
@@ -39,7 +34,6 @@ class SignProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Timber.d(navArgs.name)
-        setAdapter()
         bindingVm()
         initListener()
     }
@@ -49,11 +43,13 @@ class SignProfileFragment : Fragment() {
         binding.viewType = viewModel.viewType.value
         lifecycleScope.launchWhenCreated {
             viewModel.isSelected.collect {
-                if (it) {
+                if(it){
                     binding.signNameNextBtn.mainFooterButton.isEnabled = true
                 }
             }
         }
+
+
     }
 
     private fun initListener() {
@@ -63,29 +59,9 @@ class SignProfileFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            findNavController().navigate(
-                SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment(
-                    name = navArgs.name
-                )
-            )
+            findNavController().navigate(SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment(name = navArgs.name))
         }
     }
 
-    private fun setAdapter() {
-        val gridLayoutManager = GridLayoutManager(context, 4)
-        val dummyList: List<String> = listOf(
-            "https://i.pinimg.com/originals/61/0b/12/610b12fdc6afe3beafd439b43a52ad24.png",
-            "https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/11/urbanbrush-20201104103659627968.jpg"
-        )
-        binding.signProfileRecyclerImageview.layoutManager = gridLayoutManager
-        myAdapter = SignProfileAdapter(dummyList)
-        binding.signProfileRecyclerImageview.adapter = myAdapter
-        binding.signProfileRecyclerImageview.addItemDecoration(VerticalItemDecorator(16))
-        myAdapter.setItemClickListener(object : SignProfileAdapter.OnItemClickListener {
-            override fun onClick(v: View, imgUrl: String, position: Int) {
-                viewModel.setSelectedImage(imgUrl)
-                viewModel.setSelectedPosition(position)
-            }
-        })
-    }
+
 }
