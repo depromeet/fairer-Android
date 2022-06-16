@@ -90,4 +90,8 @@ object Dependencies {
   private const val FIREBASK_BOM = "30.1.0"
   const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASK_BOM"
   const val firebasektx = "com.google.firebase:firebase-analytics-ktx"
+
+  private const val GLIDE = "4.13.0"
+  const val glide ="com.github.bumptech.glide:glide:$GLIDE"
+  const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
 }
