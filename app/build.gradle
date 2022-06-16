@@ -97,4 +97,7 @@ dependencies {
 
     implementation Dependencies.kakaoSdk
 
+    implementation Dependencies.glide
+    annotationProcessor Dependencies.glideannotation
+
 }
