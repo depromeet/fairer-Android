@@ -38,14 +38,16 @@ class MainActivity : AppCompatActivity() {
         var deepLink: Uri? = null
         if (pendingDynamicLinkData != null) {
           deepLink = pendingDynamicLinkData.link
-          val code = deepLink?.getQueryParameter("code")
-          viewModel.setInviteCode(code!!)
+          Timber.d("deepLink = $deepLink")
+          val code : String? = deepLink?.getQueryParameter("code")
+          if (code != null) {
+            viewModel.setInviteCode(code)
+          }
           Timber.d("!@$code")
         }
         else{
           Timber.d("NO HAVE DEEP LINK")
         }
-        Timber.d("!!$deepLink")
 
       }
       .addOnFailureListener(this) { e -> Timber.w( "getDynamicLink:onFailure $e") }
