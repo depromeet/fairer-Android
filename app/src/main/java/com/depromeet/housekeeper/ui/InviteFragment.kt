@@ -138,7 +138,7 @@ class InviteFragment : Fragment() {
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")
-            domainUriPrefix = "https://faireran.page.link/invitecode"
+            domainUriPrefix = "https://faireran.page.link"
             androidParameters(requireContext().packageName) {}
             navigationInfoParameters { forcedRedirectEnabled = true }
         }
