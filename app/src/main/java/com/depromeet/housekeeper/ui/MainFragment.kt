@@ -24,7 +24,6 @@ import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 class MainFragment : Fragment() {
 
@@ -47,9 +46,16 @@ class MainFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    initView()
     setAdapter()
     bindingVm()
     setListener()
+  }
+
+  private fun initView() {
+    val userNameFormat =
+      String.format(resources.getString(R.string.user_name), PrefsManager.userName)
+    binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
   }
 
   private fun setListener() {
@@ -125,16 +131,13 @@ class MainFragment : Fragment() {
   private fun bindingVm() {
     lifecycleScope.launchWhenStarted {
       mainViewModel.completeChoreNum.collect {
-        val format = String.format(resources.getString(R.string.complete_chore), it)
-        val spannerString = SpannableString(format).apply {
-          setSpan(
-            ForegroundColorSpan(Color.parseColor("#0C6DFF")),
-            this.indexOf("일") + 1,
-            format.length - 1,
-            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
+        binding.tvCompleteHouseChore.text =
+          getSpannableText(
+            completeFormat,
+            completeFormat.indexOf("에") + 1,
+            completeFormat.indexOf("나")
           )
-        }
-        binding.tvCompleteHouseChore.text = spannerString
       }
     }
 
@@ -186,6 +189,18 @@ class MainFragment : Fragment() {
         binding.isConnectedNetwork = it
       }
     }
+  }
+
+  private fun getSpannableText(format: String, firstIndex: Int, lastIndex: Int): SpannableString {
+    val spannerString2 = SpannableString(format).apply {
+      setSpan(
+        ForegroundColorSpan(Color.parseColor("#0C6DFF")),
+        firstIndex,
+        lastIndex,
+        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+      )
+    }
+    return spannerString2
   }
 
   private fun updateHouseWorkData(houseWork: HouseWorks) {
