@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentManageHouseBinding
+import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 
 class ManageHouseFragment : Fragment() {
@@ -40,7 +41,7 @@ class ManageHouseFragment : Fragment() {
         }
 
         binding.inviteRow.setOnClickListener {
-            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment())
+            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment(InviteViewType.SETTING))
         }
 
         binding.exitHouseRow.setOnClickListener {

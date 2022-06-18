@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
+import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 
@@ -60,8 +61,10 @@ class SignNameFragment : Fragment() {
                             name = viewmodel.inputName.value,viewType = ProfileViewType.Sign))
                 }
                 SignViewType.GroupName -> {
-                    findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)
-                    }
+                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
+                        viewType = InviteViewType.SIGN
+                    ))
+                }
                 SignViewType.InviteCode -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_mainFragment)
                 }

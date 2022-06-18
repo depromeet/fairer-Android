@@ -22,8 +22,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
+import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
@@ -36,6 +38,7 @@ class InviteFragment : Fragment() {
     lateinit var binding:FragmentInviteBinding
     lateinit var clipboard: ClipboardManager
     private val viewModel: InviteViewModel by viewModels()
+    private val navArgs by navArgs<InviteFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +59,17 @@ class InviteFragment : Fragment() {
     }
 
     private fun bindingVm() {
+        // invite fragment 분기 - 건너뛰기 유무
+        viewModel.setViewType(navArgs.viewType)
+        when(viewModel.viewType.value) {
+            InviteViewType.SIGN -> {
+                binding.inviteSkipBtn.visibility = View.VISIBLE
+            }
+            InviteViewType.SETTING -> {
+                binding.inviteSkipBtn.visibility = View.GONE
+            }
+        }
+
         viewModel.groupName.value.apply {
             val format = String.format(getString(R.string.invite_group_name_text), this)
             val spannerString = SpannableString(format).apply {
@@ -103,9 +117,7 @@ class InviteFragment : Fragment() {
         val clip = ClipData.newPlainText("INVITE_CODE", code)
         clipboard.setPrimaryClip(clip)
 
-        val toast = Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT)
-            toast.setGravity(Gravity.CENTER, Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL)
-            toast.show()
+        val toast = Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
 
 
