@@ -113,13 +113,16 @@
     <string name="setting_logout_row_text">로그아웃</string>
 
     <!-- inviteFragment -->
-    <string name="invite_main_title">공간에 사람을 초대해주세요.</string>
+    <string name="invite_main_title">하우스에 사람을 초대해주세요.</string>
     <string name="invite_main_desc">앞으로 함께 집안일을 관리할 가족, 친구, 룸메이트 누구든 초대해주세요!</string>
-    <string name="invite_sign_highlight">즐거운 우리집</string>
-    <string name="invite_sign_normal">의 초대코드</string>
+    <string name="invite_group_name_text">%s의 초대코드</string>
     <string name="invite_btn_text_copy">초대코드 복사하기</string>
     <string name="invite_btn_text_share">카카오톡 공유하기</string>
     <string name="invite_btn_text_skip">건너뛰기</string>
+    <string name="invite_code_copy_toast_text">코드를 클립보드에 복사했습니다.</string>
+    <string name="invite_code_valid_period_text">%1$s까지 유효한 코드</string>
+    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에 입력하셔야 합니다.</string>
+
 
     <!-- contractFragment -->
     <string name="contact_header_text">문의하기</string>

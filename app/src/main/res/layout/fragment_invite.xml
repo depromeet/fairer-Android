@@ -53,23 +53,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Title.T1"
-            android:textColor="@color/highlight"
-            android:text="@{vm.groupName}"
+            android:textColor="@color/gray_600"
+            android:text="@string/invite_group_name_text"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/invite_main_desc_tv"/>
-
-        <TextView
-            android:id="@+id/invite_sign_normal_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Title.T1"
-            android:textColor="@color/gray_600"
-            android:text="@string/invite_sign_normal"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/invite_main_desc_tv"
-            app:layout_constraintStart_toEndOf="@id/invite_group_name_tv"/>
+            app:layout_constraintTop_toBottomOf="@id/invite_main_desc_tv" />
 
         <TextView
             android:id="@+id/invite_code_tv"
@@ -84,6 +73,35 @@
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@id/invite_group_name_tv" />
+
+        <TextView
+            android:id="@+id/invite_valid_period_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            style="@style/Body.B2"
+            android:drawableStart="@drawable/ic_info_fill"
+            android:drawableTint="@color/negative_20"
+            android:drawablePadding="8dp"
+            android:text="@string/invite_code_valid_period_text"
+            android:textColor="@color/negative_20"
+            app:layout_constraintTop_toBottomOf="@id/invite_code_tv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/invite_valid_sign_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            style="@style/Body.B2"
+            android:drawablePadding="8dp"
+            android:text="@string/invite_code_valid_sign_text"
+            android:textColor="@color/gray_600"
+            app:layout_constraintTop_toBottomOf="@id/invite_valid_period_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:drawableStartCompat="@drawable/ic_info_fill" />
 
         <View
             android:id="@+id/invite_copy_btn"

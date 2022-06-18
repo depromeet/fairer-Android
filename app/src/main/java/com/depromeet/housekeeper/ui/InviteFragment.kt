@@ -5,7 +5,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +19,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
@@ -23,6 +29,7 @@ import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class InviteFragment : Fragment() {
@@ -45,6 +52,27 @@ class InviteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        bindingVm()
+    }
+
+    private fun bindingVm() {
+        viewModel.groupName.value.apply {
+            val format = String.format(getString(R.string.invite_group_name_text), this)
+            val spannerString = SpannableString(format).apply {
+                setSpan(
+                    ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
+                    0,
+                    this.indexOf("의"),
+                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            binding.inviteGroupNameTv.text = spannerString
+        }
+
+        // 유효기간
+        // TODO: API 호출 필요
+        val validText = getString(R.string.invite_code_valid_period_text, viewModel.inviteCodeValidPeriod.value)
+        binding.inviteValidPeriodTv.text = validText
     }
 
     private fun initListener() {
@@ -75,10 +103,11 @@ class InviteFragment : Fragment() {
         val clip = ClipData.newPlainText("INVITE_CODE", code)
         clipboard.setPrimaryClip(clip)
 
-        val toast = Toast.makeText(requireContext(), "코드를 클립보드에 복사했습니다.", Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL)
             toast.show()
     }
+
 
     private fun onKakaoShare(context: Context) {
 

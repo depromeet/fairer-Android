@@ -43,6 +43,10 @@ class ManageHouseFragment : Fragment() {
             it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment())
         }
 
+        binding.exitHouseRow.setOnClickListener {
+            // ToDo: 하우스 나가기 API 연동 (hasTeam 정보 필요)
+        }
+
     }
 
 

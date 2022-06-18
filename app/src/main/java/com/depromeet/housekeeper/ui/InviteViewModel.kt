@@ -15,4 +15,9 @@ class InviteViewModel : ViewModel() {
         MutableStateFlow("ABCDEFG")
     val inviteCode: StateFlow<String>
         get() = _inviteCode
+
+    private val _inviteCodeValidPeriod: MutableStateFlow<String> =
+        MutableStateFlow("2022년 6월 20 18시 23분")
+    val inviteCodeValidPeriod: StateFlow<String>
+        get() = _inviteCodeValidPeriod
 }
