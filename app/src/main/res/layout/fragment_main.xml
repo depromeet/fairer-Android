@@ -42,12 +42,12 @@
       android:layout_width="match_parent"
       android:layout_height="0dp"
       tools:context=".ui.MainFragment">
-
+      
       <include
-          android:id="@+id/main_header"
-          layout="@layout/layout_main_header"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
+        android:id="@+id/main_header"
+        layout="@layout/layout_main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
       
       <include
         android:id="@+id/layoutNetwork"
@@ -67,18 +67,35 @@
         android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}">
         
         <TextView
+          android:id="@+id/tv_Name"
+          style="@style/Title.T1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="77dp"
+          android:gravity="center"
+          android:paddingStart="8dp"
+          android:paddingEnd="8dp"
+          android:text="@string/user_name"
+          android:textColor="@color/gray_900"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toTopOf="@id/tv_complete_house_chore"
+          app:layout_constraintStart_toStartOf="parent"
+          tools:text="@string/user_name" />
+        
+        <TextView
           android:id="@+id/tv_complete_house_chore"
-          style="@style/Body"
+          style="@style/Title.T1"
           android:layout_width="wrap_content"
           android:layout_height="29dp"
           android:layout_marginStart="20dp"
           android:layout_marginTop="77dp"
-          android:background="@drawable/home_positive_backgorund_8"
           android:gravity="center"
           android:paddingStart="8dp"
           android:paddingEnd="8dp"
           android:text="@string/complete_chore"
           android:textColor="@color/gray_900"
+          android:textStyle="bold"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
           tools:text="@string/complete_chore" />
