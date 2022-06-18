@@ -106,7 +106,7 @@
     <!-- settingFragment -->
     <string name="setting_header_title">설정</string>
     <string name="setting_account_row_text">계정</string>
-    <string name="setting_space_row_text">공간관리</string>
+    <string name="setting_space_row_text">하우스 관리</string>
     <string name="setting_contact_row_text">문의하기</string>
     <string name="setting_info_row_text">정보</string>
     <string name="setting_version_row_text">버전</string>
