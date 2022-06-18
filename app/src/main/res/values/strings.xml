@@ -149,4 +149,11 @@
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
 
+    <!-- ManageHouseFragment -->
+    <string name="manage_house_header_title">하우스 관리</string>
+    <string name="manage_house_rename_text">하우스 이름 변경</string>
+    <string name="manage_house_invite_text">초대하기</string>
+    <string name="manage_house_exit_text">하우스에서 나가기</string>
+
+
 </resources>

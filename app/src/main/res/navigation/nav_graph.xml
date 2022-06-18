@@ -200,14 +200,37 @@
     </fragment>
 
     <fragment
+        android:id="@+id/manageHouseFragment"
+        android:name="com.depromeet.housekeeper.ui.ManageHouseFragment"
+        android:label="ManageHouseFragment"
+        tools:layout="@layout/fragment_manage_house">
+
+        <action
+            android:id="@+id/action_manageHouseFragment_to_inviteFragment"
+            app:destination="@+id/inviteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_manageHouseFragment_to_signNameFragment"
+            app:destination="@+id/signNameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
         android:id="@+id/settingFragment"
         android:name="com.depromeet.housekeeper.ui.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting">
 
         <action
-            android:id="@+id/action_settingFragment_to_inviteFragment"
-            app:destination="@+id/inviteFragment"
+            android:id="@+id/action_settingFragment_to_manageHouseFragment"
+            app:destination="@id/manageHouseFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

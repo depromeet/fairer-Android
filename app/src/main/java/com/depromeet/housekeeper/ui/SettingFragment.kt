@@ -53,7 +53,7 @@ class SettingFragment : Fragment() {
         }
 
         binding.spaceRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToInviteFragment())
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToManageHouseFragment())
         }
 
         binding.contactRow.setOnClickListener {
