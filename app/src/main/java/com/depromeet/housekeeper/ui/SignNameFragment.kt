@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 
@@ -55,6 +56,7 @@ class SignNameFragment : Fragment() {
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             when(viewmodel.viewType.value){
                 SignViewType.UserName -> {
+                  PrefsManager.setUserName(viewmodel.inputName.value)
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
                             name = viewmodel.inputName.value,viewType = ProfileViewType.Sign))
