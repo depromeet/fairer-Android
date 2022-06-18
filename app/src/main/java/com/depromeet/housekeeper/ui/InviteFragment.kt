@@ -117,7 +117,7 @@ class InviteFragment : Fragment() {
         val clip = ClipData.newPlainText("INVITE_CODE", code)
         clipboard.setPrimaryClip(clip)
 
-        val toast = Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
 
 
