@@ -161,4 +161,10 @@
     <!--dynamicLink-->
     <string name="host_url">faireran.com</string>
 
+    <!--group_info-->
+    <string name="group_info_text">%s에 어서오세요!</string>
+    <string name="group_info_sub_text">공간 참여자</string>
+    <string name="name_ex">홍길동</string>
+    <string name="group_info_next_button">참여 완료</string>
+
 </resources>

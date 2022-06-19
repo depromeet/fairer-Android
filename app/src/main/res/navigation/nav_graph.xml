@@ -178,11 +178,14 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_signNameFragment_to_inviteFragment"
-            app:destination="@id/inviteFragment">
+            app:destination="@id/inviteFragment" >
             <argument
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.InviteViewType" />
         </action>
+        <action
+            android:id="@+id/action_signNameFragment_to_groupInfoFragment"
+            app:destination="@id/groupInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/signProfileFragment"
@@ -311,4 +314,13 @@
         android:name="com.depromeet.housekeeper.ui.PolicyFragment"
         android:label="PolicyFragment"
         tools:layout="@layout/fragment_policy" />
+    <fragment
+        android:id="@+id/groupInfoFragment"
+        android:name="com.depromeet.housekeeper.ui.GroupInfoFragment"
+        android:label="GroupInfoFragment"
+        tools:layout="@layout/fragment_group_info">
+        <action
+            android:id="@+id/action_groupInfoFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
