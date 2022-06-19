@@ -41,10 +41,10 @@ class JoinGroupFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName))
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName,null))
         }
         binding.joinGroupJoinSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode))
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode,null))
         }
 
     }
