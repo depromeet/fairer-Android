@@ -172,6 +172,14 @@ class MainViewModel : ViewModel() {
     }
   }
 
+  private val _groupName: MutableStateFlow<String> = MutableStateFlow("즐거운 우리집 5")
+  val groupName: StateFlow<String>
+    get() = _groupName
+
+  fun getGroupName() {
+    //TODO 그룹 이름 조회 api 통하여 보여주도록 수정
+  }
+
   enum class CurrentState {
     REMAIN,
     DONE

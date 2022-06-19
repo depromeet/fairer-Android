@@ -56,6 +56,7 @@ class MainFragment : Fragment() {
     val userNameFormat =
       String.format(resources.getString(R.string.user_name), PrefsManager.userName)
     binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
+    binding.tvGroupName.text = mainViewModel.groupName.value
   }
 
   private fun setListener() {
