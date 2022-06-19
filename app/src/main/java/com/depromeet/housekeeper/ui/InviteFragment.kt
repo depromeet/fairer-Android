@@ -16,9 +16,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
-import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -99,7 +99,7 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
-            onKakaoShare(requireContext(),initDynamicLink())
+            onKakaoShare(requireContext(), initDynamicLink())
         }
 
         binding.inviteSkipBtn.setOnClickListener {
@@ -115,7 +115,7 @@ class InviteFragment : Fragment() {
         Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
 
-    private fun onKakaoShare(context: Context, uri: Uri) {
+    private fun onKakaoShare(context: Context, code: Uri) {
 
         // TODO("템플릿 변경 필요")
         val defaultText = TextTemplate(
