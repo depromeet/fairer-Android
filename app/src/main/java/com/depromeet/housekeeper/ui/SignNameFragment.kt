@@ -57,7 +57,7 @@ class SignNameFragment : Fragment() {
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             when(viewModel.viewType.value){
                 SignViewType.UserName -> {
-                  PrefsManager.setUserName(viewmodel.inputName.value)
+                  PrefsManager.setUserName(viewModel.inputText.value)
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
                             name = viewModel.inputText.value,viewType = ProfileViewType.Sign))
