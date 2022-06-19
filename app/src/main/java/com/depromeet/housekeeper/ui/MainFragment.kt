@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
+import com.depromeet.housekeeper.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
@@ -30,6 +31,7 @@ class MainFragment : Fragment() {
   lateinit var binding: FragmentMainBinding
   private lateinit var dayOfAdapter: DayOfWeekAdapter
   private var houseWorkAdapter: HouseWorkAdapter? = null
+  private lateinit var groupProfileAdapter: GroupProfileAdapter
   private val mainViewModel: MainViewModel by viewModels()
 
   override fun onCreateView(
@@ -127,6 +129,13 @@ class MainFragment : Fragment() {
     )
     binding.rvHouseWork.adapter = houseWorkAdapter
     binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
+
+
+    groupProfileAdapter = GroupProfileAdapter(mainViewModel.teams.value
+    ) {
+
+    }
+    binding.rvGroups.adapter = groupProfileAdapter
   }
 
   private fun bindingVm() {
