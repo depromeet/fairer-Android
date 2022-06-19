@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.AssigneeTemp
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -179,6 +180,21 @@ class MainViewModel : ViewModel() {
   fun getGroupName() {
     //TODO 그룹 이름 조회 api 통하여 보여주도록 수정
   }
+
+  /*
+    Group Adapter 를 위한 임시 변수
+   */
+  private val tempAssign = mutableListOf(
+    AssigneeTemp(0, "고가혜"),
+    AssigneeTemp(1, "권진혁"),
+    AssigneeTemp(2, "최지혜"),
+    AssigneeTemp(3, "신동빈"),
+    AssigneeTemp(4, "김수연"),
+  )
+
+  private val _teams: MutableStateFlow<MutableList<AssigneeTemp>> = MutableStateFlow(tempAssign)
+  val teams: MutableStateFlow<MutableList<AssigneeTemp>>
+    get() = _teams
 
   enum class CurrentState {
     REMAIN,
