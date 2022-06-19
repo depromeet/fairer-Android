@@ -115,7 +115,7 @@ class InviteFragment : Fragment() {
         Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
 
-    private fun onKakaoShare(context: Context, code: Uri) {
+    private fun onKakaoShare(context: Context, uri: Uri) {
 
         // TODO("템플릿 변경 필요")
         val defaultText = TextTemplate(
