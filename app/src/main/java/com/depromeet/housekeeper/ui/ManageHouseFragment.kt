@@ -37,7 +37,7 @@ class ManageHouseFragment : Fragment() {
         }
 
         binding.renameHouseRow.setOnClickListener {
-            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToSignNameFragment(SignViewType.ModifyGroupName))
+            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToSignNameFragment(viewType = SignViewType.ModifyGroupName, code = null))
         }
 
         binding.inviteRow.setOnClickListener {
