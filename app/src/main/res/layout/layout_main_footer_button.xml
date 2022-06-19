@@ -10,16 +10,17 @@
         <Button
             android:id="@+id/main_footer_button"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="56dp"
             android:background="@drawable/main_footer_button_selector"
             android:enabled="false"
+            style="@style/Title.T1"
             android:text="text"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:minHeight="0dp"
             android:minWidth="0dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
