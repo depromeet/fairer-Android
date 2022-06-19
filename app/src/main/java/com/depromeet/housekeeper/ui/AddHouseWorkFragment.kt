@@ -18,6 +18,7 @@ import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
+import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
@@ -127,7 +128,8 @@ class AddHouseWorkFragment : Fragment() {
     }
 
     private fun createBottomSheet() {
-
+        val bottomSheet = AssigneeBottomSheetDialog(requireContext())
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
     }
 
     private fun createDatePickerDialog() {

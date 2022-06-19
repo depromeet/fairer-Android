@@ -13,6 +13,7 @@
     <item name="android:statusBarColor">@color/white</item>
     <item name="android:windowLightStatusBar">true</item>
     <!-- Customize your theme here. -->
+    <item name="bottomSheetDialogTheme">@style/FairerBottomSheetDialogTheme</item>
     <!-- Fairer EditText -->
     <item name="android:textCursorDrawable">@color/highlight</item>
     <item name="android:textSelectHandle">@color/highlight</item>
@@ -22,6 +23,14 @@
 
   <style name="FairerTimePicker">
     <item name="colorControlNormal">@color/highlight</item>
+  </style>
+
+  <!-- Bottom sheet dialog Style -->
+  <style name="FairerBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <item name="bottomSheetStyle">@style/FairerBackgroundBottomSheet</item>
+  </style>
+  <style name="FairerBackgroundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+    <item name="android:background">@drawable/bg_assignee_bottom_sheet_dialog</item>
   </style>
 
   <style name="Theme.HouseKeeper.SplashScreen" parent="Theme.SplashScreen">
