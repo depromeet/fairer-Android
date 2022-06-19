@@ -2,14 +2,11 @@ package com.depromeet.housekeeper
 
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.databinding.ActivityMainBinding
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -30,25 +27,21 @@ class MainActivity : AppCompatActivity() {
     getDynamicLink()
   }
 
-  private fun getDynamicLink(){
+  private fun getDynamicLink() {
     Firebase.dynamicLinks
       .getDynamicLink(intent)
       .addOnSuccessListener(this) { pendingDynamicLinkData ->
         // Get deep link from result (may be null if no link is found)
         var deepLink: Uri? = null
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
         if (pendingDynamicLinkData != null) {
           deepLink = pendingDynamicLinkData.link
           Timber.d("deepLink = $deepLink")
-          val code : String? = deepLink?.getQueryParameter("code")
-          if (code != null) {
-            viewModel.setInviteCode(code)
+          if (deepLink != null) {
+            navController.navigate(deepLink)
           }
-          Timber.d("!@$code")
         }
-        else{
-          Timber.d("NO HAVE DEEP LINK")
-        }
-
       }
       .addOnFailureListener(this) { e -> Timber.w( "getDynamicLink:onFailure $e") }
   }

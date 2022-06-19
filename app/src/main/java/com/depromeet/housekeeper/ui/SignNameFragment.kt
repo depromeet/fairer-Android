@@ -18,7 +18,7 @@ import com.depromeet.housekeeper.model.enums.SignViewType
 
 class SignNameFragment : Fragment() {
     lateinit var binding : FragmentSignNameBinding
-    private val viewmodel : SignNameViewModel by viewModels()
+    private val viewModel : SignNameViewModel by viewModels()
     private val navArgs by navArgs<SignNameFragmentArgs>()
 
     override fun onCreateView(
@@ -28,7 +28,7 @@ class SignNameFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_name,container,false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.vm = viewmodel
+        binding.vm = viewModel
 
 
         return binding.root
@@ -42,8 +42,8 @@ class SignNameFragment : Fragment() {
     }
 
     private fun bindingvm() {
-        viewmodel.setViewType(navArgs.viewType)
-        binding.viewType = viewmodel.viewType.value
+        viewModel.setViewType(navArgs.viewType)
+        binding.viewType = viewModel.viewType.value
     }
 
     private fun initListener() {
@@ -53,11 +53,11 @@ class SignNameFragment : Fragment() {
         }
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            when(viewmodel.viewType.value){
+            when(viewModel.viewType.value){
                 SignViewType.UserName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                            name = viewmodel.inputName.value,viewType = ProfileViewType.Sign))
+                            name = viewModel.inputText.value,viewType = ProfileViewType.Sign))
                 }
                 SignViewType.GroupName -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_inviteFragment)
@@ -70,6 +70,12 @@ class SignNameFragment : Fragment() {
         binding.signNameClear.setOnClickListener {
             binding.signNameEt.setText(R.string.sign_name_blank)
         }
+        if(navArgs.code!=null){
+            viewModel.setInputText(navArgs.code!!)
+            binding.signNameEt.setText(navArgs.code)
+            binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+
+        }
     }
 
     private fun validateName() {
@@ -80,7 +86,7 @@ class SignNameFragment : Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val value: String = binding.signNameEt.text.toString()
                 val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*"
-                viewmodel.setInputName(binding.signNameEt.text.toString())
+                viewModel.setInputText(binding.signNameEt.text.toString())
                 binding.isTextChanged = true
                 if (!value.matches(pattern.toRegex())) {
                     binding.isError = true
@@ -88,7 +94,7 @@ class SignNameFragment : Fragment() {
                 } else {
                     binding.isError = false
                     binding.signNameNextBtn.mainFooterButton.isEnabled =
-                        viewmodel.inputName.value != ""
+                        viewModel.inputText.value != ""
                 }
                 if (value == ""){
                     binding.isTextChanged = false
