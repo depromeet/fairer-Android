@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.local.PrefsManager
@@ -31,6 +32,7 @@ class LoginFragment : Fragment() {
   private val RC_SIGN_IN = 1
   lateinit var mGoogleSignInClient: GoogleSignInClient
   private val viewModel: LoginViewModel by viewModels()
+  private val navArgs by navArgs<LoginFragmentArgs>()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +57,10 @@ class LoginFragment : Fragment() {
   override fun onStart() {
     super.onStart()
     val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-    if (account != null) {
+    if(navArgs.code!="null"){
+      findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.InviteCode,navArgs.code))
+    }
+    else if(account != null) {
       navigateToSignName()
     }
   }
@@ -110,7 +115,9 @@ class LoginFragment : Fragment() {
     }
   }
 
+
+
   private fun navigateToSignName() {
-    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName))
+    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
   }
 }

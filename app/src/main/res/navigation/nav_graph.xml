@@ -139,6 +139,13 @@
         android:name="com.depromeet.housekeeper.ui.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
+        <deepLink
+            android:autoVerify="true"
+            app:uri="faireran.com/?code={code}"/>
+        <argument
+            android:name="code"
+            app:argType="string"
+            android:defaultValue="null" />
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -159,6 +166,10 @@
         <argument
             android:name="viewType"
             app:argType="com.depromeet.housekeeper.model.enums.SignViewType"/>
+        <argument
+            android:name="code"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
             app:destination="@id/signProfileFragment" />

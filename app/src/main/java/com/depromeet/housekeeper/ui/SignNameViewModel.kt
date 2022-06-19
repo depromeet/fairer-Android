@@ -6,16 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class SignNameViewModel : ViewModel() {
-    private val _inputName : MutableStateFlow<String> = MutableStateFlow("")
-    val inputName : StateFlow<String>
-    get() = _inputName
+    private val _inputText : MutableStateFlow<String> = MutableStateFlow("")
+    val inputText : StateFlow<String>
+    get() = _inputText
 
     private val _viewType : MutableStateFlow<SignViewType> = MutableStateFlow(SignViewType.UserName)
     val viewType : StateFlow<SignViewType>
     get() = _viewType
 
-    fun setInputName(name:String){
-        _inputName.value = name
+    private val _inviteCode : MutableStateFlow<String> = MutableStateFlow("")
+    val inviteCode : StateFlow<String>
+        get() = _inviteCode
+
+    fun setInputText(name:String){
+        _inputText.value = name
     }
 
     fun setViewType(viewType : SignViewType){

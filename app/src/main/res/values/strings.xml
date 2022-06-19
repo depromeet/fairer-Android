@@ -158,5 +158,7 @@
     <string name="manage_house_invite_text">초대하기</string>
     <string name="manage_house_exit_text">하우스에서 나가기</string>
 
+    <!--dynamicLink-->
+    <string name="host_url">faireran.com</string>
 
 </resources>

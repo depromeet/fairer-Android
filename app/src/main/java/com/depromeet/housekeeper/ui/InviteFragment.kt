@@ -1,11 +1,9 @@
 package com.depromeet.housekeeper.ui
 
-import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -23,9 +21,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.depromeet.housekeeper.model.enums.InviteViewType
+import com.depromeet.housekeeper.MainActivity
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
-import com.depromeet.housekeeper.model.enums.InviteViewType
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.ktx.*
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
@@ -35,7 +37,7 @@ import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class InviteFragment : Fragment() {
-    lateinit var binding:FragmentInviteBinding
+    lateinit var binding: FragmentInviteBinding
     lateinit var clipboard: ClipboardManager
     private val viewModel: InviteViewModel by viewModels()
     private val navArgs by navArgs<InviteFragmentArgs>()
@@ -100,11 +102,12 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteCopyBtn.setOnClickListener {
-            onCopyToClipboard(viewModel.inviteCode.value)
+            //onCopyToClipboard(viewModel.inviteCode.value)
+            onCopyToClipboard(initDynamicLink())
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
-            onKakaoShare(requireContext())
+            onKakaoShare(requireContext(),initDynamicLink())
         }
 
         binding.inviteSkipBtn.setOnClickListener {
@@ -113,13 +116,11 @@ class InviteFragment : Fragment() {
 
     }
 
-    private fun onCopyToClipboard(code: String) {
-        val clip = ClipData.newPlainText("INVITE_CODE", code)
+    private fun onCopyToClipboard(code: Uri) {
+        val clip = ClipData.newPlainText("INVITE_CODE", code.toString())
         clipboard.setPrimaryClip(clip)
-
         Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
-
 
     private fun onKakaoShare(context: Context) {
 
@@ -140,8 +141,7 @@ class InviteFragment : Fragment() {
             LinkClient.instance.defaultTemplate(context, defaultText) { linkResult, error ->
                 if (error != null) {
                     Timber.d("카카오톡 공유 실패 ${error.message}")
-                }
-                else if (linkResult != null) {
+                } else if (linkResult != null) {
                     Timber.d("카카오톡 공유 성공 ${linkResult.intent}")
                     startActivity(linkResult.intent)
 
@@ -173,5 +173,17 @@ class InviteFragment : Fragment() {
         }
     }
 
+    private fun initDynamicLink() : Uri {
+        val inviteCode = viewModel.inviteCode.value
+        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
+            link = Uri.parse("https://faireran.com/?code=$inviteCode")
+            domainUriPrefix = "https://faireran.page.link"
+            androidParameters(requireContext().packageName) {}
+            navigationInfoParameters { forcedRedirectEnabled = true }
+        }
+        val dynamicLinkUri = dynamicLink.uri
+        Timber.d("dynamicUrl : $dynamicLinkUri")
+        return dynamicLinkUri
 
+    }
 }
