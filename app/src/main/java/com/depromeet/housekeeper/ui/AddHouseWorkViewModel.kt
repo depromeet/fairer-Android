@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.HouseWork
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddHouseWorkViewModel: ViewModel(){
     private val _curDate: MutableStateFlow<String> =
@@ -43,6 +45,16 @@ class AddHouseWorkViewModel: ViewModel(){
 
     fun getSpace(): String {
         return _curSpace.value
+    }
+
+    // TODO : Assignee의 List vs memberId의 List
+    private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val assignees: StateFlow<ArrayList<Assignee>>
+        get() = _curAssignees
+
+    fun setCurAssignees(assignees: ArrayList<Assignee>) {
+        _curAssignees.value = assignees
     }
 
     private val _curTime: MutableStateFlow<String?> =
@@ -75,6 +87,7 @@ class AddHouseWorkViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
+    // TODO: assignee 추가
     fun initChores(space:String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
@@ -87,6 +100,7 @@ class AddHouseWorkViewModel: ViewModel(){
         _chores.value.addAll(temp)
     }
 
+    // TODO: assignee 추가
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
     }
@@ -113,6 +127,7 @@ class AddHouseWorkViewModel: ViewModel(){
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
 
+    // TODO: assignee 추가
     fun createHouseWorks() {
         viewModelScope.launch {
             Repository.createHouseWorks(Chores(_chores.value))

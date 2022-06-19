@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
@@ -21,12 +22,13 @@ import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
 
-class AddHouseWorkFramgent : Fragment() {
+class AddHouseWorkFragment : Fragment() {
     lateinit var binding: FragmentAddHouseWorkBinding
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addHouseWorkChoreAdapter: AddHouseWorkChoreAdapter
-    private val addTodo2ViewModel: AddHouseWorkViewModel by viewModels()
-    private val navArgs by navArgs<AddHouseWorkFramgentArgs>()
+    lateinit var addAssigneeAdapter: AddAssigneeAdapter
+    private val viewModel: AddHouseWorkViewModel by viewModels()
+    private val navArgs by navArgs<AddHouseWorkFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +37,9 @@ class AddHouseWorkFramgent : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_house_work, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.vm = addTodo2ViewModel
-        addTodo2ViewModel.addCalendarView(navArgs.selectDate.date)
-        binding.currentDate = addTodo2ViewModel.bindingDate()
+        binding.vm = viewModel
+        viewModel.addCalendarView(navArgs.selectDate.date)
+        binding.currentDate = viewModel.bindingDate()
         return binding.root
     }
 
@@ -51,28 +53,28 @@ class AddHouseWorkFramgent : Fragment() {
     private fun bindingVm() {
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
-        addTodo2ViewModel.updateSpace(space)
-        addTodo2ViewModel.setDate(navArgs.selectDate.date)
-        addTodo2ViewModel.initChores(addTodo2ViewModel.getSpace(), choreNames)
-        Timber.d(addTodo2ViewModel.getChores().toString())
+        viewModel.updateSpace(space)
+        viewModel.setDate(navArgs.selectDate.date)
+        viewModel.initChores(viewModel.getSpace(), choreNames)
+        Timber.d(viewModel.getChores().toString())
 
         lifecycleScope.launchWhenStarted {
-            addTodo2ViewModel.selectCalendar.collect {
-                binding.addHouseWorkDateTv.text = addTodo2ViewModel.bindingDate()
+            viewModel.selectCalendar.collect {
+                binding.addHouseWorkDateTv.text = viewModel.bindingDate()
             }
         }
 
         lifecycleScope.launchWhenCreated {
-            addTodo2ViewModel.networkError.collect {
+            viewModel.networkError.collect {
                 binding.isConnectedNetwork = it
             }
         }
 
         lifecycleScope.launchWhenCreated {
-            addTodo2ViewModel.houseWorkCreateResponse.collect {
+            viewModel.houseWorkCreateResponse.collect {
                 if (it?.any { it.success } == false) {
                     // 화면 전환
-                    findNavController().navigate(R.id.action_addHouseWorkFramgent_to_mainFragment)
+                    findNavController().navigate(R.id.action_addHouseWorkFragment_to_mainFragment)
                 }
             }
         }
@@ -94,30 +96,38 @@ class AddHouseWorkFramgent : Fragment() {
 
             setOnClickListener {
                 // 마지막 position update
-                updateChore(addTodo2ViewModel.getPosition(PositionType.CUR))
-                addTodo2ViewModel.updateChoreDate()
+                updateChore(viewModel.getPosition(PositionType.CUR))
+                viewModel.updateChoreDate()
 
                 // 집안일 생성 api
-                addTodo2ViewModel.createHouseWorks()
+                viewModel.createHouseWorks()
             }
         }
 
         binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
             binding.addHouseWorkAllDayCheckBox.isChecked = false
             val time = binding.todoTimePicker.getDisPlayedTime()
-            addTodo2ViewModel.updateTime(time.first, time.second)
+            viewModel.updateTime(time.first, time.second)
         }
 
         binding.addHouseWorkAllDayCheckBox.apply {
             setOnClickListener {
                 val time = binding.todoTimePicker.getDisPlayedTime()
-                addTodo2ViewModel.updateTime(time.first, time.second)
+                viewModel.updateTime(time.first, time.second)
             }
         }
 
         binding.addHouseWorkDateTv.setOnClickListener {
             createDatePickerDialog()
         }
+
+        binding.addAssigneeBtn.setOnClickListener{
+            createBottomSheet()
+        }
+    }
+
+    private fun createBottomSheet() {
+
     }
 
     private fun createDatePickerDialog() {
@@ -132,7 +142,7 @@ class AddHouseWorkFramgent : Fragment() {
         val datePickerDialog = DatePickerDialog(
             this.requireContext(),
             { _, year, month, dayOfMonth ->
-                addTodo2ViewModel.updateCalendarView(year, month, dayOfMonth)
+                viewModel.updateCalendarView(year, month, dayOfMonth)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) - 1,
@@ -144,15 +154,15 @@ class AddHouseWorkFramgent : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
-        addHouseWorkChoreAdapter = AddHouseWorkChoreAdapter(addTodo2ViewModel.getChores())
+        addHouseWorkChoreAdapter = AddHouseWorkChoreAdapter(viewModel.getChores())
         binding.addHouseWorkChoreListRv.adapter = addHouseWorkChoreAdapter
 
         addHouseWorkChoreAdapter.setMyItemClickListener(object :
             AddHouseWorkChoreAdapter.MyItemClickListener {
             override fun onItemClick(position: Int) {
                 // 현재 chore 클릭하면 이전 chore 정보 업데이트
-                addTodo2ViewModel.updatePositions(position)
-                val prePos = addTodo2ViewModel.getPosition(PositionType.PRE)
+                viewModel.updatePositions(position)
+                val prePos = viewModel.getPosition(PositionType.PRE)
                 updateChore(prePos)
 
                 // 현재 chore 기준으로 뷰 업데이트
@@ -166,13 +176,17 @@ class AddHouseWorkFramgent : Fragment() {
                 // 현재 select 된 pos 정보 -> select 되지 않아도 remove 가능하기 때문
                 val selectedPos = addHouseWorkChoreAdapter.selectedChore.indexOf(1)
 
-                if (addTodo2ViewModel.getPosition(PositionType.CUR) != selectedPos) {
-                    addTodo2ViewModel.updatePositions(selectedPos)
+                if (viewModel.getPosition(PositionType.CUR) != selectedPos) {
+                    viewModel.updatePositions(selectedPos)
                 }
-                updateView(addTodo2ViewModel.getPosition(PositionType.CUR))
+                updateView(viewModel.getPosition(PositionType.CUR))
             }
 
         })
+
+        // 집안일 담당자 rv adapter
+        addAssigneeAdapter = AddAssigneeAdapter(viewModel.assignees.value)
+        binding.addHouseWorkChoreListRv.adapter = addHouseWorkChoreAdapter
 
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
@@ -183,17 +197,17 @@ class AddHouseWorkFramgent : Fragment() {
 
     private fun updateChore(position: Int) {
         when {
-            binding.addHouseWorkAllDayCheckBox.isChecked -> addTodo2ViewModel.updateChore(
+            binding.addHouseWorkAllDayCheckBox.isChecked -> viewModel.updateChore(
                 null,
                 position
             )
-            else -> addTodo2ViewModel.updateChore(addTodo2ViewModel.curTime.value, position)
+            else -> viewModel.updateChore(viewModel.curTime.value, position)
         }
-        Timber.d(addTodo2ViewModel.chores.value.toString())
+        Timber.d(viewModel.chores.value.toString())
     }
 
     private fun updateView(position: Int) {
-        val chore = addTodo2ViewModel.getChore(position)
+        val chore = viewModel.getChore(position)
         if (chore.scheduledTime == null) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.addHouseWorkAllDayCheckBox.isChecked = true

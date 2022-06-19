@@ -55,8 +55,8 @@
             android:name="selectDate"
             app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
         <action
-            android:id="@+id/action_SelectSpaceFragment_to_addHouseWorkFramgent"
-            app:destination="@id/addHouseWorkFramgent"
+            android:id="@+id/action_SelectSpaceFragment_to_addHouseWorkFragment"
+            app:destination="@id/addHouseWorkFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -113,9 +113,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/addHouseWorkFramgent"
-        android:name="com.depromeet.housekeeper.ui.AddHouseWorkFramgent"
-        android:label="addHouseWorkFramgent"
+        android:id="@+id/addHouseWorkFragment"
+        android:name="com.depromeet.housekeeper.ui.AddHouseWorkFragment"
+        android:label="addHouseWorkFragment"
         tools:layout="@layout/fragment_add_house_work">
         <argument
             android:name="spaceChores"
@@ -124,7 +124,7 @@
             android:name="selectDate"
             app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
         <action
-            android:id="@+id/action_addHouseWorkFramgent_to_mainFragment"
+            android:id="@+id/action_addHouseWorkFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
