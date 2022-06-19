@@ -7,10 +7,7 @@
         <variable
             name="imgUrl"
             type="String" />
-        <variable
-            name="position"
-            type="int" />
-
+        
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

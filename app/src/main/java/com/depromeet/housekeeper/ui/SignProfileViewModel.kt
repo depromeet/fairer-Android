@@ -10,10 +10,6 @@ class SignProfileViewModel : ViewModel() {
     val viewType : StateFlow<ProfileViewType>
         get() = _viewType
 
-    private val _isSelectedView: MutableStateFlow<Int> = MutableStateFlow(99)
-    val isSelectedView: StateFlow<Int>
-        get() = _isSelectedView
-
     private val _isSelected: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isSelected: StateFlow<Boolean>
         get() = _isSelected
@@ -31,7 +27,4 @@ class SignProfileViewModel : ViewModel() {
         _isSelected.value = true
     }
 
-    fun setSelectedPosition(position : Int){
-        _isSelectedView.value = position
-    }
 }
