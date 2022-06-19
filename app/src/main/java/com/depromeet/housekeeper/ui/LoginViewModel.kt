@@ -18,6 +18,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
   val response: StateFlow<LoginResponse?>
     get() = _response
 
+  private val _code: MutableStateFlow<String> = MutableStateFlow("")
+  val code: StateFlow<String>
+  get() = _code
+
   fun requestLogin(authCode: String) {
     viewModelScope.launch {
       Repository.getGoogleLogin(
@@ -30,5 +34,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         Timber.e("$it")
       }
     }
+  }
+  fun setCode(code : String){
+    _code.value = code
   }
 }
