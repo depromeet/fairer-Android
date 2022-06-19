@@ -101,7 +101,45 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/add_house_work_date_tv"
         tools:listitem="@layout/item_recycler_add_todo_list" />
-      
+
+      <TextView
+          android:id="@+id/add_house_work_assignee_tv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="24dp"
+          style="@style/Caption.C1"
+          android:textColor="@color/gray_900"
+          android:text="@string/add_housework_assignee_sign_tv"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/add_house_work_chore_list_rv" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/add_house_work_assignee_rv"
+          android:layout_width="0dp"
+          app:layout_constraintWidth_percent="0.7"
+          android:layout_height="wrap_content"
+          android:layout_marginHorizontal="20dp"
+          android:layout_marginTop="12dp"
+          android:orientation="horizontal"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/add_house_work_assignee_tv"
+          tools:listitem="@layout/item_add_assignee" />
+
+      <TextView
+          android:id="@+id/add_assignee_btn"
+          android:layout_width="87dp"
+          android:layout_height="37dp"
+          android:background="@drawable/main_inactive_stroke_background"
+          android:gravity="center"
+          style="@style/Body.B2"
+          android:textColor="@color/gray_900"
+          android:text="추가하기"
+          app:layout_constraintTop_toTopOf="@id/add_house_work_assignee_rv"
+          app:layout_constraintBottom_toBottomOf="@id/add_house_work_assignee_rv"
+          app:layout_constraintStart_toEndOf="@id/add_house_work_assignee_rv" />
+
       <TextView
         android:id="@+id/todo_time_tv"
         android:layout_width="wrap_content"
@@ -109,9 +147,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
         android:text="@string/add_direct_todo_time"
-        android:textColor="@color/gray_700"
+        style="@style/Caption.C1"
+        android:textColor="@color/gray_900"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_house_work_chore_list_rv" />
+        app:layout_constraintTop_toBottomOf="@id/add_house_work_assignee_rv" />
       
       <CheckBox
         android:id="@+id/add_house_work_all_day_check_box"

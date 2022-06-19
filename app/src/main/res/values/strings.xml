@@ -24,6 +24,13 @@
     <string name="edit_todo_btn_tv">수정 완료</string>
     <string name="add_direct_todo_space_tv">기타 공간</string>
 
+    <!-- AddHouseWorkFragment -->
+    <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
+    <string name="add_housework_bottom_sheet_title">집안일 담당자 선택</string>
+    <string name="add_housework_bottom_sheet_cancel_text">취소</string>
+    <string name="add_housework_bottom_sheet_ok_text">확인</string>
+
+
 
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_btn_text">취소</string>
