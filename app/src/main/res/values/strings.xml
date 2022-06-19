@@ -26,10 +26,9 @@
 
     <!-- AddHouseWorkFragment -->
     <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
-    <string name="add_housework_bottom_sheet_title">집안일 담당자 선택</string>
-    <string name="add_housework_bottom_sheet_cancel_text">취소</string>
-    <string name="add_housework_bottom_sheet_ok_text">확인</string>
-
+    <string name="assignee_bottom_sheet_title">집안일 담당자 선택</string>
+    <string name="assignee_bottom_sheet_cancel_text">취소</string>
+    <string name="assignee_bottom_sheet_ok_text">확인</string>
 
 
     <!-- Fairer Dialog -->
