@@ -4,7 +4,8 @@ import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.depromeet.housekeeper.MainActivity
+import androidx.navigation.fragment.navArgs
+import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
-import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.ktx.*
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
@@ -31,6 +32,7 @@ class InviteFragment : Fragment() {
     lateinit var binding: FragmentInviteBinding
     lateinit var clipboard: ClipboardManager
     private val viewModel: InviteViewModel by viewModels()
+    private val navArgs by navArgs<InviteFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,38 @@ class InviteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        bindingVm()
+    }
+
+    private fun bindingVm() {
+        // invite fragment 분기 - 건너뛰기 유무
+        viewModel.setViewType(navArgs.viewType)
+        when(viewModel.viewType.value) {
+            InviteViewType.SIGN -> {
+                binding.inviteSkipBtn.visibility = View.VISIBLE
+            }
+            InviteViewType.SETTING -> {
+                binding.inviteSkipBtn.visibility = View.GONE
+            }
+        }
+
+        viewModel.groupName.value.apply {
+            val format = String.format(getString(R.string.invite_group_name_text), this)
+            val spannerString = SpannableString(format).apply {
+                setSpan(
+                    ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
+                    0,
+                    this.indexOf("의"),
+                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            binding.inviteGroupNameTv.text = spannerString
+        }
+
+        // 유효기간
+        // TODO: API 호출 필요
+        val validText = getString(R.string.invite_code_valid_period_text, viewModel.inviteCodeValidPeriod.value)
+        binding.inviteValidPeriodTv.text = validText
     }
 
     private fun initListener() {
@@ -65,7 +99,7 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
-            onKakaoShare(requireContext(),initDynamicLink())
+            onKakaoShare(requireContext(), initDynamicLink())
         }
 
         binding.inviteSkipBtn.setOnClickListener {
@@ -78,9 +112,7 @@ class InviteFragment : Fragment() {
         val clip = ClipData.newPlainText("INVITE_CODE", code.toString())
         clipboard.setPrimaryClip(clip)
 
-        val toast = Toast.makeText(requireContext(), "코드를 클립보드에 복사했습니다.", Toast.LENGTH_SHORT)
-        toast.setGravity(Gravity.CENTER, Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL)
-        toast.show()
+        Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
     }
 
     private fun onKakaoShare(context: Context, uri: Uri) {
