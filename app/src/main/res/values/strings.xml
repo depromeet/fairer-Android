@@ -56,9 +56,9 @@
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
 
-
     <!-- HomeFragment -->
-    <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
+    <string name="user_name">%s님</string>
+    <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
@@ -68,6 +68,8 @@
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
     <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
     <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
+    <string name="rule">규칙</string>
+    <string name="rule_place_holder">여기를 눌러 하우스의 규칙을 입력해주세요</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">

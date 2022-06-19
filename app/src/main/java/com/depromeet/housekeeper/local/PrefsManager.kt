@@ -8,6 +8,7 @@ object PrefsManager {
 
   private const val ACCESS_TOKEN = "ACCESS_TOKEN"
   private const val REFRESH_TOKEN = "REFRESH_TOKEN"
+  private const val USER_NAME = "USER_NAME"
 
   fun init(context: Context) {
     prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
@@ -30,6 +31,15 @@ object PrefsManager {
     prefs.edit()?.apply {
       remove(ACCESS_TOKEN)
       remove(REFRESH_TOKEN)
+    }?.apply()
+  }
+
+  val userName: String
+    get() = prefs.getString(USER_NAME, "User Name").toString()
+
+  fun setUserName(userName: String) {
+    prefs.edit()?.apply {
+      putString(USER_NAME, userName)
     }?.apply()
   }
 }
