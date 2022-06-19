@@ -149,4 +149,7 @@
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
 
+    <!--dynamicLink-->
+    <string name="host_url">faireran.com</string>
+
 </resources>
