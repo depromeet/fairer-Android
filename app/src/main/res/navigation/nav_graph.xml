@@ -156,6 +156,9 @@
             app:destination="@id/signNameFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment" />
 
     </fragment>
     <fragment
@@ -208,10 +211,6 @@
         android:name="com.depromeet.housekeeper.ui.JoinGroupFragment"
         android:label="JoinGroupFragment"
         tools:layout="@layout/fragment_join_group">
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"/>
         <action
             android:id="@+id/action_joinGroupFragment_to_signNameFragment"
             app:destination="@id/signNameFragment" />

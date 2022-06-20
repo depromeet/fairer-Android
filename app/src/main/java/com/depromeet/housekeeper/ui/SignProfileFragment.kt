@@ -65,7 +65,6 @@ class SignProfileFragment : Fragment() {
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             findNavController().navigate(
                 SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment(
-                    name = navArgs.name
                 )
             )
         }

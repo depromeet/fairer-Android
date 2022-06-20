@@ -7,7 +7,9 @@ import kotlinx.serialization.Serializable
 data class LoginResponse(
     val accessToken: String,
     val accessTokenExpireTime: String,
+    val hasTeam : Boolean,
     val isNewMember: Boolean,
+    val MemberName: String?,
     val refreshToken: String,
     val refreshTokenExpireTime: String
 )

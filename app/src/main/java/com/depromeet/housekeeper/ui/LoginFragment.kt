@@ -15,6 +15,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -42,7 +43,8 @@ class LoginFragment : Fragment() {
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
     binding.lifecycleOwner = this.viewLifecycleOwner
 
-    initGooglelogin()
+
+    initGoogleLogin()
     bindingVM()
     initListener()
     return binding.root
@@ -58,14 +60,14 @@ class LoginFragment : Fragment() {
     super.onStart()
     val account = GoogleSignIn.getLastSignedInAccount(requireContext())
     if(navArgs.code!="null"){
-      findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.InviteCode,navArgs.code))
+      navigateDynamicLink()
     }
     else if(account != null) {
-      navigateToSignName()
+      navigateOnStart()
     }
   }
 
-  private fun initGooglelogin() {
+  private fun initGoogleLogin() {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
       .requestScopes(
         Scope("https://www.googleapis.com/auth/userinfo.email"),
@@ -107,17 +109,58 @@ class LoginFragment : Fragment() {
     viewModel.viewModelScope.launch {
       viewModel.response.collect { response ->
         Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
+        Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, name: ${response?.MemberName}")
         response?.run {
           PrefsManager.setTokens(response.accessToken, response.refreshToken)
-          navigateToSignName()
+          response.MemberName?.let { PrefsManager.setUserName(it) }
+          PrefsManager.setHasTeam(response.hasTeam)
+          initNavigation(response)
         }
       }
     }
   }
 
+  private fun initNavigation(response: LoginResponse) {
+    when(response.hasTeam){
+      true -> {
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+      }
+      false -> {
+        if(response.isNewMember){
+          findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
+        }
+        else{
+          findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinGroupFragment())
+        }
+      }
+    }
+  }
+  private fun navigateDynamicLink(){
+    if(PrefsManager.hasTeam){
+      findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.InviteCode,code = "hasTeam"))
+    }
+    else{
+      if(PrefsManager.userName=="User Name"){
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
+      }
+      else{
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.InviteCode,navArgs.code))
+      }
+    }
+  }
 
+  private fun navigateOnStart(){
+    if(PrefsManager.hasTeam){
+      findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+    }
+    else{
+      if(PrefsManager.userName=="User Name"){
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
+      }
+      else{
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinGroupFragment())
+      }
+    }
 
-  private fun navigateToSignName() {
-    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
   }
 }

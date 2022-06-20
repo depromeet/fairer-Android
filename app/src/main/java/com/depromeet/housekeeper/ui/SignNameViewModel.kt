@@ -18,11 +18,18 @@ class SignNameViewModel : ViewModel() {
     val inviteCode : StateFlow<String>
         get() = _inviteCode
 
+    private val _hasTeam : MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasTeam : StateFlow<Boolean>
+        get() = _hasTeam
+
     fun setInputText(name:String){
         _inputText.value = name
     }
 
     fun setViewType(viewType : SignViewType){
         _viewType.value = viewType
+    }
+    fun setHasTeam(hasTeam:Boolean){
+        _hasTeam.value = hasTeam
     }
 }

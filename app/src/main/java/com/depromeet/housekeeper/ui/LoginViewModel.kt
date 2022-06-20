@@ -35,7 +35,4 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
       }
     }
   }
-  fun setCode(code : String){
-    _code.value = code
-  }
 }
