@@ -68,7 +68,7 @@ class SignNameFragment : Fragment() {
                     ))
                 }
                 SignViewType.InviteCode -> {
-                    findNavController().navigate(R.id.action_signNameFragment_to_mainFragment)
+                    findNavController().navigate(R.id.action_signNameFragment_to_groupInfoFragment)
                 }
             }
         }
