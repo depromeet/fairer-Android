@@ -20,6 +20,7 @@ class MainViewModel : ViewModel() {
 
   init {
     getCompleteHouseWorkNumber()
+    getGroupName()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
@@ -173,12 +174,19 @@ class MainViewModel : ViewModel() {
     }
   }
 
-  private val _groupName: MutableStateFlow<String> = MutableStateFlow("즐거운 우리집 5")
+  private val _groupName: MutableStateFlow<String> = MutableStateFlow("")
   val groupName: StateFlow<String>
     get() = _groupName
 
-  fun getGroupName() {
-    //TODO 그룹 이름 조회 api 통하여 보여주도록 수정
+  private fun getGroupName() {
+    viewModelScope.launch {
+      Repository.getTeam().runCatching {
+        collect {
+          _groupName.value = it.teamName
+        }
+      }
+
+    }
   }
 
   /*
