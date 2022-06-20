@@ -106,9 +106,9 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-  val houseWorks: StateFlow<HouseWorks?>
-    get() = _houseWorks
+  private val _myHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val myHouseWorks: StateFlow<HouseWorks?>
+    get() = _myHouseWorks
 
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
@@ -127,10 +127,10 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _houseWorks.value = it
+            _myHouseWorks.value = it
           }
         }.onFailure {
-          _networkError.value = true
+        //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
