@@ -23,7 +23,7 @@ interface ApiService {
   suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 
   @GET("/api/houseworks")
-  suspend fun getList(@Query("scheduledDate") scheduledDate: String): HouseWorks
+  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
   @GET("/api/preset")
   suspend fun getChoreList(): ChorePreset
