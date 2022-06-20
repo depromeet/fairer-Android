@@ -127,7 +127,7 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _myHouseWorks.value = it
+            _myHouseWorks.value = it.first()
           }
         }.onFailure {
         //  _networkError.value = true
