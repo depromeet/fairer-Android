@@ -11,14 +11,13 @@ interface ApiService {
   suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 
   @GET("/api/houseworks")
-  suspend fun getList(@Query("scheduledDate") scheduledDate: String): HouseWorks
+  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
   @GET("/api/preset")
   suspend fun getChoreList(): ChorePreset
 
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
-
 
   @POST("/api/oauth/login")
   suspend fun googlelogin(@Header("Authorization")auth : String, @Body socialType : SocialType): LoginResponse
@@ -37,4 +36,8 @@ interface ApiService {
 
   @PATCH("/api/teams")
   suspend fun buildTeam(teamName : String) : BuildTeam
+
+  @GET("/api/teams/my")
+  suspend fun getTeamData(): Groups
+
 }
