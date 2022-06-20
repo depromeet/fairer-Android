@@ -73,9 +73,9 @@ class SignProfileFragment : Fragment() {
 
     private fun setAdapter() {
         val gridLayoutManager = GridLayoutManager(context, 4)
-        val dummyList: List<String> = listOf(
-            "https://i.pinimg.com/originals/61/0b/12/610b12fdc6afe3beafd439b43a52ad24.png",
-            "https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/11/urbanbrush-20201104103659627968.jpg"
+        val dummyList: List<ProfileState> = listOf(
+            ProfileState("https://i.pinimg.com/originals/61/0b/12/610b12fdc6afe3beafd439b43a52ad24.png",false),
+            ProfileState("https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/11/urbanbrush-20201104103659627968.jpg", false)
         )
         binding.signProfileRecyclerImageview.layoutManager = gridLayoutManager
         myAdapter = SignProfileAdapter(dummyList)
@@ -84,8 +84,12 @@ class SignProfileFragment : Fragment() {
         myAdapter.setItemClickListener(object : SignProfileAdapter.OnItemClickListener {
             override fun onClick(v: View, imgUrl: String, position: Int) {
                 viewModel.setSelectedImage(imgUrl)
-                viewModel.setSelectedPosition(position)
             }
         })
     }
+
+    data class ProfileState(
+        val url : String,
+        var state : Boolean,
+    )
 }

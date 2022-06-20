@@ -4,13 +4,11 @@
     xmlns:tool="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="imgUrl"
             type="String" />
-        <variable
-            name="position"
-            type="int" />
-
+        
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
