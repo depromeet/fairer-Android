@@ -31,7 +31,6 @@ interface ApiService {
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
-
   @POST("/api/oauth/login")
   suspend fun googlelogin(@Header("Authorization")auth : String, @Body socialType : SocialType): LoginResponse
   
@@ -46,4 +45,8 @@ interface ApiService {
 
   @POST("/api/oauth/logout")
   suspend fun logout(@Header("Authorization")auth : String)
+
+  @GET("/api/teams/my")
+  suspend fun getTeamData(): Groups
+
 }
