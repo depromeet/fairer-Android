@@ -1,15 +1,9 @@
 package com.depromeet.housekeeper.network.remote.api
 
 import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import kotlinx.coroutines.flow.Flow
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
-import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 
 interface RemoteDataSource {
   suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse>
@@ -24,4 +18,5 @@ interface RemoteDataSource {
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
   suspend fun logout(auth: String): Flow<Unit>
+  suspend fun buildTeam(teamName : String) : Flow<BuildTeam>
 }

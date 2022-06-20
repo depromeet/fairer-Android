@@ -1,12 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
@@ -61,5 +55,11 @@ object Repository : RemoteDataSource {
     auth: String
   ): Flow<Unit> = flow {
     emit(apiService.logout(auth))
+  }
+
+  override suspend fun buildTeam(
+    teamName : String
+  ): Flow<BuildTeam> = flow {
+    emit(apiService.buildTeam(teamName))
   }
 }

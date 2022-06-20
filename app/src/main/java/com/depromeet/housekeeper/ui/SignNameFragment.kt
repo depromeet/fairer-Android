@@ -71,7 +71,7 @@ class SignNameFragment : Fragment() {
                 }
                 SignViewType.GroupName -> {
                     findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
-                        viewType = InviteViewType.SIGN
+                        houseName = viewModel.inputText.value,viewType = InviteViewType.SIGN
                     ))
                 }
                 SignViewType.InviteCode -> {

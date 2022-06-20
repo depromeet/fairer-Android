@@ -296,6 +296,10 @@
         <argument
             android:name="viewType"
             app:argType="com.depromeet.housekeeper.model.enums.InviteViewType" />
+        <argument
+            android:name="houseName"
+            app:argType="string"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_inviteFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
