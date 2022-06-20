@@ -130,8 +130,7 @@ class MainFragment : Fragment() {
     binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
 
 
-    groupProfileAdapter = GroupProfileAdapter(mainViewModel.teams.value
-    ) {
+    groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
 
     }
     binding.rvGroups.adapter = groupProfileAdapter
@@ -202,6 +201,12 @@ class MainFragment : Fragment() {
     lifecycleScope.launchWhenCreated {
       mainViewModel.groupName.collect {
         binding.tvGroupName.text = it
+      }
+    }
+
+    lifecycleScope.launchWhenCreated {
+      mainViewModel.groups.collect {
+        groupProfileAdapter.updateDate(it.toMutableList())
       }
     }
   }

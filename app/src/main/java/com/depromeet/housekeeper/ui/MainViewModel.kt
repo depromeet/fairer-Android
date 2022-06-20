@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.model.AssigneeTemp
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -131,7 +131,7 @@ class MainViewModel : ViewModel() {
             _myHouseWorks.value = it.first()
           }
         }.onFailure {
-        //  _networkError.value = true
+          //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
@@ -178,31 +178,21 @@ class MainViewModel : ViewModel() {
   val groupName: StateFlow<String>
     get() = _groupName
 
+  private val _groups: MutableStateFlow<List<Assignee>> = MutableStateFlow(listOf())
+  val groups: MutableStateFlow<List<Assignee>>
+    get() = _groups
+
   private fun getGroupName() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {
           _groupName.value = it.teamName
+          _groups.value = it.members
         }
       }
 
     }
   }
-
-  /*
-    Group Adapter 를 위한 임시 변수
-   */
-  private val tempAssign = mutableListOf(
-    AssigneeTemp(0, "고가혜"),
-    AssigneeTemp(1, "권진혁"),
-    AssigneeTemp(2, "최지혜"),
-    AssigneeTemp(3, "신동빈"),
-    AssigneeTemp(4, "김수연"),
-  )
-
-  private val _teams: MutableStateFlow<MutableList<AssigneeTemp>> = MutableStateFlow(tempAssign)
-  val teams: MutableStateFlow<MutableList<AssigneeTemp>>
-    get() = _teams
 
   enum class CurrentState {
     REMAIN,

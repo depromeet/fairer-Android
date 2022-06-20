@@ -15,7 +15,7 @@
     
     <variable
       name="assignTemp"
-      type="com.depromeet.housekeeper.model.AssigneeTemp" />
+      type="com.depromeet.housekeeper.model.Assignee" />
   
   </data>
   
