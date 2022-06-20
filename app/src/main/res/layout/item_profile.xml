@@ -42,12 +42,10 @@
       android:layout_width="40dp"
       android:layout_height="40dp"
       android:scaleType="centerInside"
-      android:src="@drawable/ic_profile1"
       app:layout_constraintBottom_toBottomOf="@id/iv_selector"
       app:layout_constraintEnd_toEndOf="@id/iv_selector"
       app:layout_constraintStart_toStartOf="@id/iv_selector"
-      app:layout_constraintTop_toTopOf="@id/iv_selector"
-      tools:src="@drawable/ic_profile1" />
+      app:layout_constraintTop_toTopOf="@id/iv_selector" />
     
     <TextView
       android:id="@+id/tv_userName"

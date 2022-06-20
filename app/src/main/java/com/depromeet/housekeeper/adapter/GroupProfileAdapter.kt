@@ -3,6 +3,7 @@ package com.depromeet.housekeeper.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.databinding.ItemProfileBinding
 import com.depromeet.housekeeper.model.Assignee
 
@@ -36,6 +37,9 @@ class GroupProfileAdapter(
     RecyclerView.ViewHolder(binding.root) {
     fun bind(assign: Assignee) {
       binding.assignTemp = assign
+      Glide.with(binding.root)
+        .load(assign.profilePath)
+        .into(binding.ivIcon)
     }
   }
 }
