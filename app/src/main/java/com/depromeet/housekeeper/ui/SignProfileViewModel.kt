@@ -26,5 +26,4 @@ class SignProfileViewModel : ViewModel() {
         _selectedImage.value = imgUrl
         _isSelected.value = true
     }
-
 }

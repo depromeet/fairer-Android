@@ -40,7 +40,6 @@ class SignProfileAdapter(private val profiles: List<SignProfileFragment.ProfileS
                 }
             }
         }
-
     }
 
     interface OnItemClickListener {

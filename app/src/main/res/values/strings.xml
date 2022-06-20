@@ -56,9 +56,9 @@
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
 
-
     <!-- HomeFragment -->
-    <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
+    <string name="user_name">%s님</string>
+    <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
@@ -68,6 +68,8 @@
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
     <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
     <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
+    <string name="rule">규칙</string>
+    <string name="rule_place_holder">여기를 눌러 하우스의 규칙을 입력해주세요</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">
@@ -87,6 +89,7 @@
     <string name="sign_name_hint">예) 홍길동</string>
     <string name="sign_name_next_btn_text">입력 완료</string>
     <string name="sign_name_error">&amp;,!,#,@,^와 같은 특수문자는 입력하실 수 없어요.</string>
+    <string name="sign_name_blank" />
 
     <!--SignProfileFragment-->
     <string name="sign_profile_text">프로필 사진을 골라주세요.</string>
@@ -105,20 +108,23 @@
     <!-- settingFragment -->
     <string name="setting_header_title">설정</string>
     <string name="setting_account_row_text">계정</string>
-    <string name="setting_space_row_text">공간관리</string>
+    <string name="setting_space_row_text">하우스 관리</string>
     <string name="setting_contact_row_text">문의하기</string>
     <string name="setting_info_row_text">정보</string>
     <string name="setting_version_row_text">버전</string>
     <string name="setting_logout_row_text">로그아웃</string>
 
     <!-- inviteFragment -->
-    <string name="invite_main_title">공간에 사람을 초대해주세요.</string>
+    <string name="invite_main_title">하우스에 사람을 초대해주세요.</string>
     <string name="invite_main_desc">앞으로 함께 집안일을 관리할 가족, 친구, 룸메이트 누구든 초대해주세요!</string>
-    <string name="invite_sign_highlight">즐거운 우리집</string>
-    <string name="invite_sign_normal">의 초대코드</string>
+    <string name="invite_group_name_text">%s의 초대코드</string>
     <string name="invite_btn_text_copy">초대코드 복사하기</string>
     <string name="invite_btn_text_share">카카오톡 공유하기</string>
     <string name="invite_btn_text_skip">건너뛰기</string>
+    <string name="invite_code_copy_toast_text">코드를 클립보드에 복사했습니다.</string>
+    <string name="invite_code_valid_period_text">%1$s까지 유효한 코드</string>
+    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에 입력하셔야 합니다.</string>
+
 
     <!-- contractFragment -->
     <string name="contact_header_text">문의하기</string>
@@ -147,5 +153,24 @@
 
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
+
+    <!-- ManageHouseFragment -->
+    <string name="manage_house_header_title">하우스 관리</string>
+    <string name="manage_house_rename_text">하우스 이름 변경</string>
+    <string name="manage_house_invite_text">초대하기</string>
+    <string name="manage_house_exit_text">하우스에서 나가기</string>
+
+    <!--dynamicLink-->
+    <string name="host_url">faireran.com</string>
+
+    <!--group_info-->
+    <string name="group_info_text">%s에 어서오세요!</string>
+    <string name="group_info_sub_text">공간 참여자</string>
+    <string name="name_ex">홍길동</string>
+    <string name="group_info_next_button">참여 완료</string>
+
+    <!--failed_group_invite-->
+    <string name="failed_group_text">이미 그룹에 참여되어 있습니다.\n새로운 그룹에 참여하려면\n기존의 그룹에서 나가주세요.</string>
+    <string name="failed_group_info_text">기존의 그룹에서 나가는 경로는\n\'설정>그룹 관리>그룹에서 나가기\' 입니다.</string>
 
 </resources>

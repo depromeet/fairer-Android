@@ -4,6 +4,7 @@ import deptromeet.housekeeper.Dependencies
 buildscript {
     dependencies {
         classpath Dependencies.navigationSafeArgs
+        classpath Dependencies.firebaseSdk
     }
 }
 plugins {

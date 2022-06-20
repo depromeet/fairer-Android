@@ -13,10 +13,18 @@ class MainViewModel : ViewModel(){
     val isLoading : StateFlow<Boolean>
     get() = _isLoading
 
+    private val _inviteCode : MutableStateFlow<String> = MutableStateFlow("")
+    val inviteCode : StateFlow<String>
+    get() = _inviteCode
+
     init {
         viewModelScope.launch{
             delay(1000)
             _isLoading.value = false
         }
+    }
+
+    fun setInviteCode(code : String){
+        _inviteCode.value = code
     }
 }

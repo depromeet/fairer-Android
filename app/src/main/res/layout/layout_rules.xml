@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+  
+  </data>
+  
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_positive_backgorund_8"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
+    tools:context=".ui.MainFragment">
+    
+    <TextView
+      android:id="@+id/tv_rule"
+      style="@style/Caption.C1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/rule"
+      android:textColor="@color/highlight"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="규칙" />
+    
+    <TextView
+      style="@style/Caption.C1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:text="@string/rule_place_holder"
+      android:textColor="@color/gray_400"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/tv_rule"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="여기를 눌러 하우스의 규칙을 입력해주세요!" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

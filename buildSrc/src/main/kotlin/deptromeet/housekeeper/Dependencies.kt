@@ -84,6 +84,14 @@ object Dependencies {
   private const val KAKAO_SDK = "2.10.0"
   const val kakaoSdk = "com.kakao.sdk:v2-link:$KAKAO_SDK"
 
+  private const val FIREBASE_SDK = "4.3.10"
+  const val firebaseSdk = "com.google.gms:google-services:$FIREBASE_SDK"
+
+  private const val FIREBASK_BOM = "30.0.2"
+  const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASK_BOM"
+  const val firebasektx = "com.google.firebase:firebase-analytics-ktx"
+  const val firebasedynamiclink = "com.google.firebase:firebase-dynamic-links-ktx"
+
   private const val GLIDE = "4.13.0"
   const val glide ="com.github.bumptech.glide:glide:$GLIDE"
   const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
