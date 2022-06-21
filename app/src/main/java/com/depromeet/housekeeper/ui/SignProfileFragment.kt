@@ -64,7 +64,7 @@ class SignProfileFragment : Fragment() {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.updateMemberResponse.collect {
-                it?.run{
+                it?.run {
                     PrefsManager.setUserName(viewModel.MemberName.value)
                     findNavController().navigate(
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
@@ -83,7 +83,7 @@ class SignProfileFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            if(viewModel.viewType.value==ProfileViewType.Sign){
+            if (viewModel.viewType.value == ProfileViewType.Sign) {
                 viewModel.requestUpdateMember()
             }
 

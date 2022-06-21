@@ -20,8 +20,8 @@ import com.depromeet.housekeeper.model.enums.SignViewType
 import kotlinx.coroutines.flow.collect
 
 class SignNameFragment : Fragment() {
-    lateinit var binding : FragmentSignNameBinding
-    private val viewModel : SignNameViewModel by viewModels()
+    lateinit var binding: FragmentSignNameBinding
+    private val viewModel: SignNameViewModel by viewModels()
     private val navArgs by navArgs<SignNameFragmentArgs>()
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class SignNameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_name,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_name, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
 
@@ -61,16 +61,20 @@ class SignNameFragment : Fragment() {
         }
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            when(viewModel.viewType.value){
+            when (viewModel.viewType.value) {
                 SignViewType.UserName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                            name = viewModel.inputText.value,viewType = ProfileViewType.Sign))
+                            name = viewModel.inputText.value, viewType = ProfileViewType.Sign
+                        )
+                    )
                 }
                 SignViewType.GroupName -> {
-                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
-                        houseName = viewModel.inputText.value,viewType = InviteViewType.SIGN
-                    ))
+                    findNavController().navigate(
+                        SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
+                            houseName = viewModel.inputText.value, viewType = InviteViewType.SIGN
+                        )
+                    )
                 }
                 SignViewType.InviteCode -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_groupInfoFragment)
@@ -80,10 +84,10 @@ class SignNameFragment : Fragment() {
         binding.signNameClear.setOnClickListener {
             binding.signNameEt.setText(R.string.sign_name_blank)
         }
-        if(navArgs.code!=null){
-            if(navArgs.code=="hasTeam"){
+        if (navArgs.code != null) {
+            if (navArgs.code == "hasTeam") {
                 viewModel.setHasTeam(true)
-                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.isEnabled =true
+                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.isEnabled = true
 
             }
             viewModel.setInputText(navArgs.code!!)
@@ -101,6 +105,7 @@ class SignNameFragment : Fragment() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 binding.isTextChanged = false
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val value: String = binding.signNameEt.text.toString()
                 val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*"
@@ -114,10 +119,11 @@ class SignNameFragment : Fragment() {
                     binding.signNameNextBtn.mainFooterButton.isEnabled =
                         viewModel.inputText.value != ""
                 }
-                if (value == ""){
+                if (value == "") {
                     binding.isTextChanged = false
                 }
             }
+
             override fun afterTextChanged(p0: Editable?) {
             }
         }

@@ -16,12 +16,14 @@ class SignProfileViewModel : ViewModel() {
     init {
         setProfileImageList()
     }
-    private val _viewType : MutableStateFlow<ProfileViewType> = MutableStateFlow(ProfileViewType.Sign)
-    val viewType : StateFlow<ProfileViewType>
+
+    private val _viewType: MutableStateFlow<ProfileViewType> =
+        MutableStateFlow(ProfileViewType.Sign)
+    val viewType: StateFlow<ProfileViewType>
         get() = _viewType
 
-    private val _MemberName : MutableStateFlow<String> = MutableStateFlow("")
-    val MemberName : StateFlow<String>
+    private val _MemberName: MutableStateFlow<String> = MutableStateFlow("")
+    val MemberName: StateFlow<String>
         get() = _MemberName
 
     private val _isSelected: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -32,24 +34,26 @@ class SignProfileViewModel : ViewModel() {
     val selectedImage: StateFlow<String>
         get() = _selectedImage
 
-    private val _profileImageList : MutableStateFlow<MutableList<ProfileState>> = MutableStateFlow(arrayListOf())
-    val profileImageList : StateFlow<List<ProfileState>>
+    private val _profileImageList: MutableStateFlow<MutableList<ProfileState>> =
+        MutableStateFlow(arrayListOf())
+    val profileImageList: StateFlow<List<ProfileState>>
         get() = _profileImageList
 
-    private val _updateMemberResponse : MutableStateFlow<UpdateMemberResponse?> = MutableStateFlow(null)
-    val updateMemberResponse : StateFlow<UpdateMemberResponse?>
+    private val _updateMemberResponse: MutableStateFlow<UpdateMemberResponse?> =
+        MutableStateFlow(null)
+    val updateMemberResponse: StateFlow<UpdateMemberResponse?>
         get() = _updateMemberResponse
 
-    fun setViewType(viewType : ProfileViewType){
+    fun setViewType(viewType: ProfileViewType) {
         _viewType.value = viewType
     }
 
-    fun setSelectedImage(imgUrl : String){
+    fun setSelectedImage(imgUrl: String) {
         _selectedImage.value = imgUrl
         _isSelected.value = true
     }
 
-    fun setMemberName(memberName : String){
+    fun setMemberName(memberName: String) {
         _MemberName.value = memberName
     }
 
@@ -57,16 +61,15 @@ class SignProfileViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    private fun setProfileImageList(){
+    private fun setProfileImageList() {
         var profileImages = mutableListOf<ProfileState>()
         viewModelScope.launch {
             Repository.getProfileImages().runCatching {
                 collect {
                     Timber.d("list get ${it.bigImageList.size}")
-                        for(i in 0 until it.bigImageList.size)
-                        {
-                            profileImages.add(ProfileState(it.bigImageList[i],false))
-                        }
+                    for (i in 0 until it.bigImageList.size) {
+                        profileImages.add(ProfileState(it.bigImageList[i], false))
+                    }
                     _profileImageList.value = profileImages
                     Timber.d("${_profileImageList.value}")
                 }
@@ -77,10 +80,10 @@ class SignProfileViewModel : ViewModel() {
         }
     }
 
-    fun requestUpdateMember(){
+    fun requestUpdateMember() {
         viewModelScope.launch {
             Repository.updateMember(
-                UpdateMember(_MemberName.value,_selectedImage.value)
+                UpdateMember(_MemberName.value, _selectedImage.value)
             ).runCatching {
                 collect {
                     _updateMemberResponse.value = it
@@ -95,7 +98,7 @@ class SignProfileViewModel : ViewModel() {
 
 
     data class ProfileState(
-        val url : String,
-        var state : Boolean = false
+        val url: String,
+        var state: Boolean = false
     )
 }

@@ -28,7 +28,7 @@ class InviteViewModel : ViewModel() {
     val groupName: StateFlow<String>
         get() = _groupName
 
-    fun setGroupName(groupName : String){
+    fun setGroupName(groupName: String) {
         _groupName.value = groupName
     }
 
@@ -46,13 +46,15 @@ class InviteViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    fun setInviteCodeValidPeriod(){
-        _inviteCodeValidPeriod.value = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")) + 3600000
+    fun setInviteCodeValidPeriod() {
+        _inviteCodeValidPeriod.value = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")) + 3600000
     }
 
-    fun setCode(teamName : String){
+    fun setCode(teamName: String) {
         viewModelScope.launch {
-            Repository.buildTeam(buildTeam = BuildTeam(teamName)
+            Repository.buildTeam(
+                buildTeam = BuildTeam(teamName)
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode
