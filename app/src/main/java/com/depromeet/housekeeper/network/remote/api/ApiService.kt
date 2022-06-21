@@ -40,4 +40,7 @@ interface ApiService {
   @GET("/api/teams/my")
   suspend fun getTeamData(): Groups
 
+  @GET("/api/member/profile-image")
+  suspend fun getProfileImages() : ProfileImages
+
 }

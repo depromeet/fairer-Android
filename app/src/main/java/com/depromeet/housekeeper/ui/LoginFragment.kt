@@ -52,7 +52,8 @@ class LoginFragment : Fragment() {
 
   private fun initListener() {
     binding.signInButton.setOnClickListener {
-      signIn()
+      //signIn()
+      findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.UserName,null))
     }
   }
 

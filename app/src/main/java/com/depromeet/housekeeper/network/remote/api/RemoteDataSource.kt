@@ -20,4 +20,5 @@ interface RemoteDataSource {
   suspend fun logout(auth: String): Flow<Unit>
   suspend fun buildTeam(teamName : String) : Flow<BuildTeam>
   suspend fun getTeam(): Flow<Groups>
+  suspend fun getProfileImages(): Flow<ProfileImages>
 }

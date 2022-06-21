@@ -66,4 +66,8 @@ object Repository : RemoteDataSource {
   override suspend fun getTeam(): Flow<Groups> = flow {
     emit(apiService.getTeamData())
   }
+
+  override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
+    emit(apiService.getProfileImages())
+  }
 }

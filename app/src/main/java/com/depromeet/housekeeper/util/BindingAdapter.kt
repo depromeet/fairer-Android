@@ -28,7 +28,8 @@ object BindingAdapter {
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
       .diskCacheStrategy(DiskCacheStrategy.NONE)
-      .apply(RequestOptions().fitCenter())
+      .fitCenter()
+      .override(100,100)
       .into(imageView)
   }
 

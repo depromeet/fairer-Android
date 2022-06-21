@@ -46,7 +46,7 @@ class InviteViewModel : ViewModel() {
         get() = _networkError
 
     fun setInviteCodeValidPeriod(){
-        _inviteCodeValidPeriod.value = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분"))
+        _inviteCodeValidPeriod.value = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")) + 3600000
     }
 
     fun setCode(teamName : String){
