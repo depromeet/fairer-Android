@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
+import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -39,9 +40,9 @@ class SignProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Timber.d(navArgs.name)
+        initListener()
         setAdapter()
         bindingVm()
-        initListener()
     }
 
     private fun bindingVm() {
@@ -60,20 +61,30 @@ class SignProfileFragment : Fragment() {
                 myAdapter.notifyDataSetChanged()
             }
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.updateMemberResponse.collect {
+                it?.run{
+                    findNavController().navigate(
+                        SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
+                    )
+                }
+            }
+        }
 
     }
 
     private fun initListener() {
+        navArgs.name?.let { viewModel.setMemberName(it) }
         binding.signProfileHeader.defaultHeaderTitleTv.text = ""
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_profile_next_btn_text)
         binding.signProfileHeader.defaultHeaderBackBtn.setOnClickListener {
             findNavController().navigateUp()
         }
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            findNavController().navigate(
-                SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment(
-                )
-            )
+            if(viewModel.viewType.value==ProfileViewType.Sign){
+                viewModel.requestUpdateMember()
+            }
+
         }
     }
 

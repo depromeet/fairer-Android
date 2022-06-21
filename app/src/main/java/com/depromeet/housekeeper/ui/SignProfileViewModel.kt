@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.UpdateMember
+import com.depromeet.housekeeper.model.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +20,10 @@ class SignProfileViewModel : ViewModel() {
     val viewType : StateFlow<ProfileViewType>
         get() = _viewType
 
+    private val _MemberName : MutableStateFlow<String> = MutableStateFlow("")
+    val MemberName : StateFlow<String>
+        get() = _MemberName
+
     private val _isSelected: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isSelected: StateFlow<Boolean>
         get() = _isSelected
@@ -30,6 +36,10 @@ class SignProfileViewModel : ViewModel() {
     val profileImageList : StateFlow<List<ProfileState>>
         get() = _profileImageList
 
+    private val _updateMemberResponse : MutableStateFlow<UpdateMemberResponse?> = MutableStateFlow(null)
+    val updateMemberResponse : StateFlow<UpdateMemberResponse?>
+        get() = _updateMemberResponse
+
     fun setViewType(viewType : ProfileViewType){
         _viewType.value = viewType
     }
@@ -38,6 +48,11 @@ class SignProfileViewModel : ViewModel() {
         _selectedImage.value = imgUrl
         _isSelected.value = true
     }
+
+    fun setMemberName(memberName : String){
+        _MemberName.value = memberName
+    }
+
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val networkError: StateFlow<Boolean>
@@ -61,6 +76,21 @@ class SignProfileViewModel : ViewModel() {
                     _networkError.value = true
                 }
         }
+    }
+
+    fun requestUpdateMember(){
+        viewModelScope.launch {
+            Repository.updateMember(UpdateMember(_MemberName.value,_selectedImage.value)
+            ).runCatching {
+                collect {
+                    _updateMemberResponse.value = it
+                }
+            }
+                .onFailure {
+                    _networkError.value = true
+                }
+        }
+
     }
     data class ProfileState(
         val url : String,

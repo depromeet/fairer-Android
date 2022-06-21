@@ -43,4 +43,7 @@ interface ApiService {
   @GET("/api/member/profile-image")
   suspend fun getProfileImages() : ProfileImages
 
+  @PATCH("/api/member")
+  suspend fun updateMember(updateMember: UpdateMember) : UpdateMemberResponse
+
 }

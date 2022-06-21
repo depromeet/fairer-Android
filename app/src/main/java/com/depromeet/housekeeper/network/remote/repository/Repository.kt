@@ -70,4 +70,8 @@ object Repository : RemoteDataSource {
   override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
     emit(apiService.getProfileImages())
   }
+
+  override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> =flow {
+    emit(apiService.updateMember(updateMember = updateMember))
+  }
 }
