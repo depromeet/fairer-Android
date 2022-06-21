@@ -58,9 +58,9 @@ object Repository : RemoteDataSource {
   }
 
   override suspend fun buildTeam(
-    teamName : String
-  ): Flow<BuildTeam> = flow {
-    emit(apiService.buildTeam(teamName))
+    buildTeam : BuildTeam
+  ): Flow<BuildTeamResponse> = flow {
+    emit(apiService.buildTeam(buildTeam))
   }
 
   override suspend fun getTeam(): Flow<Groups> = flow {
@@ -71,7 +71,7 @@ object Repository : RemoteDataSource {
     emit(apiService.getProfileImages())
   }
 
-  override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> =flow {
+  override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> = flow {
     emit(apiService.updateMember(updateMember = updateMember))
   }
 }

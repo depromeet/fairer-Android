@@ -34,8 +34,8 @@ interface ApiService {
   @POST("/api/oauth/logout")
   suspend fun logout(@Header("Authorization")auth : String)
 
-  @PATCH("/api/teams")
-  suspend fun buildTeam(teamName : String) : BuildTeam
+  @POST("/api/teams")
+  suspend fun buildTeam(@Body buildTeam : BuildTeam) : BuildTeamResponse
 
   @GET("/api/teams/my")
   suspend fun getTeamData(): Groups
@@ -44,6 +44,6 @@ interface ApiService {
   suspend fun getProfileImages() : ProfileImages
 
   @PATCH("/api/member")
-  suspend fun updateMember(updateMember: UpdateMember) : UpdateMemberResponse
+  suspend fun updateMember(@Body updateMember: UpdateMember) : UpdateMemberResponse
 
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
@@ -64,6 +65,7 @@ class SignProfileFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.updateMemberResponse.collect {
                 it?.run{
+                    PrefsManager.setUserName(viewModel.MemberName.value)
                     findNavController().navigate(
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
                     )

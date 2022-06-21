@@ -18,7 +18,7 @@ interface RemoteDataSource {
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
   suspend fun logout(auth: String): Flow<Unit>
-  suspend fun buildTeam(teamName : String) : Flow<BuildTeam>
+  suspend fun buildTeam(buildTeam: BuildTeam) : Flow<BuildTeamResponse>
   suspend fun getTeam(): Flow<Groups>
   suspend fun getProfileImages(): Flow<ProfileImages>
   suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>

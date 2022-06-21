@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,7 @@ class InviteViewModel : ViewModel() {
 
     fun setCode(teamName : String){
         viewModelScope.launch {
-            Repository.buildTeam(teamName = teamName
+            Repository.buildTeam(buildTeam = BuildTeam(teamName)
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode

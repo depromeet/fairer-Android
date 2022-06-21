@@ -53,7 +53,6 @@ class SignProfileViewModel : ViewModel() {
         _MemberName.value = memberName
     }
 
-
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val networkError: StateFlow<Boolean>
         get() = _networkError
@@ -80,18 +79,21 @@ class SignProfileViewModel : ViewModel() {
 
     fun requestUpdateMember(){
         viewModelScope.launch {
-            Repository.updateMember(UpdateMember(_MemberName.value,_selectedImage.value)
+            Repository.updateMember(
+                UpdateMember(_MemberName.value,_selectedImage.value)
             ).runCatching {
                 collect {
                     _updateMemberResponse.value = it
+                    Timber.d("${_updateMemberResponse.value}")
                 }
             }
                 .onFailure {
                     _networkError.value = true
                 }
         }
-
     }
+
+
     data class ProfileState(
         val url : String,
         var state : Boolean = false
