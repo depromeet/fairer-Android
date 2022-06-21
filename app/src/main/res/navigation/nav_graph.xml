@@ -109,7 +109,7 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -131,7 +131,7 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
     <fragment
@@ -141,11 +141,11 @@
         tools:layout="@layout/fragment_login">
         <deepLink
             android:autoVerify="true"
-            app:uri="faireran.com/?code={code}"/>
+            app:uri="faireran.com/?code={code}" />
         <argument
             android:name="code"
-            app:argType="string"
-            android:defaultValue="null" />
+            android:defaultValue="null"
+            app:argType="string" />
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -156,6 +156,9 @@
             app:destination="@id/signNameFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment" />
 
     </fragment>
     <fragment
@@ -165,11 +168,11 @@
         tools:layout="@layout/fragment_sign_name">
         <argument
             android:name="viewType"
-            app:argType="com.depromeet.housekeeper.model.enums.SignViewType"/>
+            app:argType="com.depromeet.housekeeper.model.enums.SignViewType" />
         <argument
             android:name="code"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
             app:destination="@id/signProfileFragment" />
@@ -178,7 +181,7 @@
             app:destination="@id/mainFragment" />
         <action
             android:id="@+id/action_signNameFragment_to_inviteFragment"
-            app:destination="@id/inviteFragment" >
+            app:destination="@id/inviteFragment">
             <argument
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.InviteViewType" />
@@ -195,10 +198,10 @@
         <argument
             android:name="name"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <argument
             android:name="viewType"
-            app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
+            app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
         <action
             android:id="@+id/action_signProfileFragment_to_joinGroupFragment"
             app:destination="@id/joinGroupFragment" />
@@ -208,10 +211,6 @@
         android:name="com.depromeet.housekeeper.ui.JoinGroupFragment"
         android:label="JoinGroupFragment"
         tools:layout="@layout/fragment_join_group">
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true"/>
         <action
             android:id="@+id/action_joinGroupFragment_to_signNameFragment"
             app:destination="@id/signNameFragment" />
@@ -244,7 +243,7 @@
             app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="viewType"
-                app:argType="com.depromeet.housekeeper.model.enums.SignViewType"/>
+                app:argType="com.depromeet.housekeeper.model.enums.SignViewType" />
         </action>
     </fragment>
 
@@ -260,7 +259,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_settingFragment_to_contactFragment"
@@ -268,7 +267,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_settingFragment_to_policyFragment"
@@ -276,7 +275,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_settingFragment_to_loginFragment"
@@ -297,6 +296,10 @@
         <argument
             android:name="viewType"
             app:argType="com.depromeet.housekeeper.model.enums.InviteViewType" />
+        <argument
+            android:name="houseName"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_inviteFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
@@ -306,8 +309,7 @@
         android:id="@+id/contactFragment"
         android:name="com.depromeet.housekeeper.ui.ContactFragment"
         android:label="ContactFragment"
-        tools:layout="@layout/fragment_contact">
-    </fragment>
+        tools:layout="@layout/fragment_contact"></fragment>
 
     <fragment
         android:id="@+id/policyFragment"

@@ -1,11 +1,11 @@
 package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentManageHouseBinding
@@ -41,7 +41,7 @@ class ManageHouseFragment : Fragment() {
         }
 
         binding.inviteRow.setOnClickListener {
-            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment(InviteViewType.SETTING))
+            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment(InviteViewType.SETTING,null))
         }
 
         binding.exitHouseRow.setOnClickListener {

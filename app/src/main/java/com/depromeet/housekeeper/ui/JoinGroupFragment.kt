@@ -10,14 +10,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
 
 class JoinGroupFragment : Fragment() {
     lateinit var binding : FragmentJoinGroupBinding
-    private val navArgs by navArgs<JoinGroupFragmentArgs>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,11 +48,11 @@ class JoinGroupFragment : Fragment() {
 
     }
     private fun spannable(){
-        binding.joinGroupMainText.text = getString(R.string.join_group_main_text, navArgs.name)
+        binding.joinGroupMainText.text = getString(R.string.join_group_main_text, PrefsManager.userName)
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
         spanText.apply{
             setSpan(ForegroundColorSpan(resources.getColor(R.color.highlight)),
-                6,6+navArgs.name!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                6,6+PrefsManager.userName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         binding.joinGroupMainText.text = spanText
     }
