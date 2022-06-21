@@ -52,7 +52,7 @@ object Repository : RemoteDataSource {
     }
 
   override suspend fun logout(
-    auth: String
+    auth: String,
   ): Flow<Unit> = flow {
     emit(apiService.logout(auth))
   }
@@ -74,4 +74,5 @@ object Repository : RemoteDataSource {
   override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> = flow {
     emit(apiService.updateMember(updateMember = updateMember))
   }
+
 }
