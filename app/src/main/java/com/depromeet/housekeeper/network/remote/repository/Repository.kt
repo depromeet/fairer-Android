@@ -31,7 +31,7 @@ object Repository : RemoteDataSource {
     auth: String,
     socialType: SocialType,
   ): Flow<LoginResponse> = flow {
-    emit(apiService.googlelogin(auth, socialType))
+    emit(apiService.googleLogin(auth, socialType))
   }
 
   override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
