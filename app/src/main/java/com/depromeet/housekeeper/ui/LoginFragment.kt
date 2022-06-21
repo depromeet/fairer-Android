@@ -110,10 +110,12 @@ class LoginFragment : Fragment() {
     viewModel.viewModelScope.launch {
       viewModel.response.collect { response ->
         Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
-        Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, name: ${response?.MemberName}")
+        Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, MemberName: ${response?.memberName}")
         response?.run {
           PrefsManager.setTokens(response.accessToken, response.refreshToken)
-          response.MemberName?.let { PrefsManager.setUserName(it) }
+          response.memberName?.let {
+            PrefsManager.setUserName(it)
+          }
           PrefsManager.setHasTeam(response.hasTeam)
           initNavigation(response)
         }

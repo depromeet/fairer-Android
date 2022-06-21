@@ -29,6 +29,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
       ).runCatching {
         collect {
           _response.value = it
+          Timber.d("!@#${it.memberName.toString()}")
         }
       }.onFailure {
         Timber.e("$it")

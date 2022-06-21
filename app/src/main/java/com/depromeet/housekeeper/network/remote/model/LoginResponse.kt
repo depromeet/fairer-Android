@@ -1,15 +1,16 @@
 package com.depromeet.housekeeper.network.remote.model
 
-import kotlinx.serialization.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 
-@Serializable
+@Parcelize
 data class LoginResponse(
     val accessToken: String,
     val accessTokenExpireTime: String,
     val hasTeam : Boolean,
     val isNewMember: Boolean,
-    val MemberName: String?,
+    val memberName: String?,
     val refreshToken: String,
     val refreshTokenExpireTime: String
-)
+):Parcelable
