@@ -89,6 +89,10 @@ class MainFragment : Fragment() {
     binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
+
+    binding.lvRule.root.setOnClickListener {
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
+    }
   }
 
   private fun createDatePickerDialog() {

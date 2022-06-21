@@ -44,6 +44,14 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+    
+        <action
+          android:id="@+id/action_mainFragment_to_ruleFragment"
+          app:destination="@id/ruleFragment"
+          app:enterAnim="@android:anim/fade_in"
+          app:exitAnim="@android:anim/fade_out"
+          app:popEnterAnim="@android:anim/fade_in"
+          app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -322,5 +330,12 @@
         <action
             android:id="@+id/action_groupInfoFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    
+    <fragment
+      android:id="@+id/ruleFragment"
+      android:name="com.depromeet.housekeeper.ui.RuleFragment"
+      android:label="RuleFragment"
+      tools:layout="@layout/fragment_rule">
     </fragment>
 </navigation>
