@@ -58,7 +58,6 @@ class MainFragment : Fragment() {
     val userNameFormat =
       String.format(resources.getString(R.string.user_name), PrefsManager.userName)
     binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
-    binding.tvGroupName.text = mainViewModel.groupName.value
   }
 
   private fun setListener() {
@@ -117,7 +116,7 @@ class MainFragment : Fragment() {
       })
     binding.rvWeek.adapter = dayOfAdapter
 
-    val list = mainViewModel.houseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+    val list = mainViewModel.myHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
       val dayOfWeek = DayOfWeek(it.scheduledDate, false)
@@ -131,8 +130,7 @@ class MainFragment : Fragment() {
     binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
 
 
-    groupProfileAdapter = GroupProfileAdapter(mainViewModel.teams.value
-    ) {
+    groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
 
     }
     binding.rvGroups.adapter = groupProfileAdapter
@@ -152,7 +150,7 @@ class MainFragment : Fragment() {
     }
 
     lifecycleScope.launchWhenCreated {
-      mainViewModel.houseWorks.collect { houseWork ->
+      mainViewModel.myHouseWorks.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
@@ -173,13 +171,13 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenCreated {
       mainViewModel.currentState.collect {
-        val houseWork = mainViewModel.houseWorks.value ?: return@collect
+        val houseWork = mainViewModel.myHouseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
         binding.layoutDoneScreen.root.isVisible =
           it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
-        mainViewModel.houseWorks.value?.let {
+        mainViewModel.myHouseWorks.value?.let {
           updateHouseWorkData(it)
         }
       }
@@ -197,6 +195,18 @@ class MainFragment : Fragment() {
     lifecycleScope.launchWhenCreated {
       mainViewModel.networkError.collect {
         binding.isConnectedNetwork = it
+      }
+    }
+
+    lifecycleScope.launchWhenCreated {
+      mainViewModel.groupName.collect {
+        binding.tvGroupName.text = it
+      }
+    }
+
+    lifecycleScope.launchWhenCreated {
+      mainViewModel.groups.collect {
+        groupProfileAdapter.updateDate(it.toMutableList())
       }
     }
   }
