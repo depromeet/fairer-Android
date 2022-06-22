@@ -8,10 +8,6 @@
     <import type="android.view.View" />
     
     <variable
-      name="vm"
-      type="com.depromeet.housekeeper.ui.SettingViewModel" />
-    
-    <variable
       name="version"
       type="String" />
   </data>
@@ -65,7 +61,10 @@
       android:layout_marginTop="16dp"
       android:layout_marginEnd="24dp"
       android:background="@drawable/rule_normal_backgorund_8"
+      android:ellipsize="end"
       android:hint="@string/rule_hint"
+      android:inputType="text"
+      android:maxLines="1"
       android:paddingStart="16dp"
       android:textColorHint="@color/gray_400"
       app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +85,34 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/et_rule"
       tools:text="@string/rule_info" />
+    
+    <TextView
+      android:id="@+id/tv_rule"
+      style="@style/Title.T1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:drawablePadding="8dp"
+      android:text="@string/rule"
+      android:textColor="@color/gray_600"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_info"
+      tools:text="@string/rule" />
+    
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_rules"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:orientation="vertical"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_rule"
+      tools:itemCount="10"
+      tools:listitem="@layout/item_rule" />
   
   
   </androidx.constraintlayout.widget.ConstraintLayout>
