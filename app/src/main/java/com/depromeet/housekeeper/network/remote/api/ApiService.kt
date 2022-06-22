@@ -46,4 +46,10 @@ interface ApiService {
   @PATCH("/api/member")
   suspend fun updateMember(@Body updateMember: UpdateMember) : UpdateMemberResponse
 
+  @GET("/api/teams/invite-codes")
+  suspend fun getInviteCode() : GetInviteCode
+
+  @PATCH("/api/teams")
+  suspend fun updateTeam(@Body teamName : BuildTeam) : TeamUpdateResponse
+
 }

@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,6 +53,12 @@ class SignNameFragment : Fragment() {
                 binding.hasTeam = it
             }
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.response.collect {
+                findNavController().navigateUp()
+                Toast.makeText(context,R.string.modify_group_toast_massage,Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initListener() {
@@ -78,6 +85,9 @@ class SignNameFragment : Fragment() {
                 }
                 SignViewType.InviteCode -> {
                     findNavController().navigate(R.id.action_signNameFragment_to_groupInfoFragment)
+                }
+                SignViewType.ModifyGroupName ->{
+                    viewModel.teamNameUpdate(viewModel.inputText.value)
                 }
             }
         }
