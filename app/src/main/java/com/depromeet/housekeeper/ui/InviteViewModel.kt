@@ -66,4 +66,24 @@ class InviteViewModel : ViewModel() {
                 }
         }
     }
+
+    fun getInviteCodeResponse(){
+        viewModelScope.launch {
+            Repository.getInviteCode(
+            ).runCatching {
+                collect {
+                    _groupName.value = it.teamName
+                    _inviteCode.value = it.inviteCode
+                    val str = it.inviteCodeExpirationDateTime
+                    val arr = str.split("T", ".")
+                    val arrDate = arr[0].split("-")
+                    val arrTime = arr[1].split(":")
+                    _inviteCodeValidPeriod.value = "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
+                }
+            }
+                .onFailure {
+                    _networkError.value = true
+                }
+        }
+    }
 }

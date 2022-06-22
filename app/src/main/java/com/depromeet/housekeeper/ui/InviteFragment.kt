@@ -67,7 +67,7 @@ class InviteFragment : Fragment() {
                     viewModel.setCode(viewModel.groupName.value)
                     viewModel.setInviteCodeValidPeriod()
                 } else {
-                    //TODO 팀 초대코드 API 구현
+                    viewModel.getInviteCodeResponse()
                 }
             }
         }
@@ -77,6 +77,11 @@ class InviteFragment : Fragment() {
                     R.string.invite_code_valid_period_text,
                     viewModel.inviteCodeValidPeriod.value
                 )
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.groupName.collect {
+                binding.inviteGroupNameTv.text = it
             }
         }
 
@@ -109,6 +114,7 @@ class InviteFragment : Fragment() {
             }
             InviteViewType.SETTING -> {
                 binding.inviteSkipBtn.visibility = View.GONE
+                binding.viewType = InviteViewType.SETTING
             }
         }
         binding.inviteHeader.apply {
