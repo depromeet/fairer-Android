@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.LayoutProfileImageviewMiniBinding
-import com.depromeet.housekeeper.ui.SignProfileFragment
+import com.depromeet.housekeeper.ui.SignProfileViewModel
 
-class SignProfileAdapter(private val profiles: List<SignProfileFragment.ProfileState>): RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
+class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>): RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,7 +29,7 @@ class SignProfileAdapter(private val profiles: List<SignProfileFragment.ProfileS
   }
 
     inner class ViewHolder(private val binding: LayoutProfileImageviewMiniBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(profileData: SignProfileFragment.ProfileState) {
+        fun bind(profileData: SignProfileViewModel.ProfileState) {
             binding.imgUrl = profileData.url
             binding.signProfileImageview.isSelected = profileData.state
             val pos = adapterPosition

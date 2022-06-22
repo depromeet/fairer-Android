@@ -9,20 +9,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include
-            android:id="@+id/group_info_header"
-            layout="@layout/layout_default_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/group_info_home_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_home_effect"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/group_info_header"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/group_info_text"

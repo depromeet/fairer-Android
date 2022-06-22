@@ -14,28 +14,26 @@ import timber.log.Timber
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
-  private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)
-  val response: StateFlow<LoginResponse?>
-    get() = _response
+    private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)
+    val response: StateFlow<LoginResponse?>
+        get() = _response
 
-  private val _code: MutableStateFlow<String> = MutableStateFlow("")
-  val code: StateFlow<String>
-  get() = _code
+    private val _code: MutableStateFlow<String> = MutableStateFlow("")
+    val code: StateFlow<String>
+        get() = _code
 
-  fun requestLogin(authCode: String) {
-    viewModelScope.launch {
-      Repository.getGoogleLogin(
-        authCode, SocialType("GOOGLE")
-      ).runCatching {
-        collect {
-          _response.value = it
+    fun requestLogin(authCode: String) {
+        viewModelScope.launch {
+            Repository.getGoogleLogin(
+                authCode, SocialType("GOOGLE")
+            ).runCatching {
+                collect {
+                    _response.value = it
+                    Timber.d("!@#${it.memberName.toString()}")
+                }
+            }.onFailure {
+                Timber.e("$it")
+            }
         }
-      }.onFailure {
-        Timber.e("$it")
-      }
     }
-  }
-  fun setCode(code : String){
-    _code.value = code
-  }
 }

@@ -1,12 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
@@ -37,7 +31,7 @@ object Repository : RemoteDataSource {
     auth: String,
     socialType: SocialType,
   ): Flow<LoginResponse> = flow {
-    emit(apiService.googlelogin(auth, socialType))
+    emit(apiService.googleLogin(auth, socialType))
   }
 
   override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
@@ -63,9 +57,24 @@ object Repository : RemoteDataSource {
     emit(apiService.logout(auth))
   }
 
+  override suspend fun buildTeam(
+    buildTeam : BuildTeam
+  ): Flow<BuildTeamResponse> = flow {
+    emit(apiService.buildTeam(buildTeam))
+  }
+
   override suspend fun getTeam(): Flow<Groups> = flow {
     emit(apiService.getTeamData())
   }
+
+  override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
+    emit(apiService.getProfileImages())
+  }
+
+  override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> = flow {
+    emit(apiService.updateMember(updateMember = updateMember))
+  }
+
 
   override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
     emit(apiService.createRules(rule))
