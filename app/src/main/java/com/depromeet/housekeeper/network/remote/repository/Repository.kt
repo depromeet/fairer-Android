@@ -66,4 +66,16 @@ object Repository : RemoteDataSource {
   override suspend fun getTeam(): Flow<Groups> = flow {
     emit(apiService.getTeamData())
   }
+
+  override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
+    emit(apiService.createRules(rule))
+  }
+
+  override suspend fun getRules(): Flow<RuleResponses> = flow {
+    emit(apiService.getRules())
+  }
+
+  override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
+    emit(apiService.deleteRule(ruleId))
+  }
 }

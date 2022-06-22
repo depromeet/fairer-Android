@@ -32,8 +32,11 @@ interface ApiService {
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
   @POST("/api/oauth/login")
-  suspend fun googlelogin(@Header("Authorization")auth : String, @Body socialType : SocialType): LoginResponse
-  
+  suspend fun googlelogin(
+    @Header("Authorization") auth: String,
+    @Body socialType: SocialType,
+  ): LoginResponse
+
   @DELETE("/api/houseworks/{id}")
   suspend fun deleteHouseWork(@Path("id") id: Int)
 
@@ -41,12 +44,24 @@ interface ApiService {
   suspend fun editHouseWork(@Path("id") id: Int, @Body chore: Chore): HouseWork
 
   @PATCH("/api/houseworks/{houseWorkId}")
-  suspend fun updateChoreState(@Path("houseWorkId") houseWorkId: Int, @Body updateChoreBody : UpdateChoreBody): UpdateChoreResponse
+  suspend fun updateChoreState(
+    @Path("houseWorkId") houseWorkId: Int,
+    @Body updateChoreBody: UpdateChoreBody,
+  ): UpdateChoreResponse
 
   @POST("/api/oauth/logout")
-  suspend fun logout(@Header("Authorization")auth : String)
+  suspend fun logout(@Header("Authorization") auth: String)
 
   @GET("/api/teams/my")
   suspend fun getTeamData(): Groups
+
+  @POST("/api/rules")
+  suspend fun createRules(@Body rule: Rule): RuleResponses
+
+  @GET("/api/rules")
+  suspend fun getRules(): RuleResponses
+
+  @DELETE("/api/rules/{ruleId}")
+  suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
 
 }

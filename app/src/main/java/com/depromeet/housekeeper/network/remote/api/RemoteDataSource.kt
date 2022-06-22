@@ -23,6 +23,10 @@ interface RemoteDataSource {
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
+
   suspend fun logout(auth: String): Flow<Unit>
   suspend fun getTeam(): Flow<Groups>
+  suspend fun createRule(rule: Rule): Flow<RuleResponses>
+  suspend fun getRules(): Flow<RuleResponses>
+  suspend fun deleteRule(ruleId: Int): Flow<Response>
 }
