@@ -20,7 +20,7 @@ interface ApiService {
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
   @POST("/api/oauth/login")
-  suspend fun googleLogin(@Header("Authorization")auth : String, @Body socialType : SocialType): LoginResponse
+  suspend fun googlelogin(@Body socialType : SocialType): LoginResponse
   
   suspend fun googlelogin(
     @Header("Authorization") auth: String,
