@@ -213,6 +213,12 @@ class MainFragment : Fragment() {
         groupProfileAdapter.updateDate(it.toMutableList())
       }
     }
+
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.rule.collect {
+        binding.lvRule.rule = it
+      }
+    }
   }
 
   private fun getSpannableText(format: String, firstIndex: Int, lastIndex: Int): SpannableString {
