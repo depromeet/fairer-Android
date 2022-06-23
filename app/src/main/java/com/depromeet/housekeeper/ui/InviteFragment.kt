@@ -31,8 +31,6 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
-import com.kakao.sdk.template.model.Link
-import com.kakao.sdk.template.model.TextTemplate
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -158,20 +156,13 @@ class InviteFragment : Fragment() {
     private fun onKakaoShare(context: Context, uri: Uri) {
 
         // TODO("템플릿 변경 필요")
-        val defaultText = TextTemplate(
-            text = """
-            공유할 텍스트
-        """.trimIndent(),
-            link = Link(
-                webUrl = "https://developers.kakao.com",
-                mobileWebUrl = "https://developers.kakao.com"
-            )
-        )
+        val defaultText = 78256.toLong()
+
 
         // 카카오톡 설치여부 확인
         if (LinkClient.instance.isKakaoLinkAvailable(context)) {
             // 카카오톡으로 카카오톡 공유 가능
-            LinkClient.instance.defaultTemplate(context, defaultText) { linkResult, error ->
+            LinkClient.instance.customTemplate(context, defaultText) { linkResult, error ->
                 if (error != null) {
                     Timber.d("카카오톡 공유 실패 ${error.message}")
                 } else if (linkResult != null) {
@@ -186,7 +177,7 @@ class InviteFragment : Fragment() {
         } else {
             // 카카오톡 미설치: 웹 공유 사용 권장
             // 웹 공유 예시 코드
-            val sharerUrl = WebSharerClient.instance.defaultTemplateUri(defaultText)
+            val sharerUrl = WebSharerClient.instance.customTemplateUri(defaultText)
 
             // CustomTabs으로 웹 브라우저 열기
 
