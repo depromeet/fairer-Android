@@ -10,6 +10,7 @@ object PrefsManager {
   private const val REFRESH_TOKEN = "REFRESH_TOKEN"
   private const val USER_NAME = "USER_NAME"
   private const val HAS_TEAM = "HAS_TEAM"
+  private const val AUTH_CODE = "AUTH_CODE"
 
   fun init(context: Context) {
     prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
@@ -45,11 +46,20 @@ object PrefsManager {
   }
 
   val hasTeam: Boolean
-    get() = prefs.getBoolean(HAS_TEAM,false)
+    get() = prefs.getBoolean(HAS_TEAM, false)
 
-  fun setHasTeam(hasTeam : Boolean){
+  fun setHasTeam(hasTeam: Boolean) {
     prefs.edit()?.apply {
       putBoolean(HAS_TEAM, hasTeam)
+    }?.apply()
+  }
+
+  val authCode: String
+    get() = prefs.getString(AUTH_CODE, "").toString()
+
+  fun setAuthCode(authCode: String) {
+    prefs.edit()?.apply {
+      putString(AUTH_CODE, authCode)
     }?.apply()
   }
 }

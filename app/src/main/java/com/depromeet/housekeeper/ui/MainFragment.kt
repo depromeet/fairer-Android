@@ -89,6 +89,10 @@ class MainFragment : Fragment() {
     binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
+
+    binding.lvRule.root.setOnClickListener {
+      findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
+    }
   }
 
   private fun createDatePickerDialog() {
@@ -207,6 +211,12 @@ class MainFragment : Fragment() {
     lifecycleScope.launchWhenCreated {
       mainViewModel.groups.collect {
         groupProfileAdapter.updateDate(it.toMutableList())
+      }
+    }
+
+    lifecycleScope.launchWhenStarted {
+      mainViewModel.rule.collect {
+        binding.lvRule.rule = it
       }
     }
   }
