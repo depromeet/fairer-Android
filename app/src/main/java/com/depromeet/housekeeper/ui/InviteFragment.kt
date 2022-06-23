@@ -85,18 +85,23 @@ class InviteFragment : Fragment() {
             }
         }
 
-        viewModel.groupName.value.apply {
-            val format = String.format(getString(R.string.invite_group_name_text), this)
-            val spannerString = SpannableString(format).apply {
-                setSpan(
-                    ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
-                    0,
-                    this.indexOf("의"),
-                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+        lifecycleScope.launchWhenCreated {
+            viewModel.groupName.collect {
+                viewModel.groupName.value.apply {
+                    val format = String.format(getString(R.string.invite_group_name_text), this)
+                    val spannerString = SpannableString(format).apply {
+                        setSpan(
+                            ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
+                            0,
+                            this.indexOf("의"),
+                            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                    binding.inviteGroupNameTv.text = spannerString
+                }
             }
-            binding.inviteGroupNameTv.text = spannerString
         }
+
 
         // 유효기간
         // TODO: API 호출 필요

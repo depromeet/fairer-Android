@@ -123,7 +123,7 @@
     <string name="invite_btn_text_skip">건너뛰기</string>
     <string name="invite_code_copy_toast_text">코드를 클립보드에 복사했습니다.</string>
     <string name="invite_code_valid_period_text">%1$s까지 유효한 코드</string>
-    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에 입력하셔야 합니다.</string>
+    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에\n입력하셔야 합니다.</string>
 
 
     <!-- contractFragment -->

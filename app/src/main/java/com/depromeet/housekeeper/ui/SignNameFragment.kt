@@ -54,9 +54,11 @@ class SignNameFragment : Fragment() {
             }
         }
         lifecycleScope.launchWhenCreated {
-            viewModel.response.collect {
-                findNavController().navigateUp()
-                Toast.makeText(context,R.string.modify_group_toast_massage,Toast.LENGTH_SHORT).show()
+            viewModel.response.collect { response ->
+                response?.run {
+                    findNavController().navigateUp()
+                    Toast.makeText(context,R.string.modify_group_toast_massage,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
