@@ -68,13 +68,6 @@ object Repository : RemoteDataSource {
         emit(apiService.getTeamData())
     }
 
-  override suspend fun getGoogleLogin(
-    socialType: SocialType,
-  ): Flow<LoginResponse> = flow {
-    emit(apiService.googlelogin(socialType))
-  }
-
-
     override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
         emit(apiService.getProfileImages())
     }
