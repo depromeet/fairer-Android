@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/sign_profile_imageview"
-            android:layout_width="65dp"
-            android:layout_height="64dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:loadImage="@{vm.selectedImage}"
             app:layout_constraintBottom_toBottomOf="@+id/sign_profile_imageview_bg"
             app:layout_constraintEnd_toEndOf="@+id/sign_profile_imageview_bg"

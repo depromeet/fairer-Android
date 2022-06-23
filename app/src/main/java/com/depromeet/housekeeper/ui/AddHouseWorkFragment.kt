@@ -46,19 +46,12 @@ class AddHouseWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAdapter()
         bindingVm()
         initListener()
-        setAdapter()
     }
 
     private fun bindingVm() {
-        val choreNames = navArgs.spaceChores.houseWorks
-        val space = navArgs.spaceChores.spaceName
-        viewModel.updateSpace(space)
-        viewModel.setDate(navArgs.selectDate.date)
-        viewModel.initChores(viewModel.getSpace(), choreNames)
-        Timber.d(viewModel.getChores().toString())
-
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
                 binding.addHouseWorkDateTv.text = viewModel.bindingDate()
@@ -68,6 +61,12 @@ class AddHouseWorkFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.isConnectedNetwork = it
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.curAssignees.collect {
+                addAssigneeAdapter.updateAssignees(it)
             }
         }
 
@@ -122,13 +121,13 @@ class AddHouseWorkFragment : Fragment() {
             createDatePickerDialog()
         }
 
-        binding.addAssigneeBtn.setOnClickListener{
+        binding.addAssigneeLayout.setOnClickListener{
             createBottomSheet()
         }
     }
 
     private fun createBottomSheet() {
-        val bottomSheet = AssigneeBottomSheetDialog(requireContext())
+        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, myInfo = viewModel.myInfo.value)
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
     }
 
@@ -156,6 +155,12 @@ class AddHouseWorkFragment : Fragment() {
 
     private fun setAdapter() {
         // chore list rv adapter
+        val choreNames = navArgs.spaceChores.houseWorks
+        val space = navArgs.spaceChores.spaceName
+        viewModel.updateSpace(space)
+        viewModel.setDate(navArgs.selectDate.date)
+        viewModel.initChores(viewModel.getSpace(), choreNames)
+        Timber.d(viewModel.getChores().toString())
         addHouseWorkChoreAdapter = AddHouseWorkChoreAdapter(viewModel.getChores())
         binding.addHouseWorkChoreListRv.adapter = addHouseWorkChoreAdapter
 
@@ -187,14 +192,13 @@ class AddHouseWorkFragment : Fragment() {
         })
 
         // 집안일 담당자 rv adapter
-        addAssigneeAdapter = AddAssigneeAdapter(viewModel.assignees.value)
-        binding.addHouseWorkChoreListRv.adapter = addHouseWorkChoreAdapter
+        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
+        binding.addAssigneeRv.adapter = addAssigneeAdapter
 
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addHouseWorkRepeatRv.adapter = dayRepeatAdapter
-
     }
 
     private fun updateChore(position: Int) {

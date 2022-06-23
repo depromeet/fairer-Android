@@ -19,6 +19,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AddHouseWorkViewModel: ViewModel(){
+
+    init {
+        setGroupInfo()
+    }
+
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
     val curDate: StateFlow<String>
@@ -47,14 +52,32 @@ class AddHouseWorkViewModel: ViewModel(){
         return _curSpace.value
     }
 
+    private val _myInfo: MutableStateFlow<Assignee> =
+        MutableStateFlow(Assignee(-1, "", ""))
+    val myInfo: StateFlow<Assignee>
+        get() = _myInfo
+
+    val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val allGroupInfo: StateFlow<ArrayList<Assignee>>
+        get() = _allGroupInfo
+
+    fun getAllGroupInfo() : ArrayList<Assignee> {
+        return _allGroupInfo.value
+    }
+
     // TODO : Assignee의 List vs memberId의 List
     private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
-    val assignees: StateFlow<ArrayList<Assignee>>
+    val curAssignees: StateFlow<ArrayList<Assignee>>
         get() = _curAssignees
 
     fun setCurAssignees(assignees: ArrayList<Assignee>) {
         _curAssignees.value = assignees
+    }
+
+    fun getCurAssignees() : ArrayList<Assignee> {
+        return _curAssignees.value
     }
 
     private val _curTime: MutableStateFlow<String?> =
@@ -95,6 +118,7 @@ class AddHouseWorkViewModel: ViewModel(){
             chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
+            chore.assignees = arrayListOf(_myInfo.value.memberId)
             temp.add(chore)
         }
         _chores.value.addAll(temp)
@@ -126,6 +150,22 @@ class AddHouseWorkViewModel: ViewModel(){
     private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> = MutableStateFlow(null)
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
+
+    // TODO: 팀 조회 API에서 members 정보만 GET
+    private fun setGroupInfo() {
+        viewModelScope.launch {
+            Repository.getTeam().runCatching {
+                collect {
+                    _allGroupInfo.value = it.members as ArrayList<Assignee>
+                    // TODO: 0번 index가 나인걸로 수정
+                    _myInfo.value = Assignee(10, "ss", "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-7.png")
+
+                    // 초기에 "나"만 들어가도록 수정
+                    _curAssignees.value = arrayListOf(_myInfo.value)
+                }
+            }
+        }
+    }
 
     // TODO: assignee 추가
     fun createHouseWorks() {

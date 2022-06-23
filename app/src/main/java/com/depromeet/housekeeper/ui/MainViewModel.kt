@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -19,6 +20,8 @@ class MainViewModel : ViewModel() {
 
   init {
     getCompleteHouseWorkNumber()
+    getGroupName()
+    getRules()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
@@ -105,9 +108,9 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _houseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-  val houseWorks: StateFlow<HouseWorks?>
-    get() = _houseWorks
+  private val _myHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val myHouseWorks: StateFlow<HouseWorks?>
+    get() = _myHouseWorks
 
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
@@ -126,10 +129,10 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _houseWorks.value = it
+            _myHouseWorks.value = it.first()
           }
         }.onFailure {
-          _networkError.value = true
+          //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
@@ -171,6 +174,42 @@ class MainViewModel : ViewModel() {
       }
     }
   }
+
+  private val _groupName: MutableStateFlow<String> = MutableStateFlow("")
+  val groupName: StateFlow<String>
+    get() = _groupName
+
+  private val _groups: MutableStateFlow<List<Assignee>> = MutableStateFlow(listOf())
+  val groups: MutableStateFlow<List<Assignee>>
+    get() = _groups
+
+  private fun getGroupName() {
+    viewModelScope.launch {
+      Repository.getTeam().runCatching {
+        collect {
+          _groupName.value = it.teamName
+          _groups.value = it.members
+        }
+      }
+
+    }
+  }
+
+  private val _rule: MutableStateFlow<String> = MutableStateFlow("")
+  val rule: StateFlow<String>
+    get() = _rule
+
+  private fun getRules() {
+    viewModelScope.launch {
+      Repository.getRules()
+        .runCatching {
+          collect {
+            _rule.value = it.ruleResponseDtos.random().ruleName
+          }
+        }
+    }
+  }
+
 
   enum class CurrentState {
     REMAIN,

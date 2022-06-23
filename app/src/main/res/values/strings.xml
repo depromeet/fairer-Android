@@ -62,9 +62,9 @@
     <string name="task">이불 정리</string>
     <string name="time_todo">오전\n12시 30분</string>
 
-
     <!-- HomeFragment -->
-    <string name="complete_chore">이번주에 끝낸 집안일 <b>%s개</b></string>
+    <string name="user_name">%s님</string>
+    <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
@@ -74,6 +74,8 @@
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
     <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
     <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
+    <string name="rule">규칙</string>
+    <string name="rule_place_holder">여기를 눌러 하우스의 규칙을 입력해주세요</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">
@@ -166,5 +168,19 @@
 
     <!--dynamicLink-->
     <string name="host_url">faireran.com</string>
+
+    <!--group_info-->
+    <string name="group_info_text">%s에 어서오세요!</string>
+    <string name="group_info_sub_text">공간 참여자</string>
+    <string name="name_ex">홍길동</string>
+    <string name="group_info_next_button">참여 완료</string>
+
+    <!--failed_group_invite-->
+    <string name="failed_group_text">이미 그룹에 참여되어 있습니다.\n새로운 그룹에 참여하려면\n기존의 그룹에서 나가주세요.</string>
+    <string name="failed_group_info_text">기존의 그룹에서 나가는 경로는\n\'설정>그룹 관리>그룹에서 나가기\' 입니다.</string>
+    <string name="rule_hint">예) 밥은 다 먹은 사람이 치우기</string>
+    <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
+    <string name="rule_subtitle">새로운 규칙</string>
+    <string name="rule_title">하우스 규칙 설정</string>
 
 </resources>

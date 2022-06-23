@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/group_info_home_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home_effect"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/group_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_info_text"
+            app:layout_constraintTop_toBottomOf="@id/group_info_home_img"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:textSize="20sp"
+            style="@style/Heading.H2"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/group_info_text"
+            android:background="@color/normal"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"/>
+
+        <TextView
+            android:id="@+id/group_info_sub_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_info_sub_text"
+            android:textSize="16sp"
+            style="@style/Title"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/group_info_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="49dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/group_info_recycler_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/group_info_sub_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="29dp"
+            android:layout_marginTop="16dp"
+            />
+
+        <include
+            android:id="@+id/group_info_next_btn"
+            layout="@layout/layout_main_footer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

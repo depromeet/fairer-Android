@@ -1,6 +1,9 @@
 package com.depromeet.housekeeper.ui
 
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.net.Uri
 import android.os.Bundle
@@ -13,19 +16,24 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
-import com.google.firebase.dynamiclinks.ktx.*
+import com.depromeet.housekeeper.model.enums.InviteViewType
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLink
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.navigationInfoParameters
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class InviteFragment : Fragment() {
@@ -53,14 +61,22 @@ class InviteFragment : Fragment() {
     }
 
     private fun bindingVm() {
-        // invite fragment 분기 - 건너뛰기 유무
-        viewModel.setViewType(navArgs.viewType)
-        when(viewModel.viewType.value) {
-            InviteViewType.SIGN -> {
-                binding.inviteSkipBtn.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            viewModel.viewType.collect {
+                if (it == InviteViewType.SIGN) {
+                    viewModel.setCode(viewModel.groupName.value)
+                    viewModel.setInviteCodeValidPeriod()
+                } else {
+                    //TODO 팀 초대코드 API 구현
+                }
             }
-            InviteViewType.SETTING -> {
-                binding.inviteSkipBtn.visibility = View.GONE
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.inviteCodeValidPeriod.collect {
+                binding.inviteValidPeriodTv.text = getString(
+                    R.string.invite_code_valid_period_text,
+                    viewModel.inviteCodeValidPeriod.value
+                )
             }
         }
 
@@ -79,15 +95,24 @@ class InviteFragment : Fragment() {
 
         // 유효기간
         // TODO: API 호출 필요
-        val validText = getString(R.string.invite_code_valid_period_text, viewModel.inviteCodeValidPeriod.value)
-        binding.inviteValidPeriodTv.text = validText
+
     }
 
     private fun initListener() {
-
+        // invite fragment 분기 - 건너뛰기 유무
+        viewModel.setViewType(navArgs.viewType)
+        when (viewModel.viewType.value) {
+            InviteViewType.SIGN -> {
+                binding.inviteSkipBtn.visibility = View.VISIBLE
+                binding.viewType = InviteViewType.SIGN
+                viewModel.setGroupName(navArgs.houseName!!)
+            }
+            InviteViewType.SETTING -> {
+                binding.inviteSkipBtn.visibility = View.GONE
+            }
+        }
         binding.inviteHeader.apply {
             defaultHeaderTitleTv.text = ""
-
             defaultHeaderBackBtn.setOnClickListener {
                 it.findNavController().navigateUp()
             }
@@ -112,7 +137,11 @@ class InviteFragment : Fragment() {
         val clip = ClipData.newPlainText("INVITE_CODE", code.toString())
         clipboard.setPrimaryClip(clip)
 
-        Toast.makeText(requireContext(), getString(R.string.invite_code_copy_toast_text), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.invite_code_copy_toast_text),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun onKakaoShare(context: Context, uri: Uri) {
@@ -166,7 +195,7 @@ class InviteFragment : Fragment() {
         }
     }
 
-    private fun initDynamicLink() : Uri {
+    private fun initDynamicLink(): Uri {
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")

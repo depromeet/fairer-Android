@@ -1,12 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
@@ -20,7 +14,7 @@ object Repository : RemoteDataSource {
     emit(apiService.createHouseWorks(houseWorks))
   }
 
-  override suspend fun getList(scheduledDate: String): Flow<HouseWorks> = flow {
+  override suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>> = flow {
     emit(apiService.getList(scheduledDate))
   }
 
@@ -34,10 +28,9 @@ object Repository : RemoteDataSource {
     }
 
   override suspend fun getGoogleLogin(
-    auth: String,
     socialType: SocialType,
   ): Flow<LoginResponse> = flow {
-    emit(apiService.googlelogin(auth, socialType))
+    emit(apiService.googlelogin(socialType))
   }
 
   override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
@@ -58,8 +51,39 @@ object Repository : RemoteDataSource {
     }
 
   override suspend fun logout(
-    auth: String
+    auth: String,
   ): Flow<Unit> = flow {
     emit(apiService.logout(auth))
+  }
+
+  override suspend fun buildTeam(
+    buildTeam : BuildTeam
+  ): Flow<BuildTeamResponse> = flow {
+    emit(apiService.buildTeam(buildTeam))
+  }
+
+  override suspend fun getTeam(): Flow<Groups> = flow {
+    emit(apiService.getTeamData())
+  }
+
+  override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
+    emit(apiService.getProfileImages())
+  }
+
+  override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> = flow {
+    emit(apiService.updateMember(updateMember = updateMember))
+  }
+
+
+  override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
+    emit(apiService.createRules(rule))
+  }
+
+  override suspend fun getRules(): Flow<RuleResponses> = flow {
+    emit(apiService.getRules())
+  }
+
+  override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
+    emit(apiService.deleteRule(ruleId))
   }
 }

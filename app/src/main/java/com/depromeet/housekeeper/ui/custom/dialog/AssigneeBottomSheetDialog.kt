@@ -12,11 +12,9 @@ import com.depromeet.housekeeper.databinding.FragmentAssigneeBottomSheetDialogBi
 import com.depromeet.housekeeper.model.Assignee
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AssigneeBottomSheetDialog(context: Context) : BottomSheetDialogFragment() {
+class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val myInfo: Assignee) : BottomSheetDialogFragment() {
     lateinit var binding: FragmentAssigneeBottomSheetDialogBinding
     lateinit var bottomSheetAssigneeAdapter: BottomSheetAssigneeAdapter
-
-    private val tempAssignees = arrayListOf(Assignee(1,"고가혜", "url"), Assignee(1,"고가혜", "url"), Assignee(1,"고가혜", "url"))
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +32,7 @@ class AssigneeBottomSheetDialog(context: Context) : BottomSheetDialogFragment() 
     }
 
     private fun setAdapter() {
-        bottomSheetAssigneeAdapter = BottomSheetAssigneeAdapter(tempAssignees)
+        bottomSheetAssigneeAdapter = BottomSheetAssigneeAdapter(allGroup)
         binding.bottomSheetAssigneeRv.adapter = bottomSheetAssigneeAdapter
     }
 

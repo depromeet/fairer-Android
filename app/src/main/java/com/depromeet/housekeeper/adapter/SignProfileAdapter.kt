@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.LayoutProfileImageviewMiniBinding
+import com.depromeet.housekeeper.ui.SignProfileViewModel
 
-class SignProfileAdapter(private val imgUrls: List<String>): RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
+class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>): RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -16,20 +17,26 @@ class SignProfileAdapter(private val imgUrls: List<String>): RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: SignProfileAdapter.ViewHolder, position: Int) {
-        return holder.bind(imgUrls[position])
+        return holder.bind(profiles[position])
     }
 
-    override fun getItemCount(): Int = imgUrls.size
+    override fun getItemCount(): Int = profiles.size
+
+  fun clearState(index : Int) {
+    profiles.map { it.state = false }
+    profiles[index].state = true
+    notifyDataSetChanged()
+  }
 
     inner class ViewHolder(private val binding: LayoutProfileImageviewMiniBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(imgUrl:String){
-            binding.imgUrl = imgUrl
+        fun bind(profileData: SignProfileViewModel.ProfileState) {
+            binding.imgUrl = profileData.url
+            binding.signProfileImageview.isSelected = profileData.state
             val pos = adapterPosition
-            binding.position = pos
-            if(pos!= RecyclerView.NO_POSITION)
-            {
+            if(pos!= RecyclerView.NO_POSITION) {
                 binding.signProfileImageview.setOnClickListener {
-                    itemClickListener?.onClick(itemView,imgUrl,pos)
+                    clearState(pos)
+                    itemClickListener?.onClick(itemView,profileData.url,pos)
                 }
             }
         }

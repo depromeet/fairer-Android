@@ -9,6 +9,9 @@
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.InviteViewModel" />
+        <variable
+            name="viewType"
+            type="com.depromeet.housekeeper.model.enums.InviteViewType" />
 
     </data>
 
@@ -22,6 +25,7 @@
         <include
             android:id="@+id/invite_header"
             android:layout_width="match_parent"
+            android:visibility="@{viewType==viewType.SIGN?View.INVISIBLE:View.VISIBLE}"
             android:layout_height="wrap_content"
             layout="@layout/layout_default_header"/>
 
