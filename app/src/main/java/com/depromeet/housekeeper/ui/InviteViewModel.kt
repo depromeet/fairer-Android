@@ -67,7 +67,7 @@ class InviteViewModel : ViewModel() {
         }
     }
 
-    fun getInviteCodeResponse(){
+    fun getInviteCodeResponse() {
         viewModelScope.launch {
             Repository.getInviteCode(
             ).runCatching {
@@ -78,7 +78,8 @@ class InviteViewModel : ViewModel() {
                     val arr = str.split("T")
                     val arrDate = arr[0].split("-")
                     val arrTime = arr[1].split(":")
-                    _inviteCodeValidPeriod.value = "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
+                    _inviteCodeValidPeriod.value =
+                        "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
                 }
             }
                 .onFailure {
