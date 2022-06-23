@@ -133,7 +133,7 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
-            onKakaoShare(requireContext(), initDynamicLink())
+            onKakaoShare(requireContext())
         }
 
         binding.inviteSkipBtn.setOnClickListener {
@@ -142,7 +142,7 @@ class InviteFragment : Fragment() {
 
     }
 
-    private fun onCopyToClipboard(code: Uri) {
+    private fun onCopyToClipboard(code: String) {
         val clip = ClipData.newPlainText("INVITE_CODE", code.toString())
         clipboard.setPrimaryClip(clip)
 
@@ -153,16 +153,17 @@ class InviteFragment : Fragment() {
         ).show()
     }
 
-    private fun onKakaoShare(context: Context, uri: Uri) {
+    private fun onKakaoShare(context: Context) {
 
         // TODO("템플릿 변경 필요")
         val defaultText = 78256.toLong()
-
+        val code = initDynamicLink()
 
         // 카카오톡 설치여부 확인
         if (LinkClient.instance.isKakaoLinkAvailable(context)) {
             // 카카오톡으로 카카오톡 공유 가능
-            LinkClient.instance.customTemplate(context, defaultText) { linkResult, error ->
+            LinkClient.instance.customTemplate(context, defaultText,
+                mapOf("code" to code)) { linkResult, error ->
                 if (error != null) {
                     Timber.d("카카오톡 공유 실패 ${error.message}")
                 } else if (linkResult != null) {
@@ -197,7 +198,7 @@ class InviteFragment : Fragment() {
         }
     }
 
-    private fun initDynamicLink(): Uri {
+    private fun initDynamicLink(): String {
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")
@@ -207,7 +208,7 @@ class InviteFragment : Fragment() {
         }
         val dynamicLinkUri = dynamicLink.uri
         Timber.d("dynamicUrl : $dynamicLinkUri")
-        return dynamicLinkUri
+        return inviteCode
 
     }
 }
