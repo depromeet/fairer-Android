@@ -57,7 +57,7 @@ object Repository : RemoteDataSource {
   }
 
   override suspend fun buildTeam(
-    buildTeam : BuildTeam
+    buildTeam: BuildTeam,
   ): Flow<BuildTeamResponse> = flow {
     emit(apiService.buildTeam(buildTeam))
   }
@@ -85,5 +85,17 @@ object Repository : RemoteDataSource {
 
   override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
     emit(apiService.deleteRule(ruleId))
+  }
+
+  override suspend fun getMe(): Flow<ProfileData> = flow {
+    emit(apiService.getMe())
+  }
+
+  override suspend fun updateMe(
+    memberName: String,
+    profilePath: String,
+    statueMessage: String,
+  ): Flow<ProfileData> = flow {
+    emit(apiService.updateMe(memberName, profilePath, statueMessage))
   }
 }

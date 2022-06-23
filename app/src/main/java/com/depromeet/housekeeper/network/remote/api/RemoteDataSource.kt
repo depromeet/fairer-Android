@@ -19,7 +19,7 @@ interface RemoteDataSource {
   ): Flow<UpdateChoreResponse>
 
   suspend fun logout(auth: String): Flow<Unit>
-  suspend fun buildTeam(buildTeam: BuildTeam) : Flow<BuildTeamResponse>
+  suspend fun buildTeam(buildTeam: BuildTeam): Flow<BuildTeamResponse>
   suspend fun getTeam(): Flow<Groups>
   suspend fun getProfileImages(): Flow<ProfileImages>
   suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>
@@ -27,4 +27,10 @@ interface RemoteDataSource {
   suspend fun createRule(rule: Rule): Flow<RuleResponses>
   suspend fun getRules(): Flow<RuleResponses>
   suspend fun deleteRule(ruleId: Int): Flow<Response>
+  suspend fun getMe(): Flow<ProfileData>
+  suspend fun updateMe(
+    memberName: String,
+    profilePath: String,
+    statueMessage: String,
+  ): Flow<ProfileData>
 }
