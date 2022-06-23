@@ -67,7 +67,7 @@ class InviteFragment : Fragment() {
                     viewModel.setCode(viewModel.groupName.value)
                     viewModel.setInviteCodeValidPeriod()
                 } else {
-                    //TODO 팀 초대코드 API 구현
+                    viewModel.getInviteCodeResponse()
                 }
             }
         }
@@ -79,19 +79,29 @@ class InviteFragment : Fragment() {
                 )
             }
         }
-
-        viewModel.groupName.value.apply {
-            val format = String.format(getString(R.string.invite_group_name_text), this)
-            val spannerString = SpannableString(format).apply {
-                setSpan(
-                    ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
-                    0,
-                    this.indexOf("의"),
-                    SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+        lifecycleScope.launchWhenCreated {
+            viewModel.groupName.collect {
+                binding.inviteGroupNameTv.text = it
             }
-            binding.inviteGroupNameTv.text = spannerString
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.groupName.collect {
+                viewModel.groupName.value.apply {
+                    val format = String.format(getString(R.string.invite_group_name_text), this)
+                    val spannerString = SpannableString(format).apply {
+                        setSpan(
+                            ForegroundColorSpan(requireActivity().getColor(R.color.highlight)),
+                            0,
+                            this.indexOf("의"),
+                            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                    binding.inviteGroupNameTv.text = spannerString
+                }
+            }
+        }
+
 
         // 유효기간
         // TODO: API 호출 필요
@@ -109,6 +119,7 @@ class InviteFragment : Fragment() {
             }
             InviteViewType.SETTING -> {
                 binding.inviteSkipBtn.visibility = View.GONE
+                binding.viewType = InviteViewType.SETTING
             }
         }
         binding.inviteHeader.apply {
