@@ -4,6 +4,10 @@
   xmlns:tools="http://schemas.android.com/tools">
   
   <data>
+    
+    <variable
+      name="rule"
+      type="String" />
   
   </data>
   
@@ -36,7 +40,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:text="@string/rule_place_holder"
+      android:text="@{rule.length()> 0 ? rule : @string/rule_place_holder}"
       android:textColor="@color/gray_400"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toEndOf="@id/tv_rule"
