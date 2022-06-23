@@ -28,4 +28,5 @@ interface RemoteDataSource {
   suspend fun createRule(rule: Rule): Flow<RuleResponses>
   suspend fun getRules(): Flow<RuleResponses>
   suspend fun deleteRule(ruleId: Int): Flow<Response>
+
 }

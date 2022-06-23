@@ -67,4 +67,5 @@ interface ApiService {
   @DELETE("/api/rules/{ruleId}")
   suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
 
+
 }
