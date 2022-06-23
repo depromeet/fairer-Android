@@ -10,13 +10,14 @@ interface RemoteDataSource {
   suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>>
   suspend fun getHouseWorkList(): Flow<ChorePreset>
   suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
-  suspend fun getGoogleLogin(auth: String, socialType: SocialType): Flow<LoginResponse>
+  suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse>
   suspend fun deleteHouseWork(id: Int): Flow<Unit>
   suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork>
   suspend fun updateChoreState(
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
+
   suspend fun logout(auth: String): Flow<Unit>
   suspend fun buildTeam(buildTeam: BuildTeam) : Flow<BuildTeamResponse>
   suspend fun getTeam(): Flow<Groups>
@@ -25,4 +26,8 @@ interface RemoteDataSource {
   suspend fun getInviteCode() : Flow<GetInviteCode>
   suspend fun updateTeam(teamName : BuildTeam) : Flow<TeamUpdateResponse>
   suspend fun joinTeam(inviteCode : JoinTeam) : Flow<JoinTeamResponse>
+  suspend fun createRule(rule: Rule): Flow<RuleResponses>
+  suspend fun getRules(): Flow<RuleResponses>
+  suspend fun deleteRule(ruleId: Int): Flow<Response>
+
 }

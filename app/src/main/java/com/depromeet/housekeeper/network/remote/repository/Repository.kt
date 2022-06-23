@@ -64,9 +64,17 @@ object Repository : RemoteDataSource {
         emit(apiService.buildTeam(buildTeam))
     }
 
+
     override suspend fun getTeam(): Flow<Groups> = flow {
         emit(apiService.getTeamData())
     }
+
+  override suspend fun getGoogleLogin(
+    socialType: SocialType,
+  ): Flow<LoginResponse> = flow {
+    emit(apiService.googlelogin(socialType))
+  }
+
 
     override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
         emit(apiService.getProfileImages())
@@ -89,4 +97,16 @@ object Repository : RemoteDataSource {
         emit(apiService.joinTeam(inviteCode))
     }
 
+
+  override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
+    emit(apiService.createRules(rule))
+  }
+
+  override suspend fun getRules(): Flow<RuleResponses> = flow {
+    emit(apiService.getRules())
+  }
+
+  override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
+    emit(apiService.deleteRule(ruleId))
+  }
 }
