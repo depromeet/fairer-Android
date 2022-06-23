@@ -29,10 +29,9 @@ object Repository : RemoteDataSource {
         }
 
     override suspend fun getGoogleLogin(
-        auth: String,
         socialType: SocialType,
     ): Flow<LoginResponse> = flow {
-        emit(apiService.googleLogin(auth, socialType))
+        emit(apiService.googlelogin(socialType))
     }
 
     override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
@@ -85,8 +84,20 @@ object Repository : RemoteDataSource {
         emit(apiService.updateTeam(teamName))
     }
 
-    override suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> =flow{
+    override suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> = flow {
         emit(apiService.joinTeam(inviteCode))
     }
 
+
+    override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
+        emit(apiService.createRules(rule))
+    }
+
+    override suspend fun getRules(): Flow<RuleResponses> = flow {
+        emit(apiService.getRules())
+    }
+
+    override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
+        emit(apiService.deleteRule(ruleId))
+    }
 }

@@ -31,12 +31,12 @@ class SignNameViewModel : ViewModel() {
         get() = _hasTeam
 
     //후에 response를 사용할 수 있으므로 남겨놓음
-    private val _responseTeamUpdate: MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
-    val responseTeamUpdate: StateFlow<TeamUpdateResponse?>
+    private val _responseTeamUpdate : MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
+    val responseTeamUpdate : StateFlow<TeamUpdateResponse?>
         get() = _responseTeamUpdate
 
-    private val _responseJoinTeam: MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
-    val responseJoinTeam: StateFlow<JoinTeamResponse?>
+    private val _responseJoinTeam : MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
+    val responseJoinTeam : StateFlow<JoinTeamResponse?>
         get() = _responseJoinTeam
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)

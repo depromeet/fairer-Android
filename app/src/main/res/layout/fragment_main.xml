@@ -126,7 +126,7 @@
           tools:listitem="@layout/item_profile" />
         
         <include
-          android:id="@+id/tv_Rule"
+          android:id="@+id/lv_Rule"
           layout="@layout/layout_rules"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
           android:background="@color/gray_100"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/tv_Rule" />
+          app:layout_constraintTop_toBottomOf="@id/lv_Rule" />
         
         <TextView
           android:id="@+id/tv_month"
@@ -161,7 +161,7 @@
           android:textColor="@color/gray_900"
           android:textStyle="bold"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/tv_Rule"
+          app:layout_constraintTop_toBottomOf="@id/lv_Rule"
           tools:text="2022년 * 4월" />
         
         <ImageView

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+  
+  <data>
+    
+    <import type="android.view.View" />
+    
+    <variable
+      name="version"
+      type="String" />
+  </data>
+  
+  
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_white_background"
+    tools:context=".ui.SettingFragment">
+    
+    <include
+      android:id="@+id/rule_header"
+      layout="@layout/layout_default_header"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+    
+    <TextView
+      android:id="@+id/tv_title"
+      style="@style/Heading.H2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="24dp"
+      android:text="@string/rule_title"
+      android:textColor="@color/black"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/rule_header"
+      tools:text="@string/rule_title" />
+    
+    <TextView
+      android:id="@+id/tv_subTitle"
+      style="@style/Title.T1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="48dp"
+      android:text="@string/rule_subtitle"
+      android:textColor="@color/gray_600"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_title"
+      tools:text="@string/rule_subtitle" />
+    
+    <EditText
+      android:id="@+id/et_rule"
+      style="@style/Title.T1"
+      android:layout_width="0dp"
+      android:layout_height="42dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="24dp"
+      android:background="@drawable/rule_normal_backgorund_8"
+      android:ellipsize="end"
+      android:hint="@string/rule_hint"
+      android:inputType="text"
+      android:maxLines="1"
+      android:paddingStart="16dp"
+      android:textColorHint="@color/gray_400"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_subTitle" />
+    
+    <TextView
+      android:id="@+id/tv_info"
+      style="@style/Body.B2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:drawableStart="@drawable/ic_info"
+      android:drawablePadding="8dp"
+      android:text="@string/rule_info"
+      android:textColor="@color/gray_600"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/et_rule"
+      tools:text="@string/rule_info" />
+    
+    <TextView
+      android:id="@+id/tv_rule"
+      style="@style/Title.T1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="24dp"
+      android:layout_marginTop="16dp"
+      android:drawablePadding="8dp"
+      android:text="@string/rule"
+      android:textColor="@color/gray_600"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_info"
+      tools:text="@string/rule" />
+    
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_rules"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:orientation="vertical"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/tv_rule"
+      tools:itemCount="10"
+      tools:listitem="@layout/item_rule" />
+  
+  
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

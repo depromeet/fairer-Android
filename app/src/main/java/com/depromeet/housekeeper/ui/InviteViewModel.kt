@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
@@ -58,6 +59,7 @@ class InviteViewModel : ViewModel() {
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode
+                    PrefsManager.setHasTeam(true)
                 }
             }
                 .onFailure {
@@ -67,7 +69,7 @@ class InviteViewModel : ViewModel() {
         }
     }
 
-    fun getInviteCodeResponse() {
+    fun getInviteCodeResponse(){
         viewModelScope.launch {
             Repository.getInviteCode(
             ).runCatching {
@@ -78,8 +80,7 @@ class InviteViewModel : ViewModel() {
                     val arr = str.split("T")
                     val arrDate = arr[0].split("-")
                     val arrTime = arr[1].split(":")
-                    _inviteCodeValidPeriod.value =
-                        "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
+                    _inviteCodeValidPeriod.value = "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
                 }
             }
                 .onFailure {

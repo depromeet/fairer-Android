@@ -74,7 +74,6 @@ class SignNameFragment : Fragment() {
 
     }
 
-
     private fun initListener() {
         binding.signNameHeader.defaultHeaderTitleTv.text = ""
         binding.signNameHeader.defaultHeaderBackBtn.setOnClickListener {
