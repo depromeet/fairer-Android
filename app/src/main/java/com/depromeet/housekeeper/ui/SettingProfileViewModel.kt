@@ -45,4 +45,8 @@ class SettingProfileViewModel : ViewModel() {
         }
     }
   }
+
+  fun updateProfile(profilePath: String) {
+    _myData.value = _myData.value?.copy(profilePath = profilePath)
+  }
 }

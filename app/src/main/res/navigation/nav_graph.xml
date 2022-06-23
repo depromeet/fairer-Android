@@ -200,20 +200,29 @@
             app:destination="@id/groupInfoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/signProfileFragment"
-        android:name="com.depromeet.housekeeper.ui.SignProfileFragment"
-        android:label="SignProfileFragment"
-        tools:layout="@layout/fragment_sign_profile">
+      android:id="@+id/signProfileFragment"
+      android:name="com.depromeet.housekeeper.ui.SignProfileFragment"
+      android:label="SignProfileFragment"
+      tools:layout="@layout/fragment_sign_profile">
         <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true" />
+          android:name="name"
+          app:argType="string"
+          app:nullable="true" />
         <argument
-            android:name="viewType"
-            app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+          android:name="viewType"
+          app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
         <action
-            android:id="@+id/action_signProfileFragment_to_joinGroupFragment"
-            app:destination="@id/joinGroupFragment" />
+          android:id="@+id/action_signProfileFragment_to_joinGroupFragment"
+          app:destination="@id/joinGroupFragment" />
+        <action
+          android:id="@+id/action_signProfileFragment_to_SettingProfileFragment"
+          app:destination="@id/settingProfileFragment"
+          app:popUpTo="@id/signProfileFragment"
+          app:popUpToInclusive="true" >
+          <argument
+            android:name="profilePath"
+            app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/joinGroupFragment"
@@ -352,12 +361,26 @@
       android:label="RuleFragment"
       tools:layout="@layout/fragment_rule">
     </fragment>
-    
-    <fragment
-      android:id="@+id/settingProfileFragment"
-      android:name="com.depromeet.housekeeper.ui.SettingProfileFragment"
-      android:label="SettingProfileFragment"
-      tools:layout="@layout/fragment_setting_profile">
-    </fragment>
+  
+  <fragment
+    android:id="@+id/settingProfileFragment"
+    android:name="com.depromeet.housekeeper.ui.SettingProfileFragment"
+    android:label="SettingProfileFragment"
+    tools:layout="@layout/fragment_setting_profile">
+    <argument
+      android:name="profilePath"
+      android:defaultValue=""
+      app:nullable="true"
+      app:argType="string" />
+    <action
+      android:id="@+id/action_settingProfileFragment_to_signProfileFragment"
+      app:destination="@id/signProfileFragment"
+      app:popUpTo="@id/settingProfileFragment"
+      app:popUpToInclusive="true" >
+      <argument
+        android:name="viewType"
+        app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+    </action>
+  </fragment>
 
 </navigation>
