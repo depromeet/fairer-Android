@@ -52,4 +52,7 @@ interface ApiService {
   @PATCH("/api/teams")
   suspend fun updateTeam(@Body teamName : BuildTeam) : TeamUpdateResponse
 
+  @POST("/api/teams/join")
+  suspend fun joinTeam(@Body inviteCode: JoinTeam) : JoinTeamResponse
+
 }

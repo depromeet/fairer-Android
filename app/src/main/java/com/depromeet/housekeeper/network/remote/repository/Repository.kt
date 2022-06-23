@@ -85,4 +85,8 @@ object Repository : RemoteDataSource {
         emit(apiService.updateTeam(teamName))
     }
 
+    override suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> =flow{
+        emit(apiService.joinTeam(inviteCode))
+    }
+
 }

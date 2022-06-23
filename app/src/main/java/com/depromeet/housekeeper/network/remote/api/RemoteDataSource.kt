@@ -24,4 +24,5 @@ interface RemoteDataSource {
   suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>
   suspend fun getInviteCode() : Flow<GetInviteCode>
   suspend fun updateTeam(teamName : BuildTeam) : Flow<TeamUpdateResponse>
+  suspend fun joinTeam(inviteCode : JoinTeam) : Flow<JoinTeamResponse>
 }

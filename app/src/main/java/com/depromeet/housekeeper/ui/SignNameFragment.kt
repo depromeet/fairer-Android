@@ -54,14 +54,24 @@ class SignNameFragment : Fragment() {
             }
         }
         lifecycleScope.launchWhenCreated {
-            viewModel.response.collect { response ->
-                response?.run {
-                    findNavController().navigateUp()
-                    Toast.makeText(context,R.string.modify_group_toast_massage,Toast.LENGTH_SHORT).show()
+            viewModel.responseJoinTeam.collect {
+                if(it!=null){
+                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment())
                 }
             }
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.responseTeamUpdate.collect {
+                if(it!=null){
+                    findNavController().navigateUp()
+                    Toast.makeText(context, R.string.modify_group_toast_massage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
     }
+
 
     private fun initListener() {
         binding.signNameHeader.defaultHeaderTitleTv.text = ""
@@ -86,9 +96,9 @@ class SignNameFragment : Fragment() {
                     )
                 }
                 SignViewType.InviteCode -> {
-                    findNavController().navigate(R.id.action_signNameFragment_to_groupInfoFragment)
+                    viewModel.joinTeam(viewModel.inputText.value)
                 }
-                SignViewType.ModifyGroupName ->{
+                SignViewType.ModifyGroupName -> {
                     viewModel.teamNameUpdate(viewModel.inputText.value)
                 }
             }
