@@ -123,7 +123,7 @@
     <string name="invite_btn_text_skip">건너뛰기</string>
     <string name="invite_code_copy_toast_text">코드를 클립보드에 복사했습니다.</string>
     <string name="invite_code_valid_period_text">%1$s까지 유효한 코드</string>
-    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에 입력하셔야 합니다.</string>
+    <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에\n입력하셔야 합니다.</string>
 
 
     <!-- contractFragment -->
@@ -153,7 +153,7 @@
 
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
-
+    <string name="modify_group_toast_massage">하우스 이름이 변경되었습니다.</string>
     <!-- ManageHouseFragment -->
     <string name="manage_house_header_title">하우스 관리</string>
     <string name="manage_house_rename_text">하우스 이름 변경</string>

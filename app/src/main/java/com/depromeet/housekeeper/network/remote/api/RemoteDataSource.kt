@@ -17,13 +17,14 @@ interface RemoteDataSource {
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
-
   suspend fun logout(auth: String): Flow<Unit>
   suspend fun buildTeam(buildTeam: BuildTeam) : Flow<BuildTeamResponse>
   suspend fun getTeam(): Flow<Groups>
   suspend fun getProfileImages(): Flow<ProfileImages>
   suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>
-
+  suspend fun getInviteCode() : Flow<GetInviteCode>
+  suspend fun updateTeam(teamName : BuildTeam) : Flow<TeamUpdateResponse>
+  suspend fun joinTeam(inviteCode : JoinTeam) : Flow<JoinTeamResponse>
   suspend fun createRule(rule: Rule): Flow<RuleResponses>
   suspend fun getRules(): Flow<RuleResponses>
   suspend fun deleteRule(ruleId: Int): Flow<Response>

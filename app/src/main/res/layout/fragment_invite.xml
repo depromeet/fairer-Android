@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.InviteViewModel" />
+
         <variable
             name="viewType"
             type="com.depromeet.housekeeper.model.enums.InviteViewType" />
@@ -18,97 +20,105 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.InviteFragment"
+        android:background="@drawable/main_white_background"
         android:paddingBottom="16dp"
-        android:background="@drawable/main_white_background">
+        tools:context=".ui.InviteFragment">
 
         <include
             android:id="@+id/invite_header"
+            layout="@layout/layout_default_header"
             android:layout_width="match_parent"
-            android:visibility="@{viewType==viewType.SIGN?View.INVISIBLE:View.VISIBLE}"
             android:layout_height="wrap_content"
-            layout="@layout/layout_default_header"/>
+            android:visibility="@{viewType==viewType.SIGN?View.INVISIBLE:View.VISIBLE}" />
 
         <TextView
             android:id="@+id/invite_main_title_tv"
+            style="@style/Heading.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Heading.H2"
-            android:textColor="@color/gray_800"
-            android:text="@string/invite_main_title"
-            android:layout_marginTop="24dp"
             android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/invite_main_title"
+            android:textColor="@color/gray_800"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/invite_header"/>
+            app:layout_constraintTop_toBottomOf="@id/invite_header" />
 
         <TextView
             android:id="@+id/invite_main_desc_tv"
+            style="@style/Body.B2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Body.B2"
-            android:textColor="@color/gray_400"
-            android:text="@string/invite_main_desc"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/invite_main_desc"
+            android:textColor="@color/gray_400"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/invite_main_title_tv"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invite_main_title_tv" />
 
         <TextView
             android:id="@+id/invite_group_name_tv"
+            style="@style/Title.T1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Title.T1"
-            android:textStyle="bold"
-            android:textColor="@color/gray_600"
-            android:text="@string/invite_group_name_text"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
+            android:text="@string/invite_group_name_text"
+            android:textColor="@color/gray_600"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/invite_main_desc_tv" />
 
         <TextView
             android:id="@+id/invite_code_tv"
+            style="@style/Heading.H3"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            style="@style/Heading.H3"
-            android:textStyle="normal"
-            android:textColor="@color/gray_800"
-            android:text="@{vm.inviteCode}"
-            android:gravity="center"
-            android:background="@drawable/bg_normal_box"
-            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_normal_box"
+            android:gravity="center"
+            android:text="@{vm.inviteCode}"
+            android:textColor="@color/gray_800"
+            android:textStyle="normal"
             app:layout_constraintTop_toBottomOf="@id/invite_group_name_tv" />
 
         <TextView
             android:id="@+id/invite_valid_period_tv"
+            style="@style/Body.B2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            style="@style/Body.B2"
             android:drawableStart="@drawable/ic_info_fill"
-            android:drawableTint="@color/negative_20"
             android:drawablePadding="8dp"
+            android:drawableTint="@color/negative_20"
             android:text="@string/invite_code_valid_period_text"
             android:textColor="@color/negative_20"
-            app:layout_constraintTop_toBottomOf="@id/invite_code_tv"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invite_code_tv" />
+
+        <ImageView
+            android:id="@+id/invite_info_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/ic_info_fill"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invite_valid_period_tv" />
 
         <TextView
             android:id="@+id/invite_valid_sign_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
             style="@style/Body.B2"
-            android:drawablePadding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/invite_code_valid_sign_text"
             android:textColor="@color/gray_600"
-            app:layout_constraintTop_toBottomOf="@id/invite_valid_period_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:drawableStartCompat="@drawable/ic_info_fill" />
+            app:layout_constraintStart_toEndOf="@id/invite_info_ic"
+            app:layout_constraintTop_toBottomOf="@id/invite_valid_period_tv" />
 
         <View
             android:id="@+id/invite_copy_btn"
@@ -118,22 +128,23 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_positive_10_box"
             app:layout_constraintBottom_toTopOf="@id/invite_kakao_share_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
+            style="@style/Title.T1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/highlight"
-            android:text="@string/invite_btn_text_copy"
-            style="@style/Title.T1"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="@id/invite_copy_btn"
-            app:layout_constraintEnd_toEndOf="@id/invite_copy_btn"
-            app:layout_constraintTop_toTopOf="@id/invite_copy_btn"
-            app:layout_constraintBottom_toBottomOf="@id/invite_copy_btn"
+            android:drawableStart="@drawable/ic_copy"
             android:drawablePadding="6dp"
-            android:drawableStart="@drawable/ic_copy" />
+            android:gravity="center"
+            android:text="@string/invite_btn_text_copy"
+            android:textColor="@color/highlight"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/invite_copy_btn"
+            app:layout_constraintEnd_toEndOf="@id/invite_copy_btn"
+            app:layout_constraintStart_toStartOf="@id/invite_copy_btn"
+            app:layout_constraintTop_toTopOf="@id/invite_copy_btn" />
 
         <View
             android:id="@+id/invite_kakao_share_btn"
@@ -143,36 +154,37 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/bg_kakao_box"
             app:layout_constraintBottom_toTopOf="@id/invite_skip_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
+            style="@style/Title.T1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Title.T1"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="@string/invite_btn_text_share"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="@id/invite_kakao_share_btn"
-            app:layout_constraintEnd_toEndOf="@id/invite_kakao_share_btn"
-            app:layout_constraintTop_toTopOf="@id/invite_kakao_share_btn"
-            app:layout_constraintBottom_toBottomOf="@id/invite_kakao_share_btn"
+            android:drawableStart="@drawable/ic_share"
             android:drawablePadding="6dp"
-            android:drawableStart="@drawable/ic_share" />
+            android:gravity="center"
+            android:text="@string/invite_btn_text_share"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/invite_kakao_share_btn"
+            app:layout_constraintEnd_toEndOf="@id/invite_kakao_share_btn"
+            app:layout_constraintStart_toStartOf="@id/invite_kakao_share_btn"
+            app:layout_constraintTop_toTopOf="@id/invite_kakao_share_btn" />
 
 
         <TextView
             android:id="@+id/invite_skip_btn"
+            style="@style/Title.T1"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="24dp"
-            style="@style/Title.T1"
-            android:textColor="@color/gray_800"
-            android:text="@string/invite_btn_text_skip"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/invite_btn_text_skip"
+            android:textColor="@color/gray_800"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
