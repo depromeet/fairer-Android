@@ -18,6 +18,7 @@ import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -52,6 +53,7 @@ class AddHouseWorkFragment : Fragment() {
     }
 
     private fun bindingVm() {
+
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
                 binding.addHouseWorkDateTv.text = viewModel.bindingDate()
@@ -127,13 +129,17 @@ class AddHouseWorkFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        // 집안일 담당자 adapter
+        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
+        binding.addAssigneeRv.adapter = addAssigneeAdapter
+
         // 집안일 adapter
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         viewModel.updateSpace(space)
         viewModel.setDate(navArgs.selectDate.date)
+
         viewModel.initChores(viewModel.getSpace(), choreNames)
-        Timber.d(viewModel.getChores().toString())
         addHouseWorkChoreAdapter = AddHouseWorkChoreAdapter(viewModel.getChores())
         binding.addHouseWorkChoreListRv.adapter = addHouseWorkChoreAdapter
 
@@ -164,10 +170,6 @@ class AddHouseWorkFragment : Fragment() {
 
         })
 
-        // 집안일 담당자 adapter
-        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
-        binding.addAssigneeRv.adapter = addAssigneeAdapter
-
         // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
@@ -194,6 +196,17 @@ class AddHouseWorkFragment : Fragment() {
             val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
+
+        val curAssignees = arrayListOf<Assignee>()
+        viewModel.allGroupInfo.value.map { assignee ->
+            chore.assignees.map { curId ->
+                if(assignee.memberId == curId) {
+                    curAssignees.add(assignee)
+                }
+            }
+        }
+        viewModel.setCurAssignees(curAssignees)
+        addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
     }
 
     private fun createBottomSheet() {

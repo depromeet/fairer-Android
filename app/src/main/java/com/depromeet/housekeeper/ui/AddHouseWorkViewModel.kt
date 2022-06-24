@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
@@ -113,7 +114,6 @@ class AddHouseWorkViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    // TODO: assignee 추가
     fun initChores(space:String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
@@ -121,10 +121,11 @@ class AddHouseWorkViewModel: ViewModel(){
             chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
-            chore.assignees = arrayListOf(_myInfo.value.memberId)
+            chore.assignees = arrayListOf(PrefsManager.memberId)
             temp.add(chore)
         }
         _chores.value.addAll(temp)
+        Timber.d("TAG "+_chores.value)
     }
 
     // TODO: assignee 추가
@@ -155,7 +156,7 @@ class AddHouseWorkViewModel: ViewModel(){
         get() = _houseWorkCreateResponse
 
     // TODO: 팀 조회 API에서 members 정보만 GET
-    private fun setGroupInfo() {
+    fun setGroupInfo() {
         viewModelScope.launch {
             Repository.getTeam().runCatching {
                 collect {
@@ -166,6 +167,7 @@ class AddHouseWorkViewModel: ViewModel(){
 
                     // 초기에 "나"만 들어가도록 수정
                      setCurAssignees(arrayListOf(_myInfo.value))
+                    Timber.d("TAG "+_myInfo.value.memberId.toString())
                 }
             }
         }
