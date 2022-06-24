@@ -5,16 +5,11 @@ import com.depromeet.housekeeper.network.remote.api.ApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.Response
-import okhttp3.ResponseBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
@@ -64,6 +59,10 @@ object RetrofitBuilder {
           .build()
       }
     }
+  }
+
+  fun getRetrofitBuilder():Retrofit{
+    return retrofit
   }
 
   private const val NETWORK_ERROR = 1001
