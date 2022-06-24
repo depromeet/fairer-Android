@@ -62,11 +62,6 @@ class AddHouseWorkViewModel: ViewModel(){
     val allGroupInfo: StateFlow<ArrayList<Assignee>>
         get() = _allGroupInfo
 
-    fun getAllGroupInfo() : ArrayList<Assignee> {
-        return _allGroupInfo.value
-    }
-
-    // TODO : Assignee의 List vs memberId의 List
     private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val curAssignees: StateFlow<ArrayList<Assignee>>
@@ -78,6 +73,14 @@ class AddHouseWorkViewModel: ViewModel(){
 
     fun getCurAssignees() : ArrayList<Assignee> {
         return _curAssignees.value
+    }
+
+    fun updateAssigneeId(position: Int) {
+        val assigneeIds: ArrayList<Int> = arrayListOf()
+        _curAssignees.value.map {
+            assigneeIds.add(it.memberId)
+        }
+        _chores.value[position].assignees = assigneeIds
     }
 
     private val _curTime: MutableStateFlow<String?> =

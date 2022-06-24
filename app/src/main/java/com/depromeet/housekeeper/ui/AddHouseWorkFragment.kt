@@ -126,41 +126,8 @@ class AddHouseWorkFragment : Fragment() {
         }
     }
 
-    private fun createBottomSheet() {
-        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
-        bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
-            override fun onOkBtnClick() {
-                viewModel.setCurAssignees(bottomSheet.selectedAssignees)
-                addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
-            }
-        })
-    }
-
-    private fun createDatePickerDialog() {
-        val selectDate = navArgs.selectDate.date
-
-        val calendar = Calendar.getInstance().apply {
-            set(Calendar.YEAR, selectDate.split("-")[0].toInt())
-            set(Calendar.MONTH, selectDate.split("-")[1].toInt())
-            set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
-        }
-
-        val datePickerDialog = DatePickerDialog(
-            this.requireContext(),
-            { _, year, month, dayOfMonth ->
-                viewModel.updateCalendarView(year, month, dayOfMonth)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH) - 1,
-            calendar.get(Calendar.DAY_OF_MONTH),
-        )
-        datePickerDialog.show()
-    }
-
-
     private fun setAdapter() {
-        // chore list rv adapter
+        // 집안일 adapter
         val choreNames = navArgs.spaceChores.houseWorks
         val space = navArgs.spaceChores.spaceName
         viewModel.updateSpace(space)
@@ -197,11 +164,11 @@ class AddHouseWorkFragment : Fragment() {
 
         })
 
-        // 집안일 담당자 rv adapter
+        // 집안일 담당자 adapter
         addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
         binding.addAssigneeRv.adapter = addAssigneeAdapter
 
-        // 요일 반복 rv adapter
+        // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addHouseWorkRepeatRv.adapter = dayRepeatAdapter
@@ -227,6 +194,40 @@ class AddHouseWorkFragment : Fragment() {
             val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
+    }
+
+    private fun createBottomSheet() {
+        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+            override fun onOkBtnClick() {
+                viewModel.setCurAssignees(bottomSheet.selectedAssignees)
+                addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
+                viewModel.updateAssigneeId(position = viewModel.getPosition(PositionType.CUR))
+                Timber.d(viewModel.chores.value.toString())
+            }
+        })
+    }
+
+    private fun createDatePickerDialog() {
+        val selectDate = navArgs.selectDate.date
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.YEAR, selectDate.split("-")[0].toInt())
+            set(Calendar.MONTH, selectDate.split("-")[1].toInt())
+            set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
+        }
+
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                viewModel.updateCalendarView(year, month, dayOfMonth)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) - 1,
+            calendar.get(Calendar.DAY_OF_MONTH),
+        )
+        datePickerDialog.show()
     }
 
     private fun parseTime(time: String): Pair<Int, Int> {

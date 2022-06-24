@@ -55,11 +55,13 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val c
         binding.bottomSheetDlgOkBtn.setOnClickListener {
             addAssignee()
             mOkBtnClickListener.onOkBtnClick()
-            if(selectedAssignees.isNotEmpty()) {
-                dialog!!.dismiss()
-            }
-            else {
-                Toast.makeText(requireContext(), getString(R.string.add_assignee_toast_text), Toast.LENGTH_SHORT).show()
+            when {
+                selectedAssignees.isNotEmpty() -> {
+                    dialog!!.dismiss()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), getString(R.string.add_assignee_toast_text), Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
