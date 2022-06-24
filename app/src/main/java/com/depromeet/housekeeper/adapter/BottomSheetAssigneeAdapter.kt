@@ -4,15 +4,22 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.databinding.ItemBottomSheetAssigneeBinding
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.util.BindingAdapter
+import timber.log.Timber
 
-class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>)
+class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>)
     : RecyclerView.Adapter<BottomSheetAssigneeAdapter.ViewHolder>() {
 
     private lateinit var mItemClickListener: MyItemClickListener
-    var selectedAssignee: ArrayList<Assignee> = arrayListOf() // for multiple choice
+    private var selectedAssignees: ArrayList<Assignee> = arrayListOf() // 선택한 담당자들
+
+    init {
+        selectedAssignees.addAll(curAssignees)
+        Timber.d(curAssignees.toString())
+        Timber.d(selectedAssignees.toString())
+    }
 
     interface MyItemClickListener {
         fun onItemClick(position: Int)
@@ -20,6 +27,11 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
     fun setMyItemClickListener(itemClickListener: MyItemClickListener){
         mItemClickListener = itemClickListener
+    }
+
+    @JvmName("getSelectedAssignees1")
+    fun getSelectedAssignees(): ArrayList<Assignee> {
+        return selectedAssignees
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,8 +50,14 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>)
             setOnClickListener {
                 // mItemClickListener.onItemClick(position)
                 isSelected = !isSelected
+
+                when(isSelected) {
+                    true -> selectedAssignees.add(assignees[position])
+                    false -> selectedAssignees.remove(assignees[position])
+                }
             }
         }
+
     }
 
     override fun getItemCount(): Int = assignees.size
@@ -49,9 +67,17 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
         @SuppressLint("NotifyDataSetChanged")
         fun bind(assignee: Assignee) {
+          // 초기 selected
+          if(selectedAssignees.contains(assignee)) {
+              binding.itemBottomSheetAssigneeCheckIv.isSelected = true
+              binding.itemBottomSheetAssigneeCl.isSelected = true
+          }
+
           binding.itemBottomSheetAssigneeNameTv.text = assignee.memberName
-          binding.itemBottomSheetAssigneeCheckIv.isSelected = binding.itemBottomSheetAssigneeCl.isSelected
-          // BindingAdapter.loadImage(binding.itemBottomSheetAssigneeProfileIv, assignee.profilePath)
+          binding.itemBottomSheetAssigneeCl.isSelected = binding.itemBottomSheetAssigneeCheckIv.isSelected
+          Glide.with(binding.root)
+              .load(assignee.profilePath)
+              .into(binding.itemBottomSheetAssigneeProfileIv)
         }
     }
 }

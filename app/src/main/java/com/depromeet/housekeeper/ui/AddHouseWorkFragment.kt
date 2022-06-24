@@ -127,8 +127,14 @@ class AddHouseWorkFragment : Fragment() {
     }
 
     private fun createBottomSheet() {
-        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, myInfo = viewModel.myInfo.value)
+        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+            override fun onOkBtnClick() {
+                viewModel.setCurAssignees(bottomSheet.selectedAssignees)
+                addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
+            }
+        })
     }
 
     private fun createDatePickerDialog() {

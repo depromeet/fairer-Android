@@ -9,6 +9,7 @@
         android:padding="20dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="280dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:background="@drawable/bg_assignee_bottom_sheet_dialog"
         tools:context=".ui.custom.dialog.AssigneeBottomSheetDialog">
 

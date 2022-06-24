@@ -1,10 +1,10 @@
 package com.depromeet.housekeeper.ui.custom.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.BottomSheetAssigneeAdapter
@@ -12,9 +12,20 @@ import com.depromeet.housekeeper.databinding.FragmentAssigneeBottomSheetDialogBi
 import com.depromeet.housekeeper.model.Assignee
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val myInfo: Assignee) : BottomSheetDialogFragment() {
+class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>) : BottomSheetDialogFragment() {
     lateinit var binding: FragmentAssigneeBottomSheetDialogBinding
     lateinit var bottomSheetAssigneeAdapter: BottomSheetAssigneeAdapter
+    private lateinit var mOkBtnClickListener: MyOkBtnClickListener
+
+    interface MyOkBtnClickListener {
+        fun onOkBtnClick()
+    }
+
+    fun setMyOkBtnClickListener(okBtnClickListener: MyOkBtnClickListener){
+        mOkBtnClickListener = okBtnClickListener
+    }
+
+    val selectedAssignees:ArrayList<Assignee> = curAssignees
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +43,7 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val m
     }
 
     private fun setAdapter() {
-        bottomSheetAssigneeAdapter = BottomSheetAssigneeAdapter(allGroup)
+        bottomSheetAssigneeAdapter = BottomSheetAssigneeAdapter(allGroup, curAssignees)
         binding.bottomSheetAssigneeRv.adapter = bottomSheetAssigneeAdapter
     }
 
@@ -42,9 +53,20 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val m
         }
 
         binding.bottomSheetDlgOkBtn.setOnClickListener {
-            // TODO : 선택 된 assignees 반환
-            dialog!!.dismiss()
+            addAssignee()
+            mOkBtnClickListener.onOkBtnClick()
+            if(selectedAssignees.isNotEmpty()) {
+                dialog!!.dismiss()
+            }
+            else {
+                Toast.makeText(requireContext(), getString(R.string.add_assignee_toast_text), Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    private fun addAssignee() {
+        selectedAssignees.clear()
+        selectedAssignees.addAll(bottomSheetAssigneeAdapter.getSelectedAssignees())
     }
 
 }

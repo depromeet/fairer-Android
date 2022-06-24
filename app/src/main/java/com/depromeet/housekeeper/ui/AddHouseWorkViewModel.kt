@@ -157,11 +157,12 @@ class AddHouseWorkViewModel: ViewModel(){
             Repository.getTeam().runCatching {
                 collect {
                     _allGroupInfo.value = it.members as ArrayList<Assignee>
+
                     // TODO: 0번 index가 나인걸로 수정
                     _myInfo.value = Assignee(10, "ss", "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-7.png")
 
                     // 초기에 "나"만 들어가도록 수정
-                    _curAssignees.value = arrayListOf(_myInfo.value)
+                     setCurAssignees(arrayListOf(_myInfo.value))
                 }
             }
         }
