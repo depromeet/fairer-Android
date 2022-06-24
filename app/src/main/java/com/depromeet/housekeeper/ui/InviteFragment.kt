@@ -31,6 +31,10 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
+import com.kakao.sdk.template.model.Button
+import com.kakao.sdk.template.model.Content
+import com.kakao.sdk.template.model.FeedTemplate
+import com.kakao.sdk.template.model.Link
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -129,7 +133,7 @@ class InviteFragment : Fragment() {
 
         binding.inviteCopyBtn.setOnClickListener {
             //onCopyToClipboard(viewModel.inviteCode.value)
-            onCopyToClipboard(initDynamicLink())
+            onCopyToClipboard(viewModel.inviteCode.value)
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
@@ -156,14 +160,36 @@ class InviteFragment : Fragment() {
     private fun onKakaoShare(context: Context) {
 
         // TODO("템플릿 변경 필요")
-        val defaultText = 78256.toLong()
-        val code = initDynamicLink()
+
+        val defaultText = FeedTemplate(
+            content = Content(
+                title = getString(R.string.kakao_share_text),
+                imageUrl = "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-1.png",
+                imageWidth = 200,
+                imageHeight = 200,
+                link = Link(
+                    webUrl = initDynamicLink().toString(),
+                    mobileWebUrl = initDynamicLink().toString()
+                )
+            ),
+            buttons = listOf(
+                Button(
+                    title = getString(R.string.kakao_share_button),
+                    Link(
+                        webUrl = initDynamicLink().toString(),
+                        mobileWebUrl = initDynamicLink().toString()
+                    )
+                )
+            )
+        )
+
 
         // 카카오톡 설치여부 확인
         if (LinkClient.instance.isKakaoLinkAvailable(context)) {
             // 카카오톡으로 카카오톡 공유 가능
-            LinkClient.instance.customTemplate(context, defaultText,
-                mapOf("code" to code)) { linkResult, error ->
+            LinkClient.instance.defaultTemplate(
+                context, defaultText
+            ) { linkResult, error ->
                 if (error != null) {
                     Timber.d("카카오톡 공유 실패 ${error.message}")
                 } else if (linkResult != null) {
@@ -178,7 +204,7 @@ class InviteFragment : Fragment() {
         } else {
             // 카카오톡 미설치: 웹 공유 사용 권장
             // 웹 공유 예시 코드
-            val sharerUrl = WebSharerClient.instance.customTemplateUri(defaultText)
+            val sharerUrl = WebSharerClient.instance.defaultTemplateUri(defaultText)
 
             // CustomTabs으로 웹 브라우저 열기
 
@@ -198,7 +224,8 @@ class InviteFragment : Fragment() {
         }
     }
 
-    private fun initDynamicLink(): String {
+
+    private fun initDynamicLink(): Uri {
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")
@@ -208,7 +235,7 @@ class InviteFragment : Fragment() {
         }
         val dynamicLinkUri = dynamicLink.uri
         Timber.d("dynamicUrl : $dynamicLinkUri")
-        return inviteCode
+        return dynamicLinkUri
 
     }
 }
