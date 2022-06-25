@@ -163,7 +163,7 @@ class AddHouseWorkViewModel: ViewModel(){
         viewModelScope.launch {
             Repository.getTeam().runCatching {
                 collect {
-                    _allGroupInfo.value = it.members as ArrayList<Assignee>
+                    _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
 
                     // 초기에 "나"만 들어가도록 수정
                      setCurAssignees(arrayListOf(getMyInfo()!!))
@@ -216,6 +216,21 @@ class AddHouseWorkViewModel: ViewModel(){
         val day = dayMapper(str[3])
         setDate(_selectCalendar.value)
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+    }
+
+    private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
+        var myInfo: Assignee? = null
+        val notMyInfo = arrayListOf<Assignee>()
+        allAssignees.map { assignee ->
+            if(assignee.memberId == PrefsManager.memberId) {
+                myInfo = assignee
+            }
+            else {
+                notMyInfo.add(assignee)
+            }
+        }
+        notMyInfo.add(0, myInfo!!) // 내 정보를 첫순서로 sorting
+        return notMyInfo
     }
 }
 
