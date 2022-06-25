@@ -18,7 +18,7 @@
     
     <variable
       name="assignTemp"
-      type="com.depromeet.housekeeper.model.AssigneeSelect" />
+      type="com.depromeet.housekeeper.model.Assignee" />
   
   </data>
   
@@ -36,7 +36,6 @@
       android:layout_width="48dp"
       android:layout_height="48dp"
       android:background="@drawable/main_profile_selector"
-      android:visibility="@{assignTemp.selected ? View.VISIBLE : View.INVISIBLE}"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />

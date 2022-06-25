@@ -75,6 +75,7 @@ class SignProfileViewModel : ViewModel() {
                 }
             }
                 .onFailure {
+                    Timber.d("why $it")
                     _networkError.value = true
                 }
         }
