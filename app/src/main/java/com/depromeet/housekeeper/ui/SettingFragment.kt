@@ -1,11 +1,11 @@
 package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -52,8 +52,14 @@ class SettingFragment : Fragment() {
             }
         }
 
+        binding.accountRow.setOnClickListener {
+            it.findNavController()
+                .navigate(SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment())
+        }
+
+
         binding.spaceRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToInviteFragment())
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToManageHouseFragment())
         }
 
         binding.contactRow.setOnClickListener {
@@ -71,7 +77,7 @@ class SettingFragment : Fragment() {
 
     private fun showLogoutDialog() {
         val dialog = FairerDialog(requireContext(), DialogType.LOGOUT)
-        dialog.showDialog()
+        dialog.showLogoutDialog()
 
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {

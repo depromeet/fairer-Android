@@ -84,7 +84,6 @@ object Dependencies {
   private const val KAKAO_SDK = "2.10.0"
   const val kakaoSdk = "com.kakao.sdk:v2-link:$KAKAO_SDK"
 
-
   private const val FIREBASE_SDK = "4.3.10"
   const val firebaseSdk = "com.google.gms:google-services:$FIREBASE_SDK"
 
