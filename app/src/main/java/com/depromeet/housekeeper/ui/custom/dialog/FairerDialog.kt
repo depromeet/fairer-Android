@@ -14,13 +14,55 @@ import com.depromeet.housekeeper.R
 class FairerDialog(private val context: Context, private val type: DialogType) {
     lateinit var onItemClickListener: OnItemClickListener
     private val dialog = Dialog(context)
+    private val logoutDialog = Dialog(context)
 
     interface OnItemClickListener {
         fun onItemClick()
     }
 
-    fun showDialog() {
+    fun showLogoutDialog() {
+        logoutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        logoutDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        logoutDialog.setContentView(R.layout.dialog_logout)
 
+        val btnDialogCancel =
+            logoutDialog.findViewById<AppCompatButton>(R.id.dialog_logout_cancel_btn)
+        val btnDialogOk = logoutDialog.findViewById<AppCompatButton>(R.id.dialog_logout_ok_btn)
+        val tvDialogTitle = logoutDialog.findViewById<TextView>(R.id.dialog_logout_title_tv)
+        val outsideDialog = logoutDialog.findViewById<ConstraintLayout>(R.id.dialog_logout_outside)
+
+        logoutDialog.window!!.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        logoutDialog.window!!.statusBarColor = Color.TRANSPARENT
+        logoutDialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        logoutDialog.setCanceledOnTouchOutside(true)
+        logoutDialog.setCancelable(true)
+
+
+        tvDialogTitle.setText(R.string.fairer_dialog_logout_title)
+        btnDialogOk.setText(R.string.fairer_dialog_logout_btn_text)
+        btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
+
+        outsideDialog.setOnClickListener {
+            logoutDialog.dismiss()
+        }
+
+        btnDialogCancel.setOnClickListener {
+            logoutDialog.dismiss()
+        }
+
+        btnDialogOk.setOnClickListener {
+            onItemClickListener.onItemClick()
+            logoutDialog.dismiss()
+        }
+        logoutDialog.show()
+
+
+    }
+
+    fun showDialog() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setContentView(R.layout.dialog_fairer)
@@ -33,7 +75,10 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
 
         dialog.window!!.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         dialog.window!!.statusBarColor = Color.TRANSPARENT
-        dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        dialog.window!!.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
@@ -47,12 +92,7 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
                 tvDialogTitle.setText(R.string.fairer_dialog_delete_title)
                 tvDialogDesc.setText(R.string.fairer_dialog_delete_desc)
             }
-            DialogType.LOGOUT -> {
-                tvDialogTitle.setText(R.string.fairer_dialog_logout_title)
-                tvDialogDesc.text = ""
-                btnDialogOk.setText(R.string.fairer_dialog_logout_btn_text)
-                btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
-            }
+
             DialogType.EXIT -> {
                 tvDialogTitle.setText(R.string.fairer_dialog_exit_title)
                 tvDialogDesc.setText(R.string.fairer_dialog_exit_desc)
@@ -73,7 +113,6 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
             onItemClickListener.onItemClick()
             dialog.dismiss()
         }
-
         dialog.show()
     }
 }
