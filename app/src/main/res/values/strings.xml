@@ -145,7 +145,8 @@
     <string name="contact_sign_email">이메일</string>
     <string name="fairer_email"><u>faireran@gmail.com</u></string>
     <string name="contact_sign_instagram">Instagram</string>
-    <string name="fairer_instagram">\@fairer.official</string>
+    <string name="fairer_instagram"><u>\@fairer.official</u></string>
+    <string name="fairer_instagram_link">https://www.instagram.com/fairer.official/</string>
 
     <!-- policyFragment -->
     <string name="policy_header_title">정보</string>
