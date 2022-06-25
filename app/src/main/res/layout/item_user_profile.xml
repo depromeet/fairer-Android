@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="imgUrl"
             type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -18,20 +19,21 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="@drawable/bg_profile_imageview_selector"
-            tools:background="@drawable/bg_profile_imageview_inactive"
             app:imageUrl="@{imgUrl}"
-            app:placeholder="@{@drawable/bg_profile_imageview_inactive}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholder="@{@drawable/bg_profile_imageview_inactive}"
+            tools:background="@drawable/bg_profile_imageview_inactive" />
+
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/user_profile"
             android:text="@string/name_ex"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/user_profile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

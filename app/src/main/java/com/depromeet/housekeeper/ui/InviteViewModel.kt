@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
@@ -33,12 +34,12 @@ class InviteViewModel : ViewModel() {
     }
 
     private val _inviteCode: MutableStateFlow<String> =
-        MutableStateFlow("ABCDEFG")
+        MutableStateFlow("")
     val inviteCode: StateFlow<String>
         get() = _inviteCode
 
     private val _inviteCodeValidPeriod: MutableStateFlow<String> =
-        MutableStateFlow("2022년 6월 20일 18시 23분")
+        MutableStateFlow("")
     val inviteCodeValidPeriod: StateFlow<String>
         get() = _inviteCodeValidPeriod
 
@@ -58,11 +59,32 @@ class InviteViewModel : ViewModel() {
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode
+                    PrefsManager.setHasTeam(true)
                 }
             }
                 .onFailure {
                     _networkError.value = true
                     //TODO 레이아웃 네트워크 처리
+                }
+        }
+    }
+
+    fun getInviteCodeResponse(){
+        viewModelScope.launch {
+            Repository.getInviteCode(
+            ).runCatching {
+                collect {
+                    _groupName.value = it.teamName
+                    _inviteCode.value = it.inviteCode
+                    val str = it.inviteCodeExpirationDateTime
+                    val arr = str.split("T")
+                    val arrDate = arr[0].split("-")
+                    val arrTime = arr[1].split(":")
+                    _inviteCodeValidPeriod.value = "${arrDate[0]}년 ${arrDate[1]}월 ${arrDate[2]}일 ${arrTime[0]}시 ${arrTime[1]}분"
+                }
+            }
+                .onFailure {
+                    _networkError.value = true
                 }
         }
     }

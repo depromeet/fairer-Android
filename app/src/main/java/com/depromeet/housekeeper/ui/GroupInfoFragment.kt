@@ -34,6 +34,7 @@ class GroupInfoFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingVm()
@@ -44,8 +45,14 @@ class GroupInfoFragment : Fragment() {
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
             viewModel.groupName.collect {
-                binding.groupInfoText.text = getString(R.string.group_info_text, viewModel.groupName.value)
+                binding.groupInfoText.text =
+                    getString(R.string.group_info_text, viewModel.groupName.value)
                 spannable()
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.groups.collect {
+                setAdapter()
             }
         }
     }
@@ -62,25 +69,19 @@ class GroupInfoFragment : Fragment() {
 
     private fun setAdapter() {
         val gridLayoutManager = GridLayoutManager(context, 4)
-        val dummyListProfile: List<String> = listOf(
-            "https://i.pinimg.com/originals/61/0b/12/610b12fdc6afe3beafd439b43a52ad24.png",
-            "https://www.urbanbrush.net/web/wp-content/uploads/edd/2020/11/urbanbrush-20201104103659627968.jpg"
-        )
-        val dummyListName: List<String> = listOf(
-            "박정준", "홍길동"
-        )
         binding.groupInfoRecyclerImageview.layoutManager = gridLayoutManager
-        myAdapter = UserInfoAdapter(dummyListProfile,dummyListName)
+        myAdapter = UserInfoAdapter(viewModel.groups.value)
         binding.groupInfoRecyclerImageview.adapter = myAdapter
         binding.groupInfoRecyclerImageview.addItemDecoration(VerticalItemDecorator(16))
     }
 
-    private fun spannable(){
+    private fun spannable() {
         val spanText = SpannableStringBuilder(binding.groupInfoText.text)
-        spanText.apply{
+        spanText.apply {
             setSpan(
                 ForegroundColorSpan(resources.getColor(R.color.highlight)),
-                0,viewModel.groupName.value.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                0, viewModel.groupName.value.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
         binding.groupInfoText.text = spanText
     }

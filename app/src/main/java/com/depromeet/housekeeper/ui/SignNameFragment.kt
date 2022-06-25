@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -50,8 +51,26 @@ class SignNameFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.hasTeam.collect {
                 binding.hasTeam = it
+                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.text = getString(R.string.failed_group_button_text)
             }
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.responseJoinTeam.collect {
+                if(it!=null){
+                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment())
+                }
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.responseTeamUpdate.collect {
+                if(it!=null){
+                    findNavController().navigateUp()
+                    Toast.makeText(context, R.string.modify_group_toast_massage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
     }
 
     private fun initListener() {
@@ -77,7 +96,10 @@ class SignNameFragment : Fragment() {
                     )
                 }
                 SignViewType.InviteCode -> {
-                    findNavController().navigate(R.id.action_signNameFragment_to_groupInfoFragment)
+                    viewModel.joinTeam(viewModel.inputText.value)
+                }
+                SignViewType.ModifyGroupName -> {
+                    viewModel.teamNameUpdate(viewModel.inputText.value)
                 }
             }
         }
