@@ -22,11 +22,11 @@ interface ApiService {
   @POST("/api/oauth/login")
   suspend fun googlelogin(@Body socialType: SocialType): LoginResponse
 
-  @DELETE("/api/houseworks/{id}")
-  suspend fun deleteHouseWork(@Path("id") id: Int)
+  @DELETE("/api/houseworks/{houseWorkId}")
+  suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
-  @PUT("/api/houseworks/{id}")
-  suspend fun editHouseWork(@Path("id") id: Int, @Body chore: Chore): HouseWork
+  @PUT("/api/houseworks/{houseWorkId}")
+  suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
 
   @PATCH("/api/houseworks/{houseWorkId}")
   suspend fun updateChoreState(
