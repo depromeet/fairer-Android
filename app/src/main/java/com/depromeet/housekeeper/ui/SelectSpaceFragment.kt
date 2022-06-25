@@ -41,6 +41,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_space, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         viewModel.addCalendarView(navArgs.selectDate.date)
+        Timber.d("TAG ${navArgs.selectDate.date}")
         binding.currentDate = viewModel.bindingDate()
 
         initListener()

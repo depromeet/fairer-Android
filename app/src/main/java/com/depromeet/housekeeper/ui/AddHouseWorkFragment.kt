@@ -123,7 +123,7 @@ class AddHouseWorkFragment : Fragment() {
             createDatePickerDialog()
         }
 
-        binding.addAssigneeLayout.rootView.setOnClickListener{
+        binding.addAssigneeLayout.setOnClickListener{
             createBottomSheet()
         }
     }
