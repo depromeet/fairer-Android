@@ -34,7 +34,6 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(assignee: Assignee) {
             binding.assignTemp = assignee
-            // TODO : 이름 4자 넘으면 자르기
             Glide.with(binding.root)
                 .load(assignee.profilePath)
                 .into(binding.ivIcon)

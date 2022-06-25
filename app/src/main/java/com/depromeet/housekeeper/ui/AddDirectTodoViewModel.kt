@@ -144,16 +144,6 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].assignees = chore.assignees
 
     setCurAssignees(curAssignees as ArrayList<Assignee>)
-
-//    val temp = arrayListOf<Assignee>()
-//    _chores.value[0].assignees.map { memberId ->
-//      _allGroupInfo.value.map { assignee ->
-//        if(memberId == assignee.memberId) {
-//          temp.add(assignee)
-//        }
-//      }
-//    }
-//    setCurAssignees(temp)
   }
 
 

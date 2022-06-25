@@ -132,7 +132,6 @@ class AddHouseWorkViewModel: ViewModel(){
         _chores.value.addAll(temp)
     }
 
-    // TODO: assignee 추가
     fun updateChore(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
     }
