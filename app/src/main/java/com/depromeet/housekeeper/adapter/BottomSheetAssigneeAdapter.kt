@@ -20,7 +20,6 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
         Timber.d(selectedAssignees.toString())
     }
 
-    @JvmName("getSelectedAssignees1")
     fun getSelectedAssignees(): ArrayList<Assignee> {
         return selectedAssignees
     }
