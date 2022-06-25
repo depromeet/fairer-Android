@@ -13,6 +13,7 @@ object PrefsManager {
   private const val AUTH_CODE = "AUTH_CODE"
   private const val MEMBER_ID = "MEMBER_ID"
 
+
   fun init(context: Context) {
     prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
   }
@@ -72,4 +73,12 @@ object PrefsManager {
       putInt(MEMBER_ID, memberId)
     }?.apply()
   }
+  fun deleteMemberInfo() {
+    prefs.edit()?.apply {
+      setHasTeam(false)
+      remove(MEMBER_ID)
+    }?.apply()
+
+  }
+
 }

@@ -6,14 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentManageHouseBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.ui.custom.dialog.DialogType
+import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 class ManageHouseFragment : Fragment() {
     lateinit var binding: FragmentManageHouseBinding
+    private val viewModel : ManageHouseViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,8 +31,20 @@ class ManageHouseFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         initListener()
+        bindingVm()
 
         return binding.root
+    }
+
+    private fun bindingVm() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.response.collect {
+                if(it){
+                    Timber.d("leave Team response : $it")
+                    findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToJoinGroupFragment())
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -45,10 +65,21 @@ class ManageHouseFragment : Fragment() {
         }
 
         binding.exitHouseRow.setOnClickListener {
-            // ToDo: 하우스 나가기 API 연동 (hasTeam 정보 필요)
+            setDialog()
         }
 
     }
 
+    private fun setDialog() {
+        val dialog = FairerDialog(requireContext(), DialogType.EXIT)
+        Timber.d("set dialog")
+        dialog.showDialog()
+        dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
+            override fun onItemClick() {
+                viewModel.leaveTeam()
+                Timber.d("leave Team")
+            }
+        }
+    }
 
 }

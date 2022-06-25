@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
@@ -18,6 +20,11 @@ import java.util.Calendar
 import java.util.Locale
 
 class AddDirectTodoViewModel : ViewModel() {
+
+  init {
+    setGroupInfo()
+  }
+
   private val _curViewType: MutableStateFlow<ViewType> =
     MutableStateFlow(ViewType.ADD)
   val curViewType: StateFlow<ViewType>
@@ -77,6 +84,41 @@ class AddDirectTodoViewModel : ViewModel() {
   val curSpace: StateFlow<String>
     get() = _curSpace
 
+  val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+    MutableStateFlow(arrayListOf())
+  val allGroupInfo: StateFlow<ArrayList<Assignee>>
+    get() = _allGroupInfo
+
+  private fun getMyInfo(): Assignee? {
+    var temp: Assignee? = null
+    _allGroupInfo.value.map {
+      if(it.memberId == PrefsManager.memberId) {
+        temp = it
+      }
+    }
+    return temp
+  }
+
+  private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
+    MutableStateFlow(arrayListOf())
+  val curAssignees: StateFlow<ArrayList<Assignee>>
+    get() = _curAssignees
+
+  fun setCurAssignees(assignees: ArrayList<Assignee>) {
+    _curAssignees.value = assignees
+  }
+
+  fun getCurAssignees() : ArrayList<Assignee> {
+    return _curAssignees.value
+  }
+
+  fun updateAssigneeId() {
+    val assigneeIds: ArrayList<Int> = arrayListOf()
+    _curAssignees.value.map {
+      assigneeIds.add(it.memberId)
+    }
+     _chores.value[0].assignees = assigneeIds
+  }
 
   // 직접 추가 or 수정은 chore 개수 1
   private val _chores: MutableStateFlow<ArrayList<Chore>> =
@@ -85,11 +127,12 @@ class AddDirectTodoViewModel : ViewModel() {
     get() = _chores
 
   fun initDirectChore() {
+    _chores.value[0].assignees = arrayListOf(PrefsManager.memberId)
     _chores.value[0].scheduledDate = _curDate.value
     _chores.value[0].space = Chore.ETC_SPACE
   }
 
-  fun initEditChore(chore: Chore) {
+  fun initEditChore(chore: Chore, curAssignees: List<Assignee>) {
     // main에서 받아온 집안일 정보 init
     _curDate.value = chore.scheduledDate
     _curTime.value = chore.scheduledTime
@@ -99,6 +142,8 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].scheduledTime = chore.scheduledTime
     _chores.value[0].space = chore.space
     _chores.value[0].assignees = chore.assignees
+
+    setCurAssignees(curAssignees as ArrayList<Assignee>)
   }
 
 
@@ -123,6 +168,22 @@ class AddDirectTodoViewModel : ViewModel() {
 
     val datePattern = "yyyy-MM-dd-EEE"
     _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+  }
+
+  // TODO: 팀 조회 API에서 members 정보만 GET
+  private fun setGroupInfo() {
+    viewModelScope.launch {
+      Repository.getTeam().runCatching {
+        collect {
+          _allGroupInfo.value = it.members as ArrayList<Assignee>
+
+          // 직접 추가 뷰라면 "나" 자신 담당자 추가
+          if(_curViewType.value == ViewType.ADD) {
+            setCurAssignees(arrayListOf(getMyInfo()!!))
+          }
+        }
+      }
+    }
   }
 
   // 집안일 직접 추가 api

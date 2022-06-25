@@ -49,6 +49,9 @@ object Repository : RemoteDataSource {
   ): Flow<UpdateChoreResponse> =
     flow {
       emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
+    override suspend fun logout(
+    ): Flow<Unit> = flow {
+        emit(apiService.logout())
     }
 
   override suspend fun logout(
@@ -93,17 +96,17 @@ object Repository : RemoteDataSource {
     emit(apiService.createRules(rule))
   }
 
-  override suspend fun getRules(): Flow<RuleResponses> = flow {
-    emit(apiService.getRules())
-  }
+    override suspend fun getRules(): Flow<RuleResponses> = flow {
+        emit(apiService.getRules())
+    }
 
-  override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
-    emit(apiService.deleteRule(ruleId))
-  }
+    override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
+        emit(apiService.deleteRule(ruleId))
+    }
 
-  override suspend fun getMe(): Flow<ProfileData> = flow {
-    emit(apiService.getMe())
-  }
+    override suspend fun leaveTeam(): Flow<Unit> = flow {
+        emit(apiService.leaveTeam())
+    }
 
   override suspend fun updateMe(
     memberName: String,

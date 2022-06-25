@@ -14,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.IOException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.DELETE
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
@@ -48,12 +49,14 @@ object RetrofitBuilder {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
       val request = chain.request()
+
       return try {
         chain.proceed(
           request.newBuilder()
-            .addHeader("Authorization", PrefsManager.accessToken.ifEmpty { PrefsManager.authCode })
+            .addHeader("Authorization", PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
             .build()
         )
+
       } catch (e: Exception) {
         Response.Builder()
           .request(request)

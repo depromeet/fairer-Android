@@ -119,6 +119,7 @@ class LoginFragment : Fragment() {
                     this.memberId
 
                     PrefsManager.setHasTeam(response.hasTeam)
+                    PrefsManager.setMemberId(response.memberId)
                     initNavigation(response)
                 }
             }
