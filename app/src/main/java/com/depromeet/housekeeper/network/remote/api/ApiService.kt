@@ -20,13 +20,13 @@ interface ApiService {
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
   @POST("/api/oauth/login")
-  suspend fun googlelogin(@Body socialType : SocialType): LoginResponse
+  suspend fun googlelogin(@Body socialType: SocialType): LoginResponse
 
-  @DELETE("/api/houseworks/{id}")
-  suspend fun deleteHouseWork(@Path("id") id: Int)
+  @DELETE("/api/houseworks/{houseWorkId}")
+  suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
-  @PUT("/api/houseworks/{id}")
-  suspend fun editHouseWork(@Path("id") id: Int, @Body chore: Chore): HouseWork
+  @PUT("/api/houseworks/{houseWorkId}")
+  suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
 
   @PATCH("/api/houseworks/{houseWorkId}")
   suspend fun updateChoreState(
@@ -38,16 +38,16 @@ interface ApiService {
   suspend fun logout(@Header("Authorization") auth: String)
 
   @POST("/api/teams")
-  suspend fun buildTeam(@Body buildTeam : BuildTeam) : BuildTeamResponse
+  suspend fun buildTeam(@Body buildTeam: BuildTeam): BuildTeamResponse
 
   @GET("/api/teams/my")
   suspend fun getTeamData(): Groups
 
   @GET("/api/member/profile-image")
-  suspend fun getProfileImages() : ProfileImages
+  suspend fun getProfileImages(): ProfileImages
 
   @PATCH("/api/member")
-  suspend fun updateMember(@Body updateMember: UpdateMember) : UpdateMemberResponse
+  suspend fun updateMember(@Body updateMember: UpdateMember): UpdateMemberResponse
 
   @GET("/api/teams/invite-codes")
   suspend fun getInviteCode() : GetInviteCode
@@ -69,5 +69,15 @@ interface ApiService {
 
   @POST("/api/teams/leave")
   suspend fun leaveTeam()
+
+  @GET("/api/member/me")
+  suspend fun getMe(): ProfileData
+
+  @PUT("/api/member/me")
+  suspend fun updateMe(
+    @Query("memberName") memberName: String,
+    @Query("profilePath") profilePath: String,
+    @Query("statusMessage") statusMessage: String,
+  ): ProfileData
 
 }

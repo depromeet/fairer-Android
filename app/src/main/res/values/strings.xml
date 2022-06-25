@@ -113,6 +113,9 @@
     <string name="setting_info_row_text">정보</string>
     <string name="setting_version_row_text">버전</string>
     <string name="setting_logout_row_text">로그아웃</string>
+    <string name="setting_profile_name">이름</string>
+    <string name="setting_profile_title">프로필을 설정해주세요.</string>
+    <string name="setting_profile_sub_title">상태 메세지</string>
 
     <!-- inviteFragment -->
     <string name="invite_main_title">하우스에 사람을 초대해주세요.</string>
