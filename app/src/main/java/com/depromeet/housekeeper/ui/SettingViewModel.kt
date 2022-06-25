@@ -33,7 +33,7 @@ class SettingViewModel : ViewModel() {
     // logout api
     private fun logout() {
         viewModelScope.launch {
-            Repository.logout(PrefsManager.refreshToken)
+            Repository.logout()
                 .runCatching {
                     collect {
                         Timber.d(it.toString())

@@ -35,7 +35,7 @@ interface ApiService {
   ): UpdateChoreResponse
 
   @POST("/api/oauth/logout")
-  suspend fun logout(@Header("Authorization") auth: String)
+  suspend fun logout()
 
   @POST("/api/teams")
   suspend fun buildTeam(@Body buildTeam: BuildTeam): BuildTeamResponse
