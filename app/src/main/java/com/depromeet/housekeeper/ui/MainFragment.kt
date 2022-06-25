@@ -120,7 +120,7 @@ class MainFragment : Fragment() {
       })
     binding.rvWeek.adapter = dayOfAdapter
 
-    val list = mainViewModel.myHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+    val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
       val dayOfWeek = DayOfWeek(it.scheduledDate, false)
@@ -154,7 +154,7 @@ class MainFragment : Fragment() {
     }
 
     lifecycleScope.launchWhenCreated {
-      mainViewModel.myHouseWorks.collect { houseWork ->
+      mainViewModel.selectHouseWork.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
@@ -175,13 +175,13 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenCreated {
       mainViewModel.currentState.collect {
-        val houseWork = mainViewModel.myHouseWorks.value ?: return@collect
+        val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
         binding.layoutDoneScreen.root.isVisible =
           it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
-        mainViewModel.myHouseWorks.value?.let {
+        mainViewModel.selectHouseWork.value?.let {
           updateHouseWorkData(it)
         }
       }

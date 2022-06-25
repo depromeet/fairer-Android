@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
@@ -108,9 +109,9 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _myHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-  val myHouseWorks: StateFlow<HouseWorks?>
-    get() = _myHouseWorks
+  private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val selectHouseWork: StateFlow<HouseWorks?>
+    get() = _selectHouseWorks
 
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
@@ -119,6 +120,10 @@ class MainViewModel : ViewModel() {
   private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
   val networkError: StateFlow<Boolean>
     get() = _networkError
+
+  private val _selectUser: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
+  val selectUser: StateFlow<Int>
+    get() = _selectUser
 
   fun getHouseWorks() {
     //TODO 성능 개선 필요
@@ -129,7 +134,7 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _myHouseWorks.value = it.first()
+            _selectHouseWorks.value = it.find { it.memberId == _selectUser.value }
           }
         }.onFailure {
           //  _networkError.value = true
@@ -188,7 +193,11 @@ class MainViewModel : ViewModel() {
       Repository.getTeam().runCatching {
         collect {
           _groupName.value = it.teamName
-          _groups.value = it.members
+
+          val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
+          val assignees = listOf(myAssignee) + it.members
+
+          _groups.value = assignees.distinct()
         }
       }
 
