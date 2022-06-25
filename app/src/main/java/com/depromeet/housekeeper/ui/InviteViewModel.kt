@@ -7,14 +7,10 @@ import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.InviteFailedResponse
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
-import com.depromeet.housekeeper.network.remote.repository.RetrofitBuilder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class InviteViewModel : ViewModel() {
@@ -55,10 +51,6 @@ class InviteViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    fun setInviteCodeValidPeriod() {
-        _inviteCodeValidPeriod.value = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")) + 3600000
-    }
 
     fun setCode(teamName: String) {
         viewModelScope.launch {
@@ -71,20 +63,10 @@ class InviteViewModel : ViewModel() {
                 }
             }
                 .onFailure {
-                    /*_errorBody.value = getErrorResponse(it)
-                    Timber.d("errorbody : ${_errorBody.value}")*/
                     _networkError.value = true
                     //TODO 레이아웃 네트워크 처리
                 }
         }
-    }
-    private fun getErrorResponse(throwable: Throwable):InviteFailedResponse?{
-        val httpException = throwable as HttpException
-        val errorBody = httpException.response()?.errorBody()!!
-        val retrofit = RetrofitBuilder.getRetrofitBuilder()
-        val converter = retrofit.responseBodyConverter<InviteFailedResponse>(
-            InviteFailedResponse::class.java, InviteFailedResponse::class.java.annotations)
-        return converter.convert(errorBody)
     }
 
     fun getInviteCodeResponse(){
