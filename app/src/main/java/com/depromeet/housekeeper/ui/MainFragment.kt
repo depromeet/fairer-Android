@@ -21,7 +21,6 @@ import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
@@ -34,6 +33,8 @@ class MainFragment : Fragment() {
   private var houseWorkAdapter: HouseWorkAdapter? = null
   private lateinit var groupProfileAdapter: GroupProfileAdapter
   private val mainViewModel: MainViewModel by viewModels()
+  private val detailViewModel: DetailHouseWorkViewModel by viewModels()
+  private val detailHouseWorkViewModel: DetailHouseWorkViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -124,7 +125,6 @@ class MainFragment : Fragment() {
     val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
-      val dayOfWeek = DayOfWeek(it.scheduledDate, false)
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
         viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
     }, {
@@ -170,6 +170,10 @@ class MainFragment : Fragment() {
 
           binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
           updateHouseWorkData(houseWork)
+
+          it.houseWorks.forEach {
+            mainViewModel.getDetailHouseWork(it.houseWorkId)
+          }
         }
       }
     }
