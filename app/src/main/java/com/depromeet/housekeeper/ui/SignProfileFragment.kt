@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,7 @@ class SignProfileFragment : Fragment() {
         bindingVm()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
         binding.viewType = viewModel.viewType.value
