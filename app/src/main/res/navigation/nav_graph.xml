@@ -142,6 +142,7 @@
             app:popUpToInclusive="true" />
 
     </fragment>
+    
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.depromeet.housekeeper.ui.LoginFragment"
@@ -157,16 +158,31 @@
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_signNameFragment"
             app:destination="@id/signNameFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            />
         <action
             android:id="@+id/action_loginFragment_to_joinGroupFragment"
-            app:destination="@id/joinGroupFragment" />
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/joinGroupFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
 
     </fragment>
     <fragment
@@ -183,36 +199,73 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_signNameFragment_to_signProfileFragment"
-            app:destination="@id/signProfileFragment" />
-        <action
-            android:id="@+id/action_signNameFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/signProfileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
         <action
             android:id="@+id/action_signNameFragment_to_inviteFragment"
-            app:destination="@id/inviteFragment">
+            app:destination="@id/inviteFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/joinGroupFragment"
+            app:popUpToInclusive="true">
             <argument
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.InviteViewType" />
         </action>
         <action
             android:id="@+id/action_signNameFragment_to_groupInfoFragment"
-            app:destination="@id/groupInfoFragment" />
+            app:destination="@id/groupInfoFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/joinGroupFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_signNameFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/signNameFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/signProfileFragment"
-        android:name="com.depromeet.housekeeper.ui.SignProfileFragment"
-        android:label="SignProfileFragment"
-        tools:layout="@layout/fragment_sign_profile">
+      android:id="@+id/signProfileFragment"
+      android:name="com.depromeet.housekeeper.ui.SignProfileFragment"
+      android:label="SignProfileFragment"
+      tools:layout="@layout/fragment_sign_profile">
         <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true" />
+          android:name="name"
+          app:argType="string"
+          app:nullable="true" />
         <argument
-            android:name="viewType"
-            app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+          android:name="viewType"
+          app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
         <action
             android:id="@+id/action_signProfileFragment_to_joinGroupFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/signNameFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/joinGroupFragment" />
+        <action
+          android:id="@+id/action_signProfileFragment_to_SettingProfileFragment"
+          app:destination="@id/settingProfileFragment"
+          app:popUpTo="@id/signProfileFragment"
+          app:popUpToInclusive="true" >
+          <argument
+            android:name="profilePath"
+            app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/joinGroupFragment"
@@ -221,7 +274,11 @@
         tools:layout="@layout/fragment_join_group">
         <action
             android:id="@+id/action_joinGroupFragment_to_signNameFragment"
-            app:destination="@id/signNameFragment" />
+            app:destination="@id/signNameFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -253,6 +310,15 @@
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.SignViewType" />
         </action>
+        <action
+            android:id="@+id/action_manageHouseFragment_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
@@ -292,8 +358,19 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/settingFragment"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+    
+        <action
+          android:id="@+id/action_settingFragment_to_settingProfileFragment"
+          app:destination="@+id/settingProfileFragment"
+          app:enterAnim="@android:anim/fade_in"
+          app:exitAnim="@android:anim/fade_out"
+          app:popEnterAnim="@android:anim/fade_in"
+          app:popExitAnim="@android:anim/fade_out"
+          app:popUpTo="@id/settingProfileFragment"
+          app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
@@ -310,14 +387,20 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_inviteFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/inviteFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/contactFragment"
         android:name="com.depromeet.housekeeper.ui.ContactFragment"
         android:label="ContactFragment"
-        tools:layout="@layout/fragment_contact"></fragment>
+        tools:layout="@layout/fragment_contact"/>
 
     <fragment
         android:id="@+id/policyFragment"
@@ -331,7 +414,13 @@
         tools:layout="@layout/fragment_group_info">
         <action
             android:id="@+id/action_groupInfoFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/groupInfoFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     
     <fragment
@@ -340,4 +429,26 @@
       android:label="RuleFragment"
       tools:layout="@layout/fragment_rule">
     </fragment>
+  
+  <fragment
+    android:id="@+id/settingProfileFragment"
+    android:name="com.depromeet.housekeeper.ui.SettingProfileFragment"
+    android:label="SettingProfileFragment"
+    tools:layout="@layout/fragment_setting_profile">
+    <argument
+      android:name="profilePath"
+      android:defaultValue=""
+      app:nullable="true"
+      app:argType="string" />
+    <action
+      android:id="@+id/action_settingProfileFragment_to_signProfileFragment"
+      app:destination="@id/signProfileFragment"
+      app:popUpTo="@id/settingProfileFragment"
+      app:popUpToInclusive="true" >
+      <argument
+        android:name="viewType"
+        app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+    </action>
+  </fragment>
+
 </navigation>

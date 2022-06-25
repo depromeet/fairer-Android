@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -85,6 +86,9 @@ class SignProfileFragment : Fragment() {
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             if (viewModel.viewType.value == ProfileViewType.Sign) {
                 viewModel.requestUpdateMember()
+            }
+            if (viewModel.viewType.value == ProfileViewType.Modify){
+                it.findNavController().navigate(SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(viewModel.selectedImage.value))
             }
 
         }
