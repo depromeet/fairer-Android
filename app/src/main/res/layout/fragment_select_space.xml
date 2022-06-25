@@ -265,10 +265,11 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/select_space_recyclerview"
-                    android:layout_width="match_parent"
+                    android:layout_width="319dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:paddingHorizontal="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_task_text"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_select_space_task"
