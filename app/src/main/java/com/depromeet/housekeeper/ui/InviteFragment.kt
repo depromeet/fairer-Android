@@ -164,7 +164,7 @@ class InviteFragment : Fragment() {
         val defaultText = FeedTemplate(
             content = Content(
                 title = getString(R.string.kakao_share_text),
-                imageUrl = "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-1.png",
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/fairer-def59.appspot.com/o/meta-images%2Finvite-code.png?alt=media&token=ba31a200-9170-41fd-a4eb-7488fd879c53",
                 imageWidth = 200,
                 imageHeight = 200,
                 link = Link(
