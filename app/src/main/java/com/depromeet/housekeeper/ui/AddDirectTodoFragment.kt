@@ -224,6 +224,7 @@ class AddDirectTodoFragment : Fragment() {
     private fun onEditView() {
         // set arg
         val houseWork = navArgs.houseWork
+        Timber.d("TAG $houseWork")
         val assignees: List<Int> = arrayListOf()
         houseWork.assignees.map {
             assignees.plus(it.memberId)
@@ -231,7 +232,7 @@ class AddDirectTodoFragment : Fragment() {
         val chore = Chore(assignees, houseWork.houseWorkName, houseWork.scheduledDate, houseWork.scheduledTime, houseWork.space)
 
         // viewmodel update
-        viewModel.initEditChore(chore)
+        viewModel.initEditChore(chore, houseWork.assignees)
         viewModel.setHouseWorkId(houseWork.houseWorkId)
 
         // ui update

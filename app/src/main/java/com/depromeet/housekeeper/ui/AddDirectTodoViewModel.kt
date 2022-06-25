@@ -132,7 +132,7 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].space = Chore.ETC_SPACE
   }
 
-  fun initEditChore(chore: Chore) {
+  fun initEditChore(chore: Chore, curAssignees: List<Assignee>) {
     // main에서 받아온 집안일 정보 init
     _curDate.value = chore.scheduledDate
     _curTime.value = chore.scheduledTime
@@ -142,6 +142,18 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].scheduledTime = chore.scheduledTime
     _chores.value[0].space = chore.space
     _chores.value[0].assignees = chore.assignees
+
+    setCurAssignees(curAssignees as ArrayList<Assignee>)
+
+//    val temp = arrayListOf<Assignee>()
+//    _chores.value[0].assignees.map { memberId ->
+//      _allGroupInfo.value.map { assignee ->
+//        if(memberId == assignee.memberId) {
+//          temp.add(assignee)
+//        }
+//      }
+//    }
+//    setCurAssignees(temp)
   }
 
 
@@ -178,9 +190,6 @@ class AddDirectTodoViewModel : ViewModel() {
           // 직접 추가 뷰라면 "나" 자신 담당자 추가
           if(_curViewType.value == ViewType.ADD) {
             setCurAssignees(arrayListOf(getMyInfo()!!))
-          }
-          else if(_curViewType.value == ViewType.EDIT) {
-
           }
         }
       }
