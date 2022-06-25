@@ -113,6 +113,8 @@ class MainViewModel : ViewModel() {
   val selectHouseWork: StateFlow<HouseWorks?>
     get() = _selectHouseWorks
 
+  private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
+
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
     get() = _currentState
@@ -125,6 +127,10 @@ class MainViewModel : ViewModel() {
   val selectUser: StateFlow<Int>
     get() = _selectUser
 
+  fun updateSelectUser(selectUser: Int) {
+    _selectUser.value = selectUser
+  }
+
   fun getHouseWorks() {
     //TODO 성능 개선 필요
     val dayOfWeekDate = dayOfWeek.value.date
@@ -134,13 +140,18 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _selectHouseWorks.value = it.find { it.memberId == _selectUser.value }
+            _allHouseWorks.value = it
+            _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == _selectUser.value }
           }
         }.onFailure {
           //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
+  }
+
+  fun updateSelectHouseWork(selectUser: Int){
+    _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId ==  selectUser}
   }
 
   private fun getCompleteHouseWorkNumber() {
