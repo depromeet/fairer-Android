@@ -65,6 +65,7 @@
     <!-- HomeFragment -->
     <string name="user_name">%s님</string>
     <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
+    <string name="complete_chore_yet">아직 집안일을 하지 않으셨네요.</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>

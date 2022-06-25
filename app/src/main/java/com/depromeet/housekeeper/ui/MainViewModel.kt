@@ -187,11 +187,11 @@ class MainViewModel : ViewModel() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {
-          _groupName.value = it.teamName
+          val groupSize:Int = it.members.size
+          _groupName.value = "${it.teamName} $groupSize"
           _groups.value = it.members
         }
       }
-
     }
   }
 
