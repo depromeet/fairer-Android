@@ -141,16 +141,7 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].houseWorkName = chore.houseWorkName
     _chores.value[0].scheduledTime = chore.scheduledTime
     _chores.value[0].space = chore.space
-    _chores.value[0].assignees = chore.assignees // return용 memberId list
-
-    // view용 assignee list
-    _chores.value[0].assignees.map { memberId ->
-      _allGroupInfo.value.map { assignee ->
-        if(memberId == assignee.memberId) {
-          _curAssignees.value.add(assignee)
-        }
-      }
-    }
+    _chores.value[0].assignees = chore.assignees
   }
 
 
@@ -183,7 +174,14 @@ class AddDirectTodoViewModel : ViewModel() {
       Repository.getTeam().runCatching {
         collect {
           _allGroupInfo.value = it.members as ArrayList<Assignee>
-          setCurAssignees(arrayListOf(getMyInfo()!!))
+
+          // 직접 추가 뷰라면 "나" 자신 담당자 추가
+          if(_curViewType.value == ViewType.ADD) {
+            setCurAssignees(arrayListOf(getMyInfo()!!))
+          }
+          else if(_curViewType.value == ViewType.EDIT) {
+
+          }
         }
       }
     }

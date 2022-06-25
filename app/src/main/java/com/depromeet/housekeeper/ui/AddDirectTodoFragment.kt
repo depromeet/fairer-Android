@@ -20,6 +20,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
@@ -74,18 +75,19 @@ class AddDirectTodoFragment : Fragment() {
                 onEditView()
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.curAssignees.collect {
+                addAssigneeAdapter.updateAssignees(it)
+            }
+        }
+
         binding.space = spaceNameMapper(viewModel.chores.value[0].space)
 
         lifecycleScope.launchWhenStarted {
           viewModel.selectCalendar.collect {
             binding.addDirectTodoDateTv.text = viewModel.bindingDate()
           }
-        }
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.curAssignees.collect {
-                addAssigneeAdapter.updateAssignees(it)
-            }
         }
 
         lifecycleScope.launchWhenCreated {
