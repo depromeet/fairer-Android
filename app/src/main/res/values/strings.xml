@@ -124,8 +124,9 @@
     <string name="invite_code_copy_toast_text">코드를 클립보드에 복사했습니다.</string>
     <string name="invite_code_valid_period_text">%1$s까지 유효한 코드</string>
     <string name="invite_code_valid_sign_text">초대받은 사람은 해당 초대코드가 생성된 24시간 안에\n입력하셔야 합니다.</string>
-    <string name="kakao_share_text">언제 어디든, 당신의 일상을 더 즐겁게, Fairer으로 집안일을 관리하세요.</string>
-    <string name="kakao_share_button">하우스 참여하기</string>
+    <string name="kakao_share_text">집안일 관리와 분담을 도와주는 필수 앱 페어러.</string>
+    <string name="kakao_share_description">지금 가입하고 평화로운 집안일을 시작하세요.</string>
+    <string name="kakao_share_button">초대 받기</string>
 
 
     <!-- contractFragment -->
