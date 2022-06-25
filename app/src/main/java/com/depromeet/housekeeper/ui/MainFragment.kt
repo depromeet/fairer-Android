@@ -33,8 +33,6 @@ class MainFragment : Fragment() {
   private var houseWorkAdapter: HouseWorkAdapter? = null
   private lateinit var groupProfileAdapter: GroupProfileAdapter
   private val mainViewModel: MainViewModel by viewModels()
-  private val detailViewModel: DetailHouseWorkViewModel by viewModels()
-  private val detailHouseWorkViewModel: DetailHouseWorkViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,

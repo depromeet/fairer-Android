@@ -50,13 +50,13 @@ interface ApiService {
   suspend fun updateMember(@Body updateMember: UpdateMember): UpdateMemberResponse
 
   @GET("/api/teams/invite-codes")
-  suspend fun getInviteCode() : GetInviteCode
+  suspend fun getInviteCode(): GetInviteCode
 
   @PATCH("/api/teams")
-  suspend fun updateTeam(@Body teamName : BuildTeam) : TeamUpdateResponse
+  suspend fun updateTeam(@Body teamName: BuildTeam): TeamUpdateResponse
 
   @POST("/api/teams/join")
-  suspend fun joinTeam(@Body inviteCode: JoinTeam) : JoinTeamResponse
+  suspend fun joinTeam(@Body inviteCode: JoinTeam): JoinTeamResponse
 
   @POST("/api/rules")
   suspend fun createRules(@Body rule: Rule): RuleResponses
@@ -76,6 +76,9 @@ interface ApiService {
     @Query("profilePath") profilePath: String,
     @Query("statusMessage") statusMessage: String,
   ): ProfileData
+
+  @GET("/api/houseworks/{houseWorkId}/detail")
+  suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
 
 }
