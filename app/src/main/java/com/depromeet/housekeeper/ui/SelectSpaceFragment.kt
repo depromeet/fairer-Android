@@ -29,7 +29,6 @@ import java.util.*
 class SelectSpaceFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentSelectSpaceBinding
     private lateinit var myAdapter:SelectSpaceChoreAdapter
-    private var selected: Boolean = false
     private val viewModel: SelectSpaceViewModel by viewModels()
     private val navArgs by navArgs<SelectSpaceFragmentArgs>()
 
@@ -57,6 +56,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         binding.selectSpaceImageRoom.setOnClickListener(this)
         binding.selectSpaceImageKitchen.setOnClickListener(this)
 
+        initViewEnabled()
         // go to 집안일 직접 추가 화면
         binding.selectSpaceGoDirectBtn.setOnClickListener {
             navigateToAddDirectTodoPage()
@@ -118,10 +118,9 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
 
     private fun bindingVm(){
         viewModel.clearChore()
-        selected = false
         lifecycleScope.launchWhenStarted {
-            viewModel.chorelist.collect {
-                myAdapter = SelectSpaceChoreAdapter(viewModel.chorelist.value)
+            viewModel.choreList.collect {
+                myAdapter = SelectSpaceChoreAdapter(viewModel.choreList.value)
                 myAdapter.notifyDataSetChanged()
                 binding.selectSpaceRecyclerview.adapter = myAdapter
 
@@ -131,12 +130,11 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
                         Timber.d("item click $position")
                         viewModel.updateChores(chore,v.isSelected)
                         binding.selectSpaceNextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
-                        if(viewModel.getChoreCount()>0){
-                            binding.selectSpaceGroup3.visibility=View.GONE
+                        viewModel.setIsSelectedChore(true)
+                        if(viewModel.getChoreCount()==0){
+                           viewModel.setIsSelectedChore(false)
                         }
-                        else{
-                            binding.selectSpaceGroup3.visibility=View.VISIBLE
-                        }
+
                     }
                 })
             }
@@ -151,6 +149,16 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.isConnectedNetwork = it
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.isSelectedSpace.collect {
+                binding.isSelectedSpace = it
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.isSelectedChore.collect {
+                binding.isSelectedChore = it
             }
         }
     }
@@ -178,96 +186,76 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         dialog.showDialog()
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
-                selected = false
-                binding.selectSpaceImageEntrance.isSelected = false
-                binding.selectSpaceImageLivingRoom.isSelected = false
-                binding.selectSpaceImageBathroom.isSelected = false
-                binding.selectSpaceImageOutside.isSelected = false
-                binding.selectSpaceImageRoom.isSelected = false
-                binding.selectSpaceImageKitchen.isSelected = false
-                binding.selectSpaceGroup.visibility=View.VISIBLE
-                binding.selectSpaceGroup2.visibility=View.INVISIBLE
-                binding.selectSpaceGroup3.visibility=View.INVISIBLE
-                binding.selectSpaceGroup4.visibility=View.INVISIBLE
-                viewEnabled()
+                setSelected()
                 onClick(space)
             }
         }
     }
 
     override fun onClick(space: View?) {
-        if (selected) {
-            setDialog(space)
+        if (viewModel.isSelectedSpace.value) {
+            if(viewModel.isSelectedChore.value){
+                setDialog(space)
+            }
+            else{
+                setSelected()
+                onClick(space)
+            }
         }
         else {
+            viewModel.setIsSelectedSpace(true)
             when (space) {
                 binding.selectSpaceImageEntrance -> {
-                    selected = true
                     binding.selectSpaceImageEntrance.isSelected = true
-                    binding.selectSpaceImageEntrance.isEnabled = false
                     viewModel.setSpace("ENTRANCE")
                     viewModel.setChoreList("ENTRANCE")
-                    viewChange()
                 }
                 binding.selectSpaceImageLivingRoom -> {
-                    selected = true
                     binding.selectSpaceImageLivingRoom.isSelected = true
-                    binding.selectSpaceImageLivingRoom.isEnabled = false
                     viewModel.setSpace("LIVINGROOM")
                     viewModel.setChoreList("LIVINGROOM")
-                    viewChange()
                 }
                 binding.selectSpaceImageBathroom -> {
-                    selected = true
                     binding.selectSpaceImageBathroom.isSelected = true
-                    binding.selectSpaceImageBathroom.isEnabled = false
                     viewModel.setSpace("BATHROOM")
                     viewModel.setChoreList("BATHROOM")
-                    viewChange()
                 }
                 binding.selectSpaceImageOutside -> {
-                    selected = true
                     binding.selectSpaceImageOutside.isSelected = true
-                    binding.selectSpaceImageOutside.isEnabled = false
                     viewModel.setSpace("OUTSIDE")
                     viewModel.setChoreList("OUTSIDE")
-                    viewChange()
                 }
                 binding.selectSpaceImageRoom -> {
-                    selected = true
                     binding.selectSpaceImageRoom.isSelected = true
-                    binding.selectSpaceImageRoom.isEnabled = false
                     viewModel.setSpace("ROOM")
                     viewModel.setChoreList("ROOM")
-                    viewChange()
                 }
                 binding.selectSpaceImageKitchen -> {
-                    selected = true
                     binding.selectSpaceImageKitchen.isSelected = true
-                    binding.selectSpaceImageKitchen.isEnabled = false
                     viewModel.setSpace("KITCHEN")
                     viewModel.setChoreList("KITCHEN")
-                    viewChange()
                 }
             }
         }
     }
 
-    private fun viewChange(){
-        binding.selectSpaceGroup.visibility=View.INVISIBLE
-        binding.selectSpaceGroup2.visibility=View.VISIBLE
-        binding.selectSpaceGroup3.visibility=View.VISIBLE
-        binding.selectSpaceGroup4.visibility=View.VISIBLE
-    }
-
-    private  fun viewEnabled(){
+    private fun initViewEnabled(){
         binding.selectSpaceImageEntrance.isEnabled = true
         binding.selectSpaceImageLivingRoom.isEnabled = true
         binding.selectSpaceImageBathroom.isEnabled = true
         binding.selectSpaceImageOutside.isEnabled = true
         binding.selectSpaceImageRoom.isEnabled = true
         binding.selectSpaceImageKitchen.isEnabled = true
+    }
 
+    private fun setSelected(){
+        binding.selectSpaceImageEntrance.isSelected = false
+        binding.selectSpaceImageLivingRoom.isSelected = false
+        binding.selectSpaceImageBathroom.isSelected = false
+        binding.selectSpaceImageOutside.isSelected = false
+        binding.selectSpaceImageRoom.isSelected = false
+        binding.selectSpaceImageKitchen.isSelected = false
+        viewModel.setIsSelectedSpace(false)
     }
 
 }

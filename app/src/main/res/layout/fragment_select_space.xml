@@ -8,12 +8,25 @@
         <import type="android.view.View" />
 
         <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.SelectSpaceViewModel" />
+
+        <variable
             name="currentDate"
             type="String" />
 
         <variable
             name="isConnectedNetwork"
             type="boolean" />
+
+        <variable
+            name="isSelectedSpace"
+            type="boolean" />
+
+        <variable
+            name="isSelectedChore"
+            type="boolean" />
+
 
     </data>
 
@@ -199,6 +212,7 @@
                     android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_info_fill"
                     android:text="@string/add_todo_info"
+                    android:visibility="@{isSelectedSpace ? View.INVISIBLE :View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
 
@@ -208,6 +222,7 @@
                     android:layout_height="46dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/main_active_stroke_background"
+                    android:visibility="@{isSelectedSpace ? View.INVISIBLE :View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
                     app:layout_constraintStart_toStartOf="@id/select_space_info"
                     app:layout_constraintTop_toBottomOf="@id/select_space_info" />
@@ -220,6 +235,7 @@
                     android:text="@string/add_todo_direct_btn_text"
                     android:textColor="@color/gray_700"
                     android:textSize="15sp"
+                    android:visibility="@{isSelectedSpace ? View.INVISIBLE :View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn"
                     app:layout_constraintStart_toStartOf="@id/select_space_go_direct_btn"
                     app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn" />
@@ -230,6 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_arrow"
+                    android:visibility="@{isSelectedSpace ? View.INVISIBLE :View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn"
                     app:layout_constraintEnd_toEndOf="@id/select_space_go_direct_btn"
                     app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn" />
@@ -242,6 +259,7 @@
                     android:text="@string/add_todo_task"
                     android:textColor="@color/gray_600"
                     android:textSize="14sp"
+                    android:visibility="@{isSelectedSpace ? View.VISIBLE :View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
 
@@ -264,6 +282,7 @@
                     android:text="@string/add_todo_info2"
                     android:textSize="14sp"
                     android:textColor="@color/gray_300"
+                    android:visibility="@{isSelectedSpace ? isSelectedChore ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_recyclerview" />
 
@@ -273,6 +292,7 @@
                     android:layout_height="46dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/main_active_stroke_background"
+                    android:visibility="@{isSelectedSpace ? isSelectedChore ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintEnd_toEndOf="@id/select_space_image_bathroom"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@id/select_space_info2" />
@@ -285,6 +305,7 @@
                     android:text="@string/add_todo_direct_btn_text"
                     android:textColor="@color/gray_700"
                     android:textSize="15sp"
+                    android:visibility="@{isSelectedSpace ? isSelectedChore ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn2"
                     app:layout_constraintStart_toStartOf="@id/select_space_go_direct_btn2"
                     app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn2" />
@@ -295,31 +316,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:src="@drawable/ic_arrow"
+                    android:visibility="@{isSelectedSpace ? isSelectedChore ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/select_space_go_direct_btn2"
                     app:layout_constraintEnd_toEndOf="@id/select_space_go_direct_btn2"
                     app:layout_constraintTop_toTopOf="@id/select_space_go_direct_btn2" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/select_space_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="select_space_info,select_space_go_direct_btn ,select_space_go_direct_btn_tv,select_space_btn_arrow" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/select_space_group2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:constraint_referenced_ids="select_space_recyclerview,select_space_task_text" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/select_space_group3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    app:constraint_referenced_ids="select_space_info2,select_space_go_direct_btn2 ,select_space_go_direct_btn_tv2,select_space_btn_arrow2" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -333,13 +333,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/select_space_group4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:constraint_referenced_ids="select_space_next_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
