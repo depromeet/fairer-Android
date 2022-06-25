@@ -177,5 +177,9 @@
     <string name="failed_group_info_text">기존의 그룹에서 나가는 경로는\n\'설정>그룹 관리>그룹에서 나가기\' 입니다.</string>
     <string name="failed_group_button_text">메인으로 돌아가기</string>
 
+    <string name="rule_hint">예) 밥은 다 먹은 사람이 치우기</string>
+    <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
+    <string name="rule_subtitle">새로운 규칙</string>
+    <string name="rule_title">하우스 규칙 설정</string>
 
 </resources>

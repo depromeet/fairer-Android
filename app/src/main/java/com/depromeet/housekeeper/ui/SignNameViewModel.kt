@@ -31,12 +31,12 @@ class SignNameViewModel : ViewModel() {
         get() = _hasTeam
 
     //후에 response를 사용할 수 있으므로 남겨놓음
-    private val _responseTeamUpdate: MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
-    val responseTeamUpdate: StateFlow<TeamUpdateResponse?>
+    private val _responseTeamUpdate : MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
+    val responseTeamUpdate : StateFlow<TeamUpdateResponse?>
         get() = _responseTeamUpdate
 
-    private val _responseJoinTeam: MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
-    val responseJoinTeam: StateFlow<JoinTeamResponse?>
+    private val _responseJoinTeam : MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
+    val responseJoinTeam : StateFlow<JoinTeamResponse?>
         get() = _responseJoinTeam
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -55,7 +55,7 @@ class SignNameViewModel : ViewModel() {
         _hasTeam.value = hasTeam
     }
 
-    fun teamNameUpdate(teamName: String) {
+    fun teamNameUpdate(teamName : String){
         viewModelScope.launch {
             Repository.updateTeam(BuildTeam(teamName)).runCatching {
                 collect {
@@ -68,7 +68,7 @@ class SignNameViewModel : ViewModel() {
         }
     }
 
-    fun joinTeam(inviteCode: String) {
+    fun joinTeam(inviteCode : String){
         viewModelScope.launch {
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {

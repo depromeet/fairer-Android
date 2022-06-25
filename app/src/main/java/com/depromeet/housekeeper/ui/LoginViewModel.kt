@@ -22,10 +22,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     val code: StateFlow<String>
         get() = _code
 
-    fun requestLogin(authCode: String) {
+    fun requestLogin() {
         viewModelScope.launch {
             Repository.getGoogleLogin(
-                authCode, SocialType("GOOGLE")
+                SocialType("GOOGLE")
             ).runCatching {
                 collect {
                     _response.value = it
