@@ -128,7 +128,7 @@ class AddDirectTodoFragment : Fragment() {
             }
         }
 
-        binding.addAssigneeLayout.setOnClickListener {
+        binding.addAssigneeLayout.rootView.setOnClickListener {
             createBottomSheet()
         }
 
