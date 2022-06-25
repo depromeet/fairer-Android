@@ -51,6 +51,7 @@ class SignNameFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.hasTeam.collect {
                 binding.hasTeam = it
+                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.text = getString(R.string.failed_group_button_text)
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -71,7 +72,6 @@ class SignNameFragment : Fragment() {
 
 
     }
-
 
     private fun initListener() {
         binding.signNameHeader.defaultHeaderTitleTv.text = ""
