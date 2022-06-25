@@ -165,7 +165,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
   }
 
   private fun navigateToAddTodoPage2() {
-    findNavController().navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddHouseWorkFramgent(
+    findNavController().navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddHouseWorkFragment(
       SpaceChores(
         spaceName = viewModel.selectSpace.value,
         houseWorks = viewModel.chores.value,

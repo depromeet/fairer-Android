@@ -11,6 +11,7 @@ data class LoginResponse(
     val hasTeam : Boolean,
     val isNewMember: Boolean,
     val memberName: String?,
+    val memberId: Int,
     val refreshToken: String,
     val refreshTokenExpireTime: String
 ):Parcelable

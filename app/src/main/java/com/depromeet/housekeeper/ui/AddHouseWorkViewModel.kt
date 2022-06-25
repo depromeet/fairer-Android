@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.HouseWork
@@ -15,8 +17,14 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddHouseWorkViewModel: ViewModel(){
+
+    init {
+        setGroupInfo()
+    }
+
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
     val curDate: StateFlow<String>
@@ -43,6 +51,42 @@ class AddHouseWorkViewModel: ViewModel(){
 
     fun getSpace(): String {
         return _curSpace.value
+    }
+
+    val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val allGroupInfo: StateFlow<ArrayList<Assignee>>
+        get() = _allGroupInfo
+
+    private fun getMyInfo(): Assignee? {
+        var temp: Assignee? = null
+        _allGroupInfo.value.map {
+            if(it.memberId == PrefsManager.memberId) {
+                temp = it
+            }
+        }
+        return temp
+    }
+
+    private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val curAssignees: StateFlow<ArrayList<Assignee>>
+        get() = _curAssignees
+
+    fun setCurAssignees(assignees: ArrayList<Assignee>) {
+        _curAssignees.value = assignees
+    }
+
+    fun getCurAssignees() : ArrayList<Assignee> {
+        return _curAssignees.value
+    }
+
+    fun updateAssigneeId(position: Int) {
+        val assigneeIds: ArrayList<Int> = arrayListOf()
+        _curAssignees.value.map {
+            assigneeIds.add(it.memberId)
+        }
+        _chores.value[position].assignees = assigneeIds
     }
 
     private val _curTime: MutableStateFlow<String?> =
@@ -82,6 +126,7 @@ class AddHouseWorkViewModel: ViewModel(){
             chore.scheduledDate = _curDate.value
             chore.space = space.uppercase()
             chore.houseWorkName = name
+            chore.assignees = arrayListOf(PrefsManager.memberId)
             temp.add(chore)
         }
         _chores.value.addAll(temp)
@@ -112,6 +157,20 @@ class AddHouseWorkViewModel: ViewModel(){
     private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> = MutableStateFlow(null)
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
+
+    // TODO: 팀 조회 API에서 members 정보만 GET
+    private fun setGroupInfo() {
+        viewModelScope.launch {
+            Repository.getTeam().runCatching {
+                collect {
+                    _allGroupInfo.value = it.members as ArrayList<Assignee>
+
+                    // 초기에 "나"만 들어가도록 수정
+                     setCurAssignees(arrayListOf(getMyInfo()!!))
+                }
+            }
+        }
+    }
 
     fun createHouseWorks() {
         viewModelScope.launch {

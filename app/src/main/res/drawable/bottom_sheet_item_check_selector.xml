@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 집안일 담당자 선택 O -->
+    <item android:state_selected="true" android:drawable="@drawable/ic_circle_check_active"/>
+
+    <!-- 집안일 담당자 선택 X -->
+    <item android:state_selected="false" android:drawable="@drawable/ic_circle_check_inactive"/>
+</selector>

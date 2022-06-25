@@ -197,7 +197,7 @@
                     android:layout_marginTop="12dp"
                     android:textColor="@color/gray_500"
                     android:drawablePadding="5dp"
-                    android:drawableLeft="@drawable/ic_info_outline"
+                    android:drawableLeft="@drawable/ic_info_fill"
                     android:text="@string/add_todo_info"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
