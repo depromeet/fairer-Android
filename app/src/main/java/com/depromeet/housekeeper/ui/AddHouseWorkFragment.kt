@@ -221,6 +221,8 @@ class AddHouseWorkFragment : Fragment() {
         val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
         bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+
+            // 담당자 1명 이상 select 될때만 작동
             override fun onOkBtnClick() {
                 viewModel.setCurAssignees(bottomSheet.selectedAssignees)
                 addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
