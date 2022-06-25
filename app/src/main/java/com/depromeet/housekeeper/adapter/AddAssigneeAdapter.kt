@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.depromeet.housekeeper.databinding.ItemAddAssigneeBinding
 import com.depromeet.housekeeper.databinding.ItemProfileBinding
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.util.BindingAdapter
 
 class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
     : RecyclerView.Adapter<AddAssigneeAdapter.ViewHolder>() {
@@ -26,7 +24,6 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
         return ViewHolder(binding)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(assignees[position])
     }
@@ -35,9 +32,9 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
     inner class ViewHolder(val binding: ItemProfileBinding)
         : RecyclerView.ViewHolder(binding.root){
-        @SuppressLint("NotifyDataSetChanged")
         fun bind(assignee: Assignee) {
             binding.assignTemp = assignee
+            // TODO : 이름 4자 넘으면 자르기
             Glide.with(binding.root)
                 .load(assignee.profilePath)
                 .into(binding.ivIcon)

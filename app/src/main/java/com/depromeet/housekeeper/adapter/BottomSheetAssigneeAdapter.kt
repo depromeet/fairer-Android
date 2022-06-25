@@ -12,21 +12,12 @@ import timber.log.Timber
 class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>)
     : RecyclerView.Adapter<BottomSheetAssigneeAdapter.ViewHolder>() {
 
-    private lateinit var mItemClickListener: MyItemClickListener
     private var selectedAssignees: ArrayList<Assignee> = arrayListOf() // 선택한 담당자들
 
     init {
         selectedAssignees.addAll(curAssignees)
         Timber.d(curAssignees.toString())
         Timber.d(selectedAssignees.toString())
-    }
-
-    interface MyItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
-        mItemClickListener = itemClickListener
     }
 
     @JvmName("getSelectedAssignees1")
@@ -48,7 +39,6 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
 
         holder.binding.itemBottomSheetAssigneeCl.apply {
             setOnClickListener {
-                // mItemClickListener.onItemClick(position)
                 isSelected = !isSelected
 
                 when(isSelected) {

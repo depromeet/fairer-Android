@@ -125,7 +125,6 @@ class AddHouseWorkViewModel: ViewModel(){
             temp.add(chore)
         }
         _chores.value.addAll(temp)
-        Timber.d("TAG "+_chores.value)
     }
 
     // TODO: assignee 추가
@@ -162,18 +161,16 @@ class AddHouseWorkViewModel: ViewModel(){
                 collect {
                     _allGroupInfo.value = it.members as ArrayList<Assignee>
 
-                    // TODO: 0번 index가 나인걸로 수정
+                    // TODO: 내 정보 저장 다른 방법
                     _myInfo.value = Assignee(10, "ss", "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-7.png")
 
                     // 초기에 "나"만 들어가도록 수정
                      setCurAssignees(arrayListOf(_myInfo.value))
-                    Timber.d("TAG "+_myInfo.value.memberId.toString())
                 }
             }
         }
     }
 
-    // TODO: assignee 추가
     fun createHouseWorks() {
         viewModelScope.launch {
             Repository.createHouseWorks(Chores(_chores.value))
