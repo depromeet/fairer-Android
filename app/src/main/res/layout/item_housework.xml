@@ -67,7 +67,7 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
-  
+      
       <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_main_marker"
         android:layout_width="16dp"
@@ -100,8 +100,20 @@
         android:textColor="@{success ? @color/white : @color/highlight}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+      
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_layout"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_main_area">
+      
+      </androidx.constraintlayout.widget.ConstraintLayout>
     
     </androidx.constraintlayout.widget.ConstraintLayout>
+  
   
   </androidx.cardview.widget.CardView>
 
