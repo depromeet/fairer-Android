@@ -17,7 +17,6 @@ class HouseWorkAdapter(
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
 
   private fun getTime(houseWork: HouseWork): String {
-
     houseWork.scheduledTime?.let {
       val hour = houseWork.scheduledTime.split(":")[0].toInt()
       val min = houseWork.scheduledTime.split(":")[1]
@@ -78,6 +77,9 @@ class HouseWorkAdapter(
       binding.btDone.setOnClickListener {
         onDone.invoke(houseWork)
       }
+      val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
+      binding.rvProfileAdapter.adapter = adapter
+
     }
   }
 }
