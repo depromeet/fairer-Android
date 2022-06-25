@@ -31,8 +31,10 @@ import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.link.LinkClient
 import com.kakao.sdk.link.WebSharerClient
+import com.kakao.sdk.template.model.Button
+import com.kakao.sdk.template.model.Content
+import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
-import com.kakao.sdk.template.model.TextTemplate
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -131,11 +133,11 @@ class InviteFragment : Fragment() {
 
         binding.inviteCopyBtn.setOnClickListener {
             //onCopyToClipboard(viewModel.inviteCode.value)
-            onCopyToClipboard(initDynamicLink())
+            onCopyToClipboard(viewModel.inviteCode.value)
         }
 
         binding.inviteKakaoShareBtn.setOnClickListener {
-            onKakaoShare(requireContext(), initDynamicLink())
+            onKakaoShare(requireContext())
         }
 
         binding.inviteSkipBtn.setOnClickListener {
@@ -144,7 +146,7 @@ class InviteFragment : Fragment() {
 
     }
 
-    private fun onCopyToClipboard(code: Uri) {
+    private fun onCopyToClipboard(code: String) {
         val clip = ClipData.newPlainText("INVITE_CODE", code.toString())
         clipboard.setPrimaryClip(clip)
 
@@ -155,23 +157,40 @@ class InviteFragment : Fragment() {
         ).show()
     }
 
-    private fun onKakaoShare(context: Context, uri: Uri) {
+    private fun onKakaoShare(context: Context) {
 
         // TODO("템플릿 변경 필요")
-        val defaultText = TextTemplate(
-            text = """
-            공유할 텍스트
-        """.trimIndent(),
-            link = Link(
-                webUrl = "https://developers.kakao.com",
-                mobileWebUrl = "https://developers.kakao.com"
+
+        val defaultText = FeedTemplate(
+            content = Content(
+                title = getString(R.string.kakao_share_text),
+                description = getString(R.string.kakao_share_description),
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/fairer-def59.appspot.com/o/meta-images%2Finvite-code.png?alt=media&token=f6117459-e48b-41d2-8a61-642ac8ec7e56",
+                imageWidth = 200,
+                imageHeight = 200,
+                link = Link(
+                    webUrl = initDynamicLink().toString(),
+                    mobileWebUrl = initDynamicLink().toString()
+                )
+            ),
+            buttons = listOf(
+                Button(
+                    title = getString(R.string.kakao_share_button),
+                    Link(
+                        webUrl = initDynamicLink().toString(),
+                        mobileWebUrl = initDynamicLink().toString()
+                    )
+                )
             )
         )
+
 
         // 카카오톡 설치여부 확인
         if (LinkClient.instance.isKakaoLinkAvailable(context)) {
             // 카카오톡으로 카카오톡 공유 가능
-            LinkClient.instance.defaultTemplate(context, defaultText) { linkResult, error ->
+            LinkClient.instance.defaultTemplate(
+                context, defaultText
+            ) { linkResult, error ->
                 if (error != null) {
                     Timber.d("카카오톡 공유 실패 ${error.message}")
                 } else if (linkResult != null) {
@@ -205,6 +224,7 @@ class InviteFragment : Fragment() {
             }
         }
     }
+
 
     private fun initDynamicLink(): Uri {
         val inviteCode = viewModel.inviteCode.value
