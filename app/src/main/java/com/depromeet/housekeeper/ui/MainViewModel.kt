@@ -12,7 +12,6 @@ import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -128,6 +127,11 @@ class MainViewModel : ViewModel() {
   private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
   val selectUserId: StateFlow<Int>
     get() = _selectUserId
+
+  private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
+    MutableStateFlow(mutableListOf())
+  val userProfiles: StateFlow<MutableList<Assignee>>
+    get() = _userProfiles
 
   fun getHouseWorks() {
     //TODO 성능 개선 필요
@@ -247,6 +251,17 @@ class MainViewModel : ViewModel() {
             _rule.value = it.ruleResponseDtos.random().ruleName
           }
         }
+    }
+  }
+
+  fun getDetailHouseWork(houseWorkId: Int) {
+    viewModelScope.launch {
+      Repository.getDetailHouseWorks(houseWorkId).runCatching {
+        collect {
+          _userProfiles.value = it.assignees.toMutableList()
+        }
+      }.onFailure {
+      }
     }
   }
 
