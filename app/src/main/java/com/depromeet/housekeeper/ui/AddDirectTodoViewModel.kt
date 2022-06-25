@@ -171,18 +171,16 @@ class AddDirectTodoViewModel : ViewModel() {
   }
 
   private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
-    var myInfo: Assignee? = null
-    val notMyInfo = arrayListOf<Assignee>()
+    val temp = arrayListOf<Assignee>()
     allAssignees.map { assignee ->
       if(assignee.memberId == PrefsManager.memberId) {
-        myInfo = assignee
+        temp.add(0, assignee)
       }
       else {
-        notMyInfo.add(assignee)
+        temp.add(assignee)
       }
     }
-    notMyInfo.add(0, myInfo!!) // 내 정보를 첫순서로 sorting
-    return notMyInfo
+    return temp
   }
 
   // TODO: 팀 조회 API에서 members 정보만 GET
