@@ -53,15 +53,20 @@ class AddHouseWorkViewModel: ViewModel(){
         return _curSpace.value
     }
 
-    private val _myInfo: MutableStateFlow<Assignee> =
-        MutableStateFlow(Assignee(-1, "", ""))
-    val myInfo: StateFlow<Assignee>
-        get() = _myInfo
-
     val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val allGroupInfo: StateFlow<ArrayList<Assignee>>
         get() = _allGroupInfo
+
+    private fun getMyInfo(): Assignee? {
+        var temp: Assignee? = null
+        _allGroupInfo.value.map {
+            if(it.memberId == PrefsManager.memberId) {
+                temp = it
+            }
+        }
+        return temp
+    }
 
     private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
@@ -161,11 +166,8 @@ class AddHouseWorkViewModel: ViewModel(){
                 collect {
                     _allGroupInfo.value = it.members as ArrayList<Assignee>
 
-                    // TODO: 내 정보 저장 다른 방법
-                    _myInfo.value = Assignee(10, "ss", "https://fairer-image.s3.ap-northeast-2.amazonaws.com/fairer-profile-images/Profile-2x-7.png")
-
                     // 초기에 "나"만 들어가도록 수정
-                     setCurAssignees(arrayListOf(_myInfo.value))
+                     setCurAssignees(arrayListOf(getMyInfo()!!))
                 }
             }
         }

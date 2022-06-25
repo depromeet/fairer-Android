@@ -89,6 +89,16 @@ class AddDirectTodoViewModel : ViewModel() {
   val allGroupInfo: StateFlow<ArrayList<Assignee>>
     get() = _allGroupInfo
 
+  private fun getMyInfo(): Assignee? {
+    var temp: Assignee? = null
+    _allGroupInfo.value.map {
+      if(it.memberId == PrefsManager.memberId) {
+        temp = it
+      }
+    }
+    return temp
+  }
+
   private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
     MutableStateFlow(arrayListOf())
   val curAssignees: StateFlow<ArrayList<Assignee>>
@@ -131,7 +141,16 @@ class AddDirectTodoViewModel : ViewModel() {
     _chores.value[0].houseWorkName = chore.houseWorkName
     _chores.value[0].scheduledTime = chore.scheduledTime
     _chores.value[0].space = chore.space
-    _chores.value[0].assignees = chore.assignees
+    _chores.value[0].assignees = chore.assignees // return용 memberId list
+
+    // view용 assignee list
+    _chores.value[0].assignees.map { memberId ->
+      _allGroupInfo.value.map { assignee ->
+        if(memberId == assignee.memberId) {
+          _curAssignees.value.add(assignee)
+        }
+      }
+    }
   }
 
 
@@ -164,6 +183,7 @@ class AddDirectTodoViewModel : ViewModel() {
       Repository.getTeam().runCatching {
         collect {
           _allGroupInfo.value = it.members as ArrayList<Assignee>
+          setCurAssignees(arrayListOf(getMyInfo()!!))
         }
       }
     }
