@@ -155,7 +155,7 @@ class AddHouseWorkViewModel: ViewModel(){
         get() = _houseWorkCreateResponse
 
     // TODO: 팀 조회 API에서 members 정보만 GET
-    fun setGroupInfo() {
+    private fun setGroupInfo() {
         viewModelScope.launch {
             Repository.getTeam().runCatching {
                 collect {

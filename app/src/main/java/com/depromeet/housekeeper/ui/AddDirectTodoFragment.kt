@@ -17,10 +17,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -32,6 +34,7 @@ class AddDirectTodoFragment : Fragment() {
     lateinit var binding: FragmentAddDirectTodoBinding
     lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
+    lateinit var addAssigneeAdapter: AddAssigneeAdapter
     private val viewModel: AddDirectTodoViewModel by viewModels()
     private val navArgs by navArgs<AddDirectTodoFragmentArgs>()
 
@@ -80,6 +83,12 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
+            viewModel.curAssignees.collect {
+                addAssigneeAdapter.updateAssignees(it)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.isConnectedNetwork = it
             }
@@ -115,6 +124,10 @@ class AddDirectTodoFragment : Fragment() {
                 val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
                 viewModel.updateTime(time.first, time.second)
             }
+        }
+
+        binding.addAssigneeLayout.setOnClickListener {
+            createBottomSheet()
         }
 
         binding.addDirectTodoHeader.apply {
@@ -170,6 +183,20 @@ class AddDirectTodoFragment : Fragment() {
             createDatePickerDialog()
         }
     }
+
+    private fun createBottomSheet() {
+        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+            override fun onOkBtnClick() {
+                viewModel.setCurAssignees(bottomSheet.selectedAssignees)
+                addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
+                viewModel.updateAssigneeId()
+                Timber.d(viewModel.chores.value.toString())
+            }
+        })
+    }
+
 
     private fun createDatePickerDialog() {
         val selectDate = navArgs.selectDate.date
@@ -235,6 +262,10 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        // 집안일 담당자 adapter
+        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
+        binding.addAssigneeRv.adapter = addAssigneeAdapter
+
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
