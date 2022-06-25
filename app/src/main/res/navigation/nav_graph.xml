@@ -300,6 +300,15 @@
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.SignViewType" />
         </action>
+        <action
+            android:id="@+id/action_manageHouseFragment_to_joinGroupFragment"
+            app:destination="@id/joinGroupFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
@@ -339,7 +348,7 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/settingFragment"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
 

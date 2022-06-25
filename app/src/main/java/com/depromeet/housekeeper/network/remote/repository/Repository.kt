@@ -100,4 +100,8 @@ object Repository : RemoteDataSource {
   override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
     emit(apiService.deleteRule(ruleId))
   }
+
+    override suspend fun leaveTeam(): Flow<Unit> = flow {
+        emit(apiService.leaveTeam())
+    }
 }
