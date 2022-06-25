@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -11,6 +12,7 @@ import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -123,13 +125,9 @@ class MainViewModel : ViewModel() {
   val networkError: StateFlow<Boolean>
     get() = _networkError
 
-  private val _selectUser: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
-  val selectUser: StateFlow<Int>
-    get() = _selectUser
-
-  fun updateSelectUser(selectUser: Int) {
-    _selectUser.value = selectUser
-  }
+  private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
+  val selectUserId: StateFlow<Int>
+    get() = _selectUserId
 
   fun getHouseWorks() {
     //TODO 성능 개선 필요
@@ -141,7 +139,8 @@ class MainViewModel : ViewModel() {
         .runCatching {
           collect {
             _allHouseWorks.value = it
-            _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == _selectUser.value }
+            _selectHouseWorks.value =
+              _allHouseWorks.value.find { it.memberId == _selectUserId.value }
           }
         }.onFailure {
           //  _networkError.value = true
@@ -150,8 +149,8 @@ class MainViewModel : ViewModel() {
     getCompleteHouseWorkNumber()
   }
 
-  fun updateSelectHouseWork(selectUser: Int){
-    _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId ==  selectUser}
+  fun updateSelectHouseWork(selectUser: Int) {
+    _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
   }
 
   private fun getCompleteHouseWorkNumber() {
@@ -195,8 +194,8 @@ class MainViewModel : ViewModel() {
   val groupName: StateFlow<String>
     get() = _groupName
 
-  private val _groups: MutableStateFlow<List<Assignee>> = MutableStateFlow(listOf())
-  val groups: MutableStateFlow<List<Assignee>>
+  private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
+  val groups: MutableStateFlow<List<AssigneeSelect>>
     get() = _groups
 
   private fun getGroupName() {
@@ -208,12 +207,33 @@ class MainViewModel : ViewModel() {
           val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
           val assignees = listOf(myAssignee) + it.members
 
-          _groups.value = assignees.distinct()
+          _groups.value = assignees.distinct().map {
+            AssigneeSelect(
+              it.memberId,
+              it.memberName,
+              it.profilePath,
+              it.memberId == selectUserId.value
+            )
+          }
         }
       }
-
     }
   }
+
+  fun updateSelectUser(selectUser: Int) {
+    _selectUserId.value = selectUser
+
+    val newGroups = _groups.value.map {
+      AssigneeSelect(
+        it.memberId,
+        it.memberName,
+        it.profilePath,
+        it.memberId == selectUser
+      )
+    }
+    _groups.value = newGroups
+  }
+
 
   private val _rule: MutableStateFlow<String> = MutableStateFlow("")
   val rule: StateFlow<String>

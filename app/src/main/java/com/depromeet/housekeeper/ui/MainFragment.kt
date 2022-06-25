@@ -20,6 +20,7 @@ import com.depromeet.housekeeper.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
@@ -135,7 +136,7 @@ class MainFragment : Fragment() {
 
 
     groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
-
+      mainViewModel.updateSelectUser(it.memberId)
     }
     binding.rvGroups.adapter = groupProfileAdapter
   }
@@ -210,13 +211,28 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenCreated {
       mainViewModel.groups.collect {
-        groupProfileAdapter.updateDate(it.toMutableList())
+        val profileGroups: List<AssigneeSelect> = it.map {
+          AssigneeSelect(
+            it.memberId,
+            it.memberName,
+            it.profilePath,
+            it.memberId == mainViewModel.selectUserId.value
+          )
+        }
+        groupProfileAdapter.updateDate(profileGroups.toMutableList())
       }
     }
 
     lifecycleScope.launchWhenStarted {
       mainViewModel.rule.collect {
         binding.lvRule.rule = it
+      }
+    }
+
+    lifecycleScope.launchWhenResumed {
+      mainViewModel.selectUserId.collect {
+        mainViewModel.updateSelectHouseWork(it)
+
       }
     }
   }
