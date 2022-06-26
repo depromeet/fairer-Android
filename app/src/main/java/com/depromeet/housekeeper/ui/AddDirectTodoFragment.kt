@@ -5,12 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -20,7 +20,6 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
-import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog

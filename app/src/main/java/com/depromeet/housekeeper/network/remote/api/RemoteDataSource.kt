@@ -36,4 +36,5 @@ interface RemoteDataSource {
         profilePath: String,
         statueMessage: String,
     ): Flow<ProfileData>
+  suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
 }

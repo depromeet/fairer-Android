@@ -18,13 +18,13 @@ class SelectSpaceViewModel : ViewModel() {
   init {
     getChoreList()
   }
-  private val _chorepreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
-  val chorepreset: StateFlow<List<ChoreList>>
-    get() = _chorepreset
+  private val _chorePreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
+  val chorePreset: StateFlow<List<ChoreList>>
+    get() = _chorePreset
 
-  private val _chorelist: MutableStateFlow<List<String>> = MutableStateFlow(listOf())
-  val chorelist: StateFlow<List<String>>
-    get() = _chorelist
+  private val _choreList: MutableStateFlow<List<String>> = MutableStateFlow(listOf())
+  val choreList: StateFlow<List<String>>
+    get() = _choreList
 
   private val _selectSpace: MutableStateFlow<String> = MutableStateFlow("")
   val selectSpace: StateFlow<String>
@@ -34,18 +34,32 @@ class SelectSpaceViewModel : ViewModel() {
   val chores: StateFlow<List<String>>
     get() = _chores
 
+  private val _isSelectedChore : MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val isSelectedChore : StateFlow<Boolean>
+    get() = _isSelectedChore
+
+  private val _isSelectedSpace : MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val isSelectedSpace : StateFlow<Boolean>
+    get() = _isSelectedSpace
+
   fun clearChore() {
     _chores.value = emptyList()
   }
 
   fun setChoreList(space: String) {
-    for (i in 0 until _chorepreset.value.size){
-      if(space == _chorepreset.value[i].space){
-        _chorelist.value = _chorepreset.value[i].houseWorks
+    for (i in 0 until _chorePreset.value.size){
+      if(space == _chorePreset.value[i].space){
+        _choreList.value = _chorePreset.value[i].houseWorks
       }
     }
   }
 
+  fun setIsSelectedChore(boolean: Boolean){
+    _isSelectedChore.value = boolean
+  }
+  fun setIsSelectedSpace(boolean: Boolean){
+    _isSelectedSpace.value = boolean
+  }
 
   fun setSpace(space: String) {
     _selectSpace.value = space
@@ -75,7 +89,7 @@ class SelectSpaceViewModel : ViewModel() {
       Repository.getHouseWorkList()
         .runCatching {
           collect {
-            _chorepreset.value = it.preset
+            _chorePreset.value = it.preset
           }
         }.onFailure {
           _networkError.value = true
@@ -118,4 +132,5 @@ class SelectSpaceViewModel : ViewModel() {
     Timber.d("TAG ${str[3]}")
     return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
   }
+
 }
