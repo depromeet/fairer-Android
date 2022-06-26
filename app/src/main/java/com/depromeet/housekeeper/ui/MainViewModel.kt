@@ -32,7 +32,7 @@ class MainViewModel : ViewModel() {
   }
 
   private val datePattern = "yyyy-MM-dd-EEE"
-  private val format = SimpleDateFormat(datePattern, Locale.getDefault())
+  val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
   private val _dayOfWeek: MutableStateFlow<DayOfWeek> =
     MutableStateFlow(DayOfWeek(date = format.format(Date(System.currentTimeMillis()))))
@@ -53,6 +53,13 @@ class MainViewModel : ViewModel() {
         isSelect = it == format.format(Calendar.getInstance().time)
       )
     }.toMutableList()
+  }
+
+  fun getToday(): DayOfWeek {
+    return DayOfWeek(
+      date = format.format(Date(System.currentTimeMillis())),
+      isSelect = true
+    )
   }
 
   fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
@@ -115,8 +122,8 @@ class MainViewModel : ViewModel() {
 
   private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
 
-  private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
-  val currentState: StateFlow<CurrentState?>
+  private val _currentState: MutableStateFlow<CurrentState> = MutableStateFlow(CurrentState.REMAIN)
+  val currentState: StateFlow<CurrentState>
     get() = _currentState
 
   private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
