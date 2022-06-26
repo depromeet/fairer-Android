@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.model.EditProfileModel
 import com.depromeet.housekeeper.model.ProfileData
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,10 +38,12 @@ class SettingProfileViewModel : ViewModel() {
     statueMessage: String,
   ) {
     viewModelScope.launch {
-      Repository.updateMe(memberName, profilePath, statueMessage)
+      Repository.updateMe(EditProfileModel(
+        memberName, profilePath, statueMessage
+      ) )
         .runCatching {
           collect {
-            it.statusMessage
+            it.message
           }
         }
     }

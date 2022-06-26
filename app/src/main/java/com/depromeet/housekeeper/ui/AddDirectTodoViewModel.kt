@@ -170,12 +170,25 @@ class AddDirectTodoViewModel : ViewModel() {
     _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
   }
 
+  private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
+    val temp = arrayListOf<Assignee>()
+    allAssignees.map { assignee ->
+      if(assignee.memberId == PrefsManager.memberId) {
+        temp.add(0, assignee)
+      }
+      else {
+        temp.add(assignee)
+      }
+    }
+    return temp
+  }
+
   // TODO: 팀 조회 API에서 members 정보만 GET
   private fun setGroupInfo() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {
-          _allGroupInfo.value = it.members as ArrayList<Assignee>
+          _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
 
           // 직접 추가 뷰라면 "나" 자신 담당자 추가
           if(_curViewType.value == ViewType.ADD) {

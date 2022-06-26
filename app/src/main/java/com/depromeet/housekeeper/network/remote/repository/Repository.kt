@@ -6,6 +6,8 @@ import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.ChorePreset
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.CompleteHouseWork
+import com.depromeet.housekeeper.model.EditProfileModel
+import com.depromeet.housekeeper.model.EditResponseBody
 import com.depromeet.housekeeper.model.GetInviteCode
 import com.depromeet.housekeeper.model.Groups
 import com.depromeet.housekeeper.model.HouseWork
@@ -29,7 +31,7 @@ import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-object Repository : RemoteDataSource  {
+object Repository : RemoteDataSource {
   private val apiService = RetrofitBuilder.apiService
 
   override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> =
@@ -130,12 +132,8 @@ object Repository : RemoteDataSource  {
     emit(apiService.getMe())
   }
 
-  override suspend fun updateMe(
-    memberName: String,
-    profilePath: String,
-    statueMessage: String,
-  ): Flow<ProfileData> = flow {
-    emit(apiService.updateMe(memberName, profilePath, statueMessage))
+  override suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody> = flow {
+    emit(apiService.updateMe(editProfileModel))
   }
 
   override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork> = flow {

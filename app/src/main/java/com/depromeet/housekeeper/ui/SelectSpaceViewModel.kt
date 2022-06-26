@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -128,6 +129,7 @@ class SelectSpaceViewModel : ViewModel() {
     // yyyy-mm-dd-eee
     val str = _selectCalendar.value.date.split("-")
     val day = dayMapper(str[3])
+    Timber.d("TAG ${str[3]}")
     return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
   }
 

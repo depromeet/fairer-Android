@@ -48,6 +48,9 @@ class MainFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    mainViewModel.getRules()
+    mainViewModel.getGroupName()
+
     initView()
     setAdapter()
     bindingVm()
@@ -142,13 +145,20 @@ class MainFragment : Fragment() {
   private fun bindingVm() {
     lifecycleScope.launchWhenStarted {
       mainViewModel.completeChoreNum.collect {
-        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
-        binding.tvCompleteHouseChore.text =
-          getSpannableText(
-            completeFormat,
-            completeFormat.indexOf("에") + 1,
-            completeFormat.indexOf("나")
-          )
+        when (it) {
+          0 -> {
+            binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
+          }
+          else -> {
+            val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
+            binding.tvCompleteHouseChore.text =
+              getSpannableText(
+                completeFormat,
+                completeFormat.indexOf("에") + 1,
+                completeFormat.indexOf("나")
+              )
+          }
+        }
       }
     }
 
@@ -225,7 +235,7 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenResumed {
       mainViewModel.rule.collect {
         binding.lvRule.rule = it
       }

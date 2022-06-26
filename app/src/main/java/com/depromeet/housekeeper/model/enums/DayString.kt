@@ -7,5 +7,6 @@ enum class DayString (val korDay: String) {
     Thu("목요일"),
     Fri("금요일"),
     Sat("토요일"),
-    Sun("일요일")
+    Sun("일요일"),
+    ETC("")
 }

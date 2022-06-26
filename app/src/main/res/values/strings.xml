@@ -31,7 +31,6 @@
     <string name="assignee_bottom_sheet_ok_text">확인</string>
     <string name="add_assignee_toast_text">집안일 담당자를 지정해주세요.</string>
 
-
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_btn_text">취소</string>
     <string name="fairer_dialog_ok_btn_text">확인</string>
@@ -66,6 +65,7 @@
     <!-- HomeFragment -->
     <string name="user_name">%s님</string>
     <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
+    <string name="complete_chore_yet">아직 집안일을 하지 않으셨네요.</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
@@ -146,7 +146,8 @@
     <string name="contact_sign_email">이메일</string>
     <string name="fairer_email"><u>faireran@gmail.com</u></string>
     <string name="contact_sign_instagram">Instagram</string>
-    <string name="fairer_instagram">\@fairer.official</string>
+    <string name="fairer_instagram"><u>\@fairer.official</u></string>
+    <string name="fairer_instagram_link">https://www.instagram.com/fairer.official/</string>
 
     <!-- policyFragment -->
     <string name="policy_header_title">정보</string>
@@ -192,5 +193,6 @@
     <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
+  <string name="status_hint">상태 메세지를 입력해주세요.</string>
 
 </resources>
