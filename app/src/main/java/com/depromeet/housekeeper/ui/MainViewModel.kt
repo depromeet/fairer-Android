@@ -2,7 +2,9 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -108,9 +110,11 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _myHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-  val myHouseWorks: StateFlow<HouseWorks?>
-    get() = _myHouseWorks
+  private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val selectHouseWork: StateFlow<HouseWorks?>
+    get() = _selectHouseWorks
+
+  private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
 
   private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
   val currentState: StateFlow<CurrentState?>
@@ -119,6 +123,15 @@ class MainViewModel : ViewModel() {
   private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
   val networkError: StateFlow<Boolean>
     get() = _networkError
+
+  private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
+  val selectUserId: StateFlow<Int>
+    get() = _selectUserId
+
+  private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
+    MutableStateFlow(mutableListOf())
+  val userProfiles: StateFlow<MutableList<Assignee>>
+    get() = _userProfiles
 
   fun getHouseWorks() {
     //TODO 성능 개선 필요
@@ -129,13 +142,19 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _myHouseWorks.value = it.first()
+            _allHouseWorks.value = it
+            _selectHouseWorks.value =
+              _allHouseWorks.value.find { it.memberId == _selectUserId.value }
           }
         }.onFailure {
           //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
+  }
+
+  fun updateSelectHouseWork(selectUser: Int) {
+    _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
   }
 
   private fun getCompleteHouseWorkNumber() {
@@ -179,8 +198,8 @@ class MainViewModel : ViewModel() {
   val groupName: StateFlow<String>
     get() = _groupName
 
-  private val _groups: MutableStateFlow<List<Assignee>> = MutableStateFlow(listOf())
-  val groups: MutableStateFlow<List<Assignee>>
+  private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
+  val groups: MutableStateFlow<List<AssigneeSelect>>
     get() = _groups
 
   private fun getGroupName() {
@@ -188,12 +207,37 @@ class MainViewModel : ViewModel() {
       Repository.getTeam().runCatching {
         collect {
           _groupName.value = it.teamName
-          _groups.value = it.members
+
+          val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
+          val assignees = listOf(myAssignee) + it.members
+
+          _groups.value = assignees.distinct().map {
+            AssigneeSelect(
+              it.memberId,
+              it.memberName,
+              it.profilePath,
+              it.memberId == selectUserId.value
+            )
+          }
         }
       }
-
     }
   }
+
+  fun updateSelectUser(selectUser: Int) {
+    _selectUserId.value = selectUser
+
+    val newGroups = _groups.value.map {
+      AssigneeSelect(
+        it.memberId,
+        it.memberName,
+        it.profilePath,
+        it.memberId == selectUser
+      )
+    }
+    _groups.value = newGroups
+  }
+
 
   private val _rule: MutableStateFlow<String> = MutableStateFlow("")
   val rule: StateFlow<String>
@@ -207,6 +251,17 @@ class MainViewModel : ViewModel() {
             _rule.value = it.ruleResponseDtos.random().ruleName
           }
         }
+    }
+  }
+
+  fun getDetailHouseWork(houseWorkId: Int) {
+    viewModelScope.launch {
+      Repository.getDetailHouseWorks(houseWorkId).runCatching {
+        collect {
+          _userProfiles.value = it.assignees.toMutableList()
+        }
+      }.onFailure {
+      }
     }
   }
 

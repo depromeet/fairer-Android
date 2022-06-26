@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.databinding.ItemProfileBinding
-import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.AssigneeSelect
 
 class GroupProfileAdapter(
-  private val list: MutableList<Assignee>,
-  private val onClick: (Assignee) -> Unit,
+  private val list: MutableList<AssigneeSelect>,
+  private val onClick: (AssigneeSelect) -> Unit,
 ) : RecyclerView.Adapter<GroupProfileAdapter.ItemViewHolder>() {
 
-  fun updateDate(assign: MutableList<Assignee>) {
+  fun updateDate(assign: MutableList<AssigneeSelect>) {
     list.clear()
     list.addAll(assign)
     notifyDataSetChanged()
@@ -35,11 +35,16 @@ class GroupProfileAdapter(
 
   inner class ItemViewHolder(private val binding: ItemProfileBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(assign: Assignee) {
+    fun bind(assign: AssigneeSelect) {
       binding.assignTemp = assign
+
       Glide.with(binding.root)
         .load(assign.profilePath)
         .into(binding.ivIcon)
+
+      binding.root.setOnClickListener {
+        onClick.invoke(assign)
+      }
     }
   }
 }

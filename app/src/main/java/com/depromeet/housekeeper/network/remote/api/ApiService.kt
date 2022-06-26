@@ -49,14 +49,14 @@ interface ApiService {
     @PATCH("/api/member")
     suspend fun updateMember(@Body updateMember: UpdateMember): UpdateMemberResponse
 
-    @GET("/api/teams/invite-codes")
-    suspend fun getInviteCode(): GetInviteCode
+  @GET("/api/teams/invite-codes")
+  suspend fun getInviteCode(): GetInviteCode
 
-    @PATCH("/api/teams")
-    suspend fun updateTeam(@Body teamName: BuildTeam): TeamUpdateResponse
+  @PATCH("/api/teams")
+  suspend fun updateTeam(@Body teamName: BuildTeam): TeamUpdateResponse
 
-    @POST("/api/teams/join")
-    suspend fun joinTeam(@Body inviteCode: JoinTeam): JoinTeamResponse
+  @POST("/api/teams/join")
+  suspend fun joinTeam(@Body inviteCode: JoinTeam): JoinTeamResponse
 
     @POST("/api/rules")
     suspend fun createRules(@Body rule: Rule): RuleResponses
@@ -73,11 +73,14 @@ interface ApiService {
     @GET("/api/member/me")
     suspend fun getMe(): ProfileData
 
+  @GET("/api/houseworks/{houseWorkId}/detail")
+  suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
     @PUT("/api/member/me")
     suspend fun updateMe(
         @Query("memberName") memberName: String,
         @Query("profilePath") profilePath: String,
         @Query("statusMessage") statusMessage: String,
     ): ProfileData
+
 
 }

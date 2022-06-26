@@ -65,21 +65,20 @@ object PrefsManager {
     }?.apply()
   }
 
-  // TODO : memberId 저장 시점
   val memberId: Int
-    get() = prefs.getInt(MEMBER_ID, 10)
+    get() = prefs.getInt(MEMBER_ID, -1)
 
   fun setMemberId(memberId: Int) {
     prefs.edit()?.apply {
       putInt(MEMBER_ID, memberId)
     }?.apply()
   }
-
   fun deleteMemberInfo() {
     prefs.edit()?.apply {
-      remove(MEMBER_ID)
       setHasTeam(false)
+      remove(MEMBER_ID)
     }?.apply()
+
   }
 
 }
