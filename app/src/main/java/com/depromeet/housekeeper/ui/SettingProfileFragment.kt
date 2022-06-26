@@ -39,8 +39,6 @@ class SettingProfileFragment : Fragment() {
     initView()
     setListener()
 
-
-
     lifecycleScope.launchWhenCreated {
       viewModel.myData.collect {
         binding.etName.setText(it?.memberName)
@@ -60,7 +58,6 @@ class SettingProfileFragment : Fragment() {
   }
 
   private fun setListener() {
-
     binding.lvProfileImageview.setOnClickListener {
       it.findNavController()
         .navigate(
@@ -84,6 +81,17 @@ class SettingProfileFragment : Fragment() {
       )
       it.findNavController().navigateUp()
     }
+
+    binding.etStatueMessage.setOnTouchListener { status, _ ->
+      status.requestFocus()
+      false
+    }
+
+    binding.etName.setOnTouchListener { name, _ ->
+      name.requestFocus()
+      false
+    }
+
   }
 
   private fun initView() {
