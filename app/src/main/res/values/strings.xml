@@ -192,5 +192,6 @@
     <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
+  <string name="status_hint">상태 메세지를 입력해주세요.</string>
 
 </resources>
