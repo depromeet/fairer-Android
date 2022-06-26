@@ -86,6 +86,7 @@ class SettingProfileFragment : Fragment() {
         binding.profileBtn.mainFooterButton.isEnabled = false
       } else {
         binding.stateIsError = false
+        binding.profileBtn.mainFooterButton.isEnabled = true
       }
       if (value == "") {
         binding.stateIsTextChanged = false
