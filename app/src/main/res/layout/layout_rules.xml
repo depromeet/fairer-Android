@@ -41,7 +41,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
       android:text="@{rule.length()> 0 ? rule : @string/rule_place_holder}"
-      android:textColor="@color/gray_400"
+      android:textColor="@{rule.length()>0 ? @color/gray_800 : @color/gray_400}"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toEndOf="@id/tv_rule"
       app:layout_constraintTop_toTopOf="parent"
