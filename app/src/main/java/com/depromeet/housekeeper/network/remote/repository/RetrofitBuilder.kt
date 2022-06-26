@@ -49,12 +49,14 @@ object RetrofitBuilder {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
       val request = chain.request()
+
       return try {
         chain.proceed(
           request.newBuilder()
             .addHeader("Authorization", PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
             .build()
         )
+
       } catch (e: Exception) {
         Response.Builder()
           .request(request)

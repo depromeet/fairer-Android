@@ -67,7 +67,7 @@ class InviteFragment : Fragment() {
             viewModel.viewType.collect {
                 if (it == InviteViewType.SIGN) {
                     viewModel.setCode(viewModel.groupName.value)
-                    viewModel.getInviteCodeResponse()
+                    viewModel.setInviteCodeValidPeriod()
                 } else {
                     viewModel.getInviteCodeResponse()
                 }
