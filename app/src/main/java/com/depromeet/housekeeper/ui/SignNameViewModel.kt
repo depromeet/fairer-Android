@@ -55,7 +55,7 @@ class SignNameViewModel : ViewModel() {
         _hasTeam.value = hasTeam
     }
 
-    fun teamNameUpdate(teamName : String){
+    fun teamNameUpdate(teamName: String) {
         viewModelScope.launch {
             Repository.updateTeam(BuildTeam(teamName)).runCatching {
                 collect {
@@ -68,7 +68,7 @@ class SignNameViewModel : ViewModel() {
         }
     }
 
-    fun joinTeam(inviteCode : String){
+    fun joinTeam(inviteCode: String) {
         viewModelScope.launch {
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
