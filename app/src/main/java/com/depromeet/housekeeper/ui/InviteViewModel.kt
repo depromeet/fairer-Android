@@ -59,6 +59,7 @@ class InviteViewModel : ViewModel() {
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode
+                    getInviteCodeResponse()
                     PrefsManager.setHasTeam(true)
                 }
             }
