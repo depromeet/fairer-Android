@@ -1,14 +1,15 @@
 package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentContactBinding
+import com.depromeet.housekeeper.util.BindingAdapter
 
 class ContactFragment : Fragment() {
     lateinit var binding: FragmentContactBinding
@@ -36,5 +37,9 @@ class ContactFragment : Fragment() {
                 it.findNavController().navigateUp()
             }
         }
+        BindingAdapter.setLinkify(
+            binding.contactInstagramTv,
+            getString(R.string.fairer_instagram),
+            getString(R.string.fairer_instagram_link))
     }
 }

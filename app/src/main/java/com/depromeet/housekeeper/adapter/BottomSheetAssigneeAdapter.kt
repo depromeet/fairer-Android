@@ -16,8 +16,6 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
 
     init {
         selectedAssignees.addAll(curAssignees)
-        Timber.d(curAssignees.toString())
-        Timber.d(selectedAssignees.toString())
     }
 
     fun getSelectedAssignees(): ArrayList<Assignee> {
