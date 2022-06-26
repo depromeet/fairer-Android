@@ -21,6 +21,7 @@ import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
@@ -48,8 +49,12 @@ class MainFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    mainViewModel.getRules()
-    mainViewModel.getGroupName()
+    mainViewModel.apply {
+      getRules()
+      getGroupName()
+      updateState(MainViewModel.CurrentState.REMAIN)
+      updateSelectDate(getToday())
+    }
 
     initView()
     setAdapter()
@@ -186,11 +191,11 @@ class MainFragment : Fragment() {
       }
     }
 
-    lifecycleScope.launchWhenCreated {
+    lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
-        val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
         binding.layoutDoneScreen.root.isVisible =
           it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
