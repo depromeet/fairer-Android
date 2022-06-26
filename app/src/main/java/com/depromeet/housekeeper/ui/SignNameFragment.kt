@@ -131,7 +131,7 @@ class SignNameFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val value: String = binding.signNameEt.text.toString()
-                val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*"
+                val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
                 viewModel.setInputText(binding.signNameEt.text.toString())
                 binding.isTextChanged = true
                 if (!value.matches(pattern.toRegex())) {
