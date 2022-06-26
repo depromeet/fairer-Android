@@ -1,12 +1,11 @@
 package com.depromeet.housekeeper.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -112,6 +111,11 @@ class SignNameFragment : Fragment() {
                 }
             }
         }
+        binding.signNameBackground.setOnClickListener{
+            binding.signNameEt.isEnabled = false
+            binding.isTextChanged = false
+            binding.signNameEt.isEnabled = true
+        }
         binding.signNameClear.setOnClickListener {
             binding.signNameEt.setText(R.string.sign_name_blank)
         }
@@ -132,32 +136,22 @@ class SignNameFragment : Fragment() {
     }
 
     private fun validateName() {
-        binding.signNameEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+        binding.signNameEt.addTextChangedListener{
+            val value: String = binding.signNameEt.text.toString()
+            viewModel.setInputText(binding.signNameEt.text.toString())
+            binding.isTextChanged = true
+            if (!value.matches(pattern.toRegex())) {
+                binding.isError = true
+                binding.signNameNextBtn.mainFooterButton.isEnabled = false
+            } else {
+                binding.isError = false
+                binding.signNameNextBtn.mainFooterButton.isEnabled =
+                    viewModel.inputText.value != ""
+            }
+            if (value == "") {
                 binding.isTextChanged = false
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val value: String = binding.signNameEt.text.toString()
-                val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝| ]*"
-                viewModel.setInputText(binding.signNameEt.text.toString())
-                binding.isTextChanged = true
-                if (!value.matches(pattern.toRegex())) {
-                    binding.isError = true
-                    binding.signNameNextBtn.mainFooterButton.isEnabled = false
-                } else {
-                    binding.isError = false
-                    binding.signNameNextBtn.mainFooterButton.isEnabled =
-                        viewModel.inputText.value != ""
-                }
-                if (value == "") {
-                    binding.isTextChanged = false
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
         }
-        )
     }
 }

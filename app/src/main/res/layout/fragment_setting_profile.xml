@@ -1,146 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
-  
-  <data>
-    
-    <variable
-      name="profilePath"
-      type="String" />
-  
-  </data>
-  
-  
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_white_background"
-    tools:context=".ui.SettingFragment">
-    
-    <include
-      android:id="@+id/setting_profile_header"
-      layout="@layout/layout_default_header"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
-    
-    <TextView
-      android:id="@+id/tv_title"
-      style="@style/Heading.H2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="24dp"
-      android:layout_marginTop="24dp"
-      android:text="@string/setting_profile_title"
-      android:textColor="@color/black"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/setting_profile_header"
-      tools:text="프로필을 설정해주세요." />
-    
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="profilePath"
+            type="String" />
+
+        <variable
+            name="nameIsError"
+            type="boolean" />
+
+        <variable
+            name="nameIsTextChanged"
+            type="boolean" />
+
+        <variable
+            name="stateIsError"
+            type="boolean" />
+
+        <variable
+            name="stateIsTextChanged"
+            type="boolean" />
+
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/lv_profile_imageview"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="24dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tv_title">
-      
-      <ImageView
-        android:id="@+id/iv_imageview"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        app:layout_constraintBottom_toBottomOf="@+id/lv_profile_imageview"
-        app:layout_constraintEnd_toEndOf="@+id/lv_profile_imageview"
-        app:layout_constraintStart_toStartOf="parent" />
-      
-      <ImageView
-        android:id="@+id/iv_profile_img"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_profile"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_imageview"
-        app:layout_constraintEnd_toEndOf="@+id/iv_imageview" />
-    
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_white_background"
+        tools:context=".ui.SettingFragment">
+
+        <include
+            android:id="@+id/setting_profile_header"
+            layout="@layout/layout_default_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Heading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/setting_profile_title"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_profile_header"
+            tools:text="프로필을 설정해주세요." />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lv_profile_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <ImageView
+                android:id="@+id/iv_imageview"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lv_profile_imageview"
+                app:layout_constraintEnd_toEndOf="@+id/lv_profile_imageview"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_profile_img"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_profile"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_imageview"
+                app:layout_constraintEnd_toEndOf="@+id/iv_imageview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/Title.T1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:text="@string/setting_profile_name"
+            android:textColor="@color/gray_600"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lv_profile_imageview"
+            tools:text="@string/setting_profile_name" />
+
+        <include
+            android:id="@+id/et_name"
+            layout="@layout/layout_fairer_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            bind:isError="@{nameIsError}"
+            bind:isTextChanged="@{nameIsTextChanged}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+
+        <TextView
+            android:id="@+id/tv_rule"
+            style="@style/Title.T1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:text="@string/setting_profile_sub_title"
+            android:textColor="@color/gray_600"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_name"
+            tools:text="@string/setting_profile_sub_title" />
+
+        <include
+            android:id="@+id/et_status_message"
+            layout="@layout/layout_fairer_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            bind:isError="@{stateIsError}"
+            bind:isTextChanged="@{stateIsTextChanged}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_rule" />
+
+        <include
+            android:id="@+id/profile_btn"
+            layout="@layout/layout_main_footer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
-    <TextView
-      android:id="@+id/tv_name"
-      style="@style/Title.T1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="24dp"
-      android:layout_marginTop="16dp"
-      android:drawablePadding="8dp"
-      android:text="@string/setting_profile_name"
-      android:textColor="@color/gray_600"
-      android:textStyle="bold"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/lv_profile_imageview"
-      tools:text="@string/setting_profile_name" />
-    
-    <EditText
-      android:id="@+id/et_name"
-      style="@style/Title.T1"
-      android:layout_width="0dp"
-      android:layout_height="42dp"
-      android:layout_marginStart="24dp"
-      android:layout_marginTop="16dp"
-      android:layout_marginEnd="24dp"
-      android:background="@drawable/rule_normal_backgorund_8"
-      android:ellipsize="end"
-      android:hint="이름"
-      android:inputType="text"
-      android:maxLines="1"
-      android:paddingStart="16dp"
-      android:textColorHint="@color/gray_400"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tv_name" />
-    
-    <TextView
-      android:id="@+id/tv_rule"
-      style="@style/Title.T1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="24dp"
-      android:layout_marginTop="16dp"
-      android:drawablePadding="8dp"
-      android:text="@string/setting_profile_sub_title"
-      android:textColor="@color/gray_600"
-      android:textStyle="bold"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/et_name"
-      tools:text="@string/setting_profile_sub_title" />
-    
-    <EditText
-      android:id="@+id/et_statue_message"
-      style="@style/Title.T1"
-      android:layout_width="0dp"
-      android:layout_height="42dp"
-      android:layout_marginStart="24dp"
-      android:layout_marginTop="16dp"
-      android:layout_marginEnd="24dp"
-      android:background="@drawable/rule_normal_backgorund_8"
-      android:ellipsize="end"
-      android:hint="@string/status_hint"
-      android:inputType="text"
-      android:maxLines="1"
-      android:paddingStart="16dp"
-      android:textColorHint="@color/gray_400"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tv_rule" />
-    
-    <include
-      android:id="@+id/profile_btn"
-      layout="@layout/layout_main_footer_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
-  
-  
-  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

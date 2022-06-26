@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,11 +39,12 @@ class SettingProfileFragment : Fragment() {
 
     initView()
     setListener()
+    validateName()
 
     lifecycleScope.launchWhenCreated {
       viewModel.myData.collect {
-        binding.etName.setText(it?.memberName)
-        binding.etStatueMessage.setText(it?.statusMessage)
+        binding.etName.fairerEt.setText(it?.memberName)
+        binding.etStatusMessage.fairerEt.setText(it?.statusMessage)
         when {
           !navArgs.profilePath.isNullOrEmpty() -> {
             viewModel.updateProfile(navArgs.profilePath!!)
@@ -56,8 +58,47 @@ class SettingProfileFragment : Fragment() {
     }
 
   }
+  private fun validateName() {
+    val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+    binding.etName.fairerEt.addTextChangedListener{
+      val value: String = binding.etName.fairerEt.text.toString()
+      binding.nameIsTextChanged = true
+      if (!value.matches(pattern.toRegex())) {
+        binding.nameIsError = true
+        binding.profileBtn.mainFooterButton.isEnabled = false
+      } else {
+        binding.nameIsError = false
+        binding.profileBtn.mainFooterButton.isEnabled =
+          value.isNotEmpty()
+      }
+      if (value == "") {
+        binding.nameIsTextChanged = false
+      }
+    }
+    binding.etStatusMessage.fairerEt.addTextChangedListener{
+      val value: String = binding.etStatusMessage.fairerEt.text.toString()
+      binding.stateIsTextChanged = true
+      if (!value.matches(pattern.toRegex())) {
+        binding.stateIsError = true
+        binding.profileBtn.mainFooterButton.isEnabled = false
+      } else {
+        binding.stateIsError = false
+        binding.profileBtn.mainFooterButton.isEnabled = true
+      }
+      if (value == "") {
+        binding.stateIsTextChanged = false
+      }
+    }
+  }
 
   private fun setListener() {
+    binding.etName.signNameClear.setOnClickListener {
+      binding.etName.fairerEt.setText(R.string.sign_name_blank)
+    }
+    binding.etStatusMessage.signNameClear.setOnClickListener {
+      binding.etStatusMessage.fairerEt.setText(R.string.sign_name_blank)
+    }
+
     binding.lvProfileImageview.setOnClickListener {
       it.findNavController()
         .navigate(
@@ -75,19 +116,19 @@ class SettingProfileFragment : Fragment() {
 
     binding.profileBtn.mainFooterButton.setOnClickListener {
       viewModel.updateMe(
-        binding.etName.text.toString(),
+        binding.etName.fairerEt.text.toString(),
         navArgs.profilePath ?: viewModel.myData.value?.profilePath!!,
-        binding.etStatueMessage.text.toString()
+        binding.etStatusMessage.fairerEt.text.toString()
       )
       it.findNavController().navigateUp()
     }
 
-    binding.etStatueMessage.setOnTouchListener { status, _ ->
+    binding.etStatusMessage.fairerEt.setOnTouchListener { status, _ ->
       status.requestFocus()
       false
     }
 
-    binding.etName.setOnTouchListener { name, _ ->
+    binding.etName.fairerEt.setOnTouchListener { name, _ ->
       name.requestFocus()
       false
     }
@@ -97,6 +138,7 @@ class SettingProfileFragment : Fragment() {
   private fun initView() {
     binding.profileBtn.mainFooterButton.text = "입력 완료"
     binding.profileBtn.mainFooterButton.isEnabled = true
+    binding.etStatusMessage.fairerEt.hint = getString(R.string.setting_profile_status_hint)
   }
 
   private fun ImageView.setImg(url: String?) {
