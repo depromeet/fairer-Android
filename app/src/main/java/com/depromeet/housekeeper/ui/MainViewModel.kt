@@ -206,7 +206,9 @@ class MainViewModel : ViewModel() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {
-          _groupName.value = it.teamName
+
+          val groupSize:Int = it.members.size
+          _groupName.value = "${it.teamName} $groupSize"
 
           val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
           val assignees = listOf(myAssignee) + it.members

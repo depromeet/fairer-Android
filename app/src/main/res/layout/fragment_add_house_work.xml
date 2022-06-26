@@ -154,7 +154,7 @@
         android:textColor="@color/gray_900"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/add_assignee_layout" />
-      
+
       <CheckBox
         android:id="@+id/add_house_work_all_day_check_box"
         android:layout_width="16dp"
