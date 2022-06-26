@@ -3,7 +3,7 @@ package com.depromeet.housekeeper.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.depromeet.housekeeper.databinding.ItemSamllProfileBinding
+import com.depromeet.housekeeper.databinding.ItemSmallProfileBinding
 import com.depromeet.housekeeper.model.Assignee
 
 class SmallProfileAdapter(
@@ -18,7 +18,7 @@ class SmallProfileAdapter(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
     return ItemViewHolder(
-      ItemSamllProfileBinding.inflate(LayoutInflater.from(parent.context),
+      ItemSmallProfileBinding.inflate(LayoutInflater.from(parent.context),
         parent,
         false
       )
@@ -31,7 +31,7 @@ class SmallProfileAdapter(
 
   override fun getItemCount(): Int = list.size
 
-  inner class ItemViewHolder(private val binding: ItemSamllProfileBinding) :
+  inner class ItemViewHolder(private val binding: ItemSmallProfileBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(assignee: Assignee) {
       binding.imageUrl = assignee.profilePath
