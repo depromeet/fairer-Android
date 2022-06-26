@@ -62,7 +62,8 @@ class LoginFragment : Fragment() {
         if (navArgs.code != "null") {
             navigateDynamicLink()
         } else if (account != null) {
-            navigateOnStart()
+            //navigateOnStart()
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignNameFragment(SignViewType.InviteCode,null))
         }
     }
 
