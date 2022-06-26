@@ -82,7 +82,7 @@ class RuleFragment : Fragment() {
           binding.etRule.fairerEt.requestFocus()
         }
       }
-      true
+      false
     }
   }
   private fun validateName() {

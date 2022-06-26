@@ -41,9 +41,6 @@ class SettingProfileFragment : Fragment() {
     setListener()
     validateName()
 
-
-
-
     lifecycleScope.launchWhenCreated {
       viewModel.myData.collect {
         binding.etName.fairerEt.setText(it?.memberName)
@@ -125,6 +122,17 @@ class SettingProfileFragment : Fragment() {
       )
       it.findNavController().navigateUp()
     }
+
+    binding.etStatusMessage.fairerEt.setOnTouchListener { status, _ ->
+      status.requestFocus()
+      false
+    }
+
+    binding.etName.fairerEt.setOnTouchListener { name, _ ->
+      name.requestFocus()
+      false
+    }
+
   }
 
   private fun initView() {
