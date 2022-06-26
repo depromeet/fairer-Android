@@ -123,7 +123,7 @@
       android:layout_marginEnd="24dp"
       android:background="@drawable/rule_normal_backgorund_8"
       android:ellipsize="end"
-      android:hint="상태 메세지를 입력해주세요."
+      android:hint="@string/status_hint"
       android:inputType="text"
       android:maxLines="1"
       android:paddingStart="16dp"

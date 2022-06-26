@@ -77,7 +77,7 @@ class RuleFragment : Fragment() {
           binding.etRule.requestFocus()
         }
       }
-      true
+      false
     }
   }
 }
