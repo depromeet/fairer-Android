@@ -115,7 +115,7 @@ class AddDirectTodoFragment : Fragment() {
             } else {
                 binding.isError = false
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
-                    binding.addDirectTodoTitleEt.fairerEt.text.isNotEmpty()
+                   value.isNotEmpty()
             }
             if (value == "") {
                 binding.isTextChanged = false
