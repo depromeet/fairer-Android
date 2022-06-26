@@ -201,7 +201,7 @@ class MainViewModel : ViewModel() {
   val groups: MutableStateFlow<List<AssigneeSelect>>
     get() = _groups
 
-  private fun getGroupName() {
+  fun getGroupName() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {

@@ -49,6 +49,7 @@ class MainFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
 
     mainViewModel.getRules()
+    mainViewModel.getGroupName()
 
     initView()
     setAdapter()
