@@ -3,12 +3,11 @@ package com.depromeet.housekeeper.ui
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +27,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.util.Calendar
+import java.util.*
 
 class AddDirectTodoFragment : Fragment() {
     lateinit var binding: FragmentAddDirectTodoBinding
@@ -99,19 +98,29 @@ class AddDirectTodoFragment : Fragment() {
 
     private fun initListener() {
         binding.addDirectTodoBackgroundCl.setOnClickListener {
-            hideKeyboard(binding.addDirectTodoTitleEt)
+            //hideKeyboard(binding.addDirectTodoTitleEt)
+            binding.addDirectTodoTitleEt.fairerEt.isEnabled = false
+            binding.isTextChanged = false
+            binding.addDirectTodoTitleEt.fairerEt.isEnabled = true
         }
+        binding.addDirectTodoTitleEt.fairerEt.hint = getString(R.string.add_direct_todo_title_hint)
 
-        binding.addDirectTodoTitleEt.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
+        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener{
+            val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
+            binding.isTextChanged = true
+            if (!value.matches(pattern.toRegex())) {
+                binding.isError = true
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+            } else {
+                binding.isError = false
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
+                    binding.addDirectTodoTitleEt.fairerEt.text.isNotEmpty()
             }
-
-        })
+            if (value == "") {
+                binding.isTextChanged = false
+            }
+        }
 
 
         binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, _, _ ->
@@ -155,7 +164,7 @@ class AddDirectTodoFragment : Fragment() {
         }
 
         binding.addDirectTodoDoneBtn.mainFooterButton.apply {
-            isEnabled = binding.addDirectTodoTitleEt.text.isNotEmpty()
+            isEnabled = binding.addDirectTodoTitleEt.fairerEt.text.isNotEmpty()
             // edit 분기 처리
             when(viewModel.curViewType.value) {
                 ViewType.ADD -> {
@@ -239,7 +248,7 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun initUi() {
-        binding.addDirectTodoTitleEt.setText(viewModel.chores.value[0].houseWorkName)
+        binding.addDirectTodoTitleEt.fairerEt.setText(viewModel.chores.value[0].houseWorkName)
         if(viewModel.chores.value[0].scheduledTime != null) {
             val time: Pair<Int, Int> = parseTime(viewModel.chores.value[0].scheduledTime!!)
             binding.addDirectTodoTimePicker.setDisPlayedValue(time.first, time.second)
@@ -249,7 +258,7 @@ class AddDirectTodoFragment : Fragment() {
 
     private fun updateChore() {
         // name set
-        viewModel.updateChoreName(binding.addDirectTodoTitleEt.text.toString())
+        viewModel.updateChoreName(binding.addDirectTodoTitleEt.fairerEt.text.toString())
 
         // time set
         when {
@@ -297,4 +306,5 @@ class AddDirectTodoFragment : Fragment() {
             }
         }
     }
+
 }
