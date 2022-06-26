@@ -23,7 +23,6 @@ class MainViewModel : ViewModel() {
   init {
     getCompleteHouseWorkNumber()
     getGroupName()
-    getRules()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
@@ -207,7 +206,7 @@ class MainViewModel : ViewModel() {
       Repository.getTeam().runCatching {
         collect {
 
-          val groupSize:Int = it.members.size
+          val groupSize: Int = it.members.size
           _groupName.value = "${it.teamName} $groupSize"
 
           val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
@@ -245,12 +244,15 @@ class MainViewModel : ViewModel() {
   val rule: StateFlow<String>
     get() = _rule
 
-  private fun getRules() {
+  fun getRules() {
     viewModelScope.launch {
       Repository.getRules()
         .runCatching {
           collect {
-            _rule.value = it.ruleResponseDtos.random().ruleName
+            _rule.value = when {
+              it.ruleResponseDtos.isNotEmpty() -> it.ruleResponseDtos.random().ruleName
+              else -> ""
+            }
           }
         }
     }
