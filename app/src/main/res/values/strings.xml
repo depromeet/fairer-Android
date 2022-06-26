@@ -162,7 +162,7 @@
     <!--InviteCodeFragment-->
     <string name="invite_code_text">초대코드를 입력해주세요.</string>
     <string name="invite_code_sub_text">초대코드를 입력 후 바로 공간에 참여할 수 있어요!</string>
-    <string name="invite_code_hint">10글자 입력</string>
+    <string name="invite_code_hint">14글자 입력</string>
 
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
