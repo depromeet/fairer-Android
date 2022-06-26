@@ -97,6 +97,9 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun initListener() {
+        binding.addDirectTodoTitleEt.signNameClear.setOnClickListener {
+            binding.addDirectTodoTitleEt.fairerEt.setText(R.string.sign_name_blank)
+        }
         binding.addDirectTodoBackgroundCl.setOnClickListener {
             //hideKeyboard(binding.addDirectTodoTitleEt)
             binding.addDirectTodoTitleEt.fairerEt.isEnabled = false

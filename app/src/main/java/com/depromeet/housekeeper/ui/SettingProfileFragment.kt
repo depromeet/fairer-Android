@@ -95,6 +95,12 @@ class SettingProfileFragment : Fragment() {
   }
 
   private fun setListener() {
+    binding.etName.signNameClear.setOnClickListener {
+      binding.etName.fairerEt.setText(R.string.sign_name_blank)
+    }
+    binding.etStatusMessage.signNameClear.setOnClickListener {
+      binding.etStatusMessage.fairerEt.setText(R.string.sign_name_blank)
+    }
 
     binding.lvProfileImageview.setOnClickListener {
       it.findNavController()
