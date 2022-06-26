@@ -96,15 +96,4 @@ class RuleFragment : Fragment() {
       }
     }
   }
-  private fun validateName() {
-    val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-    binding.etRule.fairerEt.addTextChangedListener{
-      val value: String = binding.etRule.fairerEt.text.toString()
-      binding.isTextChanged = true
-      binding.isError = !value.matches(pattern.toRegex())
-      if (value == "") {
-        binding.isTextChanged = false
-      }
-    }
-  }
 }
