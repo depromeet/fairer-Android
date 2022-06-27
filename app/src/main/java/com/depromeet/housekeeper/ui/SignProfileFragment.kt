@@ -68,7 +68,7 @@ class SignProfileFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.updateMemberResponse.collect {
                 it?.run {
-                    PrefsManager.setUserName(viewModel.MemberName.value)
+                    PrefsManager.setUserName(viewModel.memberName.value)
                     findNavController().navigate(
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
                     )
