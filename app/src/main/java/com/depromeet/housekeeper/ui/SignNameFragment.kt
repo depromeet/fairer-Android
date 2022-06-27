@@ -47,6 +47,14 @@ class SignNameFragment : Fragment() {
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
         binding.viewType = viewModel.viewType.value
+        binding.signNameEt.apply {
+            hint = when(viewModel.viewType.value){
+                SignViewType.UserName -> getString(R.string.sign_name_hint)
+                SignViewType.InviteCode -> getString(R.string.invite_code_hint)
+                else -> getString(R.string.group_name_hint)
+            }
+
+        }
         lifecycleScope.launchWhenCreated {
             viewModel.hasTeam.collect {
                 binding.hasTeam = it
