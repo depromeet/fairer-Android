@@ -102,11 +102,6 @@ class InviteFragment : Fragment() {
                 }
             }
         }
-
-
-        // 유효기간
-        // TODO: API 호출 필요
-
     }
 
     private fun initListener() {
@@ -131,7 +126,6 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteCopyBtn.setOnClickListener {
-            //onCopyToClipboard(viewModel.inviteCode.value)
             onCopyToClipboard(viewModel.inviteCode.value)
         }
 
