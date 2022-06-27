@@ -133,6 +133,14 @@ class SignNameFragment : Fragment() {
         binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.setOnClickListener {
             findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToMainFragment())
         }
+
+        binding.signNameEt.setOnTouchListener { status, _ ->
+            status.requestFocus()
+            if(viewModel.inputText.value.isNotEmpty()){
+                binding.isTextChanged=true
+            }
+            false
+        }
     }
 
     private fun validateName() {
@@ -155,3 +163,4 @@ class SignNameFragment : Fragment() {
         }
     }
 }
+
