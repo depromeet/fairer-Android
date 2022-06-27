@@ -25,7 +25,7 @@ object BindingAdapter {
   @JvmStatic
   fun loadImage(imageView : ImageView, url:String){
     Glide.with(imageView.context)
-      .load(url).override(100,100)
+      .load(url).override(84,84)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
       .fitCenter()

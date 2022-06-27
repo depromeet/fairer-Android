@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
@@ -156,9 +155,8 @@ class SettingProfileFragment : Fragment() {
       .load(url)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .fitCenter()
-      .override(100, 100)
+      .override(84, 84)
       .into(binding.ivImageview)
   }
 
