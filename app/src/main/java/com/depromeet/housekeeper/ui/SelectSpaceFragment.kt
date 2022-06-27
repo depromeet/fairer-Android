@@ -130,7 +130,6 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
                         v.isSelected = !v.isSelected
                         Timber.d("item click $position")
                         viewModel.updateChores(chore,v.isSelected)
-                        binding.selectSpaceNextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
                         viewModel.setIsSelectedChore(true)
                         if(viewModel.getChoreCount()==0){
                            viewModel.setIsSelectedChore(false)
@@ -160,6 +159,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         lifecycleScope.launchWhenCreated {
             viewModel.isSelectedChore.collect {
                 binding.isSelectedChore = it
+                binding.selectSpaceNextBtn.mainFooterButton.isEnabled = it
             }
         }
     }
@@ -189,6 +189,8 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
             override fun onItemClick() {
                 setSelected()
                 onClick(space)
+                viewModel.setIsSelectedChore(false)
+                viewModel.clearChore()
             }
         }
     }

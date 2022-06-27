@@ -99,7 +99,7 @@
                         android:maxLines="1"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:hint="@{viewType==SignViewType.UserName ? @string/sign_name_hint : viewType==SignViewType.GroupName ? @string/group_name_hint : @string/invite_code_hint}"
+                        android:hint="@{viewType==SignViewType.UserName ? @string/sign_name_hint : viewType==SignViewType.GroupName||viewType==SignViewType.ModifyGroupName ? @string/group_name_hint : @string/invite_code_hint}"
                         android:background="@{isError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"/>
 
                     <ImageView
