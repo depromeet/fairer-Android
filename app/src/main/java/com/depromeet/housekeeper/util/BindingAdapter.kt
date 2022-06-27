@@ -3,10 +3,10 @@ package com.depromeet.housekeeper.util
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -26,12 +26,10 @@ object BindingAdapter {
   @JvmStatic
   fun loadImage(imageView : ImageView, url:String){
     Glide.with(imageView.context)
-      .load(url)
+      .load(url).override(84,84)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .fitCenter()
-      .override(100,100)
       .into(imageView)
   }
 
@@ -56,10 +54,9 @@ object BindingAdapter {
   @androidx.databinding.BindingAdapter("app:imageUrl","app:placeholder")
   @JvmStatic fun loadImage(imageView: ImageView, url: String, placeholder: Drawable){
     Glide.with(imageView.context)
-      .load(url)
+      .load(url).override(56,56)
       .placeholder(placeholder)
       .error(placeholder)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .apply(RequestOptions().fitCenter())
       .into(imageView)
   }
@@ -70,4 +67,9 @@ object BindingAdapter {
     val transformFilter = Linkify.TransformFilter { _, _ -> "" }
     Linkify.addLinks(textView, pattern, linkStr, null, transformFilter)
   }
+  @androidx.databinding.BindingAdapter("app:setSelected")
+  @JvmStatic fun setSelected(imageButton: ImageButton, selected : Boolean){
+    imageButton.isSelected = selected
+  }
+
 }

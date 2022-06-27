@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
@@ -54,6 +53,8 @@ class SettingProfileFragment : Fragment() {
             binding.ivImageview.setImg(it?.profilePath)
           }
         }
+        binding.nameIsTextChanged = false
+        binding.stateIsTextChanged = false
       }
     }
 
@@ -62,7 +63,6 @@ class SettingProfileFragment : Fragment() {
     val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
     binding.etName.fairerEt.addTextChangedListener{
       val value: String = binding.etName.fairerEt.text.toString()
-      binding.nameIsTextChanged = true
       if (!value.matches(pattern.toRegex())) {
         binding.nameIsError = true
         binding.profileBtn.mainFooterButton.isEnabled = false
@@ -71,13 +71,10 @@ class SettingProfileFragment : Fragment() {
         binding.profileBtn.mainFooterButton.isEnabled =
           value.isNotEmpty()
       }
-      if (value == "") {
-        binding.nameIsTextChanged = false
-      }
+      binding.nameIsTextChanged = value != ""
     }
     binding.etStatusMessage.fairerEt.addTextChangedListener{
       val value: String = binding.etStatusMessage.fairerEt.text.toString()
-      binding.stateIsTextChanged = true
       if (!value.matches(pattern.toRegex())) {
         binding.stateIsError = true
         binding.profileBtn.mainFooterButton.isEnabled = false
@@ -85,13 +82,19 @@ class SettingProfileFragment : Fragment() {
         binding.stateIsError = false
         binding.profileBtn.mainFooterButton.isEnabled = true
       }
-      if (value == "") {
-        binding.stateIsTextChanged = false
-      }
+      binding.nameIsTextChanged = value != ""
     }
   }
 
   private fun setListener() {
+    binding.settingProfileBackground.setOnClickListener{
+      binding.etName.isTextChanged = false
+      binding.etStatusMessage.isTextChanged = false
+      binding.etName.fairerEt.isEnabled = false
+      binding.etStatusMessage.fairerEt.isEnabled = false
+      binding.etName.fairerEt.isEnabled = true
+      binding.etStatusMessage.fairerEt.isEnabled = true
+    }
     binding.etName.signNameClear.setOnClickListener {
       binding.etName.fairerEt.setText(R.string.sign_name_blank)
     }
@@ -125,11 +128,17 @@ class SettingProfileFragment : Fragment() {
 
     binding.etStatusMessage.fairerEt.setOnTouchListener { status, _ ->
       status.requestFocus()
+      if(binding.etStatusMessage.fairerEt.text.isNotEmpty()){
+        binding.stateIsTextChanged=true
+      }
       false
     }
 
     binding.etName.fairerEt.setOnTouchListener { name, _ ->
       name.requestFocus()
+      if(binding.etName.fairerEt.text.isNotEmpty()){
+        binding.nameIsTextChanged=true
+      }
       false
     }
 
@@ -146,9 +155,8 @@ class SettingProfileFragment : Fragment() {
       .load(url)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .fitCenter()
-      .override(100, 100)
+      .override(84, 84)
       .into(binding.ivImageview)
   }
 

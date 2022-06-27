@@ -30,9 +30,13 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/setting_profile_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
         tools:context=".ui.SettingFragment">
 
         <include

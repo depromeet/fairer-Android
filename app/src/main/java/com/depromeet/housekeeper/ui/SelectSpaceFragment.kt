@@ -130,7 +130,6 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
                         v.isSelected = !v.isSelected
                         Timber.d("item click $position")
                         viewModel.updateChores(chore,v.isSelected)
-                        binding.selectSpaceNextBtn.mainFooterButton.isEnabled = viewModel.getChoreCount() != 0
                         viewModel.setIsSelectedChore(true)
                         if(viewModel.getChoreCount()==0){
                            viewModel.setIsSelectedChore(false)
@@ -160,6 +159,21 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         lifecycleScope.launchWhenCreated {
             viewModel.isSelectedChore.collect {
                 binding.isSelectedChore = it
+                binding.selectSpaceNextBtn.mainFooterButton.isEnabled = it
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.selectSpace.collect {
+                when(it){
+                    "ENTRANCE" -> binding.selectedSpace = 1
+                    "LIVINGROOM" -> binding.selectedSpace = 2
+                    "BATHROOM" -> binding.selectedSpace = 3
+                    "OUTSIDE" -> binding.selectedSpace = 4
+                    "ROOM" -> binding.selectedSpace = 5
+                    "KITCHEN" -> binding.selectedSpace = 6
+                    else -> binding.selectedSpace =0
+                }
+
             }
         }
     }
@@ -189,6 +203,8 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
             override fun onItemClick() {
                 setSelected()
                 onClick(space)
+                viewModel.setIsSelectedChore(false)
+                viewModel.clearChore()
             }
         }
     }
@@ -207,32 +223,26 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
             viewModel.setIsSelectedSpace(true)
             when (space) {
                 binding.selectSpaceImageEntrance -> {
-                    binding.selectSpaceImageEntrance.isSelected = true
                     viewModel.setSpace("ENTRANCE")
                     viewModel.setChoreList("ENTRANCE")
                 }
                 binding.selectSpaceImageLivingRoom -> {
-                    binding.selectSpaceImageLivingRoom.isSelected = true
                     viewModel.setSpace("LIVINGROOM")
                     viewModel.setChoreList("LIVINGROOM")
                 }
                 binding.selectSpaceImageBathroom -> {
-                    binding.selectSpaceImageBathroom.isSelected = true
                     viewModel.setSpace("BATHROOM")
                     viewModel.setChoreList("BATHROOM")
                 }
                 binding.selectSpaceImageOutside -> {
-                    binding.selectSpaceImageOutside.isSelected = true
                     viewModel.setSpace("OUTSIDE")
                     viewModel.setChoreList("OUTSIDE")
                 }
                 binding.selectSpaceImageRoom -> {
-                    binding.selectSpaceImageRoom.isSelected = true
                     viewModel.setSpace("ROOM")
                     viewModel.setChoreList("ROOM")
                 }
                 binding.selectSpaceImageKitchen -> {
-                    binding.selectSpaceImageKitchen.isSelected = true
                     viewModel.setSpace("KITCHEN")
                     viewModel.setChoreList("KITCHEN")
                 }
@@ -250,12 +260,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setSelected(){
-        binding.selectSpaceImageEntrance.isSelected = false
-        binding.selectSpaceImageLivingRoom.isSelected = false
-        binding.selectSpaceImageBathroom.isSelected = false
-        binding.selectSpaceImageOutside.isSelected = false
-        binding.selectSpaceImageRoom.isSelected = false
-        binding.selectSpaceImageKitchen.isSelected = false
+        binding.selectedSpace = 0
         viewModel.setIsSelectedSpace(false)
     }
 
