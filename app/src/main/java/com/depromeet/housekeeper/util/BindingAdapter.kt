@@ -6,7 +6,6 @@ import android.text.util.Linkify
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -26,12 +25,10 @@ object BindingAdapter {
   @JvmStatic
   fun loadImage(imageView : ImageView, url:String){
     Glide.with(imageView.context)
-      .load(url)
+      .load(url).override(100,100)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .fitCenter()
-      .override(100,100)
       .into(imageView)
   }
 
@@ -59,7 +56,6 @@ object BindingAdapter {
       .load(url)
       .placeholder(placeholder)
       .error(placeholder)
-      .diskCacheStrategy(DiskCacheStrategy.NONE)
       .apply(RequestOptions().fitCenter())
       .into(imageView)
   }
