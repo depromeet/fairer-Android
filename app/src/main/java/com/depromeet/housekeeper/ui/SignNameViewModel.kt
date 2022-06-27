@@ -3,15 +3,19 @@ package com.depromeet.housekeeper.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.BuildTeam
+import com.depromeet.housekeeper.model.ErrorResponse
 import com.depromeet.housekeeper.model.JoinTeam
 import com.depromeet.housekeeper.model.JoinTeamResponse
 import com.depromeet.housekeeper.model.TeamUpdateResponse
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class SignNameViewModel : ViewModel() {
     private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
@@ -43,7 +47,12 @@ class SignNameViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    fun setInputText(name: String) {
+    private val _errorMessage: MutableStateFlow<String> = MutableStateFlow("")
+    val errorMessage: StateFlow<String>
+      get() = _errorMessage
+
+
+  fun setInputText(name: String) {
         _inputText.value = name
     }
 
@@ -55,7 +64,7 @@ class SignNameViewModel : ViewModel() {
         _hasTeam.value = hasTeam
     }
 
-    fun teamNameUpdate(teamName : String){
+    fun teamNameUpdate(teamName: String) {
         viewModelScope.launch {
             Repository.updateTeam(BuildTeam(teamName)).runCatching {
                 collect {
@@ -68,7 +77,7 @@ class SignNameViewModel : ViewModel() {
         }
     }
 
-    fun joinTeam(inviteCode : String){
+    fun joinTeam(inviteCode: String) {
         viewModelScope.launch {
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
@@ -77,7 +86,12 @@ class SignNameViewModel : ViewModel() {
                 }
             }
                 .onFailure {
-                    _networkError.value = true
+                  val httpException = it as HttpException
+                  val errorBody = httpException.response()?.errorBody()
+                  val type = object : TypeToken<ErrorResponse>() {}.type
+                  val errorResponse: ErrorResponse = Gson().fromJson(errorBody?.charStream(), type)
+                  _errorMessage.value = errorResponse.errorMessage
+
                 }
         }
     }

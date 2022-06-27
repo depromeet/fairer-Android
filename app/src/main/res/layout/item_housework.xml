@@ -27,25 +27,17 @@
       android:layout_height="match_parent"
       android:padding="14dp">
       
-      <ImageView
-        android:id="@+id/iv_main_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="2dp"
-        android:src="@drawable/ic_profile1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-      
       <TextView
         android:id="@+id/tv_main_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
+        app:layout_constraintEnd_toStartOf="@id/bt_done"
         android:textColor="@color/gray_900"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/iv_main_icon"
-        app:layout_constraintTop_toTopOf="@+id/iv_main_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="TEXT" />
       
       <androidx.appcompat.widget.AppCompatImageView
@@ -67,7 +59,7 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
-  
+      
       <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_main_marker"
         android:layout_width="16dp"
@@ -100,8 +92,21 @@
         android:textColor="@{success ? @color/white : @color/highlight}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+      
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profile_adapter"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="36dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_small_profile" />
     
     </androidx.constraintlayout.widget.ConstraintLayout>
+  
   
   </androidx.cardview.widget.CardView>
 

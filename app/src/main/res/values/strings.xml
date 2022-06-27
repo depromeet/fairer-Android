@@ -65,6 +65,7 @@
     <!-- HomeFragment -->
     <string name="user_name">%s님</string>
     <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
+    <string name="complete_chore_yet">아직 집안일을 하지 않으셨네요.</string>
     <string name="completed_chore">끝낸 집안일</string>
     <string name="remained_chore">남은 집안일</string>
     <string name="add_chore">집안일 추가</string>
@@ -101,6 +102,7 @@
     <string name="sign_profile_text">프로필 사진을 골라주세요.</string>
     <string name="sign_profile_select_text">기본 프로필 선택</string>
     <string name="sign_profile_next_btn_text">선택 완료</string>
+    <string name="setting_profile_status_hint">상태 메세지를 입력해주세요.</string>
 
     <!--JoinGroupFragment-->
     <string name="join_group_main_text">안녕하세요. %s님!\n새로 하우스를 만들거나 참여해주세요.</string>
@@ -144,7 +146,8 @@
     <string name="contact_sign_email">이메일</string>
     <string name="fairer_email"><u>faireran@gmail.com</u></string>
     <string name="contact_sign_instagram">Instagram</string>
-    <string name="fairer_instagram">\@fairer.official</string>
+    <string name="fairer_instagram"><u>\@fairer.official</u></string>
+    <string name="fairer_instagram_link">https://www.instagram.com/fairer.official/</string>
 
     <!-- policyFragment -->
     <string name="policy_header_title">정보</string>
@@ -161,7 +164,7 @@
     <!--InviteCodeFragment-->
     <string name="invite_code_text">초대코드를 입력해주세요.</string>
     <string name="invite_code_sub_text">초대코드를 입력 후 바로 공간에 참여할 수 있어요!</string>
-    <string name="invite_code_hint">10글자 입력</string>
+    <string name="invite_code_hint">14글자 입력</string>
 
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
@@ -190,5 +193,6 @@
     <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
+  <string name="status_hint">상태 메세지를 입력해주세요.</string>
 
 </resources>

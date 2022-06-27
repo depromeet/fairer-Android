@@ -20,6 +20,7 @@ import com.depromeet.housekeeper.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
@@ -47,6 +48,13 @@ class MainFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
+    mainViewModel.apply {
+      getRules()
+      getGroupName()
+      updateState(MainViewModel.CurrentState.REMAIN)
+      updateSelectDate(getToday())
+    }
 
     initView()
     setAdapter()
@@ -120,10 +128,9 @@ class MainFragment : Fragment() {
       })
     binding.rvWeek.adapter = dayOfAdapter
 
-    val list = mainViewModel.myHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+    val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
     houseWorkAdapter = HouseWorkAdapter(list, onClick = {
       it
-      val dayOfWeek = DayOfWeek(it.scheduledDate, false)
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
         viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
     }, {
@@ -135,7 +142,7 @@ class MainFragment : Fragment() {
 
 
     groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
-
+      mainViewModel.updateSelectUser(it.memberId)
     }
     binding.rvGroups.adapter = groupProfileAdapter
   }
@@ -143,18 +150,25 @@ class MainFragment : Fragment() {
   private fun bindingVm() {
     lifecycleScope.launchWhenStarted {
       mainViewModel.completeChoreNum.collect {
-        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
-        binding.tvCompleteHouseChore.text =
-          getSpannableText(
-            completeFormat,
-            completeFormat.indexOf("에") + 1,
-            completeFormat.indexOf("나")
-          )
+        when (it) {
+          0 -> {
+            binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
+          }
+          else -> {
+            val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
+            binding.tvCompleteHouseChore.text =
+              getSpannableText(
+                completeFormat,
+                completeFormat.indexOf("에") + 1,
+                completeFormat.indexOf("나")
+              )
+          }
+        }
       }
     }
 
     lifecycleScope.launchWhenCreated {
-      mainViewModel.myHouseWorks.collect { houseWork ->
+      mainViewModel.selectHouseWork.collect { houseWork ->
 
         houseWork?.let {
           binding.isEmptyDone = it.countDone == 0
@@ -169,19 +183,23 @@ class MainFragment : Fragment() {
 
           binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
           updateHouseWorkData(houseWork)
+
+          it.houseWorks.forEach {
+            mainViewModel.getDetailHouseWork(it.houseWorkId)
+          }
         }
       }
     }
 
-    lifecycleScope.launchWhenCreated {
+    lifecycleScope.launchWhenStarted {
       mainViewModel.currentState.collect {
-        val houseWork = mainViewModel.myHouseWorks.value ?: return@collect
         binding.isSelectDone = it == MainViewModel.CurrentState.DONE
         binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+        val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
         binding.layoutDoneScreen.root.isVisible =
           it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
 
-        mainViewModel.myHouseWorks.value?.let {
+        mainViewModel.selectHouseWork.value?.let {
           updateHouseWorkData(it)
         }
       }
@@ -210,13 +228,28 @@ class MainFragment : Fragment() {
 
     lifecycleScope.launchWhenCreated {
       mainViewModel.groups.collect {
-        groupProfileAdapter.updateDate(it.toMutableList())
+        val profileGroups: List<AssigneeSelect> = it.map {
+          AssigneeSelect(
+            it.memberId,
+            it.memberName,
+            it.profilePath,
+            it.memberId == mainViewModel.selectUserId.value
+          )
+        }
+        groupProfileAdapter.updateDate(profileGroups.toMutableList())
       }
     }
 
-    lifecycleScope.launchWhenStarted {
+    lifecycleScope.launchWhenResumed {
       mainViewModel.rule.collect {
         binding.lvRule.rule = it
+      }
+    }
+
+    lifecycleScope.launchWhenResumed {
+      mainViewModel.selectUserId.collect {
+        mainViewModel.updateSelectHouseWork(it)
+
       }
     }
   }

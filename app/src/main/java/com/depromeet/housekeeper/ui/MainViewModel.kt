@@ -2,7 +2,9 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.UpdateChoreBody
@@ -21,7 +23,6 @@ class MainViewModel : ViewModel() {
   init {
     getCompleteHouseWorkNumber()
     getGroupName()
-    getRules()
   }
 
   private val calendar: Calendar = Calendar.getInstance().apply {
@@ -31,7 +32,7 @@ class MainViewModel : ViewModel() {
   }
 
   private val datePattern = "yyyy-MM-dd-EEE"
-  private val format = SimpleDateFormat(datePattern, Locale.getDefault())
+  val format = SimpleDateFormat(datePattern, Locale.getDefault())
 
   private val _dayOfWeek: MutableStateFlow<DayOfWeek> =
     MutableStateFlow(DayOfWeek(date = format.format(Date(System.currentTimeMillis()))))
@@ -52,6 +53,13 @@ class MainViewModel : ViewModel() {
         isSelect = it == format.format(Calendar.getInstance().time)
       )
     }.toMutableList()
+  }
+
+  fun getToday(): DayOfWeek {
+    return DayOfWeek(
+      date = format.format(Date(System.currentTimeMillis())),
+      isSelect = true
+    )
   }
 
   fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
@@ -108,17 +116,28 @@ class MainViewModel : ViewModel() {
   val completeChoreNum: StateFlow<Int>
     get() = _completeChoreNum
 
-  private val _myHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-  val myHouseWorks: StateFlow<HouseWorks?>
-    get() = _myHouseWorks
+  private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
+  val selectHouseWork: StateFlow<HouseWorks?>
+    get() = _selectHouseWorks
 
-  private val _currentState: MutableStateFlow<CurrentState?> = MutableStateFlow(CurrentState.REMAIN)
-  val currentState: StateFlow<CurrentState?>
+  private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
+
+  private val _currentState: MutableStateFlow<CurrentState> = MutableStateFlow(CurrentState.REMAIN)
+  val currentState: StateFlow<CurrentState>
     get() = _currentState
 
   private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
   val networkError: StateFlow<Boolean>
     get() = _networkError
+
+  private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
+  val selectUserId: StateFlow<Int>
+    get() = _selectUserId
+
+  private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
+    MutableStateFlow(mutableListOf())
+  val userProfiles: StateFlow<MutableList<Assignee>>
+    get() = _userProfiles
 
   fun getHouseWorks() {
     //TODO 성능 개선 필요
@@ -129,13 +148,19 @@ class MainViewModel : ViewModel() {
       Repository.getList(requestDate)
         .runCatching {
           collect {
-            _myHouseWorks.value = it.first()
+            _allHouseWorks.value = it
+            _selectHouseWorks.value =
+              _allHouseWorks.value.find { it.memberId == _selectUserId.value }
           }
         }.onFailure {
           //  _networkError.value = true
         }
     }
     getCompleteHouseWorkNumber()
+  }
+
+  fun updateSelectHouseWork(selectUser: Int) {
+    _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
   }
 
   private fun getCompleteHouseWorkNumber() {
@@ -179,34 +204,75 @@ class MainViewModel : ViewModel() {
   val groupName: StateFlow<String>
     get() = _groupName
 
-  private val _groups: MutableStateFlow<List<Assignee>> = MutableStateFlow(listOf())
-  val groups: MutableStateFlow<List<Assignee>>
+  private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
+  val groups: MutableStateFlow<List<AssigneeSelect>>
     get() = _groups
 
-  private fun getGroupName() {
+  fun getGroupName() {
     viewModelScope.launch {
       Repository.getTeam().runCatching {
         collect {
-          _groupName.value = it.teamName
-          _groups.value = it.members
+
+          val groupSize: Int = it.members.size
+          _groupName.value = "${it.teamName} $groupSize"
+
+          val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
+          val assignees = listOf(myAssignee) + it.members
+
+          _groups.value = assignees.distinct().map {
+            AssigneeSelect(
+              it.memberId,
+              it.memberName,
+              it.profilePath,
+              it.memberId == selectUserId.value
+            )
+          }
         }
       }
-
     }
   }
+
+  fun updateSelectUser(selectUser: Int) {
+    _selectUserId.value = selectUser
+
+    val newGroups = _groups.value.map {
+      AssigneeSelect(
+        it.memberId,
+        it.memberName,
+        it.profilePath,
+        it.memberId == selectUser
+      )
+    }
+    _groups.value = newGroups
+  }
+
 
   private val _rule: MutableStateFlow<String> = MutableStateFlow("")
   val rule: StateFlow<String>
     get() = _rule
 
-  private fun getRules() {
+  fun getRules() {
     viewModelScope.launch {
       Repository.getRules()
         .runCatching {
           collect {
-            _rule.value = it.ruleResponseDtos.random().ruleName
+            _rule.value = when {
+              it.ruleResponseDtos.isNotEmpty() -> it.ruleResponseDtos.random().ruleName
+              else -> ""
+            }
           }
         }
+    }
+  }
+
+  fun getDetailHouseWork(houseWorkId: Int) {
+    viewModelScope.launch {
+      Repository.getDetailHouseWorks(houseWorkId).runCatching {
+        collect {
+          _userProfiles.value = it.assignees.toMutableList()
+        }
+      }.onFailure {
+      }
     }
   }
 

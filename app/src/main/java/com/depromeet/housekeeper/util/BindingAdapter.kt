@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.util
 
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.text.util.Linkify
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -9,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
+import java.util.regex.Pattern
 
 
 object BindingAdapter {
@@ -60,5 +62,12 @@ object BindingAdapter {
       .diskCacheStrategy(DiskCacheStrategy.NONE)
       .apply(RequestOptions().fitCenter())
       .into(imageView)
+  }
+
+  @androidx.databinding.BindingAdapter("app:setLinkify")
+  @JvmStatic fun setLinkify(textView: TextView, patternStr:String, linkStr:String) {
+    val pattern: Pattern = Pattern.compile(patternStr)
+    val transformFilter = Linkify.TransformFilter { _, _ -> "" }
+    Linkify.addLinks(textView, pattern, linkStr, null, transformFilter)
   }
 }

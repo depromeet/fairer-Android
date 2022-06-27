@@ -4,14 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.BuildTeam
+import com.depromeet.housekeeper.model.InviteFailedResponse
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class InviteViewModel : ViewModel() {
@@ -33,6 +32,11 @@ class InviteViewModel : ViewModel() {
         _groupName.value = groupName
     }
 
+    private val _errorBody: MutableStateFlow<InviteFailedResponse?> =
+        MutableStateFlow(null)
+    val errorBody: StateFlow<InviteFailedResponse?>
+        get() = _errorBody
+
     private val _inviteCode: MutableStateFlow<String> =
         MutableStateFlow("")
     val inviteCode: StateFlow<String>
@@ -47,10 +51,6 @@ class InviteViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    fun setInviteCodeValidPeriod() {
-        _inviteCodeValidPeriod.value = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")) + 3600000
-    }
 
     fun setCode(teamName: String) {
         viewModelScope.launch {
@@ -59,6 +59,7 @@ class InviteViewModel : ViewModel() {
             ).runCatching {
                 collect {
                     _inviteCode.value = it.inviteCode
+                    getInviteCodeResponse()
                     PrefsManager.setHasTeam(true)
                 }
             }

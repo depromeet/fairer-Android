@@ -40,7 +40,7 @@ class RuleViewModel : ViewModel() {
       Repository.getRules()
         .runCatching {
           collect {
-            _rules.value = it.ruleResponseDtos
+            _rules.value = it.ruleResponseDtos.sortedByDescending { it.ruleId }
           }
         }
     }

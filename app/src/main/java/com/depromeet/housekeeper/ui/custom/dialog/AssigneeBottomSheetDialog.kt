@@ -53,10 +53,11 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val c
         }
 
         binding.bottomSheetDlgOkBtn.setOnClickListener {
-            addAssignee()
-            mOkBtnClickListener.onOkBtnClick()
+            val curSelectedAssignees = bottomSheetAssigneeAdapter.getSelectedAssignees()
             when {
-                selectedAssignees.isNotEmpty() -> {
+                curSelectedAssignees.isNotEmpty() -> {
+                    addAssignee()
+                    mOkBtnClickListener.onOkBtnClick()
                     dialog!!.dismiss()
                 }
                 else -> {
