@@ -53,7 +53,7 @@ object BindingAdapter {
   @androidx.databinding.BindingAdapter("app:imageUrl","app:placeholder")
   @JvmStatic fun loadImage(imageView: ImageView, url: String, placeholder: Drawable){
     Glide.with(imageView.context)
-      .load(url)
+      .load(url).override(56,56)
       .placeholder(placeholder)
       .error(placeholder)
       .apply(RequestOptions().fitCenter())
