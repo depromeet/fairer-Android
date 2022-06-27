@@ -3,6 +3,7 @@ package com.depromeet.housekeeper.util
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -66,4 +67,9 @@ object BindingAdapter {
     val transformFilter = Linkify.TransformFilter { _, _ -> "" }
     Linkify.addLinks(textView, pattern, linkStr, null, transformFilter)
   }
+  @androidx.databinding.BindingAdapter("app:setSelected")
+  @JvmStatic fun setSelected(imageButton: ImageButton, selected : Boolean){
+    imageButton.isSelected = selected
+  }
+
 }

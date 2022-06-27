@@ -27,6 +27,10 @@
             name="isSelectedChore"
             type="boolean" />
 
+        <variable
+            name="selectedSpace"
+            type="int" />
+
 
     </data>
 
@@ -98,7 +102,8 @@
                     android:background="@drawable/todo1_entrance_selector"
                     android:padding="0dp"
                     app:layout_constraintEnd_toStartOf="@+id/select_space_image_living_room"
-                    app:layout_constraintTop_toBottomOf="@+id/select_space_Calender" />
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_Calender"
+                    app:setSelected="@{selectedSpace==1 ? true : false}" />
 
                 <ImageView
                     android:id="@+id/entrance_badge"
@@ -119,7 +124,8 @@
                     android:padding="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance" />
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance"
+                    app:setSelected="@{selectedSpace==2 ? true : false}"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -137,7 +143,8 @@
                     android:background="@drawable/todo1_bathroom_selector"
                     android:padding="0dp"
                     app:layout_constraintStart_toEndOf="@+id/select_space_image_living_room"
-                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance" />
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_entrance"
+                    app:setSelected="@{selectedSpace==3 ? true : false}"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -156,7 +163,8 @@
                     android:padding="0dp"
                     app:layout_constraintEnd_toEndOf="@+id/select_space_image_entrance"
                     app:layout_constraintStart_toStartOf="@+id/select_space_image_entrance"
-                    app:layout_constraintTop_toBottomOf="@+id/select_space_image_entrance" />
+                    app:layout_constraintTop_toBottomOf="@+id/select_space_image_entrance"
+                    app:setSelected="@{selectedSpace==4 ? true : false}"/>
 
                 <ImageView
                     android:id="@+id/outside_badge"
@@ -176,7 +184,8 @@
                     android:background="@drawable/todo1_room_selector"
                     android:padding="0dp"
                     app:layout_constraintStart_toStartOf="@+id/select_space_image_living_room"
-                    app:layout_constraintTop_toTopOf="@+id/select_space_image_outside" />
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_outside"
+                    app:setSelected="@{selectedSpace==5 ? true : false}"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -193,7 +202,8 @@
                     android:background="@drawable/todo1_kitchen_selector"
                     android:padding="0dp"
                     app:layout_constraintStart_toStartOf="@+id/select_space_image_bathroom"
-                    app:layout_constraintTop_toTopOf="@+id/select_space_image_room" />
+                    app:layout_constraintTop_toTopOf="@+id/select_space_image_room"
+                    app:setSelected="@{selectedSpace==6 ? true : false}"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -208,10 +218,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textColor="@color/gray_500"
-                    android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_info_fill"
+                    android:drawablePadding="5dp"
                     android:text="@string/add_todo_info"
+                    android:textColor="@color/gray_500"
                     android:visibility="@{isSelectedSpace ? View.INVISIBLE :View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_image_outside" />
@@ -268,8 +278,8 @@
                     android:layout_width="319dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_task_text"
                     tools:itemCount="2"
                     tools:listitem="@layout/item_select_space_task"
@@ -281,8 +291,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@string/add_todo_info2"
-                    android:textSize="14sp"
                     android:textColor="@color/gray_300"
+                    android:textSize="14sp"
                     android:visibility="@{isSelectedSpace ? isSelectedChore ? View.INVISIBLE : View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintStart_toStartOf="@id/select_space_image_entrance"
                     app:layout_constraintTop_toBottomOf="@+id/select_space_recyclerview" />
