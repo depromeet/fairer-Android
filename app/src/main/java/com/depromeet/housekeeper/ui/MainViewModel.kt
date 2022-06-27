@@ -108,7 +108,7 @@ class MainViewModel : ViewModel() {
       calendar.add(Calendar.DATE, 1)
       days.add(format.format(calendar.time))
     }
-    return days.map { DayOfWeek(date = it) }.toMutableList()
+    return days.map { DayOfWeek(date = it, isSelect = it == dayOfWeek.value.date) }.toMutableList()
   }
 
   private val _completeChoreNum: MutableStateFlow<Int> =
