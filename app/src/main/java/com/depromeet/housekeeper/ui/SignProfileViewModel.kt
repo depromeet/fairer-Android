@@ -22,9 +22,9 @@ class SignProfileViewModel : ViewModel() {
     val viewType: StateFlow<ProfileViewType>
         get() = _viewType
 
-    private val _MemberName: MutableStateFlow<String> = MutableStateFlow("")
-    val MemberName: StateFlow<String>
-        get() = _MemberName
+    private val _memberName: MutableStateFlow<String> = MutableStateFlow("")
+    val memberName: StateFlow<String>
+        get() = _memberName
 
     private val _isSelected: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isSelected: StateFlow<Boolean>
@@ -54,7 +54,7 @@ class SignProfileViewModel : ViewModel() {
     }
 
     fun setMemberName(memberName: String) {
-        _MemberName.value = memberName
+        _memberName.value = memberName
     }
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -84,7 +84,7 @@ class SignProfileViewModel : ViewModel() {
     fun requestUpdateMember() {
         viewModelScope.launch {
             Repository.updateMember(
-                UpdateMember(_MemberName.value, _selectedImage.value)
+                UpdateMember(_memberName.value, _selectedImage.value)
             ).runCatching {
                 collect {
                     _updateMemberResponse.value = it

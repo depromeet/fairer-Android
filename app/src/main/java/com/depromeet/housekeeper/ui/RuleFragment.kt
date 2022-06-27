@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -42,7 +43,7 @@ class RuleFragment : Fragment() {
     lifecycleScope.launchWhenStarted {
       viewModel.rules.collect {
         when {
-          it.count() > 0 -> {
+          it.isNotEmpty() -> {
             binding.tvRule.visibility = View.VISIBLE
             binding.rvRules.visibility = View.VISIBLE
             adapter.updateDate(it.toMutableList())
@@ -77,10 +78,19 @@ class RuleFragment : Fragment() {
       if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
         val ruleName = binding.etRule.fairerEt.text
         if (ruleName.isNotEmpty()) {
-          viewModel.createRule(ruleName.toString())
-          binding.etRule.fairerEt.text.clear()
-          binding.etRule.fairerEt.requestFocus()
+          if(viewModel.rules.value.count()==10){
+            Toast.makeText(requireContext(),"규칙은 최대 10개까지 만들 수 있습니다.",Toast.LENGTH_LONG).show()
+            binding.etRule.fairerEt.text.clear()
+            binding.etRule.fairerEt.requestFocus()
+          }
+          else{
+            viewModel.createRule(ruleName.toString())
+            binding.etRule.fairerEt.text.clear()
+            binding.etRule.fairerEt.requestFocus()
+          }
+
         }
+
       }
       false
     }

@@ -26,6 +26,9 @@ import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -54,6 +57,7 @@ class MainFragment : Fragment() {
       getGroupName()
       updateState(MainViewModel.CurrentState.REMAIN)
       updateSelectDate(getToday())
+      getCurrentWeek()
     }
 
     initView()
@@ -122,7 +126,7 @@ class MainFragment : Fragment() {
   }
 
   private fun setAdapter() {
-    dayOfAdapter = DayOfWeekAdapter(mainViewModel.getCurrentWeek(),
+    dayOfAdapter = DayOfWeekAdapter(getCurrentWeek(),
       onClick = {
         mainViewModel.updateSelectDate(it)
       })
@@ -283,4 +287,26 @@ class MainFragment : Fragment() {
     }
     houseWorkAdapter?.updateDate(list)
   }
+
+  fun getCurrentWeek(): MutableList<DayOfWeek> {
+    val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
+    val calendar: Calendar = Calendar.getInstance().apply {
+      set(Calendar.MONTH, this.get(Calendar.MONTH))
+      firstDayOfWeek = Calendar.MONDAY
+      set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+    val days = mutableListOf<String>()
+    days.add(format.format(calendar.time))
+    repeat(6) {
+      calendar.add(Calendar.DATE, 1)
+      days.add(format.format(calendar.time))
+    }
+    return days.map {
+      DayOfWeek(
+        date = it,
+        isSelect = it == format.format(Calendar.getInstance().time)
+      )
+    }.toMutableList()
+  }
+
 }

@@ -14,16 +14,18 @@
 
         <View
             android:id="@+id/sign_profile_imageview_bg"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             android:background="@drawable/bg_profile_imageview_inactive"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/sign_profile_imageview"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             app:loadImage="@{vm.selectedImage}"
             app:layout_constraintBottom_toBottomOf="@+id/sign_profile_imageview_bg"
             app:layout_constraintEnd_toEndOf="@+id/sign_profile_imageview_bg"

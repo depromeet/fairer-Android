@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.depromeet.housekeeper.databinding.ItemProfileAddBinding
+import com.depromeet.housekeeper.databinding.ItemProfileBinding
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.AssigneeSelect
 
 class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
     : RecyclerView.Adapter<AddAssigneeAdapter.ViewHolder>() {
@@ -19,7 +20,7 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemProfileAddBinding = ItemProfileAddBinding.inflate(
+        val binding: ItemProfileBinding = ItemProfileBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
@@ -30,10 +31,11 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
     override fun getItemCount(): Int = assignees.size
 
-    inner class ViewHolder(val binding: ItemProfileAddBinding)
+    inner class ViewHolder(val binding: ItemProfileBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bind(assignee: Assignee) {
-            binding.assignTemp = assignee
+            val assigneeSelect = AssigneeSelect(assignee.memberId, assignee.memberName, assignee.profilePath, false)
+            binding.assignTemp = assigneeSelect
             Glide.with(binding.root)
                 .load(assignee.profilePath)
                 .into(binding.ivIcon)

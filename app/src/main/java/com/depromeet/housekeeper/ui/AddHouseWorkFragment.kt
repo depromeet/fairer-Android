@@ -115,9 +115,6 @@ class AddHouseWorkFragment : Fragment() {
             binding.addHouseWorkAllDayCheckBox.isChecked = false
             val time = binding.todoTimePicker.getDisPlayedTime()
             viewModel.updateTime(time.first, time.second)
-
-            // TODO : 진동 실기기로 확인
-            getVibrator(requireContext())
         }
 
         binding.addHouseWorkAllDayCheckBox.apply {

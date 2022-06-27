@@ -41,13 +41,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_profile_header" />
 
-        <include
+        <ImageView
             android:id="@+id/sign_profile_imageview"
-            layout="@layout/layout_profile_imageview"
-            bind:vm="@{vm}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             android:layout_marginTop="24dp"
+            app:loadImage="@{vm.selectedImage}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_profile_text" />
