@@ -55,6 +55,8 @@ class HouseWorkAdapter(
 
   private val datePattern = "HH:MM"
   private val format = SimpleDateFormat(datePattern, Locale.getDefault())
+  private val remoteDatePattern = "YYYY-MM-dd"
+  private val remoteFormat = SimpleDateFormat(remoteDatePattern, Locale.getDefault())
 
   inner class ItemViewHolder(private val binding: ItemHouseworkBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -63,7 +65,11 @@ class HouseWorkAdapter(
       binding.isOver = when {
         houseWork.success -> false
         houseWork.scheduledTime == null -> false
-        else -> houseWork.scheduledTime < format.format(Calendar.getInstance().time)
+        else -> if (remoteFormat.format(Calendar.getInstance().time) == houseWork.scheduledDate) {
+          houseWork.scheduledTime > format.format(Calendar.getInstance().time)
+        } else {
+          false
+        }
       }
       binding.success = houseWork.success
       binding.tvMainTitle.text = houseWork.houseWorkName
