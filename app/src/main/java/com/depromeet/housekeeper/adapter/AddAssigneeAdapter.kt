@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.depromeet.housekeeper.databinding.ItemProfileAddBinding
 import com.depromeet.housekeeper.databinding.ItemProfileBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
