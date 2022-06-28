@@ -2,11 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.model.BuildTeam
-import com.depromeet.housekeeper.model.ErrorResponse
-import com.depromeet.housekeeper.model.JoinTeam
-import com.depromeet.housekeeper.model.JoinTeamResponse
-import com.depromeet.housekeeper.model.TeamUpdateResponse
+import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.google.gson.Gson
@@ -82,7 +79,7 @@ class SignNameViewModel : ViewModel() {
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
                     _responseJoinTeam.value = it
-                    setHasTeam(hasTeam = true)
+                    PrefsManager.setHasTeam(hasTeam = true)
                 }
             }
                 .onFailure {
