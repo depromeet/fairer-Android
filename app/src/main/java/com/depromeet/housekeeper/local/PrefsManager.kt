@@ -38,6 +38,14 @@ object PrefsManager {
     }?.apply()
   }
 
+  fun deleteMemberInfo() {
+    prefs.edit()?.apply {
+      remove(USER_NAME)
+      remove(MEMBER_ID)
+    }?.apply()
+
+  }
+
   val userName: String
     get() = prefs.getString(USER_NAME, "User Name").toString()
 
@@ -72,13 +80,6 @@ object PrefsManager {
     prefs.edit()?.apply {
       putInt(MEMBER_ID, memberId)
     }?.apply()
-  }
-  fun deleteMemberInfo() {
-    prefs.edit()?.apply {
-      setHasTeam(false)
-      remove(MEMBER_ID)
-    }?.apply()
-
   }
 
 }

@@ -15,7 +15,7 @@
   
   <style name="Heading.H2">
     <item name="android:textSize">20sp</item>
-    <item name="android:lineHeight">36dp</item>
+    <item name="android:lineHeight">24dp</item>
     <item name="android:lineSpacingExtra">7sp</item>
   </style>
   

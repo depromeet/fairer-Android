@@ -116,7 +116,7 @@ class LoginFragment : Fragment() {
                         PrefsManager.setUserName(it)
                     }
                     PrefsManager.setMemberId(this.memberId)
-                    this.memberId
+                    // this.memberId
 
                     PrefsManager.setHasTeam(response.hasTeam)
                     PrefsManager.setMemberId(response.memberId)

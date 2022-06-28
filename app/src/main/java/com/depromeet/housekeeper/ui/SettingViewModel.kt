@@ -38,6 +38,7 @@ class SettingViewModel : ViewModel() {
                     collect {
                         Timber.d(it.toString())
                         PrefsManager.deleteTokens()
+                        PrefsManager.deleteMemberInfo()
                     }
                 }.onFailure {
                     _networkError.value = true
