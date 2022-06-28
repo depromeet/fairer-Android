@@ -54,7 +54,7 @@ class SettingFragment : Fragment() {
 
         binding.accountRow.setOnClickListener {
             it.findNavController()
-                .navigate(SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment())
+                .navigate(SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment(null))
         }
 
 
