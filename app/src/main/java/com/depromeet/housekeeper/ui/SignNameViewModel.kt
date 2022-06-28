@@ -31,6 +31,14 @@ class SignNameViewModel : ViewModel() {
     val hasTeam: StateFlow<Boolean>
         get() = _hasTeam
 
+    private val _isDynamicLink: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isDynamicLink: StateFlow<Boolean>
+        get() = _isDynamicLink
+
+    fun setDynamicLink(boolean: Boolean){
+        _isDynamicLink.value = boolean
+    }
+
     //후에 response를 사용할 수 있으므로 남겨놓음
     private val _responseTeamUpdate : MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
     val responseTeamUpdate : StateFlow<TeamUpdateResponse?>

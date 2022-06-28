@@ -120,11 +120,21 @@ class SettingProfileFragment : Fragment() {
     }
 
     binding.profileBtn.mainFooterButton.setOnClickListener {
-      viewModel.updateMe(
-        binding.etName.fairerEt.text.toString(),
-        navArgs.profilePath ?: viewModel.myData.value?.profilePath!!,
-        binding.etStatusMessage.fairerEt.text.toString()
-      )
+      if(navArgs.profilePath!=null){
+        viewModel.updateMe(
+          binding.etName.fairerEt.text.toString(),
+          navArgs.profilePath!!,
+          binding.etStatusMessage.fairerEt.text.toString()
+        )
+      }
+      else{
+        viewModel.updateMe(
+          binding.etName.fairerEt.text.toString(),
+          viewModel.myData.value!!.profilePath,
+          binding.etStatusMessage.fairerEt.text.toString()
+        )
+      }
+
       it.findNavController().navigateUp()
     }
 
