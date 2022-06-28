@@ -1,7 +1,7 @@
 # Fairer
 <img width="80" alt="스크린샷 2022-06-29 오전 12 32 29" src="https://user-images.githubusercontent.com/27774564/176220195-0d1bf1da-8e56-4142-88fc-0fc375b8b768.png">
 
-DDD. 11기에서 활동한 도와조 홈즈 팀의 **Fairer**입니다.
+디프만. 11기에서 활동한 도와조 홈즈 팀의 **Fairer**입니다.
 
 # OverView
 > Peacemaker for houseworker 모든 하우스워커를 위한 피스메이커, 페어러
