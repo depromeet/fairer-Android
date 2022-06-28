@@ -221,6 +221,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         }
         else {
             viewModel.setIsSelectedSpace(true)
+            viewModel.setSpace("")
             when (space) {
                 binding.selectSpaceImageEntrance -> {
                     viewModel.setSpace("ENTRANCE")
