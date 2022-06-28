@@ -3,6 +3,9 @@
 
 디프만. 11기에서 활동한 도와조 홈즈 팀의 **Fairer**입니다.
 
+[![Facebook](https://img.shields.io/badge/facebook-1877f2?style=flat-square&logo=facebook&logoColor=white&link=https://www.facebook.com/fairer.official/)](https://www.facebook.com/fairer.official)
+[![instagram](https://img.shields.io/badge/instagram-E4405F?style=flat-square&logo=Instagram&logoColor=white&link=https://www.instagram.com/fairer.official/)](https://www.instagram.com/fairer.official/)
+
 # OverView
 > Peacemaker for houseworker 모든 하우스워커를 위한 피스메이커, 페어러
 > 집안일 분담 서비스
