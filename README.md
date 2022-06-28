@@ -12,10 +12,11 @@
 
 - 개발 기간 : 2022.03.19 ~ ing 
 - Team
-  - Android 개발자
-    - [김수연](https://github.com/onemask)
-    - [임수진](https://github.com/sujin-kk)
-    - [박정준](https://github.com/wjdwns) 
+  - Android 개발자 <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=Android&logoColor=white"> <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white">
+
+|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176230637-57e8041f-4a38-4ea3-a6f4-970f7bbf02c2.jpeg"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229713-86711288-ac57-4dd5-bf5d-f2ffc4889303.png"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229740-b23830e0-7bba-4966-bca4-c570a971d4d7.jpg"/>|
+|:------:|:---:|:---:|
+|[김수연](https://github.com/onemask)|[임수진](https://github.com/sujin-kk)|[박정준](https://github.com/wjdwns) |
 
 # About
 
@@ -47,6 +48,25 @@
 - GLIDE
 - FIREBASK_BOM
 - TIMBER 
+
+**Foldering**
+```
+.
+├── adapter
+├── local
+├── model
+│   └── enums
+├── network
+│   └── remote
+│       ├── api
+│       ├── model
+│       └── repository
+├── ui
+│   └── custom
+│       ├── dialog
+│       └── timepicker
+└── util
+```
 
 # ToDo
 - 메인 화면 개편
