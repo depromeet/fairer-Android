@@ -27,8 +27,7 @@ import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -89,15 +88,12 @@ class MainFragment : Fragment() {
     binding.tvMonth.setOnClickListener {
       createDatePickerDialog()
     }
-
     binding.tvRemain.setOnClickListener {
       mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
     }
-
     binding.tvEnd.setOnClickListener {
       mainViewModel.updateState(MainViewModel.CurrentState.DONE)
     }
-
     binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }

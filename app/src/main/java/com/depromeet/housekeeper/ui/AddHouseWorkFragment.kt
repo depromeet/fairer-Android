@@ -2,14 +2,10 @@ package com.depromeet.housekeeper.ui
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
-import android.content.Context.VIBRATOR_SERVICE
 import android.os.Bundle
-import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,10 +20,10 @@ import com.depromeet.housekeeper.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
-import com.depromeet.housekeeper.util.getVibrator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
+
 
 class AddHouseWorkFragment : Fragment() {
     lateinit var binding: FragmentAddHouseWorkBinding

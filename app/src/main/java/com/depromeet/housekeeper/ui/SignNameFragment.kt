@@ -1,9 +1,11 @@
 package com.depromeet.housekeeper.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -120,9 +122,10 @@ class SignNameFragment : Fragment() {
             }
         }
         binding.signNameBackground.setOnClickListener{
-            binding.signNameEt.isEnabled = false
+            binding.signNameEt.clearFocus()
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.signNameEt.windowToken, 0)
             binding.isTextChanged = false
-            binding.signNameEt.isEnabled = true
         }
         binding.signNameClear.setOnClickListener {
             binding.signNameEt.setText(R.string.sign_name_blank)
