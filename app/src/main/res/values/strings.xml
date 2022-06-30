@@ -194,5 +194,6 @@
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
   <string name="status_hint">상태 메세지를 입력해주세요.</string>
+    <string name="play_store_fairer">https://play.google.com/store/apps/details?id=com.depromeet.housekeeper</string>
 
 </resources>
