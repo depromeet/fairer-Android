@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.depromeet.housekeeper.R
@@ -32,6 +33,7 @@ object BindingAdapter {
             .override(Target.SIZE_ORIGINAL)
             .placeholder(R.drawable.bg_profile_imageview_inactive)
             .error(R.drawable.bg_profile_imageview_inactive)
+            .format(DecodeFormat.PREFER_ARGB_8888)
             .fitCenter()
             .into(imageView)
     }
@@ -60,6 +62,7 @@ object BindingAdapter {
     fun loadImage(imageView: ImageView, url: String, placeholder: Drawable) {
         Glide.with(imageView.context)
             .load(url)
+            .format(DecodeFormat.PREFER_ARGB_8888)
             .override(Target.SIZE_ORIGINAL)
             .placeholder(placeholder)
             .error(placeholder)
