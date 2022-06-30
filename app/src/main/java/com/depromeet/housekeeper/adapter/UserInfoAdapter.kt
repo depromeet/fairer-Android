@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemUserProfileBinding
 import com.depromeet.housekeeper.model.Assignee
 
-class UserInfoAdapter(private val GroupInfo : List<Assignee>):RecyclerView.Adapter<UserInfoAdapter.ViewHolder>() {
+class UserInfoAdapter(private val GroupInfo : ArrayList<Assignee>):RecyclerView.Adapter<UserInfoAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
