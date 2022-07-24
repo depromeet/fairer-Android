@@ -81,7 +81,7 @@ class MainFragment : Fragment() {
       dayOfAdapter.updateDate(mainViewModel.getLastWeek())
     }
 
-    binding.ivRignt.setOnClickListener {
+    binding.ivRight.setOnClickListener {
       dayOfAdapter.updateDate(mainViewModel.getNextWeek())
     }
 
