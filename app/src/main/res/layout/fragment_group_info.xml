@@ -28,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
+            android:textColor="@color/gray_800"
             android:textSize="20sp"
             style="@style/Heading.H2"/>
         <View

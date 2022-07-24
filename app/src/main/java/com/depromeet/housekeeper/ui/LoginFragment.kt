@@ -116,7 +116,7 @@ class LoginFragment : Fragment() {
                         PrefsManager.setUserName(it)
                     }
                     PrefsManager.setMemberId(this.memberId)
-                    this.memberId
+                    // this.memberId
 
                     PrefsManager.setHasTeam(response.hasTeam)
                     PrefsManager.setMemberId(response.memberId)
@@ -147,30 +147,34 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateDynamicLink() {
-        if (PrefsManager.hasTeam) {
-            findNavController().navigate(
-                LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                    SignViewType.InviteCode,
-                    code = "hasTeam"
-                )
-            )
-        } else {
-            if (PrefsManager.userName == "User Name") {
-                findNavController().navigate(
-                    LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                        SignViewType.UserName,
-                        null
-                    )
-                )
-            } else {
+        if(PrefsManager.refreshToken!=""){
+            if (PrefsManager.hasTeam) {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
                         SignViewType.InviteCode,
-                        navArgs.code
+                        code = "hasTeam"
                     )
                 )
             }
+            else {
+                if (PrefsManager.userName == "User Name") {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                            SignViewType.UserName,
+                            null
+                        )
+                    )
+                } else {
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                            SignViewType.InviteCode,
+                            navArgs.code
+                        )
+                    )
+                }
+            }
         }
+
     }
 
     private fun navigateOnStart() {

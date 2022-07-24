@@ -66,6 +66,10 @@ class SignNameFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.responseJoinTeam.collect {
                 if (it != null) {
+                    if(viewModel.isDynamicLink.value){
+                        findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment2())
+                    }
+                    else
                     findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment())
                 }
             }
@@ -139,6 +143,7 @@ class SignNameFragment : Fragment() {
             viewModel.setInputText(navArgs.code!!)
             binding.signNameEt.setText(navArgs.code)
             binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+            viewModel.setDynamicLink(true)
 
         }
         binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.setOnClickListener {

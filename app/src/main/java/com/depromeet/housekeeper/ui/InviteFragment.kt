@@ -220,11 +220,12 @@ class InviteFragment : Fragment() {
 
 
     private fun initDynamicLink(): Uri {
+        val playStoreUri : Uri =Uri.parse(getString(R.string.play_store_fairer))
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")
             domainUriPrefix = "https://faireran.page.link"
-            androidParameters(requireContext().packageName) {}
+            androidParameters(requireContext().packageName) { fallbackUrl = playStoreUri }
             navigationInfoParameters { forcedRedirectEnabled = true }
         }
         val dynamicLinkUri = dynamicLink.uri

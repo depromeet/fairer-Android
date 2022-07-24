@@ -2,11 +2,8 @@ package com.depromeet.housekeeper.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.model.BuildTeam
-import com.depromeet.housekeeper.model.ErrorResponse
-import com.depromeet.housekeeper.model.JoinTeam
-import com.depromeet.housekeeper.model.JoinTeamResponse
-import com.depromeet.housekeeper.model.TeamUpdateResponse
+import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.google.gson.Gson
@@ -33,6 +30,14 @@ class SignNameViewModel : ViewModel() {
     private val _hasTeam: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasTeam: StateFlow<Boolean>
         get() = _hasTeam
+
+    private val _isDynamicLink: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isDynamicLink: StateFlow<Boolean>
+        get() = _isDynamicLink
+
+    fun setDynamicLink(boolean: Boolean){
+        _isDynamicLink.value = boolean
+    }
 
     //후에 response를 사용할 수 있으므로 남겨놓음
     private val _responseTeamUpdate : MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
@@ -82,7 +87,7 @@ class SignNameViewModel : ViewModel() {
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
                     _responseJoinTeam.value = it
-                    setHasTeam(hasTeam = true)
+                    PrefsManager.setHasTeam(hasTeam = true)
                 }
             }
                 .onFailure {
