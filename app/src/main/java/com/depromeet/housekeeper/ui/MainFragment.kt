@@ -1,6 +1,8 @@
 package com.depromeet.housekeeper.ui
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -8,6 +10,8 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -31,278 +35,289 @@ import java.util.*
 
 class MainFragment : Fragment() {
 
-  lateinit var binding: FragmentMainBinding
-  private lateinit var dayOfAdapter: DayOfWeekAdapter
-  private var houseWorkAdapter: HouseWorkAdapter? = null
-  private lateinit var groupProfileAdapter: GroupProfileAdapter
-  private val mainViewModel: MainViewModel by viewModels()
+    lateinit var binding: FragmentMainBinding
+    private lateinit var dayOfAdapter: DayOfWeekAdapter
+    private var houseWorkAdapter: HouseWorkAdapter? = null
+    private lateinit var groupProfileAdapter: GroupProfileAdapter
+    private val mainViewModel: MainViewModel by viewModels()
 
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?,
-  ): View {
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-    binding.lifecycleOwner = this.viewLifecycleOwner
-    binding.vm = mainViewModel
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.vm = mainViewModel
 
-    return binding.root
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
-    mainViewModel.apply {
-      getRules()
-      getGroupName()
-      updateState(MainViewModel.CurrentState.REMAIN)
-      updateSelectDate(getToday())
-      getCurrentWeek()
+        return binding.root
     }
 
-    initView()
-    setAdapter()
-    bindingVm()
-    setListener()
-  }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-  private fun initView() {
-    val userNameFormat =
-      String.format(resources.getString(R.string.user_name), PrefsManager.userName)
-    binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
-  }
-
-  private fun setListener() {
-    binding.btAddTodo.root.setOnClickListener {
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
-        mainViewModel.dayOfWeek.value))
-    }
-
-    binding.ivLeft.setOnClickListener {
-      dayOfAdapter.updateDate(mainViewModel.getLastWeek())
-    }
-
-    binding.ivRignt.setOnClickListener {
-      dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-    }
-
-    binding.tvMonth.setOnClickListener {
-      createDatePickerDialog()
-    }
-    binding.tvRemain.setOnClickListener {
-      mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
-    }
-    binding.tvEnd.setOnClickListener {
-      mainViewModel.updateState(MainViewModel.CurrentState.DONE)
-    }
-    binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
-    }
-
-    binding.lvRule.root.setOnClickListener {
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
-    }
-  }
-
-  private fun createDatePickerDialog() {
-    val currentDate = mainViewModel.dayOfWeek.value
-
-    val datePickerDialog = DatePickerDialog(
-      this.requireContext(),
-      { _, year, month, dayOfMonth ->
-        //TODO("DayOfWeek Adapter 변경")
-        val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
-        dayOfAdapter.updateDate(list)
-      },
-      currentDate.date.split("-")[0].toInt(),
-      currentDate.date.split("-")[1].toInt() - 1,
-      currentDate.date.split("-")[2].toInt(),
-    )
-    datePickerDialog.show()
-
-  }
-
-  private fun setAdapter() {
-    dayOfAdapter = DayOfWeekAdapter(getCurrentWeek(),
-      onClick = {
-        mainViewModel.updateSelectDate(it)
-      })
-    binding.rvWeek.adapter = dayOfAdapter
-
-    val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
-    houseWorkAdapter = HouseWorkAdapter(list, onClick = {
-      it
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
-        viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
-    }, {
-      mainViewModel.updateChoreState(it.houseWorkId)
-    }
-    )
-    binding.rvHouseWork.adapter = houseWorkAdapter
-    binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
-
-
-    groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
-      mainViewModel.updateSelectUser(it.memberId)
-    }
-    binding.rvGroups.adapter = groupProfileAdapter
-  }
-
-  private fun bindingVm() {
-    lifecycleScope.launchWhenStarted {
-      mainViewModel.completeChoreNum.collect {
-        when (it) {
-          0 -> {
-            binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
-          }
-          else -> {
-            val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
-            binding.tvCompleteHouseChore.text =
-              getSpannableText(
-                completeFormat,
-                completeFormat.indexOf("에") + 1,
-                completeFormat.indexOf("나")
-              )
-          }
+        mainViewModel.apply {
+            getRules()
+            getGroupName()
+            updateState(MainViewModel.CurrentState.REMAIN)
+            updateSelectDate(getToday())
+            getCurrentWeek()
         }
-      }
+
+        initView()
+        setAdapter()
+        bindingVm()
+        setListener()
     }
 
-    lifecycleScope.launchWhenCreated {
-      mainViewModel.selectHouseWork.collect { houseWork ->
+    private fun initView() {
+        val userNameFormat =
+            String.format(resources.getString(R.string.user_name), PrefsManager.userName)
+        binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
+    }
 
-        houseWork?.let {
-          binding.isEmptyDone = it.countDone == 0
-          binding.isEmptyRemain = it.countLeft == 0
-
-          binding.layoutDoneScreen.root.isVisible =
-            mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
-          binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
-
-          binding.tvRemainBadge.text = it.countLeft.toString()
-          binding.tvEndBadge.text = it.countDone.toString()
-
-          binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
-          updateHouseWorkData(houseWork)
-
-          it.houseWorks.forEach {
-            mainViewModel.getDetailHouseWork(it.houseWorkId)
-          }
+    private fun setListener() {
+        binding.btAddTodo.root.setOnClickListener {
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
+                    mainViewModel.dayOfWeek.value
+                )
+            )
         }
-      }
-    }
 
-    lifecycleScope.launchWhenStarted {
-      mainViewModel.currentState.collect {
-        binding.isSelectDone = it == MainViewModel.CurrentState.DONE
-        binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
-        val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
-        binding.layoutDoneScreen.root.isVisible =
-          it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
-
-        mainViewModel.selectHouseWork.value?.let {
-          updateHouseWorkData(it)
+        binding.ivLeft.setOnClickListener {
+            dayOfAdapter.updateDate(mainViewModel.getLastWeek())
         }
-      }
-    }
 
-    lifecycleScope.launchWhenStarted {
-      mainViewModel.dayOfWeek.collect {
-        val year = it.date.split("-")[0]
-        val month = it.date.split("-")[1]
-        binding.tvMonth.text = "${year}년 ${month}월"
-        mainViewModel.getHouseWorks()
-      }
-    }
-
-    lifecycleScope.launchWhenCreated {
-      mainViewModel.networkError.collect {
-        binding.isConnectedNetwork = it
-      }
-    }
-
-    lifecycleScope.launchWhenCreated {
-      mainViewModel.groupName.collect {
-        binding.tvGroupName.text = it
-      }
-    }
-
-    lifecycleScope.launchWhenCreated {
-      mainViewModel.groups.collect {
-        val profileGroups: List<AssigneeSelect> = it.map {
-          AssigneeSelect(
-            it.memberId,
-            it.memberName,
-            it.profilePath,
-            it.memberId == mainViewModel.selectUserId.value
-          )
+        binding.ivRignt.setOnClickListener {
+            dayOfAdapter.updateDate(mainViewModel.getNextWeek())
         }
-        groupProfileAdapter.updateDate(profileGroups.toMutableList())
-      }
+
+        binding.tvMonth.setOnClickListener {
+            createDatePickerDialog()
+        }
+        binding.tvRemain.setOnClickListener {
+            mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
+        }
+        binding.tvEnd.setOnClickListener {
+            mainViewModel.updateState(MainViewModel.CurrentState.DONE)
+        }
+        binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
+        }
+
+        binding.lvRule.root.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
+        }
     }
 
-    lifecycleScope.launchWhenResumed {
-      mainViewModel.rule.collect {
-        binding.lvRule.rule = it
-      }
+    private fun createDatePickerDialog() {
+        val currentDate = mainViewModel.dayOfWeek.value
+
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                //TODO("DayOfWeek Adapter 변경")
+                val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+                dayOfAdapter.updateDate(list)
+            },
+            currentDate.date.split("-")[0].toInt(),
+            currentDate.date.split("-")[1].toInt() - 1,
+            currentDate.date.split("-")[2].toInt(),
+        )
+        datePickerDialog.show()
+
     }
 
-    lifecycleScope.launchWhenResumed {
-      mainViewModel.selectUserId.collect {
-        mainViewModel.updateSelectHouseWork(it)
+    private fun setAdapter() {
+        dayOfAdapter = DayOfWeekAdapter(getCurrentWeek(),
+            onClick = {
+                mainViewModel.updateSelectDate(it)
+            })
+        binding.rvWeek.adapter = dayOfAdapter
 
-      }
-    }
-  }
+        val list =
+            mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
+        houseWorkAdapter = HouseWorkAdapter(list, onClick = {
+            it
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
+                    viewType = ViewType.EDIT,
+                    houseWork = it,
+                    selectDate = mainViewModel.dayOfWeek.value
+                )
+            )
+        }, {
+            mainViewModel.updateChoreState(it.houseWorkId)
+        }
+        )
+        binding.rvHouseWork.adapter = houseWorkAdapter
+        binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
 
-  private fun getSpannableText(format: String, firstIndex: Int, lastIndex: Int): SpannableString {
-    val spannerString2 = SpannableString(format).apply {
-      setSpan(
-        ForegroundColorSpan(Color.parseColor("#0C6DFF")),
-        firstIndex,
-        lastIndex,
-        SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-      )
-    }
-    return spannerString2
-  }
 
-  private fun updateHouseWorkData(houseWork: HouseWorks) {
-    val list = when (mainViewModel.currentState.value) {
-      MainViewModel.CurrentState.REMAIN -> {
-        houseWork.houseWorks
-          .filter { !it.success }
-          .sortedBy { it.scheduledTime }
-          .toMutableList()
-      }
-      else -> {
-        houseWork.houseWorks
-          .filter { it.success }
-          .sortedBy { it.scheduledTime }
-          .toMutableList()
-      }
+        groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
+            mainViewModel.updateSelectUser(it.memberId)
+        }
+        binding.rvGroups.adapter = groupProfileAdapter
     }
-    houseWorkAdapter?.updateDate(list)
-  }
 
-  fun getCurrentWeek(): MutableList<DayOfWeek> {
-    val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
-    val calendar: Calendar = Calendar.getInstance().apply {
-      set(Calendar.MONTH, this.get(Calendar.MONTH))
-      firstDayOfWeek = Calendar.MONDAY
-      set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    private fun bindingVm() {
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.completeChoreNum.collect {
+                when (it) {
+                    0 -> {
+                        binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
+                    }
+                    else -> {
+                        val completeFormat =
+                            String.format(resources.getString(R.string.complete_chore), it)
+                        binding.tvCompleteHouseChore.text =
+                            getSpannableText(
+                                completeFormat,
+                                completeFormat.indexOf("에") + 1,
+                                completeFormat.indexOf("나")
+                            )
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.selectHouseWork.collect { houseWork ->
+
+                houseWork?.let {
+                    binding.isEmptyDone = it.countDone == 0
+                    binding.isEmptyRemain = it.countLeft == 0
+
+                    binding.layoutDoneScreen.root.isVisible =
+                        mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
+                    binding.layoutEmptyScreen.root.isVisible =
+                        (it.countLeft == 0 && it.countDone == 0)
+
+                    binding.tvRemainBadge.text = it.countLeft.toString()
+                    binding.tvEndBadge.text = it.countDone.toString()
+
+                    binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
+                    updateHouseWorkData(houseWork)
+
+                    it.houseWorks.forEach {
+                        mainViewModel.getDetailHouseWork(it.houseWorkId)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.currentState.collect {
+                binding.isSelectDone = it == MainViewModel.CurrentState.DONE
+                binding.isSelectRemain = it == MainViewModel.CurrentState.REMAIN
+                val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
+                binding.layoutDoneScreen.root.isVisible =
+                    it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
+
+                mainViewModel.selectHouseWork.value?.let {
+                    updateHouseWorkData(it)
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.dayOfWeek.collect {
+                val year = it.date.split("-")[0]
+                val month = it.date.split("-")[1]
+                binding.tvMonth.text = "${year}년 ${month}월"
+                mainViewModel.getHouseWorks()
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.networkError.collect {
+                binding.isConnectedNetwork = it
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.groupName.collect {
+                binding.tvGroupName.text = it
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.groups.collect {
+                val profileGroups: List<AssigneeSelect> = it.map {
+                    AssigneeSelect(
+                        it.memberId,
+                        it.memberName,
+                        it.profilePath,
+                        it.memberId == mainViewModel.selectUserId.value
+                    )
+                }
+                groupProfileAdapter.updateDate(profileGroups.toMutableList())
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            mainViewModel.rule.collect {
+                binding.lvRule.rule = it
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            mainViewModel.selectUserId.collect {
+                mainViewModel.updateSelectHouseWork(it)
+
+            }
+        }
     }
-    val days = mutableListOf<String>()
-    days.add(format.format(calendar.time))
-    repeat(6) {
-      calendar.add(Calendar.DATE, 1)
-      days.add(format.format(calendar.time))
+
+    private fun getSpannableText(format: String, firstIndex: Int, lastIndex: Int): SpannableString {
+        val spannerString2 = SpannableString(format).apply {
+            setSpan(
+                ForegroundColorSpan(Color.parseColor("#0C6DFF")),
+                firstIndex,
+                lastIndex,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        return spannerString2
     }
-    return days.map {
-      DayOfWeek(
-        date = it,
-        isSelect = it == format.format(Calendar.getInstance().time)
-      )
-    }.toMutableList()
-  }
+
+    private fun updateHouseWorkData(houseWork: HouseWorks) {
+        val list = when (mainViewModel.currentState.value) {
+            MainViewModel.CurrentState.REMAIN -> {
+                houseWork.houseWorks
+                    .filter { !it.success }
+                    .sortedBy { it.scheduledTime }
+                    .toMutableList()
+            }
+            else -> {
+                houseWork.houseWorks
+                    .filter { it.success }
+                    .sortedBy { it.scheduledTime }
+                    .toMutableList()
+            }
+        }
+        houseWorkAdapter?.updateDate(list)
+    }
+
+    private fun getCurrentWeek(): MutableList<DayOfWeek> {
+        val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.MONTH, this.get(Calendar.MONTH))
+            firstDayOfWeek = Calendar.MONDAY
+            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        }
+        val days = mutableListOf<String>()
+        days.add(format.format(calendar.time))
+        repeat(6) {
+            calendar.add(Calendar.DATE, 1)
+            days.add(format.format(calendar.time))
+        }
+        return days.map {
+            DayOfWeek(
+                date = it,
+                isSelect = it == format.format(Calendar.getInstance().time)
+            )
+        }.toMutableList()
+    }
 
 }
