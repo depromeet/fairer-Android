@@ -104,5 +104,6 @@ dependencies {
     implementation platform(Dependencies.firebaseBOM)
     implementation Dependencies.firebasektx
     implementation Dependencies.firebasedynamiclink
+    implementation Dependencies.firebasemessaging
 
 }
