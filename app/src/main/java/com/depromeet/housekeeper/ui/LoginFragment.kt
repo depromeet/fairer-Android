@@ -43,7 +43,6 @@ class LoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-
         initGoogleLogin()
         bindingVM()
         initListener()
