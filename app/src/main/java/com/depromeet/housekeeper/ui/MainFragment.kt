@@ -1,8 +1,6 @@
 package com.depromeet.housekeeper.ui
 
-import android.Manifest
 import android.app.DatePickerDialog
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -10,8 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -77,18 +73,15 @@ class MainFragment : Fragment() {
 
     private fun setListener() {
         binding.btAddTodo.root.setOnClickListener {
-            findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
-                    mainViewModel.dayOfWeek.value
-                )
-            )
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
+                mainViewModel.dayOfWeek.value))
         }
 
         binding.ivLeft.setOnClickListener {
             dayOfAdapter.updateDate(mainViewModel.getLastWeek())
         }
 
-        binding.ivRignt.setOnClickListener {
+        binding.ivRight.setOnClickListener {
             dayOfAdapter.updateDate(mainViewModel.getNextWeek())
         }
 
@@ -135,17 +128,11 @@ class MainFragment : Fragment() {
             })
         binding.rvWeek.adapter = dayOfAdapter
 
-        val list =
-            mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
+        val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
             it
-            findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
-                    viewType = ViewType.EDIT,
-                    houseWork = it,
-                    selectDate = mainViewModel.dayOfWeek.value
-                )
-            )
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
+                viewType = ViewType.EDIT, houseWork = it, selectDate = mainViewModel.dayOfWeek.value))
         }, {
             mainViewModel.updateChoreState(it.houseWorkId)
         }
@@ -168,8 +155,7 @@ class MainFragment : Fragment() {
                         binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
                     }
                     else -> {
-                        val completeFormat =
-                            String.format(resources.getString(R.string.complete_chore), it)
+                        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
                         binding.tvCompleteHouseChore.text =
                             getSpannableText(
                                 completeFormat,
@@ -190,8 +176,7 @@ class MainFragment : Fragment() {
 
                     binding.layoutDoneScreen.root.isVisible =
                         mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
-                    binding.layoutEmptyScreen.root.isVisible =
-                        (it.countLeft == 0 && it.countDone == 0)
+                    binding.layoutEmptyScreen.root.isVisible = (it.countLeft == 0 && it.countDone == 0)
 
                     binding.tvRemainBadge.text = it.countLeft.toString()
                     binding.tvEndBadge.text = it.countDone.toString()
@@ -299,7 +284,7 @@ class MainFragment : Fragment() {
         houseWorkAdapter?.updateDate(list)
     }
 
-    private fun getCurrentWeek(): MutableList<DayOfWeek> {
+    fun getCurrentWeek(): MutableList<DayOfWeek> {
         val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance().apply {
             set(Calendar.MONTH, this.get(Calendar.MONTH))
