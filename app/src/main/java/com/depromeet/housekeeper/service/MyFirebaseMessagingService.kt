@@ -25,16 +25,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 
     private fun sendTokenToServer() {
         val constraints = Constraints.Builder()
-            /* 네트워크 연결상태에 대한 제약 조건 */
+            /* 네트워크 연결상태 & 배터리 부족에 대한 제약 조건 */
             .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(true)
             .build()
 
-            /* 제약조건과 함께 작업을 생성하거나 */
         val workRequest = OneTimeWorkRequestBuilder<FCMWorker>()
             .setConstraints(constraints)
             .build()
 
-        /* 작업을 생성하고 나중에 제약조건을 설정해 줄수 있다 */
         val workManager = WorkManager.getInstance(application)
         workManager.enqueue(workRequest)
     }

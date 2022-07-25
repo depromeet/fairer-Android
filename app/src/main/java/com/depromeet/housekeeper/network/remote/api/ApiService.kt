@@ -80,6 +80,5 @@ interface ApiService {
   suspend fun updateMe(@Body editProfileModel: EditProfileModel): EditResponseBody
 
   @POST("/api/fcm/token")
-  suspend fun saveToken(@Body token: String)
-
+  fun saveToken(@Body token: Token)
 }
