@@ -34,4 +34,5 @@ interface RemoteDataSource {
   suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody>
   suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
   suspend fun saveToken(token: Token): Flow<Unit>
+  suspend fun sendMessage(message: Message): Flow<Unit>
 }
