@@ -123,6 +123,7 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+        viewModel.sendToken()
     }
 
     private fun initNavigation(response: LoginResponse) {

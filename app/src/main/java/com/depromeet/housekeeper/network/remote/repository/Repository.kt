@@ -116,7 +116,7 @@ object Repository : RemoteDataSource {
     emit(apiService.getDetailHouseWork(houseWorkId))
   }
 
-  override fun saveToken(token: Token): Flow<Unit> = flow {
+  override suspend fun saveToken(token: Token): Flow<Unit> = flow {
     emit(apiService.saveToken(token = token))
   }
 }
