@@ -1,18 +1,22 @@
 package com.depromeet.housekeeper.ui
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.*
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.SocialType
 import com.depromeet.housekeeper.model.Token
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.service.FCMWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -39,37 +43,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//    fun sendFCMTokenToServer(context: Context) {
-//        val constraints = Constraints.Builder()
-//            /* 네트워크 연결상태 & 배터리 부족에 대한 제약 조건 */
-//            .setRequiredNetworkType(NetworkType.CONNECTED)
-//            .setRequiresCharging(true)
-//            .build()
-//
-//        // 10, 20, 40초 늘려가며 retry
-//        val workRequest = OneTimeWorkRequestBuilder<FCMWorker>()
-//            .setConstraints(constraints)
-//            .setBackoffCriteria(
-//                BackoffPolicy.LINEAR,
-//                OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-//                TimeUnit.MILLISECONDS)
-//            .build()
-//
-//        val workManager = WorkManager.getInstance(context)
-//        workManager.enqueue(workRequest)
-//    }
-
-    fun sendToken() {
+    fun saveToken() {
         viewModelScope.launch {
             Repository.saveToken(Token(token = PrefsManager.deviceToken))
                 .runCatching {
                     collect {
-                        Timber.d("set fcm response $this")
+                        Timber.d("set fcm token response $this")
                     }
                 }
                 .onFailure {
-                    Timber.d("$it")
+                    Timber.d("set fcm token error $it")
                 }
         }
     }
+
 }

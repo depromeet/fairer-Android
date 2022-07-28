@@ -83,5 +83,5 @@ interface ApiService {
   suspend fun saveToken(@Body token: Token)
 
   @POST("/api/fcm/message")
-  suspend fun sendMessage(@Body message: Message)
+  fun sendMessage(@Body message: Message)
 }

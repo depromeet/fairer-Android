@@ -120,7 +120,7 @@ object Repository : RemoteDataSource {
     emit(apiService.saveToken(token = token))
   }
 
-  override suspend fun sendMessage(message: Message): Flow<Unit> = flow {
+  override fun sendMessage(message: Message): Flow<Unit> = flow {
     emit(apiService.sendMessage(message = message))
   }
 }
