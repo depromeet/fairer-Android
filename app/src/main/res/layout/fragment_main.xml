@@ -153,51 +153,43 @@
                     style="@style/Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="43dp"
-                    android:drawableStart="@drawable/ic_calendar_today"
+                    android:drawableRight="@drawable/ic_arrow_down"
                     android:drawablePadding="4dp"
-                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:textColor="@color/gray_900"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lv_Rule"
                     tools:text="2022년 * 4월" />
-
-                <ImageView
-                    android:id="@+id/iv_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:src="@drawable/ic_arrow_left"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_week"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/rv_week"
-                    app:tint="@color/gray_600" />
-
-                <ImageView
-                    android:id="@+id/iv_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="13dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/main_today_badge"
+                    app:layout_constraintTop_toBottomOf="@id/lv_Rule"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/rv_week" />
+                    android:layout_marginTop="43dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="@string/main_today"
+                    android:textColor="@color/positive_20"
+                    android:textAlignment="center"
+                    android:paddingTop="1dp"
+                    style="@style/Caption.C1"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_week"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="4dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toStartOf="@id/iv_right"
-                    app:layout_constraintStart_toEndOf="@id/iv_left"
                     app:layout_constraintTop_toBottomOf="@id/tv_month"
-                    tools:listitem="@layout/item_day_of_week" />
+                    android:overScrollMode="never"
+                    android:paddingHorizontal="24dp"
+                    tools:listitem="@layout/item_day_of_week"/>
 
 
                 <include
@@ -304,6 +296,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_end"
+                    android:overScrollMode="never"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_housework" />
             </androidx.constraintlayout.widget.ConstraintLayout>

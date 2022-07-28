@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.GroupProfileAdapter
@@ -77,14 +78,6 @@ class MainFragment : Fragment() {
         mainViewModel.dayOfWeek.value))
     }
 
-    binding.ivLeft.setOnClickListener {
-      dayOfAdapter.updateDate(mainViewModel.getLastWeek())
-    }
-
-    binding.ivRight.setOnClickListener {
-      dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-    }
-
     binding.tvMonth.setOnClickListener {
       createDatePickerDialog()
     }
@@ -126,6 +119,8 @@ class MainFragment : Fragment() {
       onClick = {
         mainViewModel.updateSelectDate(it)
       })
+    val gridLayoutManager = GridLayoutManager(context,7)
+    binding.rvWeek.layoutManager = gridLayoutManager
     binding.rvWeek.adapter = dayOfAdapter
 
     val list = mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
