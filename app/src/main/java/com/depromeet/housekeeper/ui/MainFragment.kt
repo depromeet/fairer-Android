@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.GroupProfileAdapter
@@ -25,8 +27,10 @@ import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.util.OnSwipeTouchListener
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,8 +78,11 @@ class MainFragment : Fragment() {
 
   private fun setListener() {
     binding.btAddTodo.root.setOnClickListener {
-      findNavController().navigate(MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
-        mainViewModel.dayOfWeek.value))
+      findNavController().navigate(
+        MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
+          mainViewModel.dayOfWeek.value
+        )
+      )
     }
 
     binding.tvMonth.setOnClickListener {
@@ -94,6 +101,27 @@ class MainFragment : Fragment() {
     binding.lvRule.root.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
     }
+    binding.rvWeek.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
+      override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+        return false
+      }
+
+      override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+
+      override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+
+    })
+    binding.lvRule.layout.setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
+      override fun onSwipeLeft() {
+        mainViewModel.getNextWeek()
+        Timber.d("swipe left")
+      }
+
+      override fun onSwipeRight() {
+        mainViewModel.getLastWeek()
+        Timber.d("swipe right")
+      }
+    })
   }
 
   private fun createDatePickerDialog() {
@@ -299,5 +327,6 @@ class MainFragment : Fragment() {
       )
     }.toMutableList()
   }
+
 
 }
