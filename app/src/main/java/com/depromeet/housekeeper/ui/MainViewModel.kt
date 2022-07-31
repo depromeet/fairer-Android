@@ -3,20 +3,14 @@ package com.depromeet.housekeeper.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
-import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.DayOfWeek
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.UpdateChoreBody
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -27,8 +21,8 @@ class MainViewModel : ViewModel() {
 
   private val calendar: Calendar = Calendar.getInstance().apply {
     set(Calendar.MONTH, this.get(Calendar.MONTH))
-    firstDayOfWeek = Calendar.MONDAY
-    set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    firstDayOfWeek = Calendar.SUNDAY
+    set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
   }
 
   private val datePattern = "yyyy-MM-dd-EEE"
@@ -71,8 +65,8 @@ class MainViewModel : ViewModel() {
     val selectDate = format.format(calendar.time)
     _dayOfWeek.value = DayOfWeek(selectDate, true)
 
-    calendar.firstDayOfWeek = Calendar.MONDAY
-    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    calendar.firstDayOfWeek = Calendar.SUNDAY
+    calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
     val days = mutableListOf<String>()
     days.add(format.format(calendar.time))

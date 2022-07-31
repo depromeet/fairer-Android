@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -16,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.GroupProfileAdapter
@@ -97,31 +95,22 @@ class MainFragment : Fragment() {
     binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
-
     binding.lvRule.root.setOnClickListener {
       findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
     }
-    binding.rvWeek.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
-      override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        return false
-      }
-
-      override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-
-      override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-
-    })
-    binding.lvRule.layout.setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
+    binding.rvWeek.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
       override fun onSwipeLeft() {
-        mainViewModel.getNextWeek()
+        dayOfAdapter.updateDate(mainViewModel.getNextWeek())
         Timber.d("swipe left")
       }
-
       override fun onSwipeRight() {
-        mainViewModel.getLastWeek()
+        dayOfAdapter.updateDate(mainViewModel.getLastWeek())
         Timber.d("swipe right")
       }
     })
+    binding.tvToday.setOnClickListener {
+      TODO("오늘 눌렀을 때 현재 주의 오늘 isSeleted")
+    }
   }
 
   private fun createDatePickerDialog() {
@@ -311,8 +300,8 @@ class MainFragment : Fragment() {
     val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
     val calendar: Calendar = Calendar.getInstance().apply {
       set(Calendar.MONTH, this.get(Calendar.MONTH))
-      firstDayOfWeek = Calendar.MONDAY
-      set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+      firstDayOfWeek = Calendar.SUNDAY
+      set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
     }
     val days = mutableListOf<String>()
     days.add(format.format(calendar.time))

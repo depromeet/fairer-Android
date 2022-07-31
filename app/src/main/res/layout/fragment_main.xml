@@ -189,6 +189,7 @@
                             tools:text="2022년 * 4월" />
 
                         <TextView
+                            android:id="@+id/tv_today"
                             style="@style/Caption.C1"
                             android:layout_width="40dp"
                             android:layout_height="20dp"
@@ -211,6 +212,7 @@
                             android:layout_marginEnd="4dp"
                             android:orientation="horizontal"
                             android:overScrollMode="never"
+                            android:nestedScrollingEnabled="false"
                             android:paddingHorizontal="24dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintTop_toBottomOf="@id/tv_month"
