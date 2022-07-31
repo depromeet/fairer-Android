@@ -1,30 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
-import com.depromeet.housekeeper.model.BuildTeam
-import com.depromeet.housekeeper.model.BuildTeamResponse
-import com.depromeet.housekeeper.model.Chore
-import com.depromeet.housekeeper.model.ChorePreset
-import com.depromeet.housekeeper.model.Chores
-import com.depromeet.housekeeper.model.CompleteHouseWork
-import com.depromeet.housekeeper.model.EditProfileModel
-import com.depromeet.housekeeper.model.EditResponseBody
-import com.depromeet.housekeeper.model.GetInviteCode
-import com.depromeet.housekeeper.model.Groups
-import com.depromeet.housekeeper.model.HouseWork
-import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.JoinTeam
-import com.depromeet.housekeeper.model.JoinTeamResponse
-import com.depromeet.housekeeper.model.ProfileData
-import com.depromeet.housekeeper.model.ProfileImages
-import com.depromeet.housekeeper.model.Response
-import com.depromeet.housekeeper.model.Rule
-import com.depromeet.housekeeper.model.RuleResponses
-import com.depromeet.housekeeper.model.SocialType
-import com.depromeet.housekeeper.model.TeamUpdateResponse
-import com.depromeet.housekeeper.model.UpdateChoreBody
-import com.depromeet.housekeeper.model.UpdateChoreResponse
-import com.depromeet.housekeeper.model.UpdateMember
-import com.depromeet.housekeeper.model.UpdateMemberResponse
+import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
 import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
 import com.depromeet.housekeeper.network.remote.model.LoginResponse
@@ -138,5 +114,13 @@ object Repository : RemoteDataSource {
 
   override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork> = flow {
     emit(apiService.getDetailHouseWork(houseWorkId))
+  }
+
+  override suspend fun saveToken(token: Token): Flow<Unit> = flow {
+    emit(apiService.saveToken(token = token))
+  }
+
+  override fun sendMessage(message: Message): Flow<Unit> = flow {
+    emit(apiService.sendMessage(message = message))
   }
 }

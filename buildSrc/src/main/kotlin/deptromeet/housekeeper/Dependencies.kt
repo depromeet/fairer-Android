@@ -87,12 +87,17 @@ object Dependencies {
   private const val FIREBASE_SDK = "4.3.10"
   const val firebaseSdk = "com.google.gms:google-services:$FIREBASE_SDK"
 
-  private const val FIREBASK_BOM = "30.0.2"
-  const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASK_BOM"
+  private const val FIREBASE_BOM = "30.0.2"
+  private const val FIREBASE_MESSAGING = "23.0.6"
+  const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASE_BOM"
   const val firebasektx = "com.google.firebase:firebase-analytics-ktx"
   const val firebasedynamiclink = "com.google.firebase:firebase-dynamic-links-ktx"
+  const val firebasemessaging = "com.google.firebase:firebase-messaging-ktx:$FIREBASE_MESSAGING"
 
   private const val GLIDE = "4.13.0"
   const val glide ="com.github.bumptech.glide:glide:$GLIDE"
   const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
+
+  private const val WORKER_MANAGER = "2.7.1"
+  const val workermanager = "androidx.work:work-runtime-ktx:$WORKER_MANAGER"
 }
