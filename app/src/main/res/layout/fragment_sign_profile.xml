@@ -8,7 +8,7 @@
         <import type="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
+            type="com.depromeet.housekeeper.ui.signIn.SignProfileViewModel" />
 
         <variable
             name="viewType"

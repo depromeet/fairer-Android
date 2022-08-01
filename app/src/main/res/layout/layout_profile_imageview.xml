@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.ui.SignProfileViewModel" />
+            type="com.depromeet.housekeeper.ui.signIn.SignProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

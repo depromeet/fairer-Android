@@ -8,7 +8,7 @@
     android:background="@color/positive_0"
     android:gravity="center"
     android:orientation="horizontal"
-    tools:context=".ui.MainFragment">
+    tools:context=".ui.main.MainFragment">
     
     <TextView
       style="@style/Body"

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.LayoutProfileImageviewMiniBinding
-import com.depromeet.housekeeper.ui.SignProfileViewModel
+import com.depromeet.housekeeper.ui.signIn.SignProfileViewModel
 import timber.log.Timber
 
 class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>) :

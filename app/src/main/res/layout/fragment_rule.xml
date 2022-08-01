@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
-            tools:context=".ui.SettingFragment">
+            tools:context=".ui.settings.SettingFragment">
 
             <include
                 android:id="@+id/rule_header"

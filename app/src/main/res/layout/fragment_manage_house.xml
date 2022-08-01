@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.ManageHouseFragment"
+        tools:context=".ui.settings.ManageHouseFragment"
         android:background="@drawable/main_white_background">
 
         <include

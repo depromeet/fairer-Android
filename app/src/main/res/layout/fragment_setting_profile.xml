@@ -37,7 +37,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="true"
-        tools:context=".ui.SettingFragment">
+        tools:context=".ui.settings.SettingFragment">
 
         <include
             android:id="@+id/setting_profile_header"
