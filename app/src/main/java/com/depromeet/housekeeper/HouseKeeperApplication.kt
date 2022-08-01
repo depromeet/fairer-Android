@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper
 
 import android.app.Application
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.kakao.sdk.common.KakaoSdk
 import timber.log.Timber
 

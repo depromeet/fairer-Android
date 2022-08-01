@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.signIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.network.remote.repository.Repository

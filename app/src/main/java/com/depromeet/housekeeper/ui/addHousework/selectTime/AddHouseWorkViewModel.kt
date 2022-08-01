@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores

@@ -1,6 +1,6 @@
 package com.depromeet.housekeeper.network.remote.repository
 
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.network.remote.api.ApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi

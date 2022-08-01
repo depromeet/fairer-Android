@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.local
+package com.depromeet.housekeeper.util
 
 import android.content.Context
 import android.content.SharedPreferences

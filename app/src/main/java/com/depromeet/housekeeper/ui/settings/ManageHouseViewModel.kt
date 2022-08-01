@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

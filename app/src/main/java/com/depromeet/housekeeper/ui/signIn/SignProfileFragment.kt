@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect

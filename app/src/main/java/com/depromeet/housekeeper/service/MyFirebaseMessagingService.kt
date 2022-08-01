@@ -1,17 +1,10 @@
 package com.depromeet.housekeeper.service
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import androidx.work.*
-import com.depromeet.housekeeper.local.PrefsManager
-import com.depromeet.housekeeper.model.Token
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.PrefsManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 

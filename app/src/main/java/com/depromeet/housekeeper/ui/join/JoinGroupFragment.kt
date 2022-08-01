@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
 
 class JoinGroupFragment : Fragment() {
@@ -52,7 +52,7 @@ class JoinGroupFragment : Fragment() {
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
         spanText.apply{
             setSpan(ForegroundColorSpan(resources.getColor(R.color.highlight)),
-                6,6+PrefsManager.userName.length+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                6,6+ PrefsManager.userName.length+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         binding.joinGroupMainText.text = spanText
     }

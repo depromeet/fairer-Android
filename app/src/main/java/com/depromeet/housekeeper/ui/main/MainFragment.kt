@@ -19,7 +19,7 @@ import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks

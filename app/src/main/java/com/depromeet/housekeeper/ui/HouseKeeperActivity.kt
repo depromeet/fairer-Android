@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper
+package com.depromeet.housekeeper.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -7,14 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ActivityMainBinding
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class HouseKeeperActivity : AppCompatActivity() {
 
-  private val viewModel : MainViewModel by viewModels()
+  private val viewModel : HouseKeeperViewModel by viewModels()
   lateinit var binding: ActivityMainBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {

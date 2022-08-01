@@ -3,7 +3,7 @@ package com.depromeet.housekeeper.ui.signIn
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.SocialType
 import com.depromeet.housekeeper.model.Token
 import com.depromeet.housekeeper.network.remote.model.LoginResponse

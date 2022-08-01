@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.join
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.InviteFailedResponse
 import com.depromeet.housekeeper.model.enums.InviteViewType
