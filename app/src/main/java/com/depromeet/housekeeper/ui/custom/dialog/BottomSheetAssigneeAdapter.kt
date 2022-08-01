@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.adapter
+package com.depromeet.housekeeper.ui.custom.dialog
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.databinding.ItemBottomSheetAssigneeBinding
 import com.depromeet.housekeeper.model.Assignee
-import timber.log.Timber
 
 class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>)
     : RecyclerView.Adapter<BottomSheetAssigneeAdapter.ViewHolder>() {

@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.SignProfileAdapter
+import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.enums.ProfileViewType

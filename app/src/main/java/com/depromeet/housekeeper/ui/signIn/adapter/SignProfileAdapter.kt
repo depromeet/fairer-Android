@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.adapter
+package com.depromeet.housekeeper.ui.signIn.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ class SignProfileAdapter(private val profiles: List<SignProfileViewModel.Profile
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SignProfileAdapter.ViewHolder {
+    ): ViewHolder {
         val binding: LayoutProfileImageviewMiniBinding = LayoutProfileImageviewMiniBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -23,7 +23,7 @@ class SignProfileAdapter(private val profiles: List<SignProfileViewModel.Profile
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SignProfileAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         return holder.bind(profiles[position])
     }
 

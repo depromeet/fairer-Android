@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.RuleAdapter
+import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.databinding.FragmentRuleBinding
 import kotlinx.coroutines.flow.collect
 

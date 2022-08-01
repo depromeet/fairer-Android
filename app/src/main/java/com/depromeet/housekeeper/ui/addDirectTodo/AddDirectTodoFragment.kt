@@ -17,8 +17,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.AddAssigneeAdapter
-import com.depromeet.housekeeper.adapter.DayRepeatAdapter
+import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
+import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType

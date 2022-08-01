@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.BottomSheetAssigneeAdapter
 import com.depromeet.housekeeper.databinding.FragmentAssigneeBottomSheetDialogBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

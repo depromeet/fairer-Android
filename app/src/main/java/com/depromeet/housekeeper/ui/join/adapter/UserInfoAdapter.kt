@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.adapter
+package com.depromeet.housekeeper.ui.join.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,13 +10,13 @@ class UserInfoAdapter(private val GroupInfo : ArrayList<Assignee>):RecyclerView.
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UserInfoAdapter.ViewHolder {
+    ): ViewHolder {
         val binding: ItemUserProfileBinding = ItemUserProfileBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: UserInfoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         return holder.bind(GroupInfo[position])
     }
 

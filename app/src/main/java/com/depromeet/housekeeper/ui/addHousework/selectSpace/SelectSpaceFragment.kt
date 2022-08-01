@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.SelectSpaceChoreAdapter
+import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
@@ -28,7 +28,7 @@ import java.util.*
 
 class SelectSpaceFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentSelectSpaceBinding
-    private lateinit var myAdapter:SelectSpaceChoreAdapter
+    private lateinit var myAdapter: SelectSpaceChoreAdapter
     private val viewModel: SelectSpaceViewModel by viewModels()
     private val navArgs by navArgs<SelectSpaceFragmentArgs>()
 

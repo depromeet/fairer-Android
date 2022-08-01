@@ -14,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
+import com.depromeet.housekeeper.ui.join.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 

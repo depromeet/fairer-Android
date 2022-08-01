@@ -15,9 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
-import com.depromeet.housekeeper.adapter.GroupProfileAdapter
-import com.depromeet.housekeeper.adapter.HouseWorkAdapter
+import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
+import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
+import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect

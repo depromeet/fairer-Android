@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.adapter
+package com.depromeet.housekeeper.ui.addHousework.selectTime.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

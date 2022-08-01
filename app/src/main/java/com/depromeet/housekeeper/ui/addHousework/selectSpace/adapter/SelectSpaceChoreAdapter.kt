@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.adapter
+package com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +20,12 @@ class SelectSpaceChoreAdapter(private val chores: List<String>):RecyclerView.Ada
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SelectSpaceChoreAdapter.ViewHolder {
+    ): ViewHolder {
         val binding:ItemSelectSpaceTaskBinding = ItemSelectSpaceTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SelectSpaceChoreAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         return holder.bind(chores[position])
     }
 
