@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.SocialType
 import com.depromeet.housekeeper.model.Token
-import com.depromeet.housekeeper.network.remote.model.LoginResponse
+import com.depromeet.housekeeper.model.LoginResponse
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -2,8 +2,8 @@ package com.depromeet.housekeeper.network.remote.repository
 
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.api.RemoteDataSource
-import com.depromeet.housekeeper.network.remote.model.HouseWorkCreateResponse
-import com.depromeet.housekeeper.network.remote.model.LoginResponse
+import com.depromeet.housekeeper.model.HouseWorkCreateResponse
+import com.depromeet.housekeeper.model.LoginResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
