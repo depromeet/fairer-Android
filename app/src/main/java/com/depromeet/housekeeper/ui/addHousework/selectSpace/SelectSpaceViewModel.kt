@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

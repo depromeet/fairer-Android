@@ -6,7 +6,7 @@ import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.BuildTeam
 import com.depromeet.housekeeper.model.InviteFailedResponse
 import com.depromeet.housekeeper.model.enums.InviteViewType
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect

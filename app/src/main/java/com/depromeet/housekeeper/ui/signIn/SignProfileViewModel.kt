@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.model.UpdateMember
 import com.depromeet.housekeeper.model.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect

@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.network.remote.api
+package com.depromeet.housekeeper.data.remote
 
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.HouseWorkCreateResponse

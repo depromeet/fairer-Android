@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.MutableStateFlow

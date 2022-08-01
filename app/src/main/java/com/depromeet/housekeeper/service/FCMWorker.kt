@@ -6,7 +6,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.Token
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 

@@ -1,7 +1,7 @@
-package com.depromeet.housekeeper.network.remote.repository
+package com.depromeet.housekeeper.data
 
 import com.depromeet.housekeeper.util.PrefsManager
-import com.depromeet.housekeeper.network.remote.api.ApiService
+import com.depromeet.housekeeper.data.remote.ApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

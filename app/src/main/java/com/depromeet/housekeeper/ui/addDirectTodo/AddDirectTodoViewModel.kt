@@ -7,7 +7,7 @@ import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.util.dayMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
