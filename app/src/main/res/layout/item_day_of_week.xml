@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="isSelect"
@@ -16,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_calendar"
             android:layout_width="40dp"
             android:layout_height="56dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background}"
             >
+
             <TextView
                 android:id="@+id/tv_num_day"
                 style="@style/Caption"
@@ -40,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:textStyle='@{isSelect ? "bold" : "normal"}'
                 tools:text="13"
-                android:layout_marginTop="7dp"/>
+                android:layout_marginTop="4dp"/>
 
             <TextView
                 android:id="@+id/tv_str_day"
@@ -58,5 +62,22 @@
                 app:textStyle='@{isSelect ? "bold" : "normal"}'
                 tools:text="금" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_chore_size"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:background="@drawable/bg_highlight_box"
+            android:text="0"
+            android:visibility="@{!isSelect ? View.INVISIBLE : View.VISIBLE}"
+            android:textSize="11sp"
+            style="@style/Caption.C1"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_marginBottom="52dp"
+            android:paddingRight="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/layout_calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

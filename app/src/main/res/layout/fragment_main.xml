@@ -203,18 +203,44 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/lv_Rule_view" />
 
+                        <ImageView
+                            android:id="@+id/iv_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="13dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_arrow_left"
+                            app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/rv_week"
+                            app:tint="@color/gray_600" />
+
+                        <ImageView
+                            android:id="@+id/iv_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="13dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_arrow_right"
+                            app:layout_constraintBottom_toBottomOf="@+id/rv_week"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/rv_week" />
+
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_week"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginEnd="4dp"
+                            android:nestedScrollingEnabled="false"
                             android:orientation="horizontal"
                             android:overScrollMode="never"
-                            android:nestedScrollingEnabled="false"
                             android:paddingHorizontal="24dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toStartOf="@id/iv_right"
+                            app:layout_constraintStart_toEndOf="@id/iv_left"
                             app:layout_constraintTop_toBottomOf="@id/tv_month"
                             tools:listitem="@layout/item_day_of_week" />
 
@@ -256,7 +282,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="16dp"
                             android:text="@string/remained_chore"
                             android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
                             app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
@@ -286,7 +312,7 @@
                             style="@style/Title.T1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="20dp"
                             android:text="@string/completed_chore"
                             android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
