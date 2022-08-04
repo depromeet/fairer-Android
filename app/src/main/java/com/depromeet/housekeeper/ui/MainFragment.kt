@@ -83,7 +83,6 @@ class MainFragment : Fragment() {
                 )
             )
         }
-
         binding.tvMonth.setOnClickListener {
             createDatePickerDialog()
         }

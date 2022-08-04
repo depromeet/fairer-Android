@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteDataSource {
   suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse>
   suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>>
-  suspend fun getHouseWorkList(): Flow<ChorePreset>
+  suspend fun getHouseWorkList(): Flow<List<ChoreList>>
   suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
   suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse>
   suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit>
