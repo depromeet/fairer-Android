@@ -141,8 +141,7 @@ class MainFragment : Fragment() {
 
         val list =
             mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
-        houseWorkAdapter = HouseWorkAdapter(list, onClick = {
-            it
+        houseWorkAdapter = HouseWorkAdapter(list, onClick = { it
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
                     viewType = ViewType.EDIT,
