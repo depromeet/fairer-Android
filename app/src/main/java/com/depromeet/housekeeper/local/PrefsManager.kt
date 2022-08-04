@@ -12,7 +12,7 @@ object PrefsManager {
   private const val HAS_TEAM = "HAS_TEAM"
   private const val AUTH_CODE = "AUTH_CODE"
   private const val MEMBER_ID = "MEMBER_ID"
-
+  private const val DEVICE_TOKEN = "DEViCE_TOKEN"
 
   fun init(context: Context) {
     prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
@@ -24,10 +24,19 @@ object PrefsManager {
   val refreshToken: String
     get() = prefs.getString(REFRESH_TOKEN, "").toString()
 
+  val deviceToken: String
+    get() = prefs.getString(DEVICE_TOKEN, "").toString()
+
   fun setTokens(accessToken: String, refreshToken: String) {
     prefs.edit()?.apply {
       putString(ACCESS_TOKEN, accessToken)
       putString(REFRESH_TOKEN, refreshToken)
+    }?.apply()
+  }
+
+  fun setDeviceToken(deviceToken: String) {
+    prefs.edit()?.apply {
+      putString(DEVICE_TOKEN, deviceToken)
     }?.apply()
   }
 
@@ -43,7 +52,6 @@ object PrefsManager {
       remove(USER_NAME)
       remove(MEMBER_ID)
     }?.apply()
-
   }
 
   val userName: String

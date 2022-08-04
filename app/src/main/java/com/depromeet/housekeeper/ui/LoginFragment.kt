@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -42,7 +43,6 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
-
 
         initGoogleLogin()
         bindingVM()
@@ -112,6 +112,10 @@ class LoginFragment : Fragment() {
                 Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, MemberName: ${response?.memberName}")
                 response?.run {
                     PrefsManager.setTokens(response.accessToken, response.refreshToken)
+
+                    // set fcm token
+                    viewModel.saveToken()
+
                     response.memberName?.let {
                         PrefsManager.setUserName(it)
                     }

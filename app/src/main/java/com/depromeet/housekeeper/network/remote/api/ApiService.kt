@@ -79,4 +79,9 @@ interface ApiService {
   @PATCH("/api/member")
   suspend fun updateMe(@Body editProfileModel: EditProfileModel): EditResponseBody
 
+  @POST("/api/fcm/token")
+  suspend fun saveToken(@Body token: Token)
+
+  @POST("/api/fcm/message")
+  fun sendMessage(@Body message: Message)
 }

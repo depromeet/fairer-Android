@@ -204,7 +204,6 @@ class MainFragment : Fragment() {
 
                     binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
                     updateHouseWorkData(houseWork)
-
                     it.houseWorks.forEach {
                         mainViewModel.getDetailHouseWork(it.houseWorkId)
                     }

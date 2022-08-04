@@ -286,7 +286,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-
     enum class CurrentState {
         REMAIN,
         DONE
