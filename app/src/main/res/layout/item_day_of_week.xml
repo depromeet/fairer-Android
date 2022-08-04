@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background}"
+            android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background, default = @drawable/main_white_background}"
             >
 
             <TextView
@@ -37,7 +37,7 @@
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:textAlignment="center"
-                android:textColor="@{isSelect ? @color/highlight : @color/gray_400}"
+                android:textColor="@{isSelect ? @color/highlight : @color/gray_400,default = @color/gray_400}"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:textAlignment="center"
-                android:textColor="@{isSelect ? @color/highlight : @color/gray_400}"
+                android:textColor="@{isSelect ? @color/highlight : @color/gray_400 , default = @color/gray_400}"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,8 +67,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:background="@drawable/bg_highlight_box"
-            android:text="0"
-            android:visibility="@{!isSelect ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{isSelect ? View.VISIBLE : View.INVISIBLE, default = invisible}"
             android:textSize="11sp"
             style="@style/Caption.C1"
             android:textColor="@color/white"

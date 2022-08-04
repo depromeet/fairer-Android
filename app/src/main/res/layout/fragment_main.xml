@@ -203,33 +203,9 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/lv_Rule_view" />
 
-                        <ImageView
-                            android:id="@+id/iv_left"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="13dp"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_arrow_left"
-                            app:layout_constraintBottom_toBottomOf="@+id/rv_week"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/rv_week"
-                            app:tint="@color/gray_600" />
-
-                        <ImageView
-                            android:id="@+id/iv_right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="13dp"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_arrow_right"
-                            app:layout_constraintBottom_toBottomOf="@+id/rv_week"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/rv_week" />
-
-
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_week"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="12dp"
@@ -239,26 +215,8 @@
                             android:overScrollMode="never"
                             android:paddingHorizontal="24dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintEnd_toStartOf="@id/iv_right"
-                            app:layout_constraintStart_toEndOf="@id/iv_left"
                             app:layout_constraintTop_toBottomOf="@id/tv_month"
                             tools:listitem="@layout/item_day_of_week" />
-
-
-                        <include
-                            android:id="@+id/bt_add_todo"
-                            style="@style/Body"
-                            layout="@layout/layout_home_add_chore"
-                            android:layout_width="0dp"
-                            android:layout_height="45dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="20dp"
-                            android:paddingStart="20dp"
-                            android:paddingEnd="20dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/rv_week" />
 
                         <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
                         <TextView
@@ -282,11 +240,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="10dp"
                             android:text="@string/remained_chore"
                             android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
                             app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
-                            app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+                            app:layout_constraintTop_toBottomOf="@id/rv_week"
                             app:textStyle='@{isSelectRemain ? "bold" : "normal"}'
                             tools:text="@string/remained_chore" />
 
@@ -312,12 +270,12 @@
                             style="@style/Title.T1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="20dp"
                             android:text="@string/completed_chore"
                             android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/bt_add_todo"
+                            app:layout_constraintTop_toBottomOf="@id/rv_week"
                             app:textStyle='@{isSelectDone ? "bold" : "normal"}'
                             tools:text="@string/completed_chore" />
 
@@ -358,5 +316,19 @@
                     tools:listitem="@layout/item_housework" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/bt_add_todo"
+            style="@style/Body"
+            layout="@layout/layout_home_add_chore"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

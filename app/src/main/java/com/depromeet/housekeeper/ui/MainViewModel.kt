@@ -35,7 +35,7 @@ class MainViewModel : ViewModel() {
     val dayOfWeek: StateFlow<DayOfWeek>
         get() = _dayOfWeek
 
-    fun getCurrentWeek(): MutableList<DayOfWeek> {
+    private fun getCurrentWeek(): MutableList<DayOfWeek> {
         val format = SimpleDateFormat(datePattern, Locale.getDefault())
         val days = mutableListOf<String>()
         days.add(format.format(calendar.time))
