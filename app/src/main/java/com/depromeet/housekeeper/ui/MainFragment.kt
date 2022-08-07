@@ -79,7 +79,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setListener() {
-        binding.btAddTodo.root.setOnClickListener {
+        binding.btAddTodo.addChoreView.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToSelectSpaceFragment(
                     mainViewModel.dayOfWeek.value
@@ -338,6 +338,18 @@ class MainFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 Timber.d("swipe called")
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
             }
 
         }

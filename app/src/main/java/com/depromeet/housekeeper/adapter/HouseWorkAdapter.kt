@@ -7,8 +7,7 @@ import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class HouseWorkAdapter(
   private val list: MutableList<HouseWork>,
@@ -80,9 +79,9 @@ class HouseWorkAdapter(
         onClick.invoke(houseWork)
       }
 
-      binding.btDone.setOnClickListener {
+      /*binding.btDone.setOnClickListener {
         onDone.invoke(houseWork)
-      }
+      }*/
       val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
       binding.rvProfileAdapter.adapter = adapter
 
