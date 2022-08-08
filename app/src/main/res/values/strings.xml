@@ -193,7 +193,16 @@
     <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
-  <string name="status_hint">상태 메세지를 입력해주세요.</string>
+    <string name="status_hint">상태 메세지를 입력해주세요.</string>
     <string name="play_store_fairer">https://play.google.com/store/apps/details?id=com.depromeet.housekeeper</string>
+
+    <!-- fcm string -->
+    <string name="default_notification_channel_id">fairer-def59</string>
+    <string name="fcm_add_member_title">%s님이 %s에 참여</string>
+    <string name="fcm_add_member_body">앞으로 함께 평화롭게 집안일 해보아요✨</string>
+    <string name="fcm_remain_chore_title">아직 끝내지 못한 집안일 %d개</string>
+    <string name="fcm_remain_chore_body">‘%s’이 남아있어요!😢</string>
+    <string name="fcm_add_chore_title">오늘 할 집안일을 추가해보세요!</string>
+    <string name="fcm_add_chore_body">오늘도 평화롭고 깨끗한 %s 만들어봐요!</string>
 
 </resources>

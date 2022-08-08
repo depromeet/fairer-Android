@@ -1,21 +1,14 @@
 package com.depromeet.housekeeper.service
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import androidx.work.*
 import com.depromeet.housekeeper.local.PrefsManager
-import com.depromeet.housekeeper.model.Token
-import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class MyFirebaseMessagingService: FirebaseMessagingService() {
+class FairerFirebaseMessagingService: FirebaseMessagingService() {
     @Override
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -26,8 +19,30 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
     @Override
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        Timber.d("From: ${message.from}")
+        if (message.data.isNotEmpty()) {
+            Timber.d("Message data payload: ${message.data}")
 
-        // TODO : 메세지 수신 후 처리
+            if (/* Check if data needs to be processed by long running job */ true) {
+                // For long-running tasks (10 seconds or more) use WorkManager.
+                scheduleJob()
+            } else {
+                // Handle message within 10 seconds
+                handleNow()
+            }
+        }
+
+        message.notification?.let {
+            Timber.d("Message Notification Body: ${it.body}")
+        }
+    }
+
+    private fun scheduleJob() {
+
+    }
+
+    private fun handleNow() {
+
     }
 
     private fun showNotification(messageTitle: String, messageBody: String) {
