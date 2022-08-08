@@ -30,9 +30,9 @@ import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.util.SwipeHelperCallback
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -105,6 +105,7 @@ class MainFragment : Fragment() {
             dayOfAdapter.updateDate(getCurrentWeek())
             mainViewModel.updateSelectDate(mainViewModel.getToday())
         }
+
     }
 
     private fun createDatePickerDialog() {
@@ -155,8 +156,15 @@ class MainFragment : Fragment() {
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
         binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
-        choreSwipeListener()
-
+        val swipeHelperCallback = SwipeHelperCallback(houseWorkAdapter!!).apply {
+            // 스와이프한 뒤 고정시킬 위치 지정
+            setClamp(resources.displayMetrics.widthPixels.toFloat() / 5)    // 1080 / 4 = 270
+        }
+        ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvHouseWork)
+        binding.rvHouseWork.setOnTouchListener { _, _ ->
+            swipeHelperCallback.removePreviousClamp(binding.rvHouseWork)
+            false
+        }
 
         groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
             mainViewModel.updateSelectUser(it.memberId)
@@ -324,38 +332,6 @@ class MainFragment : Fragment() {
         }.toMutableList()
     }
 
-    private fun choreSwipeListener() {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Timber.d("swipe called")
-            }
-
-            override fun onChildDraw(
-                c: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-
-            }
-
-        }
-        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvHouseWork)
-    }
-
     private fun rvWeekSwipeListener(){
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -397,9 +373,7 @@ class MainFragment : Fragment() {
                     ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
                     ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
                 }
-
             }
-
         }
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
     }
