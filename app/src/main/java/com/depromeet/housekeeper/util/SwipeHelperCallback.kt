@@ -3,12 +3,10 @@ package com.depromeet.housekeeper.util
 import android.graphics.Canvas
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
-import androidx.recyclerview.widget.ItemTouchHelper.LEFT
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
-import java.lang.Float.min
 
 class SwipeHelperCallback(private val recyclerViewAdapter : HouseWorkAdapter)  : ItemTouchHelper.Callback() {
 
@@ -23,7 +21,7 @@ class SwipeHelperCallback(private val recyclerViewAdapter : HouseWorkAdapter)  :
         // 드래그 방향 : 위, 아래 인식
         // 스와이프 방향 : 왼쪽, 오른쪽 인식
         // 설정 안 하고 싶으면 0
-        return makeMovementFlags(0, LEFT)
+        return makeMovementFlags(0, LEFT or RIGHT)
     }
 
     // 드래그 일어날 때 동작 (롱터치 후 드래그)
@@ -107,9 +105,6 @@ class SwipeHelperCallback(private val recyclerViewAdapter : HouseWorkAdapter)  :
         isClamped: Boolean,
         isCurrentlyActive: Boolean
     ) : Float {
-        // RIGHT 방향으로 swipe 막기
-        val max = 0f
-
         // 고정할 수 있으면
         val newX = if (isClamped) {
             // 현재 swipe 중이면 swipe되는 영역 제한
@@ -125,7 +120,7 @@ class SwipeHelperCallback(private val recyclerViewAdapter : HouseWorkAdapter)  :
         else dX / 4
 
         // newX가 0보다 작은지 확인
-        return min(newX, max)
+        return newX
     }
 
     // isClamped를 view의 tag로 관리

@@ -24,15 +24,23 @@
             android:orientation="horizontal"
             android:background="@drawable/bg_highlight_box"
             android:layout_marginHorizontal="1dp"
-            android:weightSum="4">
+            android:weightSum="8">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_highlight_box"
+                android:text="@string/main_complete"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="3"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="2"/>
 
             <TextView
-                android:id="@+id/tvRemove"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_highlight_box"
