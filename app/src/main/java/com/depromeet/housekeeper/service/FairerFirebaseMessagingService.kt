@@ -17,7 +17,6 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.local.PrefsManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import okhttp3.internal.notify
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random

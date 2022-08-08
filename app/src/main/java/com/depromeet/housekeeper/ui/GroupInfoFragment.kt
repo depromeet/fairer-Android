@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
+import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.model.Message
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import kotlinx.serialization.StringFormat
 
 class GroupInfoFragment : Fragment() {
     lateinit var binding: FragmentGroupInfoBinding
@@ -37,6 +40,7 @@ class GroupInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         bindingVm()
         setAdapter()
         initListener()
@@ -54,6 +58,9 @@ class GroupInfoFragment : Fragment() {
             viewModel.groups.collect {
                 setAdapter()
             }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.sendAddMemberFCM(requireContext())
         }
     }
 

@@ -17,7 +17,6 @@ interface RemoteDataSource {
     houseWorkId: Int,
     updateChoreBody: UpdateChoreBody,
   ): Flow<UpdateChoreResponse>
-
   suspend fun logout(): Flow<Unit>
   suspend fun buildTeam(buildTeam: BuildTeam): Flow<BuildTeamResponse>
   suspend fun getTeam(): Flow<Groups>
@@ -34,5 +33,5 @@ interface RemoteDataSource {
   suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody>
   suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
   suspend fun saveToken(token: Token): Flow<Unit>
-  fun sendMessage(message: Message): Flow<Unit>
+  suspend fun sendMessage(message: Message): Flow<Message>
 }
