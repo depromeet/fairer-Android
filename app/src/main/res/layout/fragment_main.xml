@@ -219,65 +219,6 @@
                             tools:listitem="@layout/item_day_of_week" />
 
                         <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
-                        <TextView
-                            android:id="@+id/tv_remain_badge"
-                            style="@style/Caption"
-                            android:layout_width="28dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="21dp"
-                            android:background="@{isSelectRemain ? isEmptyRemain ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
-                            android:gravity="center"
-                            android:padding="1dp"
-                            android:textColor="@{isSelectRemain ? @color/white : @color/gray_400}"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_remain"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_remain"
-                            tools:text="0" />
-
-                        <TextView
-                            android:id="@+id/tv_remain"
-                            style="@style/Title.T1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/remained_chore"
-                            android:textColor="@{isSelectRemain ? @color/gray_900 : @color/gray_400}"
-                            app:layout_constraintStart_toEndOf="@id/tv_remain_badge"
-                            app:layout_constraintTop_toBottomOf="@id/rv_week"
-                            app:textStyle='@{isSelectRemain ? "bold" : "normal"}'
-                            tools:text="@string/remained_chore" />
-
-                        <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
-                        <TextView
-                            android:id="@+id/tv_end_badge"
-                            style="@style/Caption"
-                            android:layout_width="28dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="21dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="@{isSelectDone ? isEmptyDone ? @drawable/main_empty_badge : @drawable/main_active_badge : @drawable/main_inactive_badge}"
-                            android:gravity="center"
-                            android:padding="1dp"
-                            android:textColor="@{isSelectDone ? @color/white : @color/gray_400}"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_end"
-                            app:layout_constraintEnd_toStartOf="@id/tv_end"
-                            app:layout_constraintTop_toTopOf="@id/tv_end"
-                            tools:text="0" />
-
-                        <TextView
-                            android:id="@+id/tv_end"
-                            style="@style/Title.T1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="20dp"
-                            android:text="@string/completed_chore"
-                            android:textColor="@{isSelectDone ? @color/gray_900 : @color/gray_400}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/rv_week"
-                            app:textStyle='@{isSelectDone ? "bold" : "normal"}'
-                            tools:text="@string/completed_chore" />
 
                         <include
                             android:id="@+id/layoutEmptyScreen"
@@ -285,7 +226,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            app:layout_constraintTop_toBottomOf="@id/tv_end" />
+                            app:layout_constraintTop_toBottomOf="@id/rv_week" />
 
                         <include
                             android:id="@+id/layoutDoneScreen"
@@ -293,7 +234,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            app:layout_constraintTop_toBottomOf="@id/tv_end" />
+                            app:layout_constraintTop_toBottomOf="@id/rv_week" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.appbar.AppBarLayout>
@@ -303,7 +244,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="3dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     android:overScrollMode="never"
@@ -311,7 +252,8 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_end"
+                    app:layout_constraintTop_toBottomOf="@id/rv_week"
+                    android:paddingBottom="76dp"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_housework" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

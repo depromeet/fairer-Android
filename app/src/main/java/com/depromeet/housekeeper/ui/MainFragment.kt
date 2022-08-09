@@ -89,12 +89,12 @@ class MainFragment : Fragment() {
         binding.tvMonth.setOnClickListener {
             createDatePickerDialog()
         }
-        binding.tvRemain.setOnClickListener {
+        /*binding.tvRemain.setOnClickListener {
             mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
         }
         binding.tvEnd.setOnClickListener {
             mainViewModel.updateState(MainViewModel.CurrentState.DONE)
-        }
+        }*/
         binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
         }
@@ -197,17 +197,14 @@ class MainFragment : Fragment() {
             mainViewModel.selectHouseWork.collect { houseWork ->
 
                 houseWork?.let {
-                    binding.isEmptyDone = it.countDone == 0
-                    binding.isEmptyRemain = it.countLeft == 0
-
                     binding.layoutDoneScreen.root.isVisible =
                         mainViewModel.currentState.value == MainViewModel.CurrentState.REMAIN && it.countLeft == 0 && it.countDone > 0
                     binding.layoutEmptyScreen.root.isVisible =
                         (it.countLeft == 0 && it.countDone == 0)
 
-                    binding.tvRemainBadge.text = it.countLeft.toString()
+                    //binding.tvRemainBadge.text = it.countLeft.toString()
                     dayOfAdapter.updateChoreSize(it.countLeft)
-                    binding.tvEndBadge.text = it.countDone.toString()
+                    //binding.tvEndBadge.text = it.countDone.toString()
 
                     binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
                     updateHouseWorkData(houseWork)
