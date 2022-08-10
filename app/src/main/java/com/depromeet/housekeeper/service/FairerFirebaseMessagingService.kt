@@ -21,10 +21,6 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
-private const val CHANNEL_NAME = "FairerNotification"
-private const val CHANNEL_DESCRIPTION = "Channel For Fairer Notification"
-private const val CHANNEL_ID = "fcm_default_channel"
-private const val TAG_FCM = "onFCM"
 
 class FairerFirebaseMessagingService: FirebaseMessagingService() {
 
@@ -40,6 +36,7 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         super.onMessageReceived(message)
         Timber.d("From: ${message.from}")
         if (message.data.isNotEmpty()) {
+            // payload : 전송된 데이터
             Timber.tag(TAG_FCM).d("Message data payload: ${message.data}")
 
             val title = message.data["title"]
@@ -109,4 +106,10 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         workManager.enqueue(workRequest)
     }
 
+    companion object {
+        private const val CHANNEL_NAME = "FairerNotification"
+        private const val CHANNEL_DESCRIPTION = "Channel For Fairer Notification"
+        private const val CHANNEL_ID = "fcm_default_channel"
+        private const val TAG_FCM = "onFCM"
+    }
 }
