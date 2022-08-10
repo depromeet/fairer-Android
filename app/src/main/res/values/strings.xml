@@ -77,6 +77,8 @@
     <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
     <string name="rule">규칙</string>
     <string name="rule_place_holder">여기를 눌러 하우스의 규칙을 입력해주세요</string>
+    <string name="main_today">오늘</string>
+    <string name="main_complete">완료</string>
 
     <!-- dummy chores -->
     <string-array name="chore_array">

@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChoreList(
-    val houseWorks : List<String>,
-    val space : String
+    val space : String,
+    val houseWorks : List<String>
+
 )

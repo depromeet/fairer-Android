@@ -11,11 +11,17 @@ class DayOfWeekAdapter(
   private val onClick: (DayOfWeek) -> Unit,
 ) :
   RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
+  private var choreSize : Int? = null
 
   fun updateDate(updateDays: MutableList<DayOfWeek>) {
     list.clear()
     list.addAll(updateDays)
     notifyDataSetChanged()
+  }
+  fun updateChoreSize(chores : Int){
+    choreSize = chores
+    val index = list.indexOfFirst { it.isSelect }
+    notifyItemChanged(index)
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +46,10 @@ class DayOfWeekAdapter(
       val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
       binding.apply {
         isSelect = dayOfWeek.isSelect
+        if(choreSize!=null){
+          tvChoreSize.text = choreSize.toString()
+          choreSize = null
+        }
         tvNumDay.text = date
         tvStrDay.text = day
         layout.setOnClickListener {
