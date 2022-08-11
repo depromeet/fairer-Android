@@ -7,8 +7,7 @@ import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class HouseWorkAdapter(
   private val list: MutableList<HouseWork>,
@@ -31,6 +30,9 @@ class HouseWorkAdapter(
     list.clear()
     list.addAll(houseWork)
     notifyDataSetChanged()
+  }
+  fun callDone(layoutPosition: Int) {
+    onDone.invoke(list[layoutPosition])
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -61,7 +63,6 @@ class HouseWorkAdapter(
   inner class ItemViewHolder(private val binding: ItemHouseworkBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(houseWork: HouseWork) {
-
       binding.isOver = when {
         houseWork.success -> false
         houseWork.scheduledTime == null -> false
@@ -71,6 +72,7 @@ class HouseWorkAdapter(
           false
         }
       }
+      binding.swipeView.translationX = 0f
       binding.success = houseWork.success
       binding.tvMainTitle.text = houseWork.houseWorkName
       binding.tvMainTime.text = getTime(houseWork)
@@ -80,9 +82,9 @@ class HouseWorkAdapter(
         onClick.invoke(houseWork)
       }
 
-      binding.btDone.setOnClickListener {
+      /*binding.btDone.setOnClickListener {
         onDone.invoke(houseWork)
-      }
+      }*/
       val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
       binding.rvProfileAdapter.adapter = adapter
 

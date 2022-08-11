@@ -14,7 +14,7 @@ interface ApiService {
   suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
   @GET("/api/preset")
-  suspend fun getChoreList(): ChorePreset
+  suspend fun getChoreList(): List<ChoreList>
 
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork

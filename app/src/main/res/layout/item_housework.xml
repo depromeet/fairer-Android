@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="isOver"
@@ -14,28 +15,57 @@
             type="boolean" />
 
     </data>
-
-    <androidx.cardview.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:backgroundTint="@{isOver ? @color/negative_10: @color/positive_0}"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="0dp">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_highlight_box"
+            android:layout_marginHorizontal="1dp"
+            android:weightSum="8">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_highlight_box"
+                android:text="@string/main_complete"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="3"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_highlight_box"
+                android:text="@string/main_complete"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="3"/>
+
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/swipe_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="12dp">
+            android:layout_height="94dp"
+            android:background="@{isOver ? @drawable/main_card_done : @drawable/main_card_remain}"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tv_main_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
                 android:textColor="@color/gray_900"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/bt_done"
+                app:layout_constraintEnd_toStartOf="@id/iv_main_time_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TEXT" />
@@ -44,44 +74,43 @@
                 android:id="@+id/iv_main_time_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="2dp"
-                android:src="@drawable/ic_time"
-                android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_info_fill"
+                android:tint="@color/negative_20"
+                android:visibility="@{isOver ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_main_time" />
 
             <TextView
                 android:id="@+id/tv_main_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
                 android:text="@string/time"
                 android:textColor="@color/gray_900"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_main_time_icon" />
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_main_marker"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginLeft="8dp"
                 android:src="@drawable/ic_marker"
-                android:tint="@{isOver ? @color/negative_20 : @color/positive_20}"
+                android:layout_marginRight="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_main_time" />
+                app:layout_constraintEnd_toStartOf="@id/tv_main_area"  />
 
             <TextView
                 android:id="@+id/tv_main_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:textColor="@color/gray_900"
-                android:textSize="13sp"
+                android:textColor="@color/gray_800"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_main_marker" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <Button
+            <!--<Button
                 android:id="@+id/bt_done"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
@@ -92,23 +121,19 @@
                 android:text="@{success ? @string/Finished : @string/Finish}"
                 android:textColor="@{success ? @color/white : @color/highlight}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_profile_adapter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:itemCount="6"
                 tools:listitem="@layout/item_small_profile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
+    </FrameLayout>
 </layout>
