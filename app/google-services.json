@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "940546044137-0mkna76g7t78c7pk2od6ta56a2fp1tg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.depromeet.housekeeper",
+            "certificate_hash": "20813f399ae68f7232ac15be26e0353d720b5dfd"
+          }
+        },
+        {
           "client_id": "940546044137-u481k2bgop3vkm173ufufdscgntvgd1f.apps.googleusercontent.com",
           "client_type": 3
         }
