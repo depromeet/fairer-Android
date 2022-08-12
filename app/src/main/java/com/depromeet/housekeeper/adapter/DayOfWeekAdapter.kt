@@ -21,7 +21,9 @@ class DayOfWeekAdapter(
             val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
             binding.apply {
                 isSelect = dayOfWeek.isSelect
-                if (choreSize != null) {
+                if (choreSize != null && choreSize != 0) {
+                    isChore = true
+                    tvChoreSize.bringToFront()
                     tvChoreSize.text = choreSize.toString()
                     choreSize = null
                 }

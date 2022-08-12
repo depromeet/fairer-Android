@@ -188,8 +188,8 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWork.collect { houseWork ->
-                houseWork?.let {
+            mainViewModel.selectHouseWork.collect { houseWorks ->
+                houseWorks?.let {
                     binding.layoutDoneScreen.root.isVisible =
                         it.countLeft == 0 && it.countDone > 0
                     binding.layoutEmptyScreen.root.isVisible =
@@ -199,8 +199,8 @@ class MainFragment : Fragment() {
                     dayOfAdapter.updateChoreSize(it.countLeft)//TODO 나중에 api 연결할때 수정
                     //binding.tvEndBadge.text = it.countDone.toString()
 
-                    binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
-                    updateHouseWorkData(houseWork)
+                    binding.layoutEmptyScreen.root.isVisible = it.houseWorks.isEmpty()
+                    updateHouseWorkData(it)
                     it.houseWorks.forEach {
                         mainViewModel.getDetailHouseWork(it.houseWorkId)
                     }

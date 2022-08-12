@@ -148,6 +148,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getHouseWorks() {
+        // todo 자기 자신인지 멤버인지 알 수 있는 방법 필요 -> list api 쓸지 list/member~ api 쓸지 달라짐 - 민주
         //TODO 성능 개선 필요
         val dayOfWeekDate = dayOfWeek.value.date
         val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }

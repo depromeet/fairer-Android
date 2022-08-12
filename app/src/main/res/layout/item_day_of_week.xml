@@ -11,13 +11,15 @@
             name="isSelect"
             type="boolean" />
 
+        <variable
+            name="isChore"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_calendar"
@@ -35,6 +37,7 @@
                 android:layout_width="40dp"
                 android:layout_height="22dp"
                 android:layout_marginTop="4dp"
+                android:includeFontPadding="false"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:textAlignment="center"
@@ -51,6 +54,7 @@
                 style="@style/Caption"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:includeFontPadding="false"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:textAlignment="center"
@@ -61,23 +65,40 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_num_day"
                 app:textStyle='@{isSelect ? "bold" : "normal"}'
                 tools:text="금" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tv_chore_size"
-            style="@style/Caption.C1"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginBottom="52dp"
-            android:background="@drawable/bg_highlight_box"
-            android:paddingRight="1dp"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:visibility="@{isSelect ? View.VISIBLE : View.INVISIBLE, default = invisible}"
-            app:layout_constraintBottom_toBottomOf="@id/layout_calendar"
+            android:layout_marginBottom="-4dp"
+            android:visibility="@{isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE , default = invisible}"
+            app:layout_constraintBottom_toTopOf="@id/layout_calendar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_highlight_box" />
+
+            <TextView
+                android:id="@+id/tv_chore_size"
+                style="@style/Caption.C1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
