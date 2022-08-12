@@ -7,26 +7,26 @@ import com.depromeet.housekeeper.network.remote.model.LoginResponse
 import retrofit2.http.*
 
 interface ApiService {
+  /**
+  fcm
+   */
+  @POST("/api/fcm/token")
+  suspend fun saveToken(@Body token: Token)
+
+  @POST("/api/fcm/message")
+  fun sendMessage(@Body message: Message)
+
+  /**
+   * houseWorks
+   */
   @POST("/api/houseworks")
   suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 
-  @GET("/api/houseworks")
-  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
-
-  @GET("/api/preset")
-  suspend fun getChoreList(): List<ChoreList>
-
-  @GET("/api/houseworks/success/count")
-  suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
-
-  @POST("/api/oauth/login")
-  suspend fun googlelogin(@Body socialType: SocialType): LoginResponse
+  @PUT("/api/houseworks/{houseWorkId}")
+  suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
 
   @DELETE("/api/houseworks/{houseWorkId}")
   suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
-
-  @PUT("/api/houseworks/{houseWorkId}")
-  suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
 
   @PATCH("/api/houseworks/{houseWorkId}")
   suspend fun updateChoreState(
@@ -34,20 +34,66 @@ interface ApiService {
     @Body updateChoreBody: UpdateChoreBody,
   ): UpdateChoreResponse
 
-  @POST("/api/oauth/logout")
-  suspend fun logout()
+  @GET("/api/houseworks/{houseWorkId}/detail")
+  suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
-  @POST("/api/teams")
-  suspend fun buildTeam(@Body buildTeam: BuildTeam): BuildTeamResponse
+  @GET("/api/houseworks")
+  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
-  @GET("/api/teams/my")
-  suspend fun getTeamData(): Groups
+  @GET("/api/houseworks/success/count")
+  suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
 
+  /**
+   * members
+   */
   @GET("/api/member/profile-image")
   suspend fun getProfileImages(): ProfileImages
 
   @PATCH("/api/member")
   suspend fun updateMember(@Body updateMember: UpdateMember): UpdateMemberResponse
+
+  @GET("/api/member/me")
+  suspend fun getMe(): ProfileData
+
+  @PATCH("/api/member")
+  suspend fun updateMe(@Body editProfileModel: EditProfileModel): EditResponseBody
+
+
+  /**
+   * oauth
+   */
+  @POST("/api/oauth/login")
+  suspend fun googlelogin(@Body socialType: SocialType): LoginResponse
+
+  @POST("/api/oauth/logout")
+  suspend fun logout()
+
+  /**
+   * presets
+   */
+  @GET("/api/preset")
+  suspend fun getChoreList(): List<ChoreList>
+
+  /**
+   * rules
+   */
+  @POST("/api/rules")
+  suspend fun createRules(@Body rule: Rule): RuleResponses
+
+  @GET("/api/rules")
+  suspend fun getRules(): RuleResponses
+
+  @DELETE("/api/rules/{ruleId}")
+  suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
+
+  /**
+   * teams
+   */
+  @POST("/api/teams")
+  suspend fun buildTeam(@Body buildTeam: BuildTeam): BuildTeamResponse
+
+  @GET("/api/teams/my")
+  suspend fun getTeamData(): Groups
 
   @GET("/api/teams/invite-codes")
   suspend fun getInviteCode(): GetInviteCode
@@ -58,30 +104,7 @@ interface ApiService {
   @POST("/api/teams/join")
   suspend fun joinTeam(@Body inviteCode: JoinTeam): JoinTeamResponse
 
-  @POST("/api/rules")
-  suspend fun createRules(@Body rule: Rule): RuleResponses
-
-  @GET("/api/rules")
-  suspend fun getRules(): RuleResponses
-
-  @DELETE("/api/rules/{ruleId}")
-  suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
-
   @POST("/api/teams/leave")
   suspend fun leaveTeam()
 
-  @GET("/api/member/me")
-  suspend fun getMe(): ProfileData
-
-  @GET("/api/houseworks/{houseWorkId}/detail")
-  suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
-
-  @PATCH("/api/member")
-  suspend fun updateMe(@Body editProfileModel: EditProfileModel): EditResponseBody
-
-  @POST("/api/fcm/token")
-  suspend fun saveToken(@Body token: Token)
-
-  @POST("/api/fcm/message")
-  fun sendMessage(@Body message: Message)
 }

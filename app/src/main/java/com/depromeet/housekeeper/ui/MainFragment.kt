@@ -295,73 +295,73 @@ class MainFragment : Fragment() {
                 .toMutableList()
 
 
-    houseWorkAdapter?.updateDate(remainList)
-}
-
-private fun getCurrentWeek(): MutableList<DayOfWeek> {
-    val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
-    val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.MONTH, this.get(Calendar.MONTH))
-        firstDayOfWeek = Calendar.SUNDAY
-        set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        houseWorkAdapter?.updateDate(remainList)
     }
-    val days = mutableListOf<String>()
-    days.add(format.format(calendar.time))
-    repeat(6) {
-        calendar.add(Calendar.DATE, 1)
+
+    private fun getCurrentWeek(): MutableList<DayOfWeek> {
+        val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.MONTH, this.get(Calendar.MONTH))
+            firstDayOfWeek = Calendar.SUNDAY
+            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        }
+        val days = mutableListOf<String>()
         days.add(format.format(calendar.time))
-    }
-    return days.map {
-        DayOfWeek(
-            date = it,
-            isSelect = it == format.format(Calendar.getInstance().time)
-        )
-    }.toMutableList()
-}
-
-private fun rvWeekSwipeListener() {
-    val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
-        0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-    ) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return false
+        repeat(6) {
+            calendar.add(Calendar.DATE, 1)
+            days.add(format.format(calendar.time))
         }
+        return days.map {
+            DayOfWeek(
+                date = it,
+                isSelect = it == format.format(Calendar.getInstance().time)
+            )
+        }.toMutableList()
+    }
 
-        override fun onChildDraw(
-            c: Canvas,
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            dX: Float,
-            dY: Float,
-            actionState: Int,
-            isCurrentlyActive: Boolean
+    private fun rvWeekSwipeListener() {
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            if (actionState == ACTION_STATE_SWIPE) {
-                val view = binding.rvWeek
-                val newX = 0.0 // newX 만큼 이동(고정 시 이동 위치/고정 해제 시 이동 위치 결정)
-                getDefaultUIUtil().onDraw(
-                    c,
-                    recyclerView,
-                    view,
-                    newX.toFloat(),
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
             }
-        }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            when (direction) {
-                ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-                ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                if (actionState == ACTION_STATE_SWIPE) {
+                    val view = binding.rvWeek
+                    val newX = 0.0 // newX 만큼 이동(고정 시 이동 위치/고정 해제 시 이동 위치 결정)
+                    getDefaultUIUtil().onDraw(
+                        c,
+                        recyclerView,
+                        view,
+                        newX.toFloat(),
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (direction) {
+                    ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+                    ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+                }
             }
         }
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
     }
-    ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
-}
 }

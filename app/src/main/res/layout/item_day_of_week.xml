@@ -38,7 +38,7 @@
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:textAlignment="center"
-                android:textColor="@{isSelect ? @color/highlight : @color/gray_400,default = @color/gray_400}"
+                android:textColor="@{isSelect ? @color/highlight : @color/gray_400, default = @color/gray_400}"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
