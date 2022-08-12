@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="isOver"
@@ -15,125 +16,131 @@
             type="boolean" />
 
     </data>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="94dp"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_highlight_box"
-            android:layout_marginHorizontal="1dp"
-            android:weightSum="8">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_highlight_box"
-                android:text="@string/main_complete"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_weight="3"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Title.T1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/completed_chore"
+            android:textColor="@color/gray_800"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_highlight_box"
-                android:text="@string/main_complete"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:layout_weight="3"/>
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/swipe_view"
-            android:layout_width="match_parent"
-            android:layout_height="94dp"
-            android:background="@{isOver ? @drawable/main_card_done : @drawable/main_card_remain}"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_main_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_900"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/iv_main_time_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="TEXT" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_main_time_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_info_fill"
-                android:tint="@color/negative_20"
-                android:visibility="@{isOver ? View.VISIBLE : View.INVISIBLE}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_main_time" />
-
-            <TextView
-                android:id="@+id/tv_main_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time"
-                android:textColor="@color/gray_900"
-                android:textSize="12sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_main_marker"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_marker"
-                android:layout_marginRight="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_main_area"  />
-
-            <TextView
-                android:id="@+id/tv_main_area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_800"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <!--<Button
-                android:id="@+id/bt_done"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginRight="4dp"
-                android:background="@{success ? @drawable/recycler_main_finished_btn : @drawable/recycler_main_finish_btn}"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@{success ? @string/Finished : @string/Finish}"
-                android:textColor="@{success ? @color/white : @color/highlight}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />-->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_profile_adapter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="94dp"
+                android:layout_marginHorizontal="1dp"
+                android:background="@{success? @drawable/bg_gray100_box :@drawable/bg_highlight_box}"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:itemCount="6"
-                tools:listitem="@layout/item_small_profile" />
+                android:weightSum="8">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@{success ? @string/main_back_chore : @string/main_complete}"
+                    android:textColor="@color/white" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@{success ? @string/main_back_chore : @string/main_complete}"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/swipe_view"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:background="@{isOver ? @drawable/main_card_done : @drawable/main_card_remain}"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_main_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_900"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/iv_main_time_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TEXT" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_main_time_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_info_fill"
+                    android:tint="@color/negative_20"
+                    android:visibility="@{isOver ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintEnd_toStartOf="@id/tv_main_time"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_main_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"
+                    android:textColor="@color/gray_900"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_main_marker"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/ic_marker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_main_area" />
+
+                <TextView
+                    android:id="@+id/tv_main_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_800"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_profile_adapter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/item_small_profile" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+    </LinearLayout>
 </layout>

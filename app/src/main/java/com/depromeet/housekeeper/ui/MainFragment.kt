@@ -24,15 +24,16 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
-import com.depromeet.housekeeper.adapter.MainSectionAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.util.SwipeHelperCallback
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,7 +43,6 @@ class MainFragment : Fragment() {
     lateinit var binding: FragmentMainBinding
     private lateinit var dayOfAdapter: DayOfWeekAdapter
     private var houseWorkAdapter: HouseWorkAdapter? = null
-    private lateinit var sectionAdapter: MainSectionAdapter
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -143,7 +143,6 @@ class MainFragment : Fragment() {
         val list =
             mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
-            it
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
                     viewType = ViewType.EDIT,
@@ -155,10 +154,16 @@ class MainFragment : Fragment() {
             mainViewModel.updateChoreState(it)
         }
         )
-        val sectionTitle =
-            listOf(SectionHouseWorks(null, list), SectionHouseWorks("끝낸 집안일", list)).toMutableList()
-        sectionAdapter = MainSectionAdapter(sectionTitle, houseWorkAdapter)
-        binding.rvHouseWork.adapter = sectionAdapter
+        binding.rvHouseWork.adapter = houseWorkAdapter
+        binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
+        val swipeHelperCallback = SwipeHelperCallback(houseWorkAdapter!!).apply {
+            setClamp(210f)// 스와이프한 뒤 고정시킬 위치 지정
+        }
+        ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvHouseWork)
+        binding.rvHouseWork.setOnTouchListener { _, _ ->
+            swipeHelperCallback.removePreviousClamp(binding.rvHouseWork)
+            false
+        }
 
         groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
             mainViewModel.updateSelectUser(it.memberId)
@@ -294,8 +299,11 @@ class MainFragment : Fragment() {
                 .sortedBy { it.scheduledTime }
                 .toMutableList()
 
+        Timber.d("remain : $remainList")
+        Timber.d("done : $doneList")
 
-    houseWorkAdapter?.updateDate(remainList)
+
+    houseWorkAdapter?.updateDate(remainList,doneList)
 }
 
 private fun getCurrentWeek(): MutableList<DayOfWeek> {
