@@ -18,6 +18,8 @@ class MainViewModel : ViewModel() {
         getCompleteHouseWorkNumber()
         getGroupName()
     }
+
+    //캘린더 관련
     private val todayCalendar: Calendar = Calendar.getInstance()
 
     private var calendar: Calendar = Calendar.getInstance().apply {
@@ -25,7 +27,6 @@ class MainViewModel : ViewModel() {
         firstDayOfWeek = Calendar.SUNDAY
         set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
     }
-
 
     private val datePattern = "yyyy-MM-dd-EEE"
     val format = SimpleDateFormat(datePattern, Locale.getDefault())
@@ -116,21 +117,18 @@ class MainViewModel : ViewModel() {
             .toMutableList()
     }
 
+    //집안일 관련
     private val _completeChoreNum: MutableStateFlow<Int> =
         MutableStateFlow(0)
     val completeChoreNum: StateFlow<Int>
         get() = _completeChoreNum
 
+    //선택된 유저의 집안일
     private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
     val selectHouseWork: StateFlow<HouseWorks?>
         get() = _selectHouseWorks
 
     private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
-
-    private val _currentState: MutableStateFlow<CurrentState> =
-        MutableStateFlow(CurrentState.REMAIN)
-    val currentState: StateFlow<CurrentState>
-        get() = _currentState
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val networkError: StateFlow<Boolean>
@@ -145,7 +143,7 @@ class MainViewModel : ViewModel() {
     val userProfiles: StateFlow<MutableList<Assignee>>
         get() = _userProfiles
 
-    fun getHouseWorksSize():Int{
+    fun getHouseWorksSize(): Int {
         return _allHouseWorks.value.size
     }
 
@@ -163,7 +161,7 @@ class MainViewModel : ViewModel() {
                             _allHouseWorks.value.find { it.memberId == _selectUserId.value }
                     }
                 }.onFailure {
-                    //  _networkError.value = true
+                    _networkError.value = true
                 }
         }
         getCompleteHouseWorkNumber()
@@ -173,6 +171,7 @@ class MainViewModel : ViewModel() {
         _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
     }
 
+    //이번주에 끝낸 집안일
     private fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         viewModelScope.launch {
@@ -187,18 +186,15 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun updateState(afterState: CurrentState) {
-        _currentState.value = afterState
-    }
 
-    fun updateChoreState(houWorkId: Int) {
-        val toBeStatus = when (currentState.value) {
-            CurrentState.REMAIN -> 1
+    fun updateChoreState(houseWork: HouseWork) {
+        val toBeStatus = when (houseWork.success) {
+            false -> 1
             else -> 0
         }
         viewModelScope.launch {
             Repository.updateChoreState(
-                houseWorkId = houWorkId,
+                houseWorkId = houseWork.houseWorkId,
                 updateChoreBody = UpdateChoreBody(toBeStatus)
             ).runCatching {
                 collect {
@@ -284,10 +280,5 @@ class MainViewModel : ViewModel() {
             }.onFailure {
             }
         }
-    }
-
-    enum class CurrentState {
-        REMAIN,
-        DONE
     }
 }

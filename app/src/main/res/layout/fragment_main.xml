@@ -12,14 +12,6 @@
             type="com.depromeet.housekeeper.ui.MainViewModel" />
 
         <variable
-            name="isSelectRemain"
-            type="boolean" />
-
-        <variable
-            name="isSelectDone"
-            type="boolean" />
-
-        <variable
             name="isEmptyRemain"
             type="boolean" />
 
@@ -243,9 +235,7 @@
                     android:id="@+id/rv_houseWork"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="3dp"
-                    android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -255,7 +245,7 @@
                     app:layout_constraintTop_toBottomOf="@id/rv_week"
                     android:paddingBottom="76dp"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_housework" />
+                    tools:listitem="@layout/item_section_recyclerview" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <include
