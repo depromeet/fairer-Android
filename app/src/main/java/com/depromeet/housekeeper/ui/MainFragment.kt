@@ -37,7 +37,6 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class MainFragment : Fragment() {
 
     lateinit var binding: FragmentMainBinding
@@ -89,15 +88,11 @@ class MainFragment : Fragment() {
         binding.tvMonth.setOnClickListener {
             createDatePickerDialog()
         }
-        /*binding.tvRemain.setOnClickListener {
-            mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
-        }
-        binding.tvEnd.setOnClickListener {
-            mainViewModel.updateState(MainViewModel.CurrentState.DONE)
-        }*/
+
         binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
         }
+
         binding.lvRule.root.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
         }
@@ -157,14 +152,14 @@ class MainFragment : Fragment() {
         binding.rvHouseWork.adapter = houseWorkAdapter
         binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
         val swipeHelperCallback = SwipeHelperCallback(houseWorkAdapter!!).apply {
-            setClamp(210f)// 스와이프한 뒤 고정시킬 위치 지정
+            // 스와이프한 뒤 고정시킬 위치 지정
+            setClamp(resources.displayMetrics.widthPixels.toFloat() / 5)    // 1080 / 4 = 270
         }
         ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvHouseWork)
         binding.rvHouseWork.setOnTouchListener { _, _ ->
             swipeHelperCallback.removePreviousClamp(binding.rvHouseWork)
             false
         }
-
         groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
             mainViewModel.updateSelectUser(it.memberId)
         }
@@ -179,8 +174,7 @@ class MainFragment : Fragment() {
                         binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
                     }
                     else -> {
-                        val completeFormat =
-                            String.format(resources.getString(R.string.complete_chore), it)
+                        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
                         binding.tvCompleteHouseChore.text =
                             getSpannableText(
                                 completeFormat,
@@ -200,9 +194,7 @@ class MainFragment : Fragment() {
                     binding.layoutEmptyScreen.root.isVisible =
                         (it.countLeft == 0 && it.countDone == 0)
 
-                    //binding.tvRemainBadge.text = it.countLeft.toString()
                     dayOfAdapter.updateChoreSize(it.countLeft)//TODO 나중에 api 연결할때 수정
-                    //binding.tvEndBadge.text = it.countDone.toString()
 
                     binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
                     updateHouseWorkData(houseWork)
@@ -212,18 +204,6 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
-        /* lifecycleScope.launchWhenStarted {
-             mainViewModel.currentState.collect {
-                 val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
-                 binding.layoutDoneScreen.root.isVisible =
-                     it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
-
-                 mainViewModel.selectHouseWork.value?.let {
-                     updateHouseWorkData(it)
-                 }
-             }
-         }*/
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
@@ -298,10 +278,6 @@ class MainFragment : Fragment() {
                 .filter { it.success }
                 .sortedBy { it.scheduledTime }
                 .toMutableList()
-
-        Timber.d("remain : $remainList")
-        Timber.d("done : $doneList")
-
 
     houseWorkAdapter?.updateDate(remainList,doneList)
 }

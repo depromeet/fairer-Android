@@ -186,7 +186,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-
     fun updateChoreState(houseWork: HouseWork) {
         val toBeStatus = when (houseWork.success) {
             false -> 1
