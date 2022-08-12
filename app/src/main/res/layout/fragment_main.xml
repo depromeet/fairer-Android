@@ -12,14 +12,6 @@
             type="com.depromeet.housekeeper.ui.MainViewModel" />
 
         <variable
-            name="isSelectRemain"
-            type="boolean" />
-
-        <variable
-            name="isSelectDone"
-            type="boolean" />
-
-        <variable
             name="isEmptyRemain"
             type="boolean" />
 
@@ -110,7 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_group_name">
+
                 <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
