@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.network.remote.repository.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -97,6 +98,7 @@ class MainViewModel : ViewModel() {
 
     fun updateSelectDate(date: DayOfWeek) {
         _dayOfWeek.value = date
+        Timber.d("selectDate : $date")
     }
 
     fun getNextWeek(): MutableList<DayOfWeek> {
@@ -126,12 +128,18 @@ class MainViewModel : ViewModel() {
     val completeChoreNum: StateFlow<Int>
         get() = _completeChoreNum
 
-    //선택된 유저의 집안일
+    //선택된 유저의 집안일 -> //todo 선택된 멤버&날짜의 집안일
     private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
-    val selectHouseWork: StateFlow<HouseWorks?>
+    val selectHouseWorks: StateFlow<HouseWorks?>
         get() = _selectHouseWorks
 
+    // todo 삭제 예정
     private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
+
+    // todo 여기에요!
+    // 선택된 멤버의 주간 집안일
+    private var _weekendHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
+    val weekendHouseWorks get() = _weekendHouseWorks
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val networkError: StateFlow<Boolean>
@@ -151,7 +159,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun getHouseWorks() {
-        //TODO 성능 개선 필요
+        // todo 여기에요
         val fromDate = dayOfWeek.value.date.substring(0, 10)
         val localDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         val toDate = localDate.plusDays(6)
@@ -160,8 +168,19 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
 //            Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
 //                .runCatching {
-//                    collect {
+//                    collect { it ->
 //                        Timber.d("getHouseWorks", it)
+//                        _weekendHouseWorks.value = it
+//                        // todo countLeft만 세어서 DayOfWeekAdapter에 보내주기
+//                        val weekendCountLeft = mutableMapOf<String, Int>()
+//                        it.forEach { houseworks ->
+//                            val scheduledDate = houseworks.scheduledDate
+//                            val countLeft = houseworks.countLeft
+//                            weekendCountLeft[scheduledDate] = countLeft
+//                        }
+//
+//                        // todo 선택한 날의 housework 보여주기
+//                        _selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
 //                    }
 //                }.onFailure {
 //                    Timber.e(it)

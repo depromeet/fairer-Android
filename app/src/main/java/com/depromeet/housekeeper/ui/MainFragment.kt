@@ -33,6 +33,7 @@ import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -141,7 +142,8 @@ class MainFragment : Fragment() {
         rvWeekSwipeListener()
 
         val list =
-            mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
+            mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
+        Timber.d("$list")
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
             it
             findNavController().navigate(
@@ -188,7 +190,8 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWork.collect { houseWorks ->
+            mainViewModel.selectHouseWorks.collect { houseWorks ->
+                Timber.d("collect \n$houseWorks")
                 houseWorks?.let {
                     binding.layoutDoneScreen.root.isVisible =
                         it.countLeft == 0 && it.countDone > 0
