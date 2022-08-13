@@ -14,6 +14,10 @@
         <variable
             name="isChore"
             type="boolean" />
+
+        <variable
+            name="choreCnt"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,12 +87,12 @@
                 android:background="@drawable/bg_highlight_box" />
 
             <TextView
-                android:id="@+id/tv_chore_size"
+                android:id="@+id/tv_chore_cnt"
                 style="@style/Caption.C1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:text="1"
+                android:text="@{String.valueOf(choreCnt)}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="11sp"

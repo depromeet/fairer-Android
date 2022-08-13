@@ -141,6 +141,9 @@ class MainViewModel : ViewModel() {
     private var _weekendHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
     val weekendHouseWorks get() = _weekendHouseWorks
 
+    private var _weekendChoresLeft = mutableMapOf<String, Int>()
+    val weekendChoresLeft get() = _weekendChoresLeft
+
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val networkError: StateFlow<Boolean>
         get() = _networkError
@@ -166,25 +169,25 @@ class MainViewModel : ViewModel() {
 
         Timber.d("$fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
-//            Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
-//                .runCatching {
-//                    collect { it ->
-//                        Timber.d("getHouseWorks", it)
-//                        _weekendHouseWorks.value = it
-//                        // todo countLeft만 세어서 DayOfWeekAdapter에 보내주기
-//                        val weekendCountLeft = mutableMapOf<String, Int>()
-//                        it.forEach { houseworks ->
-//                            val scheduledDate = houseworks.scheduledDate
-//                            val countLeft = houseworks.countLeft
-//                            weekendCountLeft[scheduledDate] = countLeft
-//                        }
-//
-//                        // todo 선택한 날의 housework 보여주기
-//                        _selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
-//                    }
-//                }.onFailure {
-//                    Timber.e(it)
-//                }
+            Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
+                .runCatching {
+                    collect { it ->
+                        Timber.d("getHouseWorks", it)
+                        _weekendHouseWorks.value = it
+                        // todo countLeft만 세어서 DayOfWeekAdapter에 보내주기
+
+                        it.forEach { houseworks ->
+                            val scheduledDate = houseworks.scheduledDate
+                            val countLeft = houseworks.countLeft
+                            _weekendChoresLeft[scheduledDate] = countLeft
+                        }
+
+                        // todo 선택한 날의 housework 보여주기
+                        _selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
+                    }
+                }.onFailure {
+                    Timber.e(it)
+                }
 
             Repository.getList(fromDate)
                 .runCatching {
@@ -202,7 +205,10 @@ class MainViewModel : ViewModel() {
 
 
     fun updateSelectHouseWork(selectUser: Int) {
+        // todo 삭제 예정
         _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
+
+        _selectHouseWorks.value = weekendHouseWorks.value.find { it.scheduledDate ==  dayOfWeek.value.date}
     }
 
     //이번주에 끝낸 집안일

@@ -189,6 +189,13 @@ class MainFragment : Fragment() {
             }
         }
 
+        // todo 여기에요
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.weekendHouseWorks.collect {
+                dayOfAdapter.updateLeftCntMap(mainViewModel.weekendChoresLeft)
+            }
+        }
+
         lifecycleScope.launchWhenCreated {
             mainViewModel.selectHouseWorks.collect { houseWorks ->
                 Timber.d("collect \n$houseWorks")
@@ -199,7 +206,7 @@ class MainFragment : Fragment() {
                         (it.countLeft == 0 && it.countDone == 0)
 
                     //binding.tvRemainBadge.text = it.countLeft.toString()
-                    dayOfAdapter.updateChoreSize(it.countLeft)//TODO 나중에 api 연결할때 수정
+                    // dayOfAdapter.updateChoreSize(it.countLeft)//TODO 나중에 api 연결할때 수정 -> 필요없으면 삭제
                     //binding.tvEndBadge.text = it.countDone.toString()
 
                     binding.layoutEmptyScreen.root.isVisible = it.houseWorks.isEmpty()
@@ -266,8 +273,10 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
+                // todo 삭제
                 mainViewModel.updateSelectHouseWork(it)
 
+                mainViewModel.getHouseWorks()
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.depromeet.housekeeper.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
@@ -13,7 +15,10 @@ class DayOfWeekAdapter(
     private val onClick: (DayOfWeek) -> Unit,
 ) :
     RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
+    //todo 삭제 예정
     private var choreSize: Int? = null
+
+    private var leftCntMap = mutableMapOf<String, Int>()
 
     inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -22,13 +27,22 @@ class DayOfWeekAdapter(
             val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
             binding.apply {
                 isSelect = dayOfWeek.isSelect
+
+                // todo 삭제 예정
                 if (choreSize != null && choreSize != 0) {
                     isChore = true
-                    tvChoreSize.bringToFront()
-                    tvChoreSize.text = choreSize.toString()
-                    binding.ivDots.setImageResource(findDotNums(choreSize!!))
+                    tvChoreCnt.bringToFront()
+                    tvChoreCnt.text = choreSize.toString()
+                    ivDots.setImageResource(findDotNums(choreSize!!))
                     choreSize = null
                 }
+
+                tvChoreCnt.bringToFront()
+                if (leftCntMap[weekDate.substring(0,10)] != null){
+                    choreCnt = leftCntMap[weekDate.substring(0,10)]!!
+                    ivDots.setImageResource(findDotNums(choreCnt))
+                }
+
                 tvNumDay.text = date
                 tvStrDay.text = day
                 layout.setOnClickListener {
@@ -71,6 +85,11 @@ class DayOfWeekAdapter(
         notifyItemChanged(index)
     }
 
+    fun updateLeftCntMap(leftMap: MutableMap<String, Int>){
+        leftCntMap = leftMap
+        notifyDataSetChanged()
+    }
+
     private fun updateLastSelectView() {
         val index = list.indexOfFirst { it.isSelect }
         if (index != -1) {
@@ -78,6 +97,7 @@ class DayOfWeekAdapter(
         }
         notifyItemChanged(index)
     }
+
 
     private fun findDotNums(cnt: Int): Int {
         return if (cnt in 1 .. 3) {
