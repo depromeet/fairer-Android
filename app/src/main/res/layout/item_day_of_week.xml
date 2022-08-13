@@ -24,22 +24,22 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_calendar"
             android:layout_width="40dp"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background, default = @drawable/main_white_background}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="12dp"
+            android:paddingVertical="8dp">
 
             <TextView
                 android:id="@+id/tv_num_day"
                 style="@style/Caption"
-                android:layout_width="40dp"
-                android:layout_height="22dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:includeFontPadding="false"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@{isSelect ? @color/highlight : @color/gray_400, default = @color/gray_400}"
                 android:textSize="13sp"
@@ -52,11 +52,10 @@
             <TextView
                 android:id="@+id/tv_str_day"
                 style="@style/Caption"
-                android:layout_width="40dp"
-                android:layout_height="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:includeFontPadding="false"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
                 android:textAlignment="center"
                 android:textColor="@{isSelect ? @color/highlight : @color/gray_400 , default = @color/gray_400}"
                 android:textSize="13sp"
@@ -69,11 +68,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_blue_badge"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginBottom="-4dp"
             android:visibility="@{isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE , default = invisible}"
-            app:layout_constraintBottom_toTopOf="@id/layout_calendar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
