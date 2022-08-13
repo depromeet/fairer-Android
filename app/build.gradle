@@ -108,4 +108,6 @@ dependencies {
 
     implementation Dependencies.workermanager
 
+    implementation Dependencies.coil
+
 }
