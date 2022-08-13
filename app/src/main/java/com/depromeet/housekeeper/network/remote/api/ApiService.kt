@@ -37,11 +37,18 @@ interface ApiService {
   @GET("/api/houseworks/{houseWorkId}/detail")
   suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
-  @GET("/api/houseworks")
-  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
+  @GET("/api/houseworks/list")
+  suspend fun getDateHouseWorkList(@Query("fromDate") fromDate: String, @Query("toDate") toDate: String): List<HouseWorks>
+
+  @GET("/api/houseworks/list/member/{teamMemberId}")
+  suspend fun getPeriodHouseWorkListOfMember(@Query("fromDate") fromDate: String, @Query("toDate") toDate: String, @Path("teamMemberId") teamMemberId: Int): List<HouseWorks>
 
   @GET("/api/houseworks/success/count")
   suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
+
+  // todo 삭제 예정
+  @GET("/api/houseworks")
+  suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
   /**
    * members

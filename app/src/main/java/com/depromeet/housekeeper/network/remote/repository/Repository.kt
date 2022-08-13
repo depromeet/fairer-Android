@@ -116,6 +116,25 @@ object Repository : RemoteDataSource {
     emit(apiService.getDetailHouseWork(houseWorkId))
   }
 
+  override suspend fun getDateHouseWorkList(
+    fromDate: String,
+    toDate: String
+  ): Flow<List<HouseWorks>> {
+    return flow {
+      emit(apiService.getDateHouseWorkList(fromDate, toDate))
+    }
+  }
+
+  override suspend fun getPeriodHouseWorkListOfMember(
+    fromDate: String,
+    toDate: String,
+    teamMemberId: Int
+  ): Flow<List<HouseWorks>> {
+    return flow{
+      emit(apiService.getPeriodHouseWorkListOfMember(fromDate, toDate, teamMemberId))
+    }
+  }
+
   override suspend fun saveToken(token: Token): Flow<Unit> = flow {
     emit(apiService.saveToken(token = token))
   }

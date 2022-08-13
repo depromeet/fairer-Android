@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -153,6 +154,7 @@ class MainViewModel : ViewModel() {
         val dayOfWeekDate = dayOfWeek.value.date
         val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
         val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
+        Timber.d("$dayOfWeekDate : $lastIndex : $requestDate : ${selectUserId.value}")
         viewModelScope.launch {
             Repository.getList(requestDate)
                 .runCatching {
