@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainViewModel : ViewModel() {
@@ -149,14 +151,23 @@ class MainViewModel : ViewModel() {
     }
 
     fun getHouseWorks() {
-        // todo 자기 자신인지 멤버인지 알 수 있는 방법 필요 -> list api 쓸지 list/member~ api 쓸지 달라짐 - 민주
         //TODO 성능 개선 필요
-        val dayOfWeekDate = dayOfWeek.value.date
-        val lastIndex = dayOfWeekDate.indexOfLast { it == '-' }
-        val requestDate = dayOfWeekDate.dropLast(dayOfWeekDate.length - lastIndex)
-        Timber.d("$dayOfWeekDate : $lastIndex : $requestDate : ${selectUserId.value}")
+        val fromDate = dayOfWeek.value.date.substring(0, 10)
+        val localDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        val toDate = localDate.plusDays(6)
+
+        Timber.d("$fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
-            Repository.getList(requestDate)
+//            Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
+//                .runCatching {
+//                    collect {
+//                        Timber.d("getHouseWorks", it)
+//                    }
+//                }.onFailure {
+//                    Timber.e(it)
+//                }
+
+            Repository.getList(fromDate)
                 .runCatching {
                     collect {
                         _allHouseWorks.value = it
@@ -169,6 +180,7 @@ class MainViewModel : ViewModel() {
         }
         getCompleteHouseWorkNumber()
     }
+
 
     fun updateSelectHouseWork(selectUser: Int) {
         _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
