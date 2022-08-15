@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil
 import com.depromeet.housekeeper.util.DateUtil.dateFormat
 import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
+import com.depromeet.housekeeper.util.MAIN_TAG
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -146,7 +147,7 @@ class MainViewModel : ViewModel() {
         val fromDate = period[0]
         val toDate = period[1]
 
-        Timber.d("MAIN : getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
+        Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
             Repository.getPeriodHouseWorkListOfMember(
                 selectUserId.value,
@@ -155,7 +156,7 @@ class MainViewModel : ViewModel() {
             )
                 .runCatching {
                     collect {
-                        Timber.d("MAIN : ${it.keys}")
+                        Timber.d("$MAIN_TAG ${it.keys}")
                         _weekendHouseWorks.value = it
 
                         val choreLeftMap = mutableMapOf<String, Int>()

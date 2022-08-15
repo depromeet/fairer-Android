@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
+import com.depromeet.housekeeper.util.MAIN_TAG
 import timber.log.Timber
 
 class DayOfWeekAdapter(
@@ -15,8 +16,6 @@ class DayOfWeekAdapter(
     private val onClick: (DayOfWeek) -> Unit,
 ) :
     RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
-
-    private var leftCntMap = mutableMapOf<String, Int>()
 
     inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,11 +26,12 @@ class DayOfWeekAdapter(
                 isSelect = dayOfWeek.isSelect
 
                 tvChoreCnt.bringToFront()
-                val dateKey = weekDate.substring(0,10)
-                if (leftCntMap[dateKey] != null){
+                if (dayOfWeek.leftChoreCnt != 0){
                     isChore = true
-                    choreCnt = leftCntMap[dateKey]!!
-                    ivDots.setImageResource(findDotNums(choreCnt))
+                    choreCnt = dayOfWeek.leftChoreCnt
+                    if (!isSelect) {
+                        ivDots.setImageResource(findDotNums(choreCnt))
+                    }
                 } else {
                     isChore = false
                     choreCnt = 0
@@ -74,15 +74,17 @@ class DayOfWeekAdapter(
         //notifyDataSetChanged()
     }
 
-    fun updateLeftCntMap(leftMap: MutableMap<String, Int>){
-        if (leftCntMap != leftMap) {
-            Timber.d("MAIN : updateleftMap : $leftMap")
-            leftCntMap = leftMap
-            notifyDataSetChanged()
+    fun updateLeftCnt(leftMap: MutableMap<String, Int>){
+        list.forEach {
+            if (leftMap[it.date.substring(0,10)] != null){
+                it.leftChoreCnt = leftMap[it.date.substring(0,10)]!!
+            }
         }
+        notifyDataSetChanged()
     }
 
     private fun updateLastSelectView() {
+        Timber.d("$MAIN_TAG updateLastSelectView")
         val index = list.indexOfFirst { it.isSelect }
         if (index != -1) {
             list[index].isSelect = false

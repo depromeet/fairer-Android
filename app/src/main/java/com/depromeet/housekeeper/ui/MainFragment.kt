@@ -188,20 +188,20 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.weekendHouseWorks.collect {
-                Timber.d("MAIN : weekendHouseWorks : ${it.keys}")
+                Timber.d("$MAIN_TAG : weekendHouseWorks : ${it.keys}")
             }
         }
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.weekendChoresLeft.collect {
-                Timber.d("MAIN : weekendChoresLeft : ${it}")
-                dayOfAdapter.updateLeftCntMap(mainViewModel.weekendChoresLeft.value)
+                Timber.d("$MAIN_TAG : weekendChoresLeft : ${it}")
+                dayOfAdapter.updateLeftCnt(mainViewModel.weekendChoresLeft.value)
             }
         }
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.selectHouseWorks.collect {
-                Timber.d("collect \n$it")
+                Timber.d("$MAIN_TAG collect \n$it")
                 if (it != null) {
                     binding.layoutDoneScreen.root.isVisible =
                         it.countLeft == 0 && it.countDone > 0
@@ -221,7 +221,7 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
-                Timber.d("MAIN : selectedDate ${it}")
+                Timber.d("$MAIN_TAG : selectedDate ${it}")
                 mainViewModel.updateSelectHouseWork(it.date.substring(0,10))
             }
         }
@@ -271,7 +271,6 @@ class MainFragment : Fragment() {
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
                 mainViewModel.getHouseWorks()
-                dayOfAdapter.updateLeftCntMap(mutableMapOf())
             }
         }
     }
@@ -344,11 +343,9 @@ class MainFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        dayOfAdapter.updateLeftCntMap(mutableMapOf())
                         dayOfAdapter.updateDate(mainViewModel.getNextWeek())
                     }
                     ItemTouchHelper.RIGHT -> {
-                        dayOfAdapter.updateLeftCntMap(mutableMapOf())
                         dayOfAdapter.updateDate(mainViewModel.getLastWeek())
                     }
                 }
