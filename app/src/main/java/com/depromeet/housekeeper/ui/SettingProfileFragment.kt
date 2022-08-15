@@ -13,11 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import coil.load
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
-import kotlinx.coroutines.flow.collect
 
 class SettingProfileFragment : Fragment() {
   lateinit var binding: FragmentSettingProfileBinding
@@ -163,13 +162,16 @@ class SettingProfileFragment : Fragment() {
   }
 
   private fun ImageView.setImg(url: String?) {
-    Glide.with(binding.ivImageview.context)
+    /*Glide.with(binding.ivImageview.context)
       .load(url)
       .placeholder(R.drawable.bg_profile_imageview_inactive)
       .error(R.drawable.bg_profile_imageview_inactive)
       .fitCenter()
       .override(84, 84)
-      .into(binding.ivImageview)
+      .into(binding.ivImageview)*/
+    binding.ivImageview.load(url){
+      crossfade(true)
+    }
   }
 
 

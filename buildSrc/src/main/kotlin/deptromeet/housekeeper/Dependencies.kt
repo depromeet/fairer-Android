@@ -100,4 +100,8 @@ object Dependencies {
 
   private const val WORKER_MANAGER = "2.7.1"
   const val workermanager = "androidx.work:work-runtime-ktx:$WORKER_MANAGER"
+
+  private const val COIL = "2.1.0"
+  const val coil = "io.coil-kt:coil:$COIL"
+
 }

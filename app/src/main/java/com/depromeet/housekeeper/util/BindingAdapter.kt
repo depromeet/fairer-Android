@@ -6,10 +6,7 @@ import android.text.util.Linkify
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
+import coil.load
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
 import java.util.regex.Pattern
@@ -28,14 +25,17 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:loadImage")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String) {
-        Glide.with(imageView.context)
+        /*Glide.with(imageView.context)
             .load(url)
             .override(Target.SIZE_ORIGINAL)
             .placeholder(R.drawable.bg_profile_imageview_inactive)
             .error(R.drawable.bg_profile_imageview_inactive)
             .format(DecodeFormat.PREFER_ARGB_8888)
             .fitCenter()
-            .into(imageView)
+            .into(imageView)*/
+        imageView.load(url){
+            crossfade(true)
+        }
     }
 
     @androidx.databinding.BindingAdapter("app:signViewType")
@@ -60,14 +60,19 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:imageUrl", "app:placeholder")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String, placeholder: Drawable) {
-        Glide.with(imageView.context)
+        /*Glide.with(imageView.context)
             .load(url)
             .format(DecodeFormat.PREFER_ARGB_8888)
             .override(Target.SIZE_ORIGINAL)
             .placeholder(placeholder)
             .error(placeholder)
             .apply(RequestOptions().fitCenter())
-            .into(imageView)
+            .into(imageView)*/
+        imageView.load(url){
+            placeholder(placeholder)
+            crossfade(true)
+        }
+
     }
 
     @androidx.databinding.BindingAdapter("app:setLinkify")

@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
@@ -14,6 +15,8 @@ class HouseWorkAdapter(
   private val onClick: (HouseWork) -> Unit,
   private val onDone: (HouseWork) -> Unit,
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
+  private var doneHouseWorks : MutableList<HouseWork> = mutableListOf()
+
 
   private fun getTime(houseWork: HouseWork): String {
     houseWork.scheduledTime?.let {
@@ -26,9 +29,11 @@ class HouseWorkAdapter(
     } ?: return "하루 종일"
   }
 
-  fun updateDate(houseWork: MutableList<HouseWork>) {
+  fun updateDate(remainHouseWork: MutableList<HouseWork>, doneHouseWork : MutableList<HouseWork>) {
     list.clear()
-    list.addAll(houseWork)
+    list.addAll(remainHouseWork)
+    list.addAll(doneHouseWork)
+    doneHouseWorks = doneHouseWork
     notifyDataSetChanged()
   }
   fun callDone(layoutPosition: Int) {
@@ -63,6 +68,15 @@ class HouseWorkAdapter(
   inner class ItemViewHolder(private val binding: ItemHouseworkBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(houseWork: HouseWork) {
+      if(doneHouseWorks.isNotEmpty()){
+        if(doneHouseWorks.first()==houseWork){
+          binding.tvTitle.text = String.format("끝낸 집안일 %d" , doneHouseWorks.size)
+          binding.tvTitle.visibility = View.VISIBLE
+        }
+        else binding.tvTitle.visibility = View.GONE
+      }
+      else binding.tvTitle.visibility = View.GONE
+
       binding.isOver = when {
         houseWork.success -> false
         houseWork.scheduledTime == null -> false
@@ -81,10 +95,6 @@ class HouseWorkAdapter(
       binding.root.setOnClickListener {
         onClick.invoke(houseWork)
       }
-
-      /*binding.btDone.setOnClickListener {
-        onDone.invoke(houseWork)
-      }*/
       val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
       binding.rvProfileAdapter.adapter = adapter
 
