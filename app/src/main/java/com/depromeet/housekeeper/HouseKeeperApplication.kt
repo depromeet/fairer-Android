@@ -10,7 +10,9 @@ class HouseKeeperApplication : Application() {
   override fun onCreate() {
     super.onCreate()
     PrefsManager.init(applicationContext)
-    Timber.plant(Timber.DebugTree())
+    if (BuildConfig.DEBUG) {
+      Timber.plant(Timber.DebugTree())
+    }
     KakaoSdk.init(this, resources.getString(R.string.KAKAO_NATIVE_APP_KEY))
   }
 }
