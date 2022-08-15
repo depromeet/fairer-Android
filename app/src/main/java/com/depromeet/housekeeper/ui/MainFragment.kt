@@ -191,7 +191,14 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.weekendHouseWorks.collect {
-                dayOfAdapter.updateLeftCntMap(mainViewModel.weekendChoresLeft)
+                Timber.d("MAIN : weekendHouseWorks : ${it.keys}")
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.weekendChoresLeft.collect {
+                Timber.d("MAIN : weekendChoresLeft : ${it}")
+                dayOfAdapter.updateLeftCntMap(mainViewModel.weekendChoresLeft.value)
             }
         }
 

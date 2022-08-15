@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.repository.Repository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -135,10 +132,13 @@ class MainViewModel : ViewModel() {
 
     // 선택된 멤버의 주간 집안일
     private var _weekendHouseWorks: MutableStateFlow<Map<String, HouseWorks>> = MutableStateFlow(
-        mapOf())
+        mapOf()
+    )
     val weekendHouseWorks get() = _weekendHouseWorks
 
-    private var _weekendChoresLeft = mutableMapOf<String, Int>()
+    private var _weekendChoresLeft: MutableStateFlow<MutableMap<String, Int>> = MutableStateFlow(
+        mutableMapOf()
+    )
     val weekendChoresLeft get() = _weekendChoresLeft
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -161,20 +161,27 @@ class MainViewModel : ViewModel() {
 
         Timber.d("$fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
-            Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
+            Repository.getPeriodHouseWorkListOfMember(
+                selectUserId.value,
+                fromDate,
+                toDate.toString()
+            )
                 .runCatching {
                     collect {
-                        Timber.d("${it.keys}")
+                        Timber.d("MAIN : ${it.keys}")
                         _weekendHouseWorks.value = it
 
+                        val choreLeftMap = mutableMapOf<String, Int>()
                         it.forEach { item ->
                             val scheduledDate = item.key
                             val countLeft = item.value.countLeft
-                            _weekendChoresLeft[scheduledDate] = countLeft
+                            choreLeftMap[scheduledDate] = countLeft
                         }
+                        weekendChoresLeft.update { choreLeftMap }
 
-                        Timber.d("${it[dayOfWeek.value.date.substring(0,10)]}")
-                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0,10)]
+
+                        Timber.d("${it[dayOfWeek.value.date.substring(0, 10)]}")
+                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0, 10)]
                     }
                 }.onFailure {
                     Timber.e(it)
