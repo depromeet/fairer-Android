@@ -6,6 +6,7 @@ import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.repository.Repository
 import com.depromeet.housekeeper.util.DateUtil
+import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,103 +23,20 @@ class MainViewModel : ViewModel() {
     }
 
     //캘린더 관련
-    private val todayCalendar: Calendar = Calendar.getInstance()
-
     private var calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
         firstDayOfWeek = Calendar.SUNDAY
         set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
     }
 
-    private val datePattern = "yyyy-MM-dd-EEE"
-    val format = SimpleDateFormat(datePattern, Locale.getDefault())
-
     private val _dayOfWeek: MutableStateFlow<DayOfWeek> =
-        MutableStateFlow(DayOfWeek(date = format.format(Date(System.currentTimeMillis()))))
+        MutableStateFlow(DayOfWeek(date = ""))
     val dayOfWeek: StateFlow<DayOfWeek>
         get() = _dayOfWeek
 
-    private fun getCurrentWeek(): MutableList<DayOfWeek> {
-        val format = SimpleDateFormat(datePattern, Locale.getDefault())
-        val days = mutableListOf<String>()
-        days.add(format.format(calendar.time))
-        repeat(6) {
-            calendar.add(Calendar.DATE, 1)
-            days.add(format.format(calendar.time))
-        }
-        return days.map {
-            DayOfWeek(
-                date = it,
-                isSelect = it == format.format(Calendar.getInstance().time)
-            )
-        }.toMutableList()
-    }
+    private var _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("")
+    val startDateOfWeek get() = _startDateOfWeek
 
-    fun getToday(): DayOfWeek {
-        calendar = todayCalendar.clone() as Calendar
-        calendar.apply {
-            set(Calendar.MONTH, this.get(Calendar.MONTH))
-            firstDayOfWeek = Calendar.SUNDAY
-            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        }
-        getCurrentWeek()
-        return DayOfWeek(
-            date = format.format(Date(System.currentTimeMillis())),
-            isSelect = true
-        )
-    }
-
-    fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-        val format = SimpleDateFormat(datePattern, Locale.getDefault())
-        val selectDate = format.format(calendar.time)
-        _dayOfWeek.value = DayOfWeek(selectDate, true)
-
-        calendar.firstDayOfWeek = Calendar.SUNDAY
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-
-        val days = mutableListOf<String>()
-        days.add(format.format(calendar.time))
-        repeat(6) {
-            calendar.add(Calendar.DATE, 1)
-            days.add(format.format(calendar.time))
-        }
-        return days.map {
-            DayOfWeek(
-                date = it,
-                isSelect = it == selectDate
-            )
-        }.toMutableList()
-    }
-
-    fun updateSelectDate(date: DayOfWeek) {
-        _dayOfWeek.value = date
-        Timber.d("selectDate : $date")
-    }
-
-    fun getNextWeek(): MutableList<DayOfWeek> {
-        return getWeek()
-    }
-
-    fun getLastWeek(): MutableList<DayOfWeek> {
-        calendar.add(Calendar.DATE, -14)
-        return getWeek()
-    }
-
-    private fun getWeek(): MutableList<DayOfWeek> {
-        val format = SimpleDateFormat(datePattern, Locale.getDefault())
-        val days = mutableListOf<String>()
-        repeat(7) {
-            calendar.add(Calendar.DATE, 1)
-            days.add(format.format(calendar.time))
-        }
-        updateSelectDate(DayOfWeek(date = days[0]))
-        return days.map { DayOfWeek(date = it, isSelect = it == days[0]) }
-            .toMutableList()
-    }
 
     //집안일 관련
     private val _completeChoreNum: MutableStateFlow<Int> =
@@ -154,6 +72,61 @@ class MainViewModel : ViewModel() {
         MutableStateFlow(mutableListOf())
     val userProfiles: StateFlow<MutableList<Assignee>>
         get() = _userProfiles
+
+
+    fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        val selectDate = fullDateFormat.format(calendar.time)
+        _dayOfWeek.value = DayOfWeek(selectDate, true)
+
+        calendar.firstDayOfWeek = Calendar.SUNDAY
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+
+        val days = mutableListOf<String>()
+        days.add(fullDateFormat.format(calendar.time))
+        repeat(6) {
+            calendar.add(Calendar.DATE, 1)
+            days.add(fullDateFormat.format(calendar.time))
+        }
+        return days.map {
+            DayOfWeek(
+                date = it,
+                isSelect = it == selectDate
+            )
+        }.toMutableList()
+    }
+
+    fun updateSelectDate(date: DayOfWeek) {
+        _dayOfWeek.value = date
+        Timber.d("selectDate : $date")
+    }
+
+    fun updateStartDateOfWeek(date: String) {
+        _startDateOfWeek.value = date
+    }
+
+    fun getNextWeek(): MutableList<DayOfWeek> {
+        return getWeek()
+    }
+
+    fun getLastWeek(): MutableList<DayOfWeek> {
+        calendar.add(Calendar.DATE, -14)
+        return getWeek()
+    }
+
+    private fun getWeek(): MutableList<DayOfWeek> {
+        val days = mutableListOf<String>()
+        repeat(7) {
+            calendar.add(Calendar.DATE, 1)
+            days.add(fullDateFormat.format(calendar.time))
+        }
+        updateSelectDate(DayOfWeek(date = days[0]))
+        return days.map { DayOfWeek(date = it, isSelect = it == days[0]) }
+            .toMutableList()
+    }
 
     fun getHouseWorks() {
         val period = DateUtil.getFromDateToDateOfWeek(dayOfWeek.value.date)

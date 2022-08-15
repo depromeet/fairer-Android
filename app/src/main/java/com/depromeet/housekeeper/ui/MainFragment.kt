@@ -65,7 +65,8 @@ class MainFragment : Fragment() {
         mainViewModel.apply {
             getRules()
             getGroupName()
-            updateSelectDate(getToday())
+            updateSelectDate(DateUtil.getTodayFull())
+            updateStartDateOfWeek(DateUtil.getTodayDateOnly())
         }
 
         initView()
@@ -91,12 +92,6 @@ class MainFragment : Fragment() {
         binding.tvMonth.setOnClickListener {
             createDatePickerDialog()
         }
-        /*binding.tvRemain.setOnClickListener {
-            mainViewModel.updateState(MainViewModel.CurrentState.REMAIN)
-        }
-        binding.tvEnd.setOnClickListener {
-            mainViewModel.updateState(MainViewModel.CurrentState.DONE)
-        }*/
         binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
         }
@@ -105,7 +100,7 @@ class MainFragment : Fragment() {
         }
         binding.tvToday.setOnClickListener {
             dayOfAdapter.updateDate(DateUtil.getCurrentWeek())
-            mainViewModel.updateSelectDate(mainViewModel.getToday())
+            mainViewModel.updateSelectDate(DateUtil.getTodayFull())
         }
 
     }
@@ -144,7 +139,6 @@ class MainFragment : Fragment() {
 
         val list =
             mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
-        Timber.d("$list")
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
             it
             findNavController().navigate(
@@ -226,6 +220,8 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
+                Timber.d("MAIN : dayOfWeek ${it}")
+                // todo firstDayOfWeek에 따라 변경!
                 val year = it.date.split("-")[0]
                 val month = it.date.split("-")[1]
                 binding.tvMonth.text = "${year}년 ${month}월"
