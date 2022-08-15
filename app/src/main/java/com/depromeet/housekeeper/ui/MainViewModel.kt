@@ -138,7 +138,8 @@ class MainViewModel : ViewModel() {
 
     // todo 여기에요!
     // 선택된 멤버의 주간 집안일
-    private var _weekendHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
+    private var _weekendHouseWorks: MutableStateFlow<Map<String, HouseWorks>> = MutableStateFlow(
+        mapOf())
     val weekendHouseWorks get() = _weekendHouseWorks
 
     private var _weekendChoresLeft = mutableMapOf<String, Int>()
@@ -171,19 +172,19 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
                 .runCatching {
-                    collect { it ->
-                        Timber.d("getHouseWorks", it)
+                    collect {
+                        Timber.d("getHouseWorks = ${it.size}")
                         _weekendHouseWorks.value = it
                         // todo countLeft만 세어서 DayOfWeekAdapter에 보내주기
 
-                        it.forEach { houseworks ->
-                            val scheduledDate = houseworks.scheduledDate
-                            val countLeft = houseworks.countLeft
+                        it.forEach { item ->
+                            val scheduledDate = item.key
+                            val countLeft = item.value.countLeft
                             _weekendChoresLeft[scheduledDate] = countLeft
                         }
 
                         // todo 선택한 날의 housework 보여주기
-                        _selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
+                        //_selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
                     }
                 }.onFailure {
                     Timber.e(it)
@@ -208,7 +209,7 @@ class MainViewModel : ViewModel() {
         // todo 삭제 예정
         _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
 
-        _selectHouseWorks.value = weekendHouseWorks.value.find { it.scheduledDate ==  dayOfWeek.value.date}
+        //_selectHouseWorks.value = weekendHouseWorks.value.find { it.scheduledDate ==  dayOfWeek.value.date}
     }
 
     //이번주에 끝낸 집안일

@@ -41,14 +41,14 @@ interface ApiService {
     suspend fun getDateHouseWorkList(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
-    ): List<HouseWorks>
+    ): Map<String, HouseWorks>
 
     @GET("/api/houseworks/list/member/{teamMemberId}")
     suspend fun getPeriodHouseWorkListOfMember(
         @Path("teamMemberId") teamMemberId: Int,
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
-    ): List<HouseWorks>
+    ): Map<String, HouseWorks> // ex) key: 2022-08-14
 
     @GET("/api/houseworks/success/count")
     suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork

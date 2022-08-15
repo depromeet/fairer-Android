@@ -120,7 +120,7 @@ object Repository : RemoteDataSource {
     override suspend fun getDateHouseWorkList(
         fromDate: String,
         toDate: String
-    ): Flow<List<HouseWorks>> {
+    ): Flow<Map<String, HouseWorks>> {
         return flow {
             emit(apiService.getDateHouseWorkList(fromDate, toDate))
         }
@@ -130,7 +130,7 @@ object Repository : RemoteDataSource {
         teamMemberId: Int,
         fromDate: String,
         toDate: String
-    ): Flow<List<HouseWorks>> {
+    ): Flow<Map<String, HouseWorks>> {
         return flow {
             emit(apiService.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate))
         }

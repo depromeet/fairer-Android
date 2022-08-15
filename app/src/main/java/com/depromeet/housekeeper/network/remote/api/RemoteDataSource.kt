@@ -24,12 +24,12 @@ interface RemoteDataSource {
     ): Flow<UpdateChoreResponse>
 
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
-    suspend fun getDateHouseWorkList(fromDate: String, toDate: String): Flow<List<HouseWorks>>
+    suspend fun getDateHouseWorkList(fromDate: String, toDate: String): Flow<Map<String, HouseWorks>>
     suspend fun getPeriodHouseWorkListOfMember(
         teamMemberId: Int,
         fromDate: String,
         toDate: String
-    ): Flow<List<HouseWorks>>
+    ): Flow<Map<String, HouseWorks>>
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
 

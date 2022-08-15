@@ -1,9 +1,7 @@
 package com.depromeet.housekeeper.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
@@ -38,8 +36,9 @@ class DayOfWeekAdapter(
                 }
 
                 tvChoreCnt.bringToFront()
-                if (leftCntMap[weekDate.substring(0,10)] != null){
-                    choreCnt = leftCntMap[weekDate.substring(0,10)]!!
+                val dateKey = weekDate.substring(0,10)
+                if (leftCntMap[dateKey] != null){
+                    choreCnt = leftCntMap[dateKey]!!
                     ivDots.setImageResource(findDotNums(choreCnt))
                 }
 
