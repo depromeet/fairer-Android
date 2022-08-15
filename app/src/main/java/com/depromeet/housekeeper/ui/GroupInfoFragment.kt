@@ -59,9 +59,6 @@ class GroupInfoFragment : Fragment() {
                 setAdapter()
             }
         }
-        lifecycleScope.launchWhenCreated {
-            viewModel.sendAddMemberFCM(requireContext())
-        }
     }
 
     private fun initListener() {
