@@ -211,6 +211,7 @@ class MainFragment : Fragment() {
                     }
                 } else {
                     binding.layoutEmptyScreen.root.visibility = View.VISIBLE
+                    dayOfAdapter.updateLeftCnt(mutableMapOf())
                 }
             }
         }

@@ -17,6 +17,8 @@ class DayOfWeekAdapter(
 ) :
     RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
 
+    private var leftCntMap = mutableMapOf<String, Int>()
+
     inner class ViewHolder(private val binding: ItemDayOfWeekBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(dayOfWeek: DayOfWeek) {
@@ -26,15 +28,18 @@ class DayOfWeekAdapter(
                 isSelect = dayOfWeek.isSelect
 
                 tvChoreCnt.bringToFront()
-                if (dayOfWeek.leftChoreCnt != 0){
+                val dateKey = weekDate.substring(0,10)
+                if (leftCntMap[dateKey] != null){
                     isChore = true
-                    choreCnt = dayOfWeek.leftChoreCnt
+                    choreCnt = leftCntMap[dateKey]!!
                     if (!isSelect) {
                         ivDots.setImageResource(findDotNums(choreCnt))
+                        ivDots.animate()
                     }
                 } else {
                     isChore = false
                     choreCnt = 0
+                    ivDots.visibility = View.GONE
                 }
 
                 tvNumDay.text = date
@@ -75,10 +80,10 @@ class DayOfWeekAdapter(
     }
 
     fun updateLeftCnt(leftMap: MutableMap<String, Int>){
-        list.forEach {
-            if (leftMap[it.date.substring(0,10)] != null){
-                it.leftChoreCnt = leftMap[it.date.substring(0,10)]!!
-            }
+        if (leftCntMap != leftMap) {
+            Timber.d("MAIN : updateleftMap : $leftMap")
+            leftCntMap = leftMap
+            notifyDataSetChanged()
         }
         notifyDataSetChanged()
     }

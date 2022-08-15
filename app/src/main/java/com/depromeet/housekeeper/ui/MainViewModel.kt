@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
     val dayOfWeek: StateFlow<DayOfWeek>
         get() = _dayOfWeek
 
-    private var _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("")
+    private var _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("") // 2022-08-14
     val startDateOfWeek get() = _startDateOfWeek
 
 
@@ -115,23 +115,33 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateStartDateOfWeek(date: String) {
+        Timber.d("startDate : $date")
         if (startDateOfWeek.value != date) {
             _startDateOfWeek.value = date
-            Timber.d("startDate : $date")
+
         }
     }
 
     fun getNextWeek(): MutableList<DayOfWeek> {
+        var localDate = LocalDate.parse(startDateOfWeek.value)
+        localDate = localDate.plusDays(7)
+        Timber.d("$DATE_UTIL_TAG getNextWeek : ${localDate}")
+        updateStartDateOfWeek(localDate.toString())
         return getWeek()
     }
 
     fun getLastWeek(): MutableList<DayOfWeek> {
-        calendar.add(Calendar.DATE, -14)
+        var localDate = LocalDate.parse(startDateOfWeek.value)
+        localDate = localDate.minusDays(7)
+        Timber.d("$DATE_UTIL_TAG getLastWeek : ${localDate}")
+        updateStartDateOfWeek(localDate.toString())
         return getWeek()
     }
 
     private fun getWeek(): MutableList<DayOfWeek> {
         val days = mutableListOf<String>()
+        val date = dateFormat.parse(startDateOfWeek.value)
+        calendar.time = date
         repeat(7) {
             days.add(fullDateFormat.format(calendar.time))
             calendar.add(Calendar.DATE, 1)
@@ -145,7 +155,7 @@ class MainViewModel : ViewModel() {
 
 
     fun getHouseWorks() {
-        val fromDate = getStartDate(dayOfWeek.value.date)
+        val fromDate = startDateOfWeek.value
         val toDate = getLastDate(fromDate)
 
         Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")

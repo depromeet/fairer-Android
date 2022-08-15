@@ -20,7 +20,7 @@ object DateUtil {
             firstDayOfWeek = Calendar.SUNDAY
             set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
         }
-        return fullDateFormat.format(calendar.time)
+        return dateFormat.format(calendar.time)
     }
 
     fun getStartDate(date: String): String {
