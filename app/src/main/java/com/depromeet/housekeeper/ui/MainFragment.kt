@@ -189,7 +189,6 @@ class MainFragment : Fragment() {
             }
         }
 
-        // todo 여기에요
         lifecycleScope.launchWhenCreated {
             mainViewModel.weekendHouseWorks.collect {
                 dayOfAdapter.updateLeftCntMap(mainViewModel.weekendChoresLeft)
@@ -273,9 +272,6 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
-                // todo 삭제
-                mainViewModel.updateSelectHouseWork(it)
-
                 mainViewModel.getHouseWorks()
             }
         }

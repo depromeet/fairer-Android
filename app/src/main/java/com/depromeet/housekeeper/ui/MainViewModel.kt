@@ -128,15 +128,11 @@ class MainViewModel : ViewModel() {
     val completeChoreNum: StateFlow<Int>
         get() = _completeChoreNum
 
-    //선택된 유저의 집안일 -> //todo 선택된 멤버&날짜의 집안일
+    // 선택 유저 - 날짜의 집안일
     private val _selectHouseWorks: MutableStateFlow<HouseWorks?> = MutableStateFlow(null)
     val selectHouseWorks: StateFlow<HouseWorks?>
         get() = _selectHouseWorks
 
-    // todo 삭제 예정
-    private val _allHouseWorks: MutableStateFlow<List<HouseWorks>> = MutableStateFlow(listOf())
-
-    // todo 여기에요!
     // 선택된 멤버의 주간 집안일
     private var _weekendHouseWorks: MutableStateFlow<Map<String, HouseWorks>> = MutableStateFlow(
         mapOf())
@@ -158,24 +154,18 @@ class MainViewModel : ViewModel() {
     val userProfiles: StateFlow<MutableList<Assignee>>
         get() = _userProfiles
 
-    fun getHouseWorksSize(): Int {
-        return _allHouseWorks.value.size
-    }
-
     fun getHouseWorks() {
-        // todo 여기에요
         val fromDate = dayOfWeek.value.date.substring(0, 10)
         val localDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        val toDate = localDate.plusDays(6)
+        val toDate = localDate.plusDays(6) // 한 주간
 
         Timber.d("$fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
             Repository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate.toString())
                 .runCatching {
                     collect {
-                        Timber.d("getHouseWorks = ${it.size}")
+                        Timber.d("${it.keys}")
                         _weekendHouseWorks.value = it
-                        // todo countLeft만 세어서 DayOfWeekAdapter에 보내주기
 
                         it.forEach { item ->
                             val scheduledDate = item.key
@@ -183,33 +173,20 @@ class MainViewModel : ViewModel() {
                             _weekendChoresLeft[scheduledDate] = countLeft
                         }
 
-                        // todo 선택한 날의 housework 보여주기
-                        //_selectHouseWorks.value = it.find { it.scheduledDate ==  dayOfWeek.value.date}
+                        Timber.d("${it[dayOfWeek.value.date.substring(0,10)]}")
+                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0,10)]
                     }
                 }.onFailure {
                     Timber.e(it)
                 }
 
-            Repository.getList(fromDate)
-                .runCatching {
-                    collect {
-                        _allHouseWorks.value = it
-                        _selectHouseWorks.value =
-                            _allHouseWorks.value.find { it.memberId == _selectUserId.value }
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                }
         }
         getCompleteHouseWorkNumber()
     }
 
 
     fun updateSelectHouseWork(selectUser: Int) {
-        // todo 삭제 예정
-        _selectHouseWorks.value = _allHouseWorks.value.find { it.memberId == selectUser }
-
-        //_selectHouseWorks.value = weekendHouseWorks.value.find { it.scheduledDate ==  dayOfWeek.value.date}
+        _selectHouseWorks.value = weekendHouseWorks.value[dayOfWeek.value.date]
     }
 
     //이번주에 끝낸 집안일

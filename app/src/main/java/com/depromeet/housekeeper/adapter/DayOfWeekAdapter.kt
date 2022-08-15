@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
@@ -13,8 +14,6 @@ class DayOfWeekAdapter(
     private val onClick: (DayOfWeek) -> Unit,
 ) :
     RecyclerView.Adapter<DayOfWeekAdapter.ViewHolder>() {
-    //todo 삭제 예정
-    private var choreSize: Int? = null
 
     private var leftCntMap = mutableMapOf<String, Int>()
 
@@ -26,20 +25,15 @@ class DayOfWeekAdapter(
             binding.apply {
                 isSelect = dayOfWeek.isSelect
 
-                // todo 삭제 예정
-                if (choreSize != null && choreSize != 0) {
-                    isChore = true
-                    tvChoreCnt.bringToFront()
-                    tvChoreCnt.text = choreSize.toString()
-                    ivDots.setImageResource(findDotNums(choreSize!!))
-                    choreSize = null
-                }
-
                 tvChoreCnt.bringToFront()
                 val dateKey = weekDate.substring(0,10)
                 if (leftCntMap[dateKey] != null){
+                    isChore = true
                     choreCnt = leftCntMap[dateKey]!!
                     ivDots.setImageResource(findDotNums(choreCnt))
+                } else {
+                    isChore = false
+                    choreCnt = 0
                 }
 
                 tvNumDay.text = date
@@ -78,15 +72,12 @@ class DayOfWeekAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateChoreSize(chores: Int) {
-        choreSize = chores
-        val index = list.indexOfFirst { it.isSelect }
-        notifyItemChanged(index)
-    }
-
     fun updateLeftCntMap(leftMap: MutableMap<String, Int>){
-        leftCntMap = leftMap
-        notifyDataSetChanged()
+        if (leftCntMap != leftMap) {
+            leftCntMap = leftMap
+            Timber.d("updateLeftCntMap : $leftMap")
+            notifyDataSetChanged()
+        }
     }
 
     private fun updateLastSelectView() {
