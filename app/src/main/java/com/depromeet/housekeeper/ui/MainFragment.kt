@@ -32,6 +32,7 @@ import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.util.DateUtil
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -103,7 +104,7 @@ class MainFragment : Fragment() {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
         }
         binding.tvToday.setOnClickListener {
-            dayOfAdapter.updateDate(getCurrentWeek())
+            dayOfAdapter.updateDate(DateUtil.getCurrentWeek())
             mainViewModel.updateSelectDate(mainViewModel.getToday())
         }
 
@@ -128,7 +129,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        dayOfAdapter = DayOfWeekAdapter(getCurrentWeek(),
+        dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
             onClick = {
                 mainViewModel.updateSelectDate(it)
             })
@@ -224,18 +225,6 @@ class MainFragment : Fragment() {
             }
         }
 
-        /* lifecycleScope.launchWhenStarted {
-             mainViewModel.currentState.collect {
-                 val houseWork = mainViewModel.selectHouseWork.value ?: return@collect
-                 binding.layoutDoneScreen.root.isVisible =
-                     it == MainViewModel.CurrentState.REMAIN && (houseWork.countLeft == 0 && houseWork.countDone > 0)
-
-                 mainViewModel.selectHouseWork.value?.let {
-                     updateHouseWorkData(it)
-                 }
-             }
-         }*/
-
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
                 val year = it.date.split("-")[0]
@@ -311,27 +300,6 @@ class MainFragment : Fragment() {
 
 
         houseWorkAdapter?.updateDate(remainList)
-    }
-
-    private fun getCurrentWeek(): MutableList<DayOfWeek> {
-        val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
-        val calendar: Calendar = Calendar.getInstance().apply {
-            set(Calendar.MONTH, this.get(Calendar.MONTH))
-            firstDayOfWeek = Calendar.SUNDAY
-            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        }
-        val days = mutableListOf<String>()
-        days.add(format.format(calendar.time))
-        repeat(6) {
-            calendar.add(Calendar.DATE, 1)
-            days.add(format.format(calendar.time))
-        }
-        return days.map {
-            DayOfWeek(
-                date = it,
-                isSelect = it == format.format(Calendar.getInstance().time)
-            )
-        }.toMutableList()
     }
 
     private fun rvWeekSwipeListener() {

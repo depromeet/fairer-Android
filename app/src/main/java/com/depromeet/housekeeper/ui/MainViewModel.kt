@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.DateUtil
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -155,16 +156,16 @@ class MainViewModel : ViewModel() {
         get() = _userProfiles
 
     fun getHouseWorks() {
-        val fromDate = dayOfWeek.value.date.substring(0, 10)
-        val localDate = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        val toDate = localDate.plusDays(6) // 한 주간
+        val period = DateUtil.getFromDateToDateOfWeek(dayOfWeek.value.date)
+        val fromDate = period[0]
+        val toDate = period[1]
 
-        Timber.d("$fromDate : ${toDate} : ${selectUserId.value}")
+        Timber.d("MAIN : getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
             Repository.getPeriodHouseWorkListOfMember(
                 selectUserId.value,
                 fromDate,
-                toDate.toString()
+                toDate
             )
                 .runCatching {
                     collect {

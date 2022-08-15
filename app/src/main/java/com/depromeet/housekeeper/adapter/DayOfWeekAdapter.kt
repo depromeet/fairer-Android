@@ -27,9 +27,7 @@ class DayOfWeekAdapter(
 
                 tvChoreCnt.bringToFront()
                 val dateKey = weekDate.substring(0,10)
-                Timber.d("MAIN : show")
                 if (leftCntMap[dateKey] != null){
-                    Timber.d("MAIN : show leftCntMap")
                     isChore = true
                     choreCnt = leftCntMap[dateKey]!!
                     ivDots.setImageResource(findDotNums(choreCnt))
@@ -77,11 +75,9 @@ class DayOfWeekAdapter(
 
     fun updateLeftCntMap(leftMap: MutableMap<String, Int>){
         if (leftCntMap != leftMap) {
+            Timber.d("MAIN : updateleftMap : $leftMap")
             leftCntMap = leftMap
-            Timber.d("MAIN : updateLeftCntMap : $leftMap")
             notifyDataSetChanged()
-        } else {
-            Timber.d("MAIN : updateLeftCntMap same :${leftMap}")
         }
     }
 
