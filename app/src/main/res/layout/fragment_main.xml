@@ -208,8 +208,7 @@
                             android:paddingHorizontal="24dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintTop_toBottomOf="@id/tv_month"
-                            tools:listitem="@layout/item_day_of_week"
-                            />
+                            tools:listitem="@layout/item_day_of_week" />
 
                         <!-- TODO tv_remain_badge + tv_remain 컴포넌트화 필요-->
 
@@ -239,24 +238,25 @@
                     android:layout_marginTop="3dp"
                     android:orientation="vertical"
                     android:overScrollMode="never"
+                    android:paddingBottom="76dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rv_week"
-                    android:paddingBottom="76dp"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_section_recyclerview" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <include
             android:id="@+id/bt_add_todo"
             style="@style/Body"
             layout="@layout/layout_home_add_chore"
             android:layout_width="0dp"
             android:layout_height="76dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
