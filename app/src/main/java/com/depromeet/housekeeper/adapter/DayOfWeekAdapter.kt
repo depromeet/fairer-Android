@@ -71,7 +71,7 @@ class DayOfWeekAdapter(
         Timber.d("$DATE_UTIL_TAG : updateDays : $updateDays")
         list.clear()
         list.addAll(updateDays)
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun updateLeftCntMap(leftMap: MutableMap<String, Int>){

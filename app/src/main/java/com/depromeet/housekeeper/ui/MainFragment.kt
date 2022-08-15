@@ -189,7 +189,6 @@ class MainFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             mainViewModel.weekendHouseWorks.collect {
                 Timber.d("MAIN : weekendHouseWorks : ${it.keys}")
-                // todo 집안일 보여주는 adapter update
             }
         }
 
@@ -223,6 +222,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
                 Timber.d("MAIN : selectedDate ${it}")
+                mainViewModel.updateSelectHouseWork(it.date.substring(0,10))
             }
         }
 
@@ -343,8 +343,14 @@ class MainFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
-                    ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-                    ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+                    ItemTouchHelper.LEFT -> {
+                        dayOfAdapter.updateLeftCntMap(mutableMapOf())
+                        dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        dayOfAdapter.updateLeftCntMap(mutableMapOf())
+                        dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+                    }
                 }
             }
         }

@@ -81,7 +81,6 @@ class MainViewModel : ViewModel() {
         get() = _rule
 
 
-
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
@@ -136,11 +135,10 @@ class MainViewModel : ViewModel() {
         }
         Timber.d("$DATE_UTIL_TAG : getWeek : ${days}")
         updateSelectDate(DayOfWeek(date = days[0]))
-        updateStartDateOfWeek(days[0].substring(0,10))
+        updateStartDateOfWeek(days[0].substring(0, 10))
         return days.map { DayOfWeek(date = it, isSelect = it == days[0]) }
             .toMutableList()
     }
-
 
 
     fun getHouseWorks() {
@@ -181,8 +179,8 @@ class MainViewModel : ViewModel() {
     }
 
 
-    fun updateSelectHouseWork(selectUser: Int) {
-        _selectHouseWorks.value = weekendHouseWorks.value[dayOfWeek.value.date]
+    fun updateSelectHouseWork(date: String) { // date ex) 2022-10-19
+        _selectHouseWorks.value = weekendHouseWorks.value[date]
     }
 
     //이번주에 끝낸 집안일
