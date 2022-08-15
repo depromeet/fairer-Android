@@ -9,6 +9,8 @@ import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil
 import com.depromeet.housekeeper.util.DateUtil.dateFormat
 import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
+import com.depromeet.housekeeper.util.DateUtil.getLastDate
+import com.depromeet.housekeeper.util.DateUtil.getStartDate
 import com.depromeet.housekeeper.util.MAIN_TAG
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -131,8 +133,8 @@ class MainViewModel : ViewModel() {
     private fun getWeek(): MutableList<DayOfWeek> {
         val days = mutableListOf<String>()
         repeat(7) {
-            calendar.add(Calendar.DATE, 1)
             days.add(fullDateFormat.format(calendar.time))
+            calendar.add(Calendar.DATE, 1)
         }
         Timber.d("$DATE_UTIL_TAG : getWeek : ${days}")
         updateSelectDate(DayOfWeek(date = days[0]))
@@ -143,9 +145,8 @@ class MainViewModel : ViewModel() {
 
 
     fun getHouseWorks() {
-        val period = DateUtil.getFromDateToDateOfWeek(dayOfWeek.value.date)
-        val fromDate = period[0]
-        val toDate = period[1]
+        val fromDate = getStartDate(dayOfWeek.value.date)
+        val toDate = getLastDate(fromDate)
 
         Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {

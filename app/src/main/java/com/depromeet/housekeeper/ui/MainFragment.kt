@@ -28,17 +28,13 @@ import com.depromeet.housekeeper.adapter.MainSectionAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.DateUtil
-import com.depromeet.housekeeper.util.DateUtil.todayCalendar
 import com.depromeet.housekeeper.util.MAIN_TAG
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainFragment : Fragment() {
@@ -68,7 +64,7 @@ class MainFragment : Fragment() {
             getRules()
             getGroupName()
             updateSelectDate(DateUtil.getTodayFull())
-            updateStartDateOfWeek(DateUtil.getFirstDate(todayCalendar))
+            updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
         initView()
