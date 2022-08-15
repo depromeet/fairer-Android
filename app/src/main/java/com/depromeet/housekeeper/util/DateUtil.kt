@@ -7,7 +7,8 @@ import java.util.*
 
 object DateUtil {
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val todayCalendar = Calendar.getInstance()
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     val fullDateFormat = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
 
     fun getFromDateToDateOfWeek(date: String): List<String> {
@@ -74,14 +75,4 @@ object DateUtil {
         )
     }
 
-    fun getTodayDateOnly(): String {
-        val calendar = Calendar.getInstance()
-        calendar.apply {
-            set(Calendar.MONTH, this.get(Calendar.MONTH))
-            firstDayOfWeek = Calendar.SUNDAY
-            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        }
-        getCurrentWeek()
-        return dateFormat.format(Date(System.currentTimeMillis()))
-    }
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemDayOfWeekBinding
 import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import timber.log.Timber
 
 class DayOfWeekAdapter(
@@ -67,7 +68,7 @@ class DayOfWeekAdapter(
 
 
     fun updateDate(updateDays: MutableList<DayOfWeek>) {
-        Timber.d("MAIN : updateDays : $updateDays")
+        Timber.d("$DATE_UTIL_TAG : updateDays : $updateDays")
         list.clear()
         list.addAll(updateDays)
         notifyDataSetChanged()

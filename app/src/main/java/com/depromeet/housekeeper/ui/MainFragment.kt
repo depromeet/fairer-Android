@@ -33,6 +33,8 @@ import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.DateUtil
+import com.depromeet.housekeeper.util.DateUtil.todayCalendar
+import com.depromeet.housekeeper.util.MAIN_TAG
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -66,7 +68,7 @@ class MainFragment : Fragment() {
             getRules()
             getGroupName()
             updateSelectDate(DateUtil.getTodayFull())
-            updateStartDateOfWeek(DateUtil.getTodayDateOnly())
+            updateStartDateOfWeek(DateUtil.getFirstDate(todayCalendar))
         }
 
         initView()
@@ -220,10 +222,15 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
-                Timber.d("MAIN : dayOfWeek ${it}")
-                // todo firstDayOfWeek에 따라 변경!
-                val year = it.date.split("-")[0]
-                val month = it.date.split("-")[1]
+                Timber.d("MAIN : selectedDate ${it}")
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.startDateOfWeek.collect{
+                Timber.d("$MAIN_TAG : startDateOfWeek $it")
+                val year = it.split("-")[0]
+                val month = it.split("-")[1]
                 binding.tvMonth.text = "${year}년 ${month}월"
                 mainViewModel.getHouseWorks()
             }

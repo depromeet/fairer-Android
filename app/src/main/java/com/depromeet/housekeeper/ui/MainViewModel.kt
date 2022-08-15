@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.network.remote.repository.Repository
+import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil
+import com.depromeet.housekeeper.util.DateUtil.dateFormat
 import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -74,6 +76,12 @@ class MainViewModel : ViewModel() {
         get() = _userProfiles
 
 
+    private val _rule: MutableStateFlow<String> = MutableStateFlow("")
+    val rule: StateFlow<String>
+        get() = _rule
+
+
+
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
         calendar.set(Calendar.YEAR, year)
         calendar.set(Calendar.MONTH, month)
@@ -105,7 +113,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateStartDateOfWeek(date: String) {
-        _startDateOfWeek.value = date
+        if (startDateOfWeek.value != date) {
+            _startDateOfWeek.value = date
+            Timber.d("startDate : $date")
+        }
     }
 
     fun getNextWeek(): MutableList<DayOfWeek> {
@@ -123,10 +134,14 @@ class MainViewModel : ViewModel() {
             calendar.add(Calendar.DATE, 1)
             days.add(fullDateFormat.format(calendar.time))
         }
+        Timber.d("$DATE_UTIL_TAG : getWeek : ${days}")
         updateSelectDate(DayOfWeek(date = days[0]))
+        updateStartDateOfWeek(days[0].substring(0,10))
         return days.map { DayOfWeek(date = it, isSelect = it == days[0]) }
             .toMutableList()
     }
+
+
 
     fun getHouseWorks() {
         val period = DateUtil.getFromDateToDateOfWeek(dayOfWeek.value.date)
@@ -250,11 +265,6 @@ class MainViewModel : ViewModel() {
         }
         _groups.value = newGroups
     }
-
-
-    private val _rule: MutableStateFlow<String> = MutableStateFlow("")
-    val rule: StateFlow<String>
-        get() = _rule
 
     fun getRules() {
         viewModelScope.launch {
