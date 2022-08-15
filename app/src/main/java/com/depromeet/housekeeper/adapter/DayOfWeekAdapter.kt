@@ -25,11 +25,11 @@ class DayOfWeekAdapter(
             val weekDate = dayOfWeek.date
             val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
             binding.apply {
-                isSelect = dayOfWeek.isSelect
+                //isSelect = dayOfWeek.isSelect
 
                 tvChoreCnt.bringToFront()
-                val dateKey = weekDate.substring(0,10)
-                if (leftCntMap[dateKey] != null){
+                val dateKey = weekDate.substring(0, 10)
+                if (leftCntMap[dateKey] != null) {
                     isChore = true
                     choreCnt = leftCntMap[dateKey]!!
                     if (!isSelect) {
@@ -41,6 +41,7 @@ class DayOfWeekAdapter(
                     choreCnt = 0
                     ivDots.visibility = View.GONE
                 }
+                Timber.d("MAIN : $dateKey : $isChore")
 
                 tvNumDay.text = date
                 tvStrDay.text = day
@@ -76,15 +77,12 @@ class DayOfWeekAdapter(
         Timber.d("$DATE_UTIL_TAG : updateDays : $updateDays")
         list.clear()
         list.addAll(updateDays)
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
-    fun updateLeftCnt(leftMap: MutableMap<String, Int>){
-        if (leftCntMap != leftMap) {
-            Timber.d("MAIN : updateleftMap : $leftMap")
-            leftCntMap = leftMap
-            notifyDataSetChanged()
-        }
+    fun updateLeftCnt(leftMap: MutableMap<String, Int>) {
+        Timber.d("MAIN : updateleftMap : $leftMap")
+        leftCntMap = leftMap
         notifyDataSetChanged()
     }
 
@@ -99,11 +97,11 @@ class DayOfWeekAdapter(
 
 
     private fun findDotNums(cnt: Int): Int {
-        return if (cnt in 1 .. 3) {
+        return if (cnt in 1..3) {
             R.drawable.ic_dot_one
         } else if (cnt in 4..6) {
             R.drawable.ic_dots_two
-        }else {
+        } else {
             R.drawable.ic_dots_three
         }
     }

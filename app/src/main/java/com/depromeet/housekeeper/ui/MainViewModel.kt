@@ -167,11 +167,10 @@ class MainViewModel : ViewModel() {
             )
                 .runCatching {
                     collect {
-                        Timber.d("$MAIN_TAG ${it.keys}")
-                        _weekendHouseWorks.value = it
+                        _weekendHouseWorks.value = it.toSortedMap()
 
                         val choreLeftMap = mutableMapOf<String, Int>()
-                        it.forEach { item ->
+                        it.toSortedMap().forEach { item ->
                             val scheduledDate = item.key
                             val countLeft = item.value.countLeft
                             choreLeftMap[scheduledDate] = countLeft

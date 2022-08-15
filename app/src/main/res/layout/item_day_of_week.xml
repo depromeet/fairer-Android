@@ -111,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/cl_blue_badge"
-            android:visibility="@{!isSelect ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{!isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE}"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

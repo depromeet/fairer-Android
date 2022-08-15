@@ -99,6 +99,7 @@ class MainFragment : Fragment() {
         binding.tvToday.setOnClickListener {
             dayOfAdapter.updateDate(DateUtil.getCurrentWeek())
             mainViewModel.updateSelectDate(DateUtil.getTodayFull())
+            mainViewModel.updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
     }
@@ -211,7 +212,6 @@ class MainFragment : Fragment() {
                     }
                 } else {
                     binding.layoutEmptyScreen.root.visibility = View.VISIBLE
-                    dayOfAdapter.updateLeftCnt(mutableMapOf())
                 }
             }
         }
@@ -220,15 +220,15 @@ class MainFragment : Fragment() {
             mainViewModel.dayOfWeek.collect {
                 Timber.d("$MAIN_TAG : selectedDate ${it}")
                 mainViewModel.updateSelectHouseWork(it.date.substring(0,10))
+                val year = it.date.split("-")[0]
+                val month = it.date.split("-")[1]
+                binding.tvMonth.text = "${year}년 ${month}월"
             }
         }
 
         lifecycleScope.launchWhenCreated {
             mainViewModel.startDateOfWeek.collect{
                 Timber.d("$MAIN_TAG : startDateOfWeek $it")
-                val year = it.split("-")[0]
-                val month = it.split("-")[1]
-                binding.tvMonth.text = "${year}년 ${month}월"
                 mainViewModel.getHouseWorks()
             }
         }
