@@ -90,6 +90,7 @@ class HouseWorkAdapter(
             val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
             binding.rvProfileAdapter.adapter = adapter
 
+
         }
     }
 
@@ -97,11 +98,10 @@ class HouseWorkAdapter(
         return when {
             houseWork.success -> false
             houseWork.scheduledTime == null -> remoteFormat.format(Calendar.getInstance().time) > houseWork.scheduledDate
-            else -> if (remoteFormat.format(Calendar.getInstance().time) >= houseWork.scheduledDate) {
-                format.format(Calendar.getInstance().time) > houseWork.scheduledTime
-            } else {
-                false
-            }
+            else ->
+                if (remoteFormat.format(Calendar.getInstance().time) == houseWork.scheduledDate) {
+                    format.format(Calendar.getInstance().time) > houseWork.scheduledTime
+                } else remoteFormat.format(Calendar.getInstance().time) > houseWork.scheduledDate
         }
     }
 }
