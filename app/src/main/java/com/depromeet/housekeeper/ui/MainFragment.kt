@@ -219,7 +219,7 @@ class MainFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
                 Timber.d("$MAIN_TAG : selectedDate ${it}")
-                mainViewModel.updateSelectHouseWork(it.date.substring(0,10))
+                mainViewModel.updateSelectHouseWork(it.date.substring(0, 10))
                 val year = it.date.split("-")[0]
                 val month = it.date.split("-")[1]
                 binding.tvMonth.text = "${year}년 ${month}월"
@@ -227,7 +227,7 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.startDateOfWeek.collect{
+            mainViewModel.startDateOfWeek.collect {
                 Timber.d("$MAIN_TAG : startDateOfWeek $it")
                 mainViewModel.getHouseWorks()
             }

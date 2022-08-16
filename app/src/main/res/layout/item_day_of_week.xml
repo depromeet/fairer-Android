@@ -29,21 +29,21 @@
             android:id="@+id/layout_calendar"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background, default = @drawable/main_white_background}"
+            android:paddingVertical="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="12dp"
-            android:paddingVertical="8dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_num_day"
                 style="@style/Caption"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:includeFontPadding="false"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:textAlignment="center"
                 android:textColor="@{isSelect ? @color/highlight : @color/gray_400, default = @color/gray_400}"
                 android:textSize="13sp"
@@ -77,9 +77,9 @@
             android:layout_height="16dp"
             android:layout_marginBottom="-4dp"
             android:visibility="@{isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE , default = invisible}"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -107,12 +107,11 @@
             android:id="@+id/iv_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/cl_blue_badge"
             android:visibility="@{!isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE}"
-            />
+            app:layout_constraintBottom_toBottomOf="@id/cl_blue_badge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

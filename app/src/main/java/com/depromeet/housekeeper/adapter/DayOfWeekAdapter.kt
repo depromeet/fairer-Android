@@ -25,7 +25,7 @@ class DayOfWeekAdapter(
             val weekDate = dayOfWeek.date
             val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
             binding.apply {
-                //isSelect = dayOfWeek.isSelect
+                isSelect = dayOfWeek.isSelect
 
                 tvChoreCnt.bringToFront()
                 val dateKey = weekDate.substring(0, 10)
@@ -77,7 +77,7 @@ class DayOfWeekAdapter(
         Timber.d("$DATE_UTIL_TAG : updateDays : $updateDays")
         list.clear()
         list.addAll(updateDays)
-        //notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
     fun updateLeftCnt(leftMap: MutableMap<String, Int>) {
