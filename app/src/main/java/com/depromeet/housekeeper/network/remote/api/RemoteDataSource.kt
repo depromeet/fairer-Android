@@ -10,7 +10,7 @@ interface RemoteDataSource {
     fcm
      */
     suspend fun saveToken(token: Token): Flow<Unit>
-    fun sendMessage(message: Message): Flow<Unit>
+    fun sendMessage(message: Message): Flow<Message>
 
     /**
      * houseWorks

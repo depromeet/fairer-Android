@@ -24,25 +24,23 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.adapter.HouseWorkAdapter
-import com.depromeet.housekeeper.adapter.MainSectionAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.HouseWorks
-import com.depromeet.housekeeper.model.SectionHouseWorks
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.DateUtil
 import com.depromeet.housekeeper.util.MAIN_TAG
+import com.depromeet.housekeeper.util.SwipeHelperCallback
+import com.depromeet.housekeeper.util.VerticalItemDecorator
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-
 
 class MainFragment : Fragment() {
 
     lateinit var binding: FragmentMainBinding
     private lateinit var dayOfAdapter: DayOfWeekAdapter
     private var houseWorkAdapter: HouseWorkAdapter? = null
-    private lateinit var sectionAdapter: MainSectionAdapter
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -90,9 +88,11 @@ class MainFragment : Fragment() {
         binding.tvMonth.setOnClickListener {
             createDatePickerDialog()
         }
+
         binding.mainHeader.mainHeaderSettingIv.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
         }
+
         binding.lvRule.root.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
         }
@@ -139,7 +139,6 @@ class MainFragment : Fragment() {
         val list =
             mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
-            it
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
                     viewType = ViewType.EDIT,
@@ -151,11 +150,17 @@ class MainFragment : Fragment() {
             mainViewModel.updateChoreState(it)
         }
         )
-        val sectionTitle =
-            listOf(SectionHouseWorks(null, list), SectionHouseWorks("끝낸 집안일", list)).toMutableList()
-        sectionAdapter = MainSectionAdapter(sectionTitle, houseWorkAdapter)
-        binding.rvHouseWork.adapter = sectionAdapter
-
+        binding.rvHouseWork.adapter = houseWorkAdapter
+        binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
+        val swipeHelperCallback = SwipeHelperCallback(houseWorkAdapter!!).apply {
+            // 스와이프한 뒤 고정시킬 위치 지정
+            setClamp(resources.displayMetrics.widthPixels.toFloat() / 5)    // 1080 / 4 = 270
+        }
+        ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.rvHouseWork)
+        binding.rvHouseWork.setOnTouchListener { _, _ ->
+            swipeHelperCallback.removePreviousClamp(binding.rvHouseWork)
+            false
+        }
         groupProfileAdapter = GroupProfileAdapter(mainViewModel.groups.value.toMutableList()) {
             mainViewModel.updateSelectUser(it.memberId)
         }
@@ -297,9 +302,9 @@ class MainFragment : Fragment() {
                 .sortedBy { it.scheduledTime }
                 .toMutableList()
 
-
-        houseWorkAdapter?.updateDate(remainList)
+        houseWorkAdapter?.updateDate(remainList, doneList)
     }
+
 
     private fun rvWeekSwipeListener() {
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
@@ -339,12 +344,8 @@ class MainFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-                    }
-                    ItemTouchHelper.RIGHT -> {
-                        dayOfAdapter.updateDate(mainViewModel.getLastWeek())
-                    }
+                    ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+                    ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
                 }
             }
         }

@@ -43,6 +43,9 @@ android {
     dataBinding {
         enabled true
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -107,5 +110,7 @@ dependencies {
     implementation Dependencies.firebasemessaging
 
     implementation Dependencies.workermanager
+
+    implementation Dependencies.coil
 
 }

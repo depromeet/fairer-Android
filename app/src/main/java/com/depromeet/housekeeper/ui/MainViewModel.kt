@@ -27,7 +27,13 @@ class MainViewModel : ViewModel() {
         getGroupName()
     }
 
-    //캘린더 관련
+    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val networkError: StateFlow<Boolean>
+        get() = _networkError
+
+    /**
+     * 캘린더 관련
+     */
     private var calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
         firstDayOfWeek = Calendar.SUNDAY
@@ -43,7 +49,9 @@ class MainViewModel : ViewModel() {
     val startDateOfWeek get() = _startDateOfWeek
 
 
-    //집안일 관련
+    /**
+     * 집안일 관련
+     */
     private val _completeChoreNum: MutableStateFlow<Int> =
         MutableStateFlow(0)
     val completeChoreNum: StateFlow<Int>
@@ -65,23 +73,29 @@ class MainViewModel : ViewModel() {
     )
     val weekendChoresLeft get() = _weekendChoresLeft
 
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
     private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
     val selectUserId: StateFlow<Int>
         get() = _selectUserId
+
+
 
     private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
         MutableStateFlow(mutableListOf())
     val userProfiles: StateFlow<MutableList<Assignee>>
         get() = _userProfiles
 
-
     private val _rule: MutableStateFlow<String> = MutableStateFlow("")
     val rule: StateFlow<String>
         get() = _rule
+
+    private val _groupName: MutableStateFlow<String> = MutableStateFlow("")
+    val groupName: StateFlow<String>
+        get() = _groupName
+
+    private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
+    val groups: MutableStateFlow<List<AssigneeSelect>>
+        get() = _groups
+
 
 
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
@@ -183,6 +197,7 @@ class MainViewModel : ViewModel() {
                     }
                 }.onFailure {
                     Timber.e(it)
+                    _networkError.value = true
                 }
 
         }
@@ -209,7 +224,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-
     fun updateChoreState(houseWork: HouseWork) {
         val toBeStatus = when (houseWork.success) {
             false -> 1
@@ -228,14 +242,6 @@ class MainViewModel : ViewModel() {
             }
         }
     }
-
-    private val _groupName: MutableStateFlow<String> = MutableStateFlow("")
-    val groupName: StateFlow<String>
-        get() = _groupName
-
-    private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
-    val groups: MutableStateFlow<List<AssigneeSelect>>
-        get() = _groups
 
     fun getGroupName() {
         viewModelScope.launch {

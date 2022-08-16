@@ -33,7 +33,8 @@
         <View
             android:id="@+id/add_chore_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="24dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
