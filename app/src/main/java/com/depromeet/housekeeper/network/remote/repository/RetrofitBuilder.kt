@@ -34,7 +34,7 @@ object RetrofitBuilder {
   private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .client(okHttpBuilder.build())
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .build()
 

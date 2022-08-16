@@ -29,11 +29,13 @@ class DayOfWeekAdapter(
 
                 tvChoreCnt.bringToFront()
                 val dateKey = weekDate.substring(0, 10)
-                if (leftCntMap[dateKey] != null) {
+                if (leftCntMap[dateKey] != null && leftCntMap[dateKey] != 0) {
                     isChore = true
                     choreCnt = leftCntMap[dateKey]!!
                     if (!isSelect) {
-                        ivDots.setImageResource(findDotNums(choreCnt))
+                        val dotsNum = findDotNumsDrawable(choreCnt)
+                        if (dotsNum != null) ivDots.setImageResource(dotsNum)
+                        else ivDots.visibility = View.GONE
                         ivDots.animate()
                     }
                 } else {
@@ -96,13 +98,20 @@ class DayOfWeekAdapter(
     }
 
 
-    private fun findDotNums(cnt: Int): Int {
-        return if (cnt in 1..3) {
-            R.drawable.ic_dot_one
-        } else if (cnt in 4..6) {
-            R.drawable.ic_dots_two
-        } else {
-            R.drawable.ic_dots_three
+    private fun findDotNumsDrawable(cnt: Int): Int? {
+        return when (cnt) {
+            0 -> {
+                null
+            }
+            in 1..3 -> {
+                R.drawable.ic_dot_one
+            }
+            in 4..6 -> {
+                R.drawable.ic_dots_two
+            }
+            else -> {
+                R.drawable.ic_dots_three
+            }
         }
     }
 }

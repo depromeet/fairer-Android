@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.depromeet.housekeeper.model.enums.HouseWorkState"/>
+
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.MainViewModel" />
@@ -22,6 +24,10 @@
         <variable
             name="isConnectedNetwork"
             type="boolean" />
+
+        <variable
+            name="houseworkState"
+            type="HouseWorkState"/>
 
     </data>
 
@@ -230,14 +236,14 @@
                             layout="@layout/layout_home_empty_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="@{houseworkState == HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}" />
 
                         <include
                             android:id="@+id/layoutDoneScreen"
                             layout="@layout/layout_home_done_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE}"  />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_houseWork"
@@ -250,7 +256,9 @@
                             android:paddingBottom="76dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
-                            tools:listitem="@layout/item_housework" />
+                            tools:listitem="@layout/item_housework"
+                            android:visibility="@{houseworkState != HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}"
+                        />
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

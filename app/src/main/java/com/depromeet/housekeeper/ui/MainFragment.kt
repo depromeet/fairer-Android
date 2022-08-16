@@ -9,7 +9,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,12 +27,12 @@ import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.DateUtil
 import com.depromeet.housekeeper.util.MAIN_TAG
 import com.depromeet.housekeeper.util.SwipeHelperCallback
 import com.depromeet.housekeeper.util.VerticalItemDecorator
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class MainFragment : Fragment() {
@@ -129,7 +128,7 @@ class MainFragment : Fragment() {
             })
         val animator: RecyclerView.ItemAnimator? = binding.rvWeek.itemAnimator
         if (animator is SimpleItemAnimator) {
-            (animator as SimpleItemAnimator).supportsChangeAnimations = false
+            animator.supportsChangeAnimations = false
         }
         val gridLayoutManager = GridLayoutManager(context, 7)
         binding.rvWeek.layoutManager = gridLayoutManager
@@ -205,18 +204,22 @@ class MainFragment : Fragment() {
             mainViewModel.selectHouseWorks.collect {
                 Timber.d("$MAIN_TAG collect \n$it")
                 if (it != null) {
-                    binding.layoutDoneScreen.root.isVisible =
-                        it.countLeft == 0 && it.countDone > 0
-                    binding.layoutEmptyScreen.root.isVisible =
-                        (it.countLeft == 0 && it.countDone == 0)
+                    if (it.countLeft == 0) {
+                        if (it.countDone > 0) {
+                            binding.houseworkState = HouseWorkState.DONE
+                        } else if (it.countDone == 0) {
+                            binding.houseworkState = HouseWorkState.EMPTY
+                        }
+                    } else if (it.countLeft > 0) {
+                        binding.houseworkState = HouseWorkState.LEFT
+                    }
 
-                    binding.layoutEmptyScreen.root.isVisible = it.houseWorks.isEmpty()
                     updateHouseWorkData(it)
                     it.houseWorks.forEach {
                         mainViewModel.getDetailHouseWork(it.houseWorkId)
                     }
                 } else {
-                    binding.layoutEmptyScreen.root.visibility = View.VISIBLE
+                    binding.houseworkState = HouseWorkState.EMPTY
                 }
             }
         }
