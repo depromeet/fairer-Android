@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.depromeet.housekeeper.model.enums.HouseWorkState"/>
+
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.MainViewModel" />
@@ -22,6 +24,10 @@
         <variable
             name="isConnectedNetwork"
             type="boolean" />
+
+        <variable
+            name="houseworkState"
+            type="HouseWorkState"/>
 
     </data>
 
@@ -214,50 +220,58 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.appbar.AppBarLayout>
+
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <include
                             android:id="@+id/layoutEmptyScreen"
                             layout="@layout/layout_home_empty_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="@{houseworkState == HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}" />
+
                         <include
                             android:id="@+id/layoutDoneScreen"
                             layout="@layout/layout_home_done_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE}"  />
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_houseWork"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
                             android:layout_marginHorizontal="24dp"
+                            android:layout_marginTop="3dp"
                             android:orientation="vertical"
                             android:overScrollMode="never"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             android:paddingBottom="76dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
-                            tools:listitem="@layout/item_housework" />
+                            tools:listitem="@layout/item_housework"
+                            android:visibility="@{houseworkState != HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}"
+                        />
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <include
             android:id="@+id/bt_add_todo"
             style="@style/Body"
             layout="@layout/layout_home_add_chore"
             android:layout_width="0dp"
             android:layout_height="76dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

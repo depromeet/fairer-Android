@@ -13,43 +13,45 @@ import kotlinx.coroutines.launch
 
 class SettingProfileViewModel : ViewModel() {
 
-  init {
-    getMe()
-  }
-
-  private val _myData: MutableStateFlow<ProfileData?> = MutableStateFlow(null)
-  val myData: StateFlow<ProfileData?>
-    get() = _myData
-
-
-  private fun getMe() {
-    viewModelScope.launch {
-      Repository.getMe().runCatching {
-        collect {
-          _myData.value = it
-        }
-      }
+    init {
+        getMe()
     }
-  }
 
-  fun updateMe(
-    memberName: String,
-    profilePath: String,
-    statueMessage: String,
-  ) {
-    viewModelScope.launch {
-      Repository.updateMe(EditProfileModel(
-        memberName, profilePath, statueMessage
-      ) )
-        .runCatching {
-          collect {
-            it.message
-          }
+    private val _myData: MutableStateFlow<ProfileData?> = MutableStateFlow(null)
+    val myData: StateFlow<ProfileData?>
+        get() = _myData
+
+
+    private fun getMe() {
+        viewModelScope.launch {
+            Repository.getMe().runCatching {
+                collect {
+                    _myData.value = it
+                }
+            }
         }
     }
-  }
 
-  fun updateProfile(profilePath: String) {
-    _myData.value = _myData.value?.copy(profilePath = profilePath)
-  }
+    fun updateMe(
+        memberName: String,
+        profilePath: String,
+        statueMessage: String,
+    ) {
+        viewModelScope.launch {
+            Repository.updateMe(
+                EditProfileModel(
+                    memberName, profilePath, statueMessage
+                )
+            )
+                .runCatching {
+                    collect {
+                        it.message
+                    }
+                }
+        }
+    }
+
+    fun updateProfile(profilePath: String) {
+        _myData.value = _myData.value?.copy(profilePath = profilePath)
+    }
 }
