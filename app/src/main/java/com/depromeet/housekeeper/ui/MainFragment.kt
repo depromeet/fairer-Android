@@ -9,7 +9,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -27,15 +26,14 @@ import com.depromeet.housekeeper.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.local.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.util.DateUtil
+import com.depromeet.housekeeper.util.MAIN_TAG
 import com.depromeet.housekeeper.util.SwipeHelperCallback
 import com.depromeet.housekeeper.util.VerticalItemDecorator
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -62,7 +60,8 @@ class MainFragment : Fragment() {
         mainViewModel.apply {
             getRules()
             getGroupName()
-            updateSelectDate(getToday())
+            updateSelectDate(DateUtil.getTodayFull())
+            updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
         initView()
@@ -97,8 +96,9 @@ class MainFragment : Fragment() {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToRuleFragment())
         }
         binding.tvToday.setOnClickListener {
-            dayOfAdapter.updateDate(getCurrentWeek())
-            mainViewModel.updateSelectDate(mainViewModel.getToday())
+            dayOfAdapter.updateDate(DateUtil.getCurrentWeek())
+            mainViewModel.updateSelectDate(DateUtil.getTodayFull())
+            mainViewModel.updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
     }
@@ -122,13 +122,13 @@ class MainFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        dayOfAdapter = DayOfWeekAdapter(getCurrentWeek(),
+        dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
             onClick = {
                 mainViewModel.updateSelectDate(it)
             })
         val animator: RecyclerView.ItemAnimator? = binding.rvWeek.itemAnimator
         if (animator is SimpleItemAnimator) {
-            (animator as SimpleItemAnimator).supportsChangeAnimations = false
+            animator.supportsChangeAnimations = false
         }
         val gridLayoutManager = GridLayoutManager(context, 7)
         binding.rvWeek.layoutManager = gridLayoutManager
@@ -136,7 +136,7 @@ class MainFragment : Fragment() {
         rvWeekSwipeListener()
 
         val list =
-            mainViewModel.selectHouseWork.value?.houseWorks?.toMutableList() ?: mutableListOf()
+            mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list, onClick = {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
@@ -174,7 +174,8 @@ class MainFragment : Fragment() {
                         binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
                     }
                     else -> {
-                        val completeFormat = String.format(resources.getString(R.string.complete_chore), it)
+                        val completeFormat =
+                            String.format(resources.getString(R.string.complete_chore), it)
                         binding.tvCompleteHouseChore.text =
                             getSpannableText(
                                 completeFormat,
@@ -187,29 +188,55 @@ class MainFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWork.collect { houseWork ->
-                houseWork?.let {
-                    binding.layoutDoneScreen.root.isVisible =
-                        it.countLeft == 0 && it.countDone > 0
-                    binding.layoutEmptyScreen.root.isVisible =
-                        (it.countLeft == 0 && it.countDone == 0)
+            mainViewModel.weekendHouseWorks.collect {
+                Timber.d("$MAIN_TAG : weekendHouseWorks : ${it.keys}")
+            }
+        }
 
-                    dayOfAdapter.updateChoreSize(it.countLeft)//TODO 나중에 api 연결할때 수정
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.weekendChoresLeft.collect {
+                Timber.d("$MAIN_TAG : weekendChoresLeft : ${it}")
+                dayOfAdapter.updateLeftCnt(mainViewModel.weekendChoresLeft.value)
+            }
+        }
 
-                    binding.layoutEmptyScreen.root.isVisible = houseWork.houseWorks.isEmpty()
-                    updateHouseWorkData(houseWork)
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.selectHouseWorks.collect {
+                Timber.d("$MAIN_TAG collect \n$it")
+                if (it != null) {
+                    if (it.countLeft == 0) {
+                        if (it.countDone > 0) {
+                            binding.houseworkState = HouseWorkState.DONE
+                        } else if (it.countDone == 0) {
+                            binding.houseworkState = HouseWorkState.EMPTY
+                        }
+                    } else if (it.countLeft > 0) {
+                        binding.houseworkState = HouseWorkState.LEFT
+                    }
+
+                    updateHouseWorkData(it)
                     it.houseWorks.forEach {
                         mainViewModel.getDetailHouseWork(it.houseWorkId)
                     }
+                } else {
+                    binding.houseworkState = HouseWorkState.EMPTY
                 }
             }
         }
 
         lifecycleScope.launchWhenStarted {
             mainViewModel.dayOfWeek.collect {
+                Timber.d("$MAIN_TAG : selectedDate ${it}")
+                mainViewModel.updateSelectHouseWork(it.date.substring(0, 10))
                 val year = it.date.split("-")[0]
                 val month = it.date.split("-")[1]
                 binding.tvMonth.text = "${year}년 ${month}월"
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.startDateOfWeek.collect {
+                Timber.d("$MAIN_TAG : startDateOfWeek $it")
                 mainViewModel.getHouseWorks()
             }
         }
@@ -248,8 +275,7 @@ class MainFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
-                mainViewModel.updateSelectHouseWork(it)
-
+                mainViewModel.getHouseWorks()
             }
         }
     }
@@ -279,73 +305,53 @@ class MainFragment : Fragment() {
                 .sortedBy { it.scheduledTime }
                 .toMutableList()
 
-    houseWorkAdapter?.updateDate(remainList,doneList)
-}
-
-private fun getCurrentWeek(): MutableList<DayOfWeek> {
-    val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
-    val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.MONTH, this.get(Calendar.MONTH))
-        firstDayOfWeek = Calendar.SUNDAY
-        set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        houseWorkAdapter?.updateDate(remainList, doneList)
     }
-    val days = mutableListOf<String>()
-    days.add(format.format(calendar.time))
-    repeat(6) {
-        calendar.add(Calendar.DATE, 1)
-        days.add(format.format(calendar.time))
-    }
-    return days.map {
-        DayOfWeek(
-            date = it,
-            isSelect = it == format.format(Calendar.getInstance().time)
-        )
-    }.toMutableList()
-}
 
-private fun rvWeekSwipeListener() {
-    val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
-        0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-    ) {
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return false
-        }
 
-        override fun onChildDraw(
-            c: Canvas,
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            dX: Float,
-            dY: Float,
-            actionState: Int,
-            isCurrentlyActive: Boolean
+    private fun rvWeekSwipeListener() {
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            if (actionState == ACTION_STATE_SWIPE) {
-                val view = binding.rvWeek
-                val newX = 0.0 // newX 만큼 이동(고정 시 이동 위치/고정 해제 시 이동 위치 결정)
-                getDefaultUIUtil().onDraw(
-                    c,
-                    recyclerView,
-                    view,
-                    newX.toFloat(),
-                    dY,
-                    actionState,
-                    isCurrentlyActive
-                )
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
             }
-        }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            when (direction) {
-                ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
-                ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                if (actionState == ACTION_STATE_SWIPE) {
+                    val view = binding.rvWeek
+                    val newX = 0.0 // newX 만큼 이동(고정 시 이동 위치/고정 해제 시 이동 위치 결정)
+                    getDefaultUIUtil().onDraw(
+                        c,
+                        recyclerView,
+                        view,
+                        newX.toFloat(),
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+                }
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (direction) {
+                    ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+                    ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
+                }
             }
         }
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
     }
-    ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
-}
 }
