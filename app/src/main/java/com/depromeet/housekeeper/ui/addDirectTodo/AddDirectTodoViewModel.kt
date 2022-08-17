@@ -136,11 +136,13 @@ class AddDirectTodoViewModel : ViewModel() {
     _curDate.value = chore.scheduledDate
     _curTime.value = chore.scheduledTime
 
-    _chores.value[0].scheduledDate = chore.scheduledDate
-    _chores.value[0].houseWorkName = chore.houseWorkName
-    _chores.value[0].scheduledTime = chore.scheduledTime
-    _chores.value[0].space = chore.space
-    _chores.value[0].assignees = chore.assignees
+    _chores.value[0].apply {
+      scheduledDate = chore.scheduledDate
+      houseWorkName = chore.houseWorkName
+      scheduledTime = chore.scheduledTime
+      space = chore.space
+      assignees = chore.assignees
+    }
 
     setCurAssignees(curAssignees as ArrayList<Assignee>)
   }

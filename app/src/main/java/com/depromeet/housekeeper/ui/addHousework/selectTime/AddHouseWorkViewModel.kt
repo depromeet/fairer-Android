@@ -123,10 +123,12 @@ class AddHouseWorkViewModel: ViewModel(){
         val temp = arrayListOf<Chore>()
         choreName.map{ name ->
             val chore = Chore()
-            chore.scheduledDate = _curDate.value
-            chore.space = space.uppercase()
-            chore.houseWorkName = name
-            chore.assignees = arrayListOf(PrefsManager.memberId)
+            chore.apply {
+                scheduledDate = _curDate.value
+                this.space = space.uppercase()
+                houseWorkName = name
+                assignees = arrayListOf(PrefsManager.memberId)
+            }
             temp.add(chore)
         }
         _chores.value.addAll(temp)
@@ -158,7 +160,6 @@ class AddHouseWorkViewModel: ViewModel(){
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
 
-    // TODO: 팀 조회 API에서 members 정보만 GET
     private fun setGroupInfo() {
         viewModelScope.launch {
             Repository.getTeam().runCatching {

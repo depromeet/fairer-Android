@@ -17,7 +17,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
 import com.depromeet.housekeeper.ui.join.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.util.VerticalItemDecorator
-import kotlinx.coroutines.flow.collect
+
 
 class GroupInfoFragment : Fragment() {
     lateinit var binding: FragmentGroupInfoBinding
@@ -37,6 +37,7 @@ class GroupInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         bindingVm()
         setAdapter()
         initListener()

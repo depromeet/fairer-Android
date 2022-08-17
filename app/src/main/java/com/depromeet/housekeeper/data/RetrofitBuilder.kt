@@ -1,7 +1,9 @@
 package com.depromeet.housekeeper.data
 
-import com.depromeet.housekeeper.util.PrefsManager
+
 import com.depromeet.housekeeper.data.remote.ApiService
+import com.depromeet.housekeeper.util.NETWORK_ERROR
+import com.depromeet.housekeeper.util.PrefsManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -33,7 +35,7 @@ object RetrofitBuilder {
   private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .client(okHttpBuilder.build())
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .build()
 
@@ -61,5 +63,4 @@ object RetrofitBuilder {
     }
   }
 
-  private const val NETWORK_ERROR = 1001
 }

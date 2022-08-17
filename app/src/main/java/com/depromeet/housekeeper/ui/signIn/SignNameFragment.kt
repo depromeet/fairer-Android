@@ -55,7 +55,6 @@ class SignNameFragment : Fragment() {
                 SignViewType.InviteCode -> getString(R.string.invite_code_hint)
                 else -> getString(R.string.group_name_hint)
             }
-
         }
         lifecycleScope.launchWhenCreated {
             viewModel.hasTeam.collect {

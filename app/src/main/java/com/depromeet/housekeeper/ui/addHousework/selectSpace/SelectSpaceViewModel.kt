@@ -89,10 +89,11 @@ class SelectSpaceViewModel : ViewModel() {
       Repository.getHouseWorkList()
         .runCatching {
           collect {
-            _chorePreset.value = it.preset
+            _chorePreset.value = it
           }
         }.onFailure {
           _networkError.value = true
+          Timber.d("networkerror")
         }
 
     }

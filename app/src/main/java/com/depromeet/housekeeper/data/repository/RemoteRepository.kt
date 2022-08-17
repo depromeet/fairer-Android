@@ -1,15 +1,17 @@
 package com.depromeet.housekeeper.data.repository
 
+import com.depromeet.housekeeper.data.remote.RemoteDataSource
 import com.depromeet.housekeeper.data.remote.RemoteDataSourceImpl
 import com.depromeet.housekeeper.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 // mutex 사용할 일 있으면 여기서
 // todo CoroutineScope Default로 받아와 결과 캐시 작업
 // todo repository 쪼개기
 class RemoteRepository(
-    private val remoteDataSource: RemoteDataSourceImpl,
+    private val remoteDataSource: RemoteDataSource,
     private val externalScope: CoroutineScope
 ) {
     suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> {
@@ -20,7 +22,7 @@ class RemoteRepository(
         return remoteDataSource.getList(scheduledDate)
     }
 
-    suspend fun getHouseWorkList(): Flow<ChorePreset> {
+    suspend fun getHouseWorkList(): Flow<List<ChoreList>> {
         return remoteDataSource.getHouseWorkList()
     }
 
@@ -28,30 +30,35 @@ class RemoteRepository(
         return remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
     }
 
-    suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse> {
+    suspend fun getGoogleLogin(
+        socialType: SocialType,
+    ): Flow<LoginResponse> {
         return remoteDataSource.getGoogleLogin(socialType)
     }
 
-    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> {
-        return remoteDataSource.deleteHouseWork(houseWorkId)
+    suspend fun deleteHouseWork(id: Int): Flow<Unit> {
+        return remoteDataSource.deleteHouseWork(id)
     }
 
-    suspend fun editHouseWork(houseWorkId: Int, chore: Chore): Flow<HouseWork> {
-        return remoteDataSource.editHouseWork(houseWorkId, chore)
+    suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> {
+        return remoteDataSource.editHouseWork(id, chore)
     }
 
     suspend fun updateChoreState(
         houseWorkId: Int,
-        updateChoreBody: UpdateChoreBody
+        updateChoreBody: UpdateChoreBody,
     ): Flow<UpdateChoreResponse> {
         return remoteDataSource.updateChoreState(houseWorkId, updateChoreBody)
     }
 
-    suspend fun logout(): Flow<Unit> {
+    suspend fun logout(
+    ): Flow<Unit> {
         return remoteDataSource.logout()
     }
 
-    suspend fun buildTeam(buildTeam: BuildTeam): Flow<BuildTeamResponse> {
+    suspend fun buildTeam(
+        buildTeam: BuildTeam,
+    ): Flow<BuildTeamResponse> {
         return remoteDataSource.buildTeam(buildTeam)
     }
 
@@ -64,7 +71,7 @@ class RemoteRepository(
     }
 
     suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> {
-        return remoteDataSource.updateMember(updateMember)
+        return remoteDataSource.updateMember(updateMember = updateMember)
     }
 
     suspend fun getInviteCode(): Flow<GetInviteCode> {
@@ -78,6 +85,7 @@ class RemoteRepository(
     suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> {
         return remoteDataSource.joinTeam(inviteCode)
     }
+
 
     suspend fun createRule(rule: Rule): Flow<RuleResponses> {
         return remoteDataSource.createRule(rule)
@@ -107,11 +115,34 @@ class RemoteRepository(
         return remoteDataSource.getDetailHouseWorks(houseWorkId)
     }
 
-    suspend fun saveToken(token: Token): Flow<Unit> {
-        return remoteDataSource.saveToken(token)
+    suspend fun getDateHouseWorkList(
+        fromDate: String,
+        toDate: String
+    ): Flow<Map<String, HouseWorks>> {
+
+        return remoteDataSource.getDateHouseWorkList(fromDate, toDate)
+
     }
 
-    fun sendMessage(message: Message): Flow<Unit> {
-        return remoteDataSource.sendMessage(message)
+    suspend fun getPeriodHouseWorkListOfMember(
+        teamMemberId: Int,
+        fromDate: String,
+        toDate: String
+    ): Flow<Map<String, HouseWorks>> {
+        return remoteDataSource.getPeriodHouseWorkListOfMember(
+            teamMemberId,
+            fromDate,
+            toDate
+        )
     }
+
+    suspend fun saveToken(token: Token): Flow<Unit> {
+        return remoteDataSource.saveToken(token = token)
+    }
+
+    suspend fun sendMessage(message: Message): Flow<Message> {
+        return remoteDataSource.sendMessage(message = message)
+    }
+
+
 }

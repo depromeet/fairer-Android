@@ -19,7 +19,7 @@ class RemoteDataSourceImpl(
         emit(apiService.getList(scheduledDate))
     }
 
-    override suspend fun getHouseWorkList(): Flow<ChorePreset> = flow {
+    override suspend fun getHouseWorkList(): Flow<List<ChoreList>> = flow {
         emit(apiService.getChoreList())
     }
 
@@ -117,11 +117,26 @@ class RemoteDataSourceImpl(
         emit(apiService.getDetailHouseWork(houseWorkId))
     }
 
+    override suspend fun getDateHouseWorkList(
+        fromDate: String,
+        toDate: String
+    ): Flow<Map<String, HouseWorks>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPeriodHouseWorkListOfMember(
+        teamMemberId: Int,
+        fromDate: String,
+        toDate: String
+    ): Flow<Map<String, HouseWorks>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun saveToken(token: Token): Flow<Unit> = flow {
         emit(apiService.saveToken(token = token))
     }
 
-    override fun sendMessage(message: Message): Flow<Unit> = flow {
+    override suspend fun sendMessage(message: Message): Flow<Message> = flow {
         emit(apiService.sendMessage(message = message))
     }
 }
