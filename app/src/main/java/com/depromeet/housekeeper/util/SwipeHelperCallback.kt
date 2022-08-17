@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.adapter.HouseWorkAdapter
+import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 
 class SwipeHelperCallback(private val recyclerViewAdapter : HouseWorkAdapter)  : ItemTouchHelper.Callback() {
 

@@ -10,7 +10,7 @@
 
         <variable
             name="vm"
-            type="com.depromeet.housekeeper.ui.AddDirectTodoViewModel" />
+            type="com.depromeet.housekeeper.ui.addDirectTodo.AddDirectTodoViewModel" />
 
         <variable
             name="currentDate"
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
-        tools:context=".ui.AddDirectTodoFragment">
+        tools:context=".ui.addDirectTodo.AddDirectTodoFragment">
 
         <include
             android:id="@+id/add_direct_todo_header"

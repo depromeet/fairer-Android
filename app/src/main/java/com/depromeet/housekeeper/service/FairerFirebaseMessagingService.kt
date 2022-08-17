@@ -13,9 +13,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
-import com.depromeet.housekeeper.MainActivity
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.local.PrefsManager
+import com.depromeet.housekeeper.ui.HouseKeeperActivity
+import com.depromeet.housekeeper.util.PrefsManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
@@ -59,7 +59,7 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
 
         createNotificationChannel(notificationManager)
 
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, HouseKeeperActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         val pendingIntent = PendingIntent.getActivity(this, notificationID, intent, FLAG_ONE_SHOT)

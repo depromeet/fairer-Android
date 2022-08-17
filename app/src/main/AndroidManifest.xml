@@ -19,7 +19,7 @@
         android:theme="@style/Theme.HouseKeeper.SplashScreen"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.HouseKeeperActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.HouseKeeper.SplashScreen">

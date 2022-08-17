@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.depromeet.housekeeper.ui.MainFragment"
+        android:name="com.depromeet.housekeeper.ui.main.MainFragment"
         android:label="mainFragment"
         tools:layout="@layout/fragment_main">
         <action
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/SelectSpaceFragment"
-        android:name="com.depromeet.housekeeper.ui.SelectSpaceFragment"
+        android:name="com.depromeet.housekeeper.ui.addHousework.selectSpace.SelectSpaceFragment"
         android:label="SelectSpaceFragment"
         tools:layout="@layout/fragment_select_space">
         <argument
@@ -97,7 +97,7 @@
 
     <fragment
         android:id="@+id/addDirectTodoFragment"
-        android:name="com.depromeet.housekeeper.ui.AddDirectTodoFragment"
+        android:name="com.depromeet.housekeeper.ui.addDirectTodo.AddDirectTodoFragment"
         android:label="addDirectTodoFragment"
         tools:layout="@layout/fragment_add_direct_todo">
         <argument
@@ -122,7 +122,7 @@
 
     <fragment
         android:id="@+id/addHouseWorkFragment"
-        android:name="com.depromeet.housekeeper.ui.AddHouseWorkFragment"
+        android:name="com.depromeet.housekeeper.ui.addHousework.selectTime.AddHouseWorkFragment"
         android:label="addHouseWorkFragment"
         tools:layout="@layout/fragment_add_house_work">
         <argument
@@ -145,7 +145,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.depromeet.housekeeper.ui.LoginFragment"
+        android:name="com.depromeet.housekeeper.ui.signIn.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <deepLink
@@ -186,7 +186,7 @@
     </fragment>
     <fragment
         android:id="@+id/signNameFragment"
-        android:name="com.depromeet.housekeeper.ui.SignNameFragment"
+        android:name="com.depromeet.housekeeper.ui.signIn.SignNameFragment"
         android:label="SignNameFragment"
         tools:layout="@layout/fragment_sign_name">
         <argument
@@ -246,7 +246,7 @@
     </fragment>
     <fragment
         android:id="@+id/signProfileFragment"
-        android:name="com.depromeet.housekeeper.ui.SignProfileFragment"
+        android:name="com.depromeet.housekeeper.ui.signIn.SignProfileFragment"
         android:label="SignProfileFragment"
         tools:layout="@layout/fragment_sign_profile">
         <argument
@@ -278,7 +278,7 @@
     </fragment>
     <fragment
         android:id="@+id/joinGroupFragment"
-        android:name="com.depromeet.housekeeper.ui.JoinGroupFragment"
+        android:name="com.depromeet.housekeeper.ui.join.JoinGroupFragment"
         android:label="JoinGroupFragment"
         tools:layout="@layout/fragment_join_group">
         <action
@@ -292,7 +292,7 @@
 
     <fragment
         android:id="@+id/manageHouseFragment"
-        android:name="com.depromeet.housekeeper.ui.ManageHouseFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.ManageHouseFragment"
         android:label="ManageHouseFragment"
         tools:layout="@layout/fragment_manage_house">
 
@@ -332,7 +332,7 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.depromeet.housekeeper.ui.SettingFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting">
 
@@ -390,7 +390,7 @@
 
     <fragment
         android:id="@+id/inviteFragment"
-        android:name="com.depromeet.housekeeper.ui.InviteFragment"
+        android:name="com.depromeet.housekeeper.ui.join.InviteFragment"
         android:label="InviteFragment"
         tools:layout="@layout/fragment_invite">
         <argument
@@ -413,18 +413,18 @@
 
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.depromeet.housekeeper.ui.ContactFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.ContactFragment"
         android:label="ContactFragment"
         tools:layout="@layout/fragment_contact" />
 
     <fragment
         android:id="@+id/policyFragment"
-        android:name="com.depromeet.housekeeper.ui.PolicyFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.PolicyFragment"
         android:label="PolicyFragment"
         tools:layout="@layout/fragment_policy" />
     <fragment
         android:id="@+id/groupInfoFragment"
-        android:name="com.depromeet.housekeeper.ui.GroupInfoFragment"
+        android:name="com.depromeet.housekeeper.ui.join.GroupInfoFragment"
         android:label="GroupInfoFragment"
         tools:layout="@layout/fragment_group_info">
         <action
@@ -440,13 +440,13 @@
 
     <fragment
         android:id="@+id/ruleFragment"
-        android:name="com.depromeet.housekeeper.ui.RuleFragment"
+        android:name="com.depromeet.housekeeper.ui.houseRule.RuleFragment"
         android:label="RuleFragment"
-        tools:layout="@layout/fragment_rule"></fragment>
+        tools:layout="@layout/fragment_rule" />
 
     <fragment
         android:id="@+id/settingProfileFragment"
-        android:name="com.depromeet.housekeeper.ui.SettingProfileFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.SettingProfileFragment"
         android:label="SettingProfileFragment"
         tools:layout="@layout/fragment_setting_profile">
         <argument

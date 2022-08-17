@@ -10,7 +10,7 @@
     
     <variable
       name="vm"
-      type="com.depromeet.housekeeper.ui.AddHouseWorkViewModel" />
+      type="com.depromeet.housekeeper.ui.addHousework.selectTime.AddHouseWorkViewModel" />
     
     <variable
       name="currentDate"
@@ -26,7 +26,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_white_background"
-    tools:context=".ui.AddHouseWorkFragment">
+    tools:context=".ui.addHousework.selectTime.AddHouseWorkFragment">
   
     <include
       android:id="@+id/add_house_work_header"
