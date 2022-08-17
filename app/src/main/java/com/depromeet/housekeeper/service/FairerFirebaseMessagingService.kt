@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -34,8 +35,9 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
     @Override
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Timber.d("From: ${message.from}")
+        Timber.tag(TAG_FCM).d("From: ${message.from}")
         if (message.data.isNotEmpty()) {
+
             // payload : 전송된 데이터
             Timber.tag(TAG_FCM).d("Message data payload: ${message.data}")
 
@@ -50,10 +52,14 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
 
+    private fun handleNow() {
+
+    }
+
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun showNotification(messageTitle: String?, messageBody: String?) {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val notificationID = Random.nextInt() // 고유 id를 지정
+        val notificationID = (System.currentTimeMillis() / 7).toInt() // 고유 ID 지정
 
         createNotificationChannel(notificationManager)
 
@@ -61,14 +67,16 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         val pendingIntent = PendingIntent.getActivity(this, notificationID, intent, FLAG_ONE_SHOT)
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_fairer)
             .setContentTitle(messageTitle)
             .setContentText(messageBody)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
+            .setSound(soundUri)  // 알림 소리
             .setAutoCancel(true)  // 알림 터치 시 자동으로 삭제
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager.notify(notificationID, notificationBuilder)
@@ -83,27 +91,6 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
             lightColor = getColor(R.color.highlight)
         }
         notificationManager.createNotificationChannel(channel)
-    }
-
-    // TODO : WorkerManager 이용해서 FCM Managing
-    private fun sendFCMTokenToServer(context: Context) {
-        val constraints = Constraints.Builder()
-            /* 네트워크 연결상태 & 배터리 부족에 대한 제약 조건 */
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresCharging(true)
-            .build()
-
-        // 10, 20, 40초 늘려가며 retry
-        val workRequest = OneTimeWorkRequestBuilder<FCMWorker>()
-            .setConstraints(constraints)
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
-                TimeUnit.MILLISECONDS)
-            .build()
-
-        val workManager = WorkManager.getInstance(context)
-        workManager.enqueue(workRequest)
     }
 
     companion object {

@@ -108,6 +108,7 @@ dependencies {
     implementation Dependencies.firebasektx
     implementation Dependencies.firebasedynamiclink
     implementation Dependencies.firebasemessaging
+    implementation Dependencies.firebaseMessagingDirectboot
 
     implementation Dependencies.workermanager
 
