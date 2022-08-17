@@ -8,7 +8,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.databinding.ActivityMainBinding
+import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
@@ -16,14 +16,14 @@ import timber.log.Timber
 class HouseKeeperActivity : AppCompatActivity() {
 
   private val viewModel : HouseKeeperViewModel by viewModels()
-  lateinit var binding: ActivityMainBinding
+  lateinit var binding: ActivityHousekeeperBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {
     installSplashScreen().apply {
       setKeepOnScreenCondition{viewModel.isLoading.value}
     }
     super.onCreate(savedInstanceState)
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_housekeeper)
     binding.lifecycleOwner = this
     getDynamicLink()
   }
