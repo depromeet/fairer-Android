@@ -52,10 +52,6 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         }
     }
 
-    private fun handleNow() {
-
-    }
-
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun showNotification(messageTitle: String?, messageBody: String?) {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
