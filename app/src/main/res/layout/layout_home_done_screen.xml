@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.MainFragment">
+    tools:context=".ui.main.MainFragment">
     
     <ImageView
       android:id="@+id/tv_complete_house_chore"
@@ -21,7 +21,7 @@
       android:src="@drawable/img_done" />
     
     <TextView
-      style="@style/SubTitle"
+      style="@style/Title.T1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="12dp"
@@ -31,7 +31,7 @@
       tools:text="@string/done_chore_title" />
     
     <TextView
-      style="@style/SubTitle"
+      style="@style/Title.T1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="6dp"

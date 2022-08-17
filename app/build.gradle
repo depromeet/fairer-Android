@@ -9,6 +9,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -56,6 +57,9 @@ android {
     }
     dataBinding {
         enabled true
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -109,5 +113,20 @@ dependencies {
     implementation Dependencies.preferencesDatastore
 
     implementation Dependencies.splashscreen
+
+    implementation Dependencies.kakaoSdk
+
+    implementation Dependencies.glide
+    annotationProcessor Dependencies.glideannotation
+
+    implementation platform(Dependencies.firebaseBOM)
+    implementation Dependencies.firebasektx
+    implementation Dependencies.firebasedynamiclink
+    implementation Dependencies.firebasemessaging
+    implementation Dependencies.firebaseMessagingDirectboot
+
+    implementation Dependencies.workermanager
+
+    implementation Dependencies.coil
 
 }

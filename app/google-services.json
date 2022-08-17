@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "940546044137",
+    "project_id": "fairer-def59",
+    "storage_bucket": "fairer-def59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940546044137:android:ac124511669d0ae5ed0078",
+        "android_client_info": {
+          "package_name": "com.depromeet.housekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940546044137-0mkna76g7t78c7pk2od6ta56a2fp1tg2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.depromeet.housekeeper",
+            "certificate_hash": "20813f399ae68f7232ac15be26e0353d720b5dfd"
+          }
+        },
+        {
+          "client_id": "940546044137-u481k2bgop3vkm173ufufdscgntvgd1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaAHNuOuFFhzOSDbalhZLTiOaG6O2epEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940546044137-u481k2bgop3vkm173ufufdscgntvgd1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

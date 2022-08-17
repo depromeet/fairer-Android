@@ -80,4 +80,30 @@ object Dependencies {
 
   private const val SPLASHSCREEN = "1.0.0-beta02"
   const val splashscreen = "androidx.core:core-splashscreen:$SPLASHSCREEN"
+
+  private const val KAKAO_SDK = "2.10.0"
+  const val kakaoSdk = "com.kakao.sdk:v2-link:$KAKAO_SDK"
+
+  private const val FIREBASE_SDK = "4.3.10"
+  const val firebaseSdk = "com.google.gms:google-services:$FIREBASE_SDK"
+
+  private const val FIREBASE_BOM = "30.0.2"
+  private const val FIREBASE_MESSAGING = "23.0.6"
+  private const val FIREBASE_MESSAGING_DIRECTBOOT = "20.2.0"
+  const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASE_BOM"
+  const val firebasektx = "com.google.firebase:firebase-analytics-ktx"
+  const val firebasedynamiclink = "com.google.firebase:firebase-dynamic-links-ktx"
+  const val firebasemessaging = "com.google.firebase:firebase-messaging-ktx:$FIREBASE_MESSAGING"
+  const val firebaseMessagingDirectboot = "com.google.firebase:firebase-messaging-directboot:$FIREBASE_MESSAGING_DIRECTBOOT"
+
+  private const val GLIDE = "4.13.0"
+  const val glide ="com.github.bumptech.glide:glide:$GLIDE"
+  const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
+
+  private const val WORKER_MANAGER = "2.7.1"
+  const val workermanager = "androidx.work:work-runtime-ktx:$WORKER_MANAGER"
+
+  private const val COIL = "2.1.0"
+  const val coil = "io.coil-kt:coil:$COIL"
+
 }

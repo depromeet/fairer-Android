@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.signIn.SignProfileViewModel" />
+
+        <variable
+            name="viewType"
+            type="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/sign_profile_header"
+            layout="@layout/layout_default_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_profile_text"
+            style="@style/Heading.H2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/sign_profile_text"
+            android:textColor="@color/gray_800"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_header" />
+
+        <ImageView
+            android:id="@+id/sign_profile_imageview"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_marginTop="24dp"
+            app:loadImage="@{vm.selectedImage}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_text" />
+
+        <TextView
+            android:id="@+id/sign_profile_select_text"
+            style="@style/Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/sign_profile_select_text"
+            android:textColor="@color/gray_600"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_imageview" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sign_profile_recycler_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_select_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="24dp"
+            android:layout_marginTop="16dp"
+            tools:itemCount="2"
+            tools:listitem="@layout/layout_profile_imageview_mini"/>
+
+        <include
+            android:id="@+id/sign_name_next_btn"
+            layout="@layout/layout_main_footer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

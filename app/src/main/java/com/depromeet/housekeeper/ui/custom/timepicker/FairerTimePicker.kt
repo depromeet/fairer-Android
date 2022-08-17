@@ -49,6 +49,7 @@ class FairerTimePicker @JvmOverloads constructor(
                 minValue = resources.getInteger(R.integer.minutes_min)
                 maxValue = resources.getInteger(R.integer.minutes_max) / timeInterval - 1
                 displayedValues = getDisplayedValue()
+                setOnValueChangedListener(null)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -65,8 +66,6 @@ class FairerTimePicker @JvmOverloads constructor(
         minute = m / defaultInterval
     }
 
-    fun getDisplayedHour(): Int = hour
-    fun getDisplayedMinutes(): Int = minute * timeInterval
     fun getDisPlayedTime(): Pair<Int, Int> {
         return Pair(hour, minute * timeInterval)
     }

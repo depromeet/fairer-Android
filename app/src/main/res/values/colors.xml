@@ -31,4 +31,10 @@
 
   <!--selection-->
   <color name="light_blue">#EEF5FF</color>
+
+  <!-- social -->
+  <color name="kakao_container">#FEE500</color>
 </resources>
+
+
+

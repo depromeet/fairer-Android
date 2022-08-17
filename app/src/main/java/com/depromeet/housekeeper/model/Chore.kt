@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Chore(
-    var assignees: List<Int> = listOf(0),
+    var assignees: List<Int> = listOf(),
     var houseWorkName: String = "",
     var scheduledDate: String = "yyyy-MM-dd",
     var scheduledTime: String? = null,

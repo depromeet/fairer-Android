@@ -1,50 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
-  
-  <data>
-    
-    <variable
-      name="isSelect"
-      type="boolean" />
-  
-  </data>
-  
-  <androidx.appcompat.widget.LinearLayoutCompat
-    android:id="@+id/layout"
-    android:layout_width="40dp"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="6dp"
-    android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
-    
-    <TextView
-      android:id="@+id/tv_num_day"
-      style="@style/Caption"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:textAlignment="center"
-      android:textColor="@{isSelect ? @color/gray_900 : @color/gray_400}"
-      android:textSize="13sp"
-      app:textStyle='@{isSelect ? "bold" : "normal"}'
-      tools:text="13" />
-    
-    <TextView
-      android:id="@+id/tv_str_day"
-      style="@style/Caption"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:textAlignment="center"
-      android:textColor="@{isSelect ? @color/gray_900 : @color/gray_400}"
-      android:textSize="13sp"
-      app:textStyle='@{isSelect ? "bold" : "normal"}'
-      tools:text="금" />
-  
-  </androidx.appcompat.widget.LinearLayoutCompat>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isSelect"
+            type="boolean" />
+
+        <variable
+            name="isChore"
+            type="boolean" />
+
+        <variable
+            name="choreCnt"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_calendar"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@{isSelect ? @drawable/bg_gray100_box : @drawable/main_white_background, default = @drawable/main_white_background}"
+            android:paddingVertical="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_num_day"
+                style="@style/Caption"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:textColor="@{isSelect ? @color/highlight : @color/gray_400, default = @color/gray_400}"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:textStyle='@{isSelect ? "bold" : "normal"}'
+                tools:text="13" />
+
+            <TextView
+                android:id="@+id/tv_str_day"
+                style="@style/Caption"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:textColor="@{isSelect ? @color/highlight : @color/gray_400 , default = @color/gray_400}"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_num_day"
+                app:textStyle='@{isSelect ? "bold" : "normal"}'
+                tools:text="금" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_blue_badge"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="-4dp"
+            android:visibility="@{isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE , default = invisible}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_highlight_box" />
+
+            <TextView
+                android:id="@+id/tv_chore_cnt"
+                style="@style/Caption.C1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="@{String.valueOf(choreCnt)}"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:paddingRight="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{!isSelect &amp;&amp; isChore ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/cl_blue_badge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
