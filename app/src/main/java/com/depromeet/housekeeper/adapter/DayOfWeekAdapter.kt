@@ -26,7 +26,6 @@ class DayOfWeekAdapter(
             val (date, day) = weekDate.split("-")[2] to weekDate.split("-")[3]
             binding.apply {
                 isSelect = dayOfWeek.isSelect
-
                 tvChoreCnt.bringToFront()
                 val dateKey = weekDate.substring(0, 10)
                 if (leftCntMap[dateKey] != null && leftCntMap[dateKey] != 0) {
@@ -56,6 +55,10 @@ class DayOfWeekAdapter(
 
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
