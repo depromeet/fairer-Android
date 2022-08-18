@@ -19,9 +19,7 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.util.NavigationUtil
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
-import kotlinx.coroutines.flow.collect
 
 class SignNameFragment : Fragment() {
     lateinit var binding: FragmentSignNameBinding
@@ -109,6 +107,7 @@ class SignNameFragment : Fragment() {
             if (!viewModel.isNextBtnClickable) return@setOnClickListener
             when (viewModel.viewType.value) {
                 SignViewType.UserName -> {
+                    viewModel.setMemberName()
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
                             name = viewModel.inputText.value, viewType = ProfileViewType.Sign

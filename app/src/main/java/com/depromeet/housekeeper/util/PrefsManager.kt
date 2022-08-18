@@ -2,92 +2,110 @@ package com.depromeet.housekeeper.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.depromeet.housekeeper.model.ProfileData
 
 object PrefsManager {
-  private lateinit var prefs: SharedPreferences
+    private lateinit var prefs: SharedPreferences
 
-  private const val ACCESS_TOKEN = "ACCESS_TOKEN"
-  private const val REFRESH_TOKEN = "REFRESH_TOKEN"
-  private const val USER_NAME = "USER_NAME"
-  private const val HAS_TEAM = "HAS_TEAM"
-  private const val AUTH_CODE = "AUTH_CODE"
-  private const val MEMBER_ID = "MEMBER_ID"
-  private const val DEVICE_TOKEN = "DEViCE_TOKEN"
+    fun init(context: Context) {
+        prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
+    }
 
-  fun init(context: Context) {
-    prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
-  }
+    val accessToken: String
+        get() = prefs.getString(PREFS_ACCESS_TOKEN, "").toString()
 
-  val accessToken: String
-    get() = prefs.getString(ACCESS_TOKEN, "").toString()
+    val refreshToken: String
+        get() = prefs.getString(PREFS_REFRESH_TOKEN, "").toString()
 
-  val refreshToken: String
-    get() = prefs.getString(REFRESH_TOKEN, "").toString()
+    val deviceToken: String
+        get() = prefs.getString(PREFS_DEVICE_TOKEN, "").toString()
 
-  val deviceToken: String
-    get() = prefs.getString(DEVICE_TOKEN, "").toString()
+    fun setTokens(accessToken: String, refreshToken: String) {
+        prefs.edit()?.apply {
+            putString(PREFS_ACCESS_TOKEN, accessToken)
+            putString(PREFS_REFRESH_TOKEN, refreshToken)
+        }?.apply()
+    }
 
-  fun setTokens(accessToken: String, refreshToken: String) {
-    prefs.edit()?.apply {
-      putString(ACCESS_TOKEN, accessToken)
-      putString(REFRESH_TOKEN, refreshToken)
-    }?.apply()
-  }
+    fun setDeviceToken(deviceToken: String) {
+        prefs.edit()?.apply {
+            putString(PREFS_DEVICE_TOKEN, deviceToken)
+        }?.apply()
+    }
 
-  fun setDeviceToken(deviceToken: String) {
-    prefs.edit()?.apply {
-      putString(DEVICE_TOKEN, deviceToken)
-    }?.apply()
-  }
+    fun deleteTokens() {
+        prefs.edit()?.apply {
+            remove(PREFS_ACCESS_TOKEN)
+            remove(PREFS_REFRESH_TOKEN)
+        }?.apply()
+    }
 
-  fun deleteTokens() {
-    prefs.edit()?.apply {
-      remove(ACCESS_TOKEN)
-      remove(REFRESH_TOKEN)
-    }?.apply()
-  }
+    fun deleteMemberInfo() {
+        prefs.edit()?.apply {
+            remove(PREFS_USER_NAME)
+            remove(PREFS_MEMBER_ID)
+        }?.apply()
+    }
 
-  fun deleteMemberInfo() {
-    prefs.edit()?.apply {
-      remove(USER_NAME)
-      remove(MEMBER_ID)
-    }?.apply()
-  }
+    val userName: String
+        get() = prefs.getString(PREFS_USER_NAME, PREFS_USER_NAME_DEFAULT).toString()
 
-  val userName: String
-    get() = prefs.getString(USER_NAME, PREFS_USER_NAME_DEFAULT).toString()
+    fun setUserName(userName: String) {
+        prefs.edit()?.apply {
+            putString(PREFS_USER_NAME, userName)
+        }?.apply()
+    }
 
-  fun setUserName(userName: String) {
-    prefs.edit()?.apply {
-      putString(USER_NAME, userName)
-    }?.apply()
-  }
+    val hasTeam: Boolean
+        get() = prefs.getBoolean(PREFS_HAS_TEAM, false)
 
-  val hasTeam: Boolean
-    get() = prefs.getBoolean(HAS_TEAM, false)
+    fun setHasTeam(hasTeam: Boolean) {
+        prefs.edit()?.apply {
+            putBoolean(PREFS_HAS_TEAM, hasTeam)
+        }?.apply()
+    }
 
-  fun setHasTeam(hasTeam: Boolean) {
-    prefs.edit()?.apply {
-      putBoolean(HAS_TEAM, hasTeam)
-    }?.apply()
-  }
+    val authCode: String
+        get() = prefs.getString(PREFS_AUTH_CODE, "").toString()
 
-  val authCode: String
-    get() = prefs.getString(AUTH_CODE, "").toString()
+    fun setAuthCode(authCode: String) {
+        prefs.edit()?.apply {
+            putString(PREFS_AUTH_CODE, authCode)
+        }?.apply()
+    }
 
-  fun setAuthCode(authCode: String) {
-    prefs.edit()?.apply {
-      putString(AUTH_CODE, authCode)
-    }?.apply()
-  }
+    val memberId: Int
+        get() = prefs.getInt(PREFS_MEMBER_ID, -1)
 
-  val memberId: Int
-    get() = prefs.getInt(MEMBER_ID, -1)
+    fun setMemberId(memberId: Int) {
+        prefs.edit()?.apply {
+            putInt(PREFS_MEMBER_ID, memberId)
+        }?.apply()
+    }
 
-  fun setMemberId(memberId: Int) {
-    prefs.edit()?.apply {
-      putInt(MEMBER_ID, memberId)
-    }?.apply()
-  }
+    fun setUserProfile(profile: ProfileData) {
+        prefs.edit().putString(PREFS_MEMBER_NAME, profile.memberName).apply()
+        prefs.edit().putString(PREFS_USER_PROFILE_PATH, profile.profilePath).apply()
+        prefs.edit().putString(PREFS_STATUS_MESSAGE, profile.statusMessage).apply()
+    }
+
+    fun getUserProfile(): ProfileData {
+        val memberName = prefs.getString(PREFS_MEMBER_NAME,"")!!
+        val profilePath = prefs.getString(PREFS_USER_PROFILE_PATH,"")!!
+        val statusMessage = prefs.getString(PREFS_STATUS_MESSAGE, "")!!
+        return ProfileData(memberName, profilePath, statusMessage)
+    }
+
+    fun setMemberName(name: String) {
+        prefs.edit().putString(PREFS_MEMBER_NAME, name).apply()
+    }
+
+    fun setUserProfilePath(path: String) {
+        prefs.edit().putString(PREFS_USER_PROFILE_PATH, path).apply()
+    }
+
+    fun getUserProfilePath(): String {
+        return prefs.getString(PREFS_USER_PROFILE_PATH, "")!!
+    }
 
 }

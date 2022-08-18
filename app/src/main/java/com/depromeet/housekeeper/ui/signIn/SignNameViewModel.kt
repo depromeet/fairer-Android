@@ -59,6 +59,10 @@ class SignNameViewModel : ViewModel() {
     private var _isNextBtnClickable : Boolean = false
     val isNextBtnClickable get() = _isNextBtnClickable
 
+    fun setMemberName(){
+        PrefsManager.setMemberName(inputText.value)
+    }
+
     fun setIsNextBtnClickable(isClickable : Boolean) {
         _isNextBtnClickable = isClickable
     }

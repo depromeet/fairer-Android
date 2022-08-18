@@ -14,9 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import timber.log.Timber
 
 class SettingProfileFragment : Fragment() {
     lateinit var binding: FragmentSettingProfileBinding
@@ -41,25 +43,33 @@ class SettingProfileFragment : Fragment() {
         initView()
         setListener()
         validateName()
+        bindingVm()
+    }
 
+    private fun bindingVm() {
+        viewModel.getProfile()
         lifecycleScope.launchWhenCreated {
             viewModel.myData.collect {
-                binding.etName.fairerEt.setText(it?.memberName)
-                binding.etStatusMessage.fairerEt.setText(it?.statusMessage)
-                when {
-                    !navArgs.profilePath.isNullOrEmpty() -> {
-                        viewModel.updateProfile(navArgs.profilePath!!)
-                        binding.ivImageview.setImg(navArgs.profilePath!!)
+                Timber.d("profileData : $it")
+
+                if (it != null) {
+                    binding.etName.fairerEt.setText(it.memberName)
+                    binding.etStatusMessage.fairerEt.setText(it.statusMessage)
+
+                    val url: String = when {
+                        !navArgs.profilePath.isNullOrEmpty() -> { navArgs.profilePath!! }
+                        else -> { it.profilePath }
                     }
-                    else -> {
-                        binding.ivImageview.setImg(it?.profilePath)
-                    }
+                    Glide.with(requireContext())
+                        .load(url)
+                        .placeholder(requireContext().getDrawable(R.drawable.bg_profile_imageview_inactive))
+                        .into(binding.ivImageview)
+
+                    binding.nameIsTextChanged = false
+                    binding.stateIsTextChanged = false
                 }
-                binding.nameIsTextChanged = false
-                binding.stateIsTextChanged = false
             }
         }
-
     }
 
     private fun validateName() {
@@ -121,19 +131,16 @@ class SettingProfileFragment : Fragment() {
         }
 
         binding.profileBtn.mainFooterButton.setOnClickListener {
-            if (navArgs.profilePath != null) {
-                viewModel.updateMe(
-                    binding.etName.fairerEt.text.toString(),
-                    navArgs.profilePath!!,
-                    binding.etStatusMessage.fairerEt.text.toString()
-                )
+            val newMemberName = binding.etName.fairerEt.text.toString()
+            val newProfilePath = if (navArgs.profilePath != null){
+                navArgs.profilePath
             } else {
-                viewModel.updateMe(
-                    binding.etName.fairerEt.text.toString(),
-                    viewModel.myData.value!!.profilePath,
-                    binding.etStatusMessage.fairerEt.text.toString()
-                )
+                viewModel.myData.value!!.profilePath
             }
+            val newStatusMessage = binding.etStatusMessage.fairerEt.text.toString()
+
+            viewModel.setProfile(newMemberName, newProfilePath!!, newStatusMessage)
+            viewModel.updateMe(newMemberName, newProfilePath, newStatusMessage)
 
             it.findNavController().navigateUp()
         }

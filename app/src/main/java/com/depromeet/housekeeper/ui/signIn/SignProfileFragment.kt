@@ -90,6 +90,7 @@ class SignProfileFragment : Fragment() {
                 viewModel.requestUpdateMember()
             }
             if (viewModel.viewType.value == ProfileViewType.Modify){
+                viewModel.requestUpdateMember()
                 it.findNavController().navigate(SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(viewModel.selectedImage.value))
             }
 
@@ -99,7 +100,7 @@ class SignProfileFragment : Fragment() {
     private fun setAdapter() {
         val gridLayoutManager = GridLayoutManager(context, 4)
         binding.signProfileRecyclerImageview.layoutManager = gridLayoutManager
-        myAdapter = SignProfileAdapter(viewModel.profileImageList.value)
+        myAdapter = SignProfileAdapter(viewModel.profileImageList.value, requireContext())
         binding.signProfileRecyclerImageview.adapter = myAdapter
         binding.signProfileRecyclerImageview.addItemDecoration(VerticalItemDecorator(16))
         myAdapter.setItemClickListener(object : SignProfileAdapter.OnItemClickListener {
