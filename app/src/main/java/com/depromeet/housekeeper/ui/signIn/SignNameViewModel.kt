@@ -90,7 +90,7 @@ class SignNameViewModel : ViewModel() {
 
     fun joinTeam(inviteCode: String) {
         viewModelScope.launch {
-            Timber.e("joinTeam: $inviteCode")
+            Timber.d("joinTeam: $inviteCode")
 
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
