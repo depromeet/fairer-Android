@@ -84,28 +84,21 @@ object PrefsManager {
     }
 
     fun setUserProfile(profile: ProfileData) {
-        prefs.edit().putString(PREFS_MEMBER_NAME, profile.memberName).apply()
+        prefs.edit().putString(PREFS_USER_NAME, profile.memberName).apply()
         prefs.edit().putString(PREFS_USER_PROFILE_PATH, profile.profilePath).apply()
         prefs.edit().putString(PREFS_STATUS_MESSAGE, profile.statusMessage).apply()
     }
 
     fun getUserProfile(): ProfileData {
-        val memberName = prefs.getString(PREFS_MEMBER_NAME,"")!!
+        val memberName = prefs.getString(PREFS_USER_NAME,"")!!
         val profilePath = prefs.getString(PREFS_USER_PROFILE_PATH,"")!!
         val statusMessage = prefs.getString(PREFS_STATUS_MESSAGE, "")!!
         return ProfileData(memberName, profilePath, statusMessage)
     }
 
-    fun setMemberName(name: String) {
-        prefs.edit().putString(PREFS_MEMBER_NAME, name).apply()
-    }
 
     fun setUserProfilePath(path: String) {
         prefs.edit().putString(PREFS_USER_PROFILE_PATH, path).apply()
-    }
-
-    fun getUserProfilePath(): String {
-        return prefs.getString(PREFS_USER_PROFILE_PATH, "")!!
     }
 
 }

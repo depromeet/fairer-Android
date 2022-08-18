@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.util.PrefsManager
 import timber.log.Timber
 
 class SettingProfileFragment : Fragment() {
