@@ -14,6 +14,8 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.NAVIGATION_CODE
+import com.depromeet.housekeeper.util.NAVIGATION_VIEW_TYPE
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 
 class JoinGroupFragment : Fragment() {
@@ -41,10 +43,18 @@ class JoinGroupFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName,null))
+            val bundle = Bundle().apply {
+                putSerializable(NAVIGATION_VIEW_TYPE, SignViewType.GroupName)
+                putString(NAVIGATION_CODE, null)
+            }
+            findNavController().navigateSafe(R.id.action_joinGroupFragment_to_signNameFragment, bundle)
         }
         binding.joinGroupJoinSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode,null))
+            val bundle = Bundle().apply {
+                putSerializable(NAVIGATION_VIEW_TYPE, SignViewType.InviteCode)
+                putString(NAVIGATION_CODE, null)
+            }
+            findNavController().navigateSafe(R.id.action_joinGroupFragment_to_signNameFragment, bundle)
         }
 
     }
