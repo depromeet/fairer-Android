@@ -17,6 +17,7 @@ import coil.load
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.util.PrefsManager
 
 class SettingProfileFragment : Fragment() {
     lateinit var binding: FragmentSettingProfileBinding
@@ -127,12 +128,14 @@ class SettingProfileFragment : Fragment() {
                     navArgs.profilePath!!,
                     binding.etStatusMessage.fairerEt.text.toString()
                 )
+                PrefsManager.setUserName(binding.etName.fairerEt.text.toString())
             } else {
                 viewModel.updateMe(
                     binding.etName.fairerEt.text.toString(),
                     viewModel.myData.value!!.profilePath,
                     binding.etStatusMessage.fairerEt.text.toString()
                 )
+                PrefsManager.setUserName(binding.etName.fairerEt.text.toString())
             }
 
             it.findNavController().navigateUp()
