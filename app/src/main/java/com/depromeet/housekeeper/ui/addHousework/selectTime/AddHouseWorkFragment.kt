@@ -20,7 +20,6 @@ import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAda
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
@@ -78,7 +77,7 @@ class AddHouseWorkFragment : Fragment() {
             viewModel.houseWorkCreateResponse.collect {
                 if (it?.any { it.success } == false) {
                     // 화면 전환
-                    findNavController().navigateSafe(R.id.action_addHouseWorkFragment_to_mainFragment)
+                    findNavController().navigate(R.id.action_addHouseWorkFragment_to_mainFragment)
                 }
             }
         }
