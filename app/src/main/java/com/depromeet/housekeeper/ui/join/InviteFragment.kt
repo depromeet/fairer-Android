@@ -23,6 +23,7 @@ import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.google.firebase.dynamiclinks.ktx.androidParameters
 import com.google.firebase.dynamiclinks.ktx.dynamicLink
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -134,7 +135,7 @@ class InviteFragment : Fragment() {
         }
 
         binding.inviteSkipBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_inviteFragment_to_mainFragment)
+            findNavController().navigateSafe(R.id.action_inviteFragment_to_mainFragment)
         }
 
     }

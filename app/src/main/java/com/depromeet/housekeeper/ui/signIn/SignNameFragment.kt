@@ -69,10 +69,11 @@ class SignNameFragment : Fragment() {
                 if (it != null) {
                     viewModel.setIsNextBtnClickable(true)
                     if(viewModel.isDynamicLink.value){
-                        findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment2())
+                        findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment2)
                     }
-                    else
-                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment())
+                    else {
+                        findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment)
+                    }
                 }
             }
         }
