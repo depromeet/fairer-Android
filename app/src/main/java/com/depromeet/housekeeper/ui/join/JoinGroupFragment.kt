@@ -14,6 +14,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 
 class JoinGroupFragment : Fragment() {
     lateinit var binding : FragmentJoinGroupBinding
@@ -47,6 +48,7 @@ class JoinGroupFragment : Fragment() {
         }
 
     }
+
     private fun spannable(){
         binding.joinGroupMainText.text = getString(R.string.join_group_main_text, PrefsManager.userName)
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
