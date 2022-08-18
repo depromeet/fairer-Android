@@ -14,14 +14,6 @@
             type="com.depromeet.housekeeper.ui.main.MainViewModel" />
 
         <variable
-            name="isEmptyRemain"
-            type="boolean" />
-
-        <variable
-            name="isEmptyDone"
-            type="boolean" />
-
-        <variable
             name="isConnectedNetwork"
             type="boolean" />
 

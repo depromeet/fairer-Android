@@ -6,10 +6,6 @@
   <data>
     
     <import type="android.view.View" />
-    
-    <variable
-      name="imageUrl"
-      type="String" />
   
   </data>
   
@@ -30,7 +26,6 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:loadImage="@{imageUrl}"
       tools:src="@drawable/ic_profile1" />
   
   </androidx.constraintlayout.widget.ConstraintLayout>
