@@ -10,9 +10,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import timber.log.Timber
 
 class SignNameViewModel : ViewModel() {
     private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
@@ -35,17 +35,17 @@ class SignNameViewModel : ViewModel() {
     val isDynamicLink: StateFlow<Boolean>
         get() = _isDynamicLink
 
-    fun setDynamicLink(boolean: Boolean){
+    fun setDynamicLink(boolean: Boolean) {
         _isDynamicLink.value = boolean
     }
 
     //후에 response를 사용할 수 있으므로 남겨놓음
-    private val _responseTeamUpdate : MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
-    val responseTeamUpdate : StateFlow<TeamUpdateResponse?>
+    private val _responseTeamUpdate: MutableStateFlow<TeamUpdateResponse?> = MutableStateFlow(null)
+    val responseTeamUpdate: StateFlow<TeamUpdateResponse?>
         get() = _responseTeamUpdate
 
-    private val _responseJoinTeam : MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
-    val responseJoinTeam : StateFlow<JoinTeamResponse?>
+    private val _responseJoinTeam: MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
+    val responseJoinTeam: StateFlow<JoinTeamResponse?>
         get() = _responseJoinTeam
 
     private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -54,10 +54,16 @@ class SignNameViewModel : ViewModel() {
 
     private val _errorMessage: MutableStateFlow<String> = MutableStateFlow("")
     val errorMessage: StateFlow<String>
-      get() = _errorMessage
+        get() = _errorMessage
 
+    private var _isNextBtnClickable : Boolean = false
+    val isNextBtnClickable get() = _isNextBtnClickable
 
-  fun setInputText(name: String) {
+    fun setIsNextBtnClickable(isClickable : Boolean) {
+        _isNextBtnClickable = isClickable
+    }
+
+    fun setInputText(name: String) {
         _inputText.value = name
     }
 
@@ -84,20 +90,27 @@ class SignNameViewModel : ViewModel() {
 
     fun joinTeam(inviteCode: String) {
         viewModelScope.launch {
+            Timber.e("joinTeam: $inviteCode")
+
             Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
                     _responseJoinTeam.value = it
                     PrefsManager.setHasTeam(hasTeam = true)
                 }
-            }
-                .onFailure {
-                  val httpException = it as HttpException
-                  val errorBody = httpException.response()?.errorBody()
-                  val type = object : TypeToken<ErrorResponse>() {}.type
-                  val errorResponse: ErrorResponse = Gson().fromJson(errorBody?.charStream(), type)
-                  _errorMessage.value = errorResponse.errorMessage
-
+            }.onFailure {
+                when (it) {
+                    is HttpException -> {
+                        val errorBody = it.response()?.errorBody()
+                        val type = object : TypeToken<ErrorResponse>() {}.type
+                        val errorResponse: ErrorResponse =
+                            Gson().fromJson(errorBody?.charStream(), type)
+                        _errorMessage.value = errorResponse.errorMessage
+                    }
+                    else -> {
+                        Timber.e("onFailure: $it")
+                    }
                 }
+            }
         }
     }
 }
