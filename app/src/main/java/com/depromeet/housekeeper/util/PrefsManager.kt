@@ -55,7 +55,7 @@ object PrefsManager {
   }
 
   val userName: String
-    get() = prefs.getString(USER_NAME, "User Name").toString()
+    get() = prefs.getString(USER_NAME, PREFS_USER_NAME_DEFAULT).toString()
 
   fun setUserName(userName: String) {
     prefs.edit()?.apply {
