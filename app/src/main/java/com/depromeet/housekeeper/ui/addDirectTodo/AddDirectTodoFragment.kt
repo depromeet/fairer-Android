@@ -25,6 +25,7 @@ import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -178,7 +179,7 @@ class AddDirectTodoFragment : Fragment() {
                     setOnClickListener {
                         updateChore()
                         viewModel.createHouseWorks()
-                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
 
@@ -188,7 +189,7 @@ class AddDirectTodoFragment : Fragment() {
                     setOnClickListener {
                         updateChore()
                         viewModel.editHouseWork()
-                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
             }
@@ -307,7 +308,7 @@ class AddDirectTodoFragment : Fragment() {
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 viewModel.deleteHouseWork()
-                findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }
