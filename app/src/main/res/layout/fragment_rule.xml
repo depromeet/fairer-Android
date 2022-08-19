@@ -79,20 +79,29 @@
                 bind:isError="@{isError}"
                 bind:isTextChanged="@{isTextChanged}" />
 
+            <ImageView
+                android:id="@+id/iv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_info"
+                app:layout_constraintBottom_toBottomOf="@id/tv_info"
+                android:src="@drawable/ic_info_fill" />
+
             <TextView
                 android:id="@+id/tv_info"
                 style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:drawableStart="@drawable/ic_info_fill"
-                android:drawablePadding="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/rule_info"
-                android:textColor="@color/gray_600"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@{isError ? @color/negative_20 : @color/gray_600, default = @color/gray_600}"
+                app:layout_constraintStart_toEndOf="@id/iv_info"
                 app:layout_constraintTop_toBottomOf="@id/et_rule"
-                tools:text="@string/rule_info" />
+                tools:text="@string/rule_info"
+                android:includeFontPadding="false"/>
 
             <TextView
                 android:id="@+id/tv_rule"

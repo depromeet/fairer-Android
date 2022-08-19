@@ -16,6 +16,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_fairer_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -35,8 +36,10 @@
             android:inputType="text"
             android:maxLength="16"
             android:maxLines="1"
+            android:singleLine="true"
             android:textColorHint="@color/gray_400"
             android:textCursorDrawable="@drawable/ic_cursor_drawable"
+            android:imeOptions="actionDone"
             android:background="@null"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
