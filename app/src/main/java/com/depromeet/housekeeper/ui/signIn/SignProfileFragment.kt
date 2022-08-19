@@ -68,6 +68,7 @@ class SignProfileFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.updateMemberResponse.collect {
                 it?.run {
+                    Timber.d("updateMemberResponse : $it")
                     PrefsManager.setUserName(viewModel.memberName.value)
                     findNavController().navigate(
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()

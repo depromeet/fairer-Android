@@ -21,6 +21,7 @@ import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 
+
 class SignNameFragment : Fragment() {
     lateinit var binding: FragmentSignNameBinding
     private val viewModel: SignNameViewModel by viewModels()

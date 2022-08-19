@@ -150,7 +150,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateDynamicLink() {
-        if(PrefsManager.refreshToken!=""){
+        if (PrefsManager.refreshToken != "") {
             if (PrefsManager.hasTeam) {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
@@ -158,8 +158,7 @@ class LoginFragment : Fragment() {
                         code = "hasTeam"
                     )
                 )
-            }
-            else {
+            } else {
                 if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
