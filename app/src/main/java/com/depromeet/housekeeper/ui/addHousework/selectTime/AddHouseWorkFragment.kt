@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +21,7 @@ import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAda
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
+import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
@@ -108,10 +110,14 @@ class AddHouseWorkFragment : Fragment() {
         }
 
         binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
-            binding.addHouseWorkAllDayCheckBox.isChecked = false
-            val time = binding.todoTimePicker.getDisPlayedTime()
-            viewModel.updateTime(time.first, time.second)
+            updateTime()
         }
+
+        binding.todoTimePicker.setMyMinChangedListener(object: FairerTimePicker.MyMinChangedListener{
+            override fun onMinChange() {
+                updateTime()
+            }
+        })
 
         binding.addHouseWorkAllDayCheckBox.apply {
             setOnClickListener {
@@ -175,6 +181,12 @@ class AddHouseWorkFragment : Fragment() {
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.addHouseWorkRepeatRv.adapter = dayRepeatAdapter
+    }
+
+    private fun updateTime() {
+        binding.addHouseWorkAllDayCheckBox.isChecked = false
+        val time = binding.todoTimePicker.getDisPlayedTime()
+        viewModel.updateTime(time.first, time.second)
     }
 
     private fun updateChore(position: Int) {

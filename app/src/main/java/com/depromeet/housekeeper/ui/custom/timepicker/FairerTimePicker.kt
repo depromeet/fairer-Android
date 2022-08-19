@@ -12,8 +12,18 @@ import timber.log.Timber
 
 class FairerTimePicker @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null
+    attrs: AttributeSet? = null,
 ) : TimePicker(context, attrs) {
+
+    private lateinit var mMinChangedListener: MyMinChangedListener
+
+    interface MyMinChangedListener {
+        fun onMinChange()
+    }
+
+    fun setMyMinChangedListener(minChangedListener: MyMinChangedListener){
+        mMinChangedListener = minChangedListener
+    }
 
     private val defaultInterval = resources.getInteger(R.integer.time_interval)
     private val minInterval = 1
@@ -33,6 +43,12 @@ class FairerTimePicker @JvmOverloads constructor(
     init {
         setInterval()
         initDisPlayedValue()
+        initTimePicker()
+    }
+
+    private fun initTimePicker() {
+        // editText 설정 해제
+        descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
     }
 
     @SuppressLint("PrivateApi")
@@ -49,7 +65,9 @@ class FairerTimePicker @JvmOverloads constructor(
                 minValue = resources.getInteger(R.integer.minutes_min)
                 maxValue = resources.getInteger(R.integer.minutes_max) / timeInterval - 1
                 displayedValues = getDisplayedValue()
-                setOnValueChangedListener(null)
+                setOnValueChangedListener { numberPicker, i, i2 ->
+                    mMinChangedListener.onMinChange()
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -63,7 +81,7 @@ class FairerTimePicker @JvmOverloads constructor(
 
     fun setDisPlayedValue(h:Int, m: Int) {
         hour = h
-        minute = m / defaultInterval
+        minute = m / timeInterval
     }
 
     fun getDisPlayedTime(): Pair<Int, Int> {
