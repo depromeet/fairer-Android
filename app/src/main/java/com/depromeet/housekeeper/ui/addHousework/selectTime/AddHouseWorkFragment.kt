@@ -173,7 +173,6 @@ class AddHouseWorkFragment : Fragment() {
                 }
                 updateView(viewModel.getPosition(PositionType.CUR))
             }
-
         })
 
         // 요일 반복 adapter
@@ -196,7 +195,6 @@ class AddHouseWorkFragment : Fragment() {
             )
             else -> viewModel.updateChore(viewModel.curTime.value, position)
         }
-        Timber.d(viewModel.chores.value.toString())
     }
 
     private fun updateView(position: Int) {
@@ -207,6 +205,7 @@ class AddHouseWorkFragment : Fragment() {
         } else {
             val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
+            binding.addHouseWorkAllDayCheckBox.isChecked = false
         }
 
         val curAssignees = arrayListOf<Assignee>()

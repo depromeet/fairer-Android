@@ -25,6 +25,7 @@ import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
@@ -130,10 +131,14 @@ class AddDirectTodoFragment : Fragment() {
 
 
         binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, _, _ ->
-            binding.addDirectTodoAllDayCheckBox.isChecked = false
-            val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
-            viewModel.updateTime(time.first, time.second)
+            updateTime()
         }
+
+        binding.addDirectTodoTimePicker.setMyMinChangedListener(object: FairerTimePicker.MyMinChangedListener{
+            override fun onMinChange() {
+                updateTime()
+            }
+        })
 
         binding.addDirectTodoAllDayCheckBox.apply {
             setOnClickListener {
@@ -198,6 +203,12 @@ class AddDirectTodoFragment : Fragment() {
         binding.addDirectTodoDateTv.setOnClickListener {
             createDatePickerDialog()
         }
+    }
+
+    private fun updateTime() {
+        binding.addDirectTodoAllDayCheckBox.isChecked = false
+        val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
+        viewModel.updateTime(time.first, time.second)
     }
 
     private fun createBottomSheet() {
