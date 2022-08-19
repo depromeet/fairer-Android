@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,7 +21,7 @@ import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-import kotlinx.coroutines.flow.collect
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import timber.log.Timber
 import java.util.*
 
@@ -79,7 +78,7 @@ class AddHouseWorkFragment : Fragment() {
             viewModel.houseWorkCreateResponse.collect {
                 if (it?.any { it.success } == false) {
                     // 화면 전환
-                    findNavController().navigate(R.id.action_addHouseWorkFragment_to_mainFragment)
+                    findNavController().navigateSafe(R.id.action_addHouseWorkFragment_to_mainFragment)
                 }
             }
         }
