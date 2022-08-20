@@ -14,6 +14,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingBinding
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 
 class SettingFragment : Fragment() {
     lateinit var binding:FragmentSettingBinding
@@ -82,7 +83,7 @@ class SettingFragment : Fragment() {
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 viewModel.signOut(requireContext())
-                findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
+                findNavController().navigateSafe(R.id.action_settingFragment_to_loginFragment)
             }
         }
     }

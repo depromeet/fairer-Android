@@ -26,11 +26,26 @@ android {
         vectorDrawables.useSupportLibrary = true
 
     }
+    signingConfigs {
+        release {
+            storeFile file("../keystore")
+            storePassword "fairerf"
+            keyAlias "android"
+            keyPassword "fairerf"
+        }
+    }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField 'boolean', 'IS_DEBUG', 'false'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            buildConfigField 'boolean', 'IS_DEBUG', 'true'
         }
     }
     compileOptions {
