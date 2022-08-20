@@ -16,14 +16,19 @@ object EditTextUtil {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun EditText.listenEditorDoneAction(context: Context, onDone: (text: String) -> Unit) {
+    fun showKeyboard(context: Context, editText: EditText){
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editText, 0)
+    }
+
+    fun EditText.listenEditorDoneAction(onDone: (text: String) -> Unit) {
         var handled = false
         this.setOnEditorActionListener { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 Timber.d("setOnEditorActionListener: ${textView.text}, $actionId, $keyEvent")
                 onDone(textView.text.toString())
                 this.text.clear()
-                hideKeyboard(context, this)
+                this.isFocusable = false
                 this.isCursorVisible = false
                 handled = true
             }

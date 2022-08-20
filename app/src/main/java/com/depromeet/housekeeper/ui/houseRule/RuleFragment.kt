@@ -18,6 +18,7 @@ import com.depromeet.housekeeper.databinding.FragmentRuleBinding
 import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.listenEditorDoneAction
+import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.textPattern
 import timber.log.Timber
 
@@ -84,17 +85,24 @@ class RuleFragment : Fragment() {
         binding.etRule.clFairerEt.setOnClickListener {
             binding.etRule.fairerEt.requestFocus()
             binding.etRule.fairerEt.isFocusable = true
-            binding.etRule.fairerEt.isCursorVisible = true
         }
 
         binding.etRule.fairerEt.apply {
-            setOnClickListener { it as EditText
-                if (!it.isCursorVisible) { it.isCursorVisible = true }
-            }
             listenTextChanged()
-            listenEditorDoneAction(requireContext()) {
+            listenEditorDoneAction() {
                 viewModel.createRule(it)
             }
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    hideKeyboard(requireContext(), view)
+                } else {
+                    showKeyboard(requireContext(), this)
+                    this.isFocusableInTouchMode = true
+                }
+
+                this.isCursorVisible = hasFocus
+            }
+
         }
     }
 
@@ -103,7 +111,6 @@ class RuleFragment : Fragment() {
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 //Timber.d("beforeTextChanged: ${p0.toString()}")
-                this@listenTextChanged.isCursorVisible = true
                 binding.isTextChanged = p0.toString().isNotEmpty()
             }
 
@@ -113,13 +120,12 @@ class RuleFragment : Fragment() {
 
                 if (viewModel.rules.value.count() >= 10) {
                     this@listenTextChanged.text.clear()
-                    hideKeyboard(requireContext(), this@listenTextChanged)
-                    this@listenTextChanged.isCursorVisible = false
+                    this@listenTextChanged.isFocusable = false
                     binding.isError = true
                     binding.ivInfo.setColorFilter(requireContext().getColor(R.color.negative_20))
                     Toast.makeText(requireContext(), R.string.rule_info, Toast.LENGTH_LONG).show()
                 } else {
-                    binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_600))
+                    binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
                 }
             }
 

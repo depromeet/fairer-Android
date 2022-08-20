@@ -24,13 +24,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_white_background">
+        android:background="@drawable/main_white_background"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_rule_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
-            tools:context=".ui.settings.SettingFragment">
+            tools:context=".ui.settings.SettingFragment"
+            android:focusableInTouchMode="true"
+            android:clickable="true">
 
             <include
                 android:id="@+id/rule_header"
