@@ -19,6 +19,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
+    - run: echo $APP_KEYSTORE_BASE64 | base64 -d > debug.keystore
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
@@ -40,9 +41,3 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Generate Keystore file from Github Secrets
-      run: |
-        echo "$KEYSTORE" > ./keystore.b64
-        base64 -d -i ./keystore.b64 > ./keystore
-      env:
-        KEYSTORE: ${{ secrets.APP_KEYSTORE_BASE64 }}
