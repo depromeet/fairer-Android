@@ -19,9 +19,7 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.util.NavigationUtil
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
-import kotlinx.coroutines.flow.collect
 
 class SignNameFragment : Fragment() {
     lateinit var binding: FragmentSignNameBinding
@@ -92,6 +90,7 @@ class SignNameFragment : Fragment() {
             viewModel.errorMessage.collect {
                 if (it.isNotEmpty()){
                     Toast.makeText(this@SignNameFragment.context,it,Toast.LENGTH_LONG).show()
+                    viewModel.setErrorMessage()
                 }
             }
         }
@@ -124,7 +123,6 @@ class SignNameFragment : Fragment() {
                 }
                 SignViewType.InviteCode -> {
                     viewModel.joinTeam(viewModel.inputText.value)
-                    viewModel.setIsNextBtnClickable(false)
                 }
                 SignViewType.ModifyGroupName -> {
                     viewModel.teamNameUpdate(viewModel.inputText.value)
