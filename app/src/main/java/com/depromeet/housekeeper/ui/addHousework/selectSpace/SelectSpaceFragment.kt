@@ -112,7 +112,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
   private fun setAdapter(){
         val gridLayoutManager = GridLayoutManager(context,3)
         binding.selectSpaceRecyclerview.layoutManager=gridLayoutManager
-        binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(14))
+        binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(12))
         myAdapter = SelectSpaceChoreAdapter(emptyList<String>())
         binding.selectSpaceRecyclerview.adapter = myAdapter
     }

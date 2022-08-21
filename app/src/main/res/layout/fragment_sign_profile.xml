@@ -47,7 +47,6 @@
             android:layout_height="84dp"
             android:layout_marginTop="24dp"
             app:loadImage="@{vm.selectedImage}"
-            android:background="@drawable/bg_profile_imageview_inactive"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sign_profile_text" />
