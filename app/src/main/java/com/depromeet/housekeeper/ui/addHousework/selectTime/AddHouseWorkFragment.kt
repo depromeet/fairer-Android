@@ -21,7 +21,6 @@ import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*

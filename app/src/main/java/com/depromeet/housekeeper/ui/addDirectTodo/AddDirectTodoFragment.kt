@@ -26,7 +26,6 @@ import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
