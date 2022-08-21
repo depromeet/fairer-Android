@@ -208,6 +208,4 @@
     <string name="fcm_add_chore_title">오늘 할 집안일을 추가해보세요!</string>
     <string name="fcm_add_chore_body">오늘도 평화롭고 깨끗한 %s 만들어봐요!</string>
 
-    <!-- navigation -->
-    <string name="navigation_viewType">viewType</string>
 </resources>

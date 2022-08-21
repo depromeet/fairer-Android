@@ -19,8 +19,6 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.util.NavigationUtil
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import kotlinx.coroutines.flow.collect
 
 class SignNameFragment : Fragment() {
@@ -67,19 +65,16 @@ class SignNameFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.responseJoinTeam.collect {
                 if (it != null) {
-                    viewModel.setIsNextBtnClickable(true)
                     if(viewModel.isDynamicLink.value){
-                        findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment2)
+                        findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment2())
                     }
-                    else {
-                        findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment)
-                    }
+                    else
+                    findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToGroupInfoFragment())
                 }
             }
         }
         lifecycleScope.launchWhenCreated {
             viewModel.responseTeamUpdate.collect {
-                viewModel.setIsNextBtnClickable(true)
                 if (it != null) {
                     findNavController().navigateUp()
                     Toast.makeText(context, R.string.modify_group_toast_massage, Toast.LENGTH_SHORT)
@@ -106,7 +101,6 @@ class SignNameFragment : Fragment() {
         }
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_name_next_btn_text)
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
-            if (!viewModel.isNextBtnClickable) return@setOnClickListener
             when (viewModel.viewType.value) {
                 SignViewType.UserName -> {
                     findNavController().navigate(
@@ -124,11 +118,9 @@ class SignNameFragment : Fragment() {
                 }
                 SignViewType.InviteCode -> {
                     viewModel.joinTeam(viewModel.inputText.value)
-                    viewModel.setIsNextBtnClickable(false)
                 }
                 SignViewType.ModifyGroupName -> {
                     viewModel.teamNameUpdate(viewModel.inputText.value)
-                    viewModel.setIsNextBtnClickable(false)
                 }
             }
         }
