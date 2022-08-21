@@ -19,7 +19,6 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import kotlinx.coroutines.flow.collect
 
 class SignNameFragment : Fragment() {
