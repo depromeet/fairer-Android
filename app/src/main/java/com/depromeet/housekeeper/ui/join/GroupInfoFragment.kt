@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
 import com.depromeet.housekeeper.ui.join.adapter.UserInfoAdapter
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 
 
@@ -65,7 +64,7 @@ class GroupInfoFragment : Fragment() {
         binding.groupInfoText.text = getString(R.string.group_info_text, viewModel.groupName.value)
         spannable()
         binding.groupInfoNextBtn.mainFooterButton.setOnClickListener {
-            findNavController().navigateSafe(R.id.action_groupInfoFragment_to_mainFragment)
+            findNavController().navigate(R.id.action_groupInfoFragment_to_mainFragment)
         }
     }
 

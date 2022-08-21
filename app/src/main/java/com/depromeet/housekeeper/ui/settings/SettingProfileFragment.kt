@@ -50,7 +50,7 @@ class SettingProfileFragment : Fragment() {
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
             viewModel.myData.collect {
-                Timber.d("profileData : $it")
+                Timber.d("myData : $it")
 
                 if (it != null) {
                     binding.etName.fairerEt.setText(it.memberName)
