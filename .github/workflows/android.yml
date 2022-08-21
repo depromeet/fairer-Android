@@ -19,11 +19,10 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
-    - run: echo $APP_KEYSTORE_BASE64 | base64 -d > debug.keystore
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
-
+      
     - name: Cache Gradle packages
       uses: actions/cache@v2
       with:
@@ -37,6 +36,6 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-
+      
     - name: Build with Gradle
       run: ./gradlew build

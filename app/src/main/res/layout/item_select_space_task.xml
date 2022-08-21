@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         >
 
-        <TextView
+        <Button
             android:id="@+id/select_space_btn_task"
             android:layout_width="101dp"
             android:layout_height="68dp"
             tools:text="빨래 하기"
+            android:textSize="13sp"
             android:textColor="@color/text_fairer_color_selector"
-            android:textSize="14sp"
-            style="@style/Caption.regular"
-            android:gravity="center"
+            android:textStyle="bold"
+            style="@style/Caption.C1"
+            android:textAlignment="center"
             android:background="@drawable/todo1_recycler_selector"
             android:minHeight="0dp"
             android:minWidth="0dp"

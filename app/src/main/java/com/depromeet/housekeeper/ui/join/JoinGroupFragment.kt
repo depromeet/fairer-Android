@@ -14,9 +14,6 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
-import com.depromeet.housekeeper.util.NAVIGATION_CODE
-import com.depromeet.housekeeper.util.NAVIGATION_VIEW_TYPE
-import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 
 class JoinGroupFragment : Fragment() {
     lateinit var binding : FragmentJoinGroupBinding
@@ -43,22 +40,13 @@ class JoinGroupFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
-            val bundle = Bundle().apply {
-                putSerializable(NAVIGATION_VIEW_TYPE, SignViewType.GroupName)
-                putString(NAVIGATION_CODE, null)
-            }
-            findNavController().navigateSafe(R.id.action_joinGroupFragment_to_signNameFragment, bundle)
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName,null))
         }
         binding.joinGroupJoinSpaceButton.setOnClickListener {
-            val bundle = Bundle().apply {
-                putSerializable(NAVIGATION_VIEW_TYPE, SignViewType.InviteCode)
-                putString(NAVIGATION_CODE, null)
-            }
-            findNavController().navigateSafe(R.id.action_joinGroupFragment_to_signNameFragment, bundle)
+            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode,null))
         }
 
     }
-
     private fun spannable(){
         binding.joinGroupMainText.text = getString(R.string.join_group_main_text, PrefsManager.userName)
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
