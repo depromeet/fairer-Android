@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
@@ -35,20 +36,9 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
     @Override
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Timber.tag(TAG_FCM).d("From: ${message.from}")
-        if (message.data.isNotEmpty()) {
-
-            // payload : 전송된 데이터
-            Timber.tag(TAG_FCM).d("Message data payload: ${message.data}")
-
-            val title = message.data["title"]
-            val body = message.data["message"]
-
-            showNotification(messageTitle = title, messageBody = body)
-        }
-
+        Timber.tag(TAG_FCM).d("Message: $message")
         message.notification?.let {
-            Timber.tag(TAG_FCM).d("Message Notification Body: ${it.body}")
+            showNotification(messageTitle = it.title, messageBody = it.body)
         }
     }
 
@@ -62,7 +52,8 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         val intent = Intent(this, HouseKeeperActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
-        val pendingIntent = PendingIntent.getActivity(this, notificationID, intent, FLAG_ONE_SHOT)
+        val pendingIntentFlag = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_IMMUTABLE or FLAG_ONE_SHOT else FLAG_ONE_SHOT
+        val pendingIntent = PendingIntent.getActivity(this, notificationID, intent, pendingIntentFlag)
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
