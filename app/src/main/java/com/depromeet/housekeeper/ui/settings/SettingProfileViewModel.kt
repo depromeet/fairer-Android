@@ -25,7 +25,7 @@ class SettingProfileViewModel : ViewModel() {
         get() = _myData
 
 
-    private fun getMe() {
+    fun getMe() {
         viewModelScope.launch {
             Repository.getMe().runCatching {
                 collect {
@@ -62,7 +62,7 @@ class SettingProfileViewModel : ViewModel() {
     }
 
     fun getProfile(){
-        if (PrefsManager.getUserProfile().memberName==""){
+        if (PrefsManager.getUserProfile().memberName=="" || PrefsManager.getUserProfile().profilePath ==""){
             getMe()
         } else {
             Timber.d("getProfile")

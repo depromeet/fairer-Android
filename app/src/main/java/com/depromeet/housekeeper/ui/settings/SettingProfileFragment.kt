@@ -48,7 +48,6 @@ class SettingProfileFragment : Fragment() {
     }
 
     private fun bindingVm() {
-        viewModel.getProfile()
         lifecycleScope.launchWhenCreated {
             viewModel.myData.collect {
                 Timber.d("profileData : $it")
@@ -168,6 +167,8 @@ class SettingProfileFragment : Fragment() {
         binding.profileBtn.mainFooterButton.text = "입력 완료"
         binding.profileBtn.mainFooterButton.isEnabled = true
         binding.etStatusMessage.fairerEt.hint = getString(R.string.setting_profile_status_hint)
+
+        viewModel.getProfile()
     }
 
     private fun ImageView.setImg(url: String?) {
