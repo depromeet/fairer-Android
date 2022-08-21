@@ -184,7 +184,7 @@ class AddDirectTodoFragment : Fragment() {
                     setOnClickListener {
                         updateChore()
                         viewModel.createHouseWorks()
-                        it.findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
 
@@ -194,7 +194,7 @@ class AddDirectTodoFragment : Fragment() {
                     setOnClickListener {
                         updateChore()
                         viewModel.editHouseWork()
-                        it.findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
             }
@@ -319,7 +319,7 @@ class AddDirectTodoFragment : Fragment() {
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 viewModel.deleteHouseWork()
-                findNavController().navigateSafe(R.id.action_addDirectTodoFragment_to_mainFragment)
+                findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }

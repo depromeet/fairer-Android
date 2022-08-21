@@ -16,7 +16,6 @@ import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.LoginResponse
-import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -160,7 +159,7 @@ class LoginFragment : Fragment() {
                 )
             }
             else {
-                if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
+                if (PrefsManager.userName == "User Name") {
                     findNavController().navigate(
                         LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
                             SignViewType.UserName,
@@ -184,7 +183,7 @@ class LoginFragment : Fragment() {
         if (PrefsManager.hasTeam) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
         } else {
-            if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
+            if (PrefsManager.userName == "User Name") {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
                         SignViewType.UserName,
