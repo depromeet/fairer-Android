@@ -1,12 +1,9 @@
 package com.depromeet.housekeeper.ui.houseRule
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
@@ -20,8 +17,6 @@ import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.listenEditorDoneAction
 import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
-import com.depromeet.housekeeper.util.EditTextUtil.textPattern
-import timber.log.Timber
 
 class RuleFragment : Fragment() {
     lateinit var binding: FragmentRuleBinding
@@ -135,15 +130,5 @@ class RuleFragment : Fragment() {
                 }
             }
         }
-      }
-      false
     }
-  }
-  private fun validateName() {
-    binding.etRule.fairerEt.addTextChangedListener{
-      val value: String = binding.etRule.fairerEt.text.toString()
-      binding.isTextChanged = true
-    }
-
-
 }
