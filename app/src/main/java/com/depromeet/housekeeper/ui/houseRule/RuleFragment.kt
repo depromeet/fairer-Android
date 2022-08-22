@@ -23,7 +23,6 @@ import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.textPattern
 import timber.log.Timber
 
-
 class RuleFragment : Fragment() {
     lateinit var binding: FragmentRuleBinding
     private val viewModel: RuleViewModel by viewModels()
@@ -136,6 +135,14 @@ class RuleFragment : Fragment() {
                 }
             }
         }
+      }
+      false
+    }
+  }
+  private fun validateName() {
+    binding.etRule.fairerEt.addTextChangedListener{
+      val value: String = binding.etRule.fairerEt.text.toString()
+      binding.isTextChanged = true
     }
 
 

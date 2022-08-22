@@ -91,6 +91,7 @@ class SignNameFragment : Fragment() {
             viewModel.errorMessage.collect {
                 if (it.isNotEmpty()){
                     Toast.makeText(this@SignNameFragment.context,it,Toast.LENGTH_LONG).show()
+                    viewModel.setErrorMessage()
                 }
             }
         }
