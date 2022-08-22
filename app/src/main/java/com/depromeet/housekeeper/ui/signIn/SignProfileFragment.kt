@@ -68,6 +68,7 @@ class SignProfileFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.updateMemberResponse.collect {
                 it?.run {
+                    Timber.d("updateMemberResponse : $it")
                     PrefsManager.setUserName(viewModel.memberName.value)
                     findNavController().navigate(
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
@@ -99,7 +100,7 @@ class SignProfileFragment : Fragment() {
     private fun setAdapter() {
         val gridLayoutManager = GridLayoutManager(context, 4)
         binding.signProfileRecyclerImageview.layoutManager = gridLayoutManager
-        myAdapter = SignProfileAdapter(viewModel.profileImageList.value)
+        myAdapter = SignProfileAdapter(viewModel.profileImageList.value, requireContext())
         binding.signProfileRecyclerImageview.adapter = myAdapter
         binding.signProfileRecyclerImageview.addItemDecoration(VerticalItemDecorator(16))
         myAdapter.setItemClickListener(object : SignProfileAdapter.OnItemClickListener {

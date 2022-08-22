@@ -6,9 +6,9 @@ import com.depromeet.housekeeper.model.UpdateMember
 import com.depromeet.housekeeper.model.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -82,9 +82,10 @@ class SignProfileViewModel : ViewModel() {
     }
 
     fun requestUpdateMember() {
+        PrefsManager.setUserProfilePath(selectedImage.value)
         viewModelScope.launch {
             Repository.updateMember(
-                UpdateMember(_memberName.value, _selectedImage.value)
+                UpdateMember(memberName.value, selectedImage.value)
             ).runCatching {
                 collect {
                     _updateMemberResponse.value = it

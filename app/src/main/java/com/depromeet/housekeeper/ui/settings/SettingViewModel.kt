@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.model.ProfileData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,6 +48,7 @@ class SettingViewModel : ViewModel() {
     // google sign out
     fun signOut(context: Context) {
         logout()
+        PrefsManager.setUserProfile(ProfileData("", "", ""))
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()

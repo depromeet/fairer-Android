@@ -1,14 +1,17 @@
 package com.depromeet.housekeeper.ui.signIn.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.LayoutProfileImageviewMiniBinding
 import com.depromeet.housekeeper.ui.signIn.SignProfileViewModel
 import timber.log.Timber
 
-class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>) :
+class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>, private val context: Context) :
     RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
     var selectedPosition: Int = 99
     override fun onCreateViewHolder(
@@ -46,7 +49,11 @@ class SignProfileAdapter(private val profiles: List<SignProfileViewModel.Profile
     inner class ViewHolder(private val binding: LayoutProfileImageviewMiniBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(profileData: SignProfileViewModel.ProfileState) {
-            binding.imgUrl = profileData.url
+            Glide.with(context)
+                .load(profileData.url)
+                .placeholder(context.getDrawable(R.drawable.bg_profile_imageview_inactive))
+                .into(binding.signProfileImageview)
+
             binding.signProfileImageview.isSelected = profileData.state
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

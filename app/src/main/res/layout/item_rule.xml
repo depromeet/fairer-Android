@@ -1,53 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools">
-  
-  <data>
-    
-    <variable
-      name="ruleName"
-      type="String" />
-  
-  </data>
-  
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingStart="24dp"
-    android:paddingTop="4dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="4dp">
-    
-    <TextView
-      android:id="@+id/tv_rule"
-      style="@style/Title.T1"
-      android:layout_width="0dp"
-      android:layout_height="42dp"
-      android:layout_marginBottom="16dp"
-      android:background="@drawable/home_positive_backgorund_8"
-      android:gravity="center_vertical"
-      android:paddingStart="16dp"
-      android:text="@{ruleName}"
-      android:textColor="@color/gray_800"
-      android:textColorHint="@color/gray_400"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:text="규칙 아이템" />
-    
-    <ImageView
-      android:id="@+id/iv_delete"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="16dp"
-      android:src="@drawable/ic_clear"
-      app:layout_constraintBottom_toBottomOf="@id/tv_rule"
-      app:layout_constraintEnd_toEndOf="@id/tv_rule"
-      app:layout_constraintTop_toTopOf="@id/tv_rule" />
-  
-  
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="ruleName"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="@drawable/home_positive_backgorund_8"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="8dp"
+        android:paddingHorizontal="16dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_rule"
+            style="@style/Title.T1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ruleName}"
+            android:textColor="@color/gray_800"
+            android:textColorHint="@color/gray_400"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="규칙 아이템" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clear"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rule"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_rule" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
