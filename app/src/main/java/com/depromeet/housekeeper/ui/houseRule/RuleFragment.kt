@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -39,9 +40,14 @@ class RuleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         initListener()
         setAdapter()
         bindingVm()
+    }
+
+    private fun initView() {
+        binding.textRule = ""
     }
 
     private fun bindingVm() {
@@ -52,9 +58,6 @@ class RuleFragment : Fragment() {
                         binding.tvRule.visibility = View.VISIBLE
                         binding.rvRules.visibility = View.VISIBLE
                         adapter.updateDate(it.toMutableList())
-                        if (it.count() <10) {
-                            binding.etRule.fairerEt.isEnabled = true
-                        }
                     }
                     else -> {
                         binding.tvRule.visibility = View.GONE
@@ -63,7 +66,27 @@ class RuleFragment : Fragment() {
                 }
             }
         }
-
+        lifecycleScope.launchWhenCreated {
+            viewModel.backgroundBox.collect{
+                 when (it){
+                    1 -> { // edit 중
+                        binding.clRule.background = resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
+                        binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
+                        binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
+                    }
+                    2 -> { // error
+                        binding.clRule.background = resources.getDrawable(R.drawable.edit_text_error_background)
+                        binding.ivInfo.setColorFilter(requireContext().getColor(R.color.negative_20))
+                        binding.tvInfo.setTextColor(resources.getColor(R.color.negative_20))
+                    }
+                    else -> { // default
+                        binding.clRule.background = resources.getDrawable(R.drawable.sign_name_edit_text_background)
+                        binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
+                        binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
+                    }
+                }
+            }
+        }
     }
 
     private fun setAdapter() {
@@ -72,8 +95,8 @@ class RuleFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.etRule.signNameClear.setOnClickListener {
-            binding.etRule.fairerEt.setText(R.string.sign_name_blank)
+        binding.btnEtClear.setOnClickListener {
+            binding.textRule = ""
         }
 
         binding.ruleHeader.apply {
@@ -82,59 +105,37 @@ class RuleFragment : Fragment() {
             }
         }
 
-        binding.etRule.clFairerEt.setOnClickListener {
-            binding.etRule.fairerEt.requestFocus()
-            binding.etRule.fairerEt.isFocusable = true
-        }
+        binding.etRule.apply {
+            doOnTextChanged { text, start, before, count ->
+                binding.textRule = text.toString()
+                binding.isTextChanged = count != 0
 
-        binding.etRule.fairerEt.apply {
-            listenTextChanged()
-            listenEditorDoneAction() {
-                viewModel.createRule(it)
-            }
-            setOnFocusChangeListener { view, hasFocus ->
-                if (!hasFocus) {
-                    hideKeyboard(requireContext(), view)
-                } else {
-                    showKeyboard(requireContext(), this)
-                    this.isFocusableInTouchMode = true
-                }
-
-                this.isCursorVisible = hasFocus
-            }
-
-        }
-    }
-
-
-    private fun EditText.listenTextChanged() {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //Timber.d("beforeTextChanged: ${p0.toString()}")
-                binding.isTextChanged = p0.toString().isNotEmpty()
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //Timber.d("onTextChanged: ${p0.toString()}")
-                binding.isError = !p0.toString().matches(textPattern.toRegex())
-
-                if (viewModel.rules.value.count() >= 10) {
-                    this@listenTextChanged.text.clear()
-                    this@listenTextChanged.isFocusable = false
-                    binding.isError = true
-                    binding.ivInfo.setColorFilter(requireContext().getColor(R.color.negative_20))
+                if (adapter.itemCount >= 10) {
+                    binding.textRule = ""
+                    viewModel.setBackgroundBox(2)
                     Toast.makeText(requireContext(), R.string.rule_info, Toast.LENGTH_LONG).show()
                 } else {
-                    binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
+                    viewModel.setBackgroundBox(1)
                 }
             }
 
-            override fun afterTextChanged(p0: Editable?) {
-                //Timber.d("afterTextChanged: ${p0.toString()}")
-                binding.isTextChanged = p0.toString().isNotEmpty()
+            listenEditorDoneAction {
+                viewModel.createRule(it)
+                hideKeyboard(requireContext(), this)
             }
 
-        })
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    binding.isTextChanged = false
+                    viewModel.setBackgroundBox(0)
+                    hideKeyboard(requireContext(), this)
+                } else {
+                    if (binding.textRule != "") binding.isTextChanged = true
+                    viewModel.setBackgroundBox(1)
+                    showKeyboard(requireContext(), this)
+                }
+            }
+        }
     }
 
 

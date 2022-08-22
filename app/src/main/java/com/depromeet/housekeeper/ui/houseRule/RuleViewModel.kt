@@ -12,51 +12,58 @@ import kotlinx.coroutines.launch
 
 
 class RuleViewModel : ViewModel() {
-  init {
-    getRules()
-  }
+    init {
+        getRules()
+    }
 
-  private val _ruleName = MutableStateFlow<String>("")
-  val ruleName: StateFlow<String>
-    get() = _ruleName
+    private val _ruleName = MutableStateFlow<String>("")
+    val ruleName: StateFlow<String>
+        get() = _ruleName
 
-  private val _rules = MutableStateFlow<List<RuleResponse>>(emptyList())
-  val rules: StateFlow<List<RuleResponse>>
-    get() = _rules
+    private val _rules = MutableStateFlow<List<RuleResponse>>(emptyList())
+    val rules: StateFlow<List<RuleResponse>>
+        get() = _rules
 
-  fun createRule(ruleName: String) {
-    viewModelScope.launch {
-      Repository.createRule(Rule(ruleName))
-        .runCatching {
-          collect {
-            getRules()
-          }
+    private val _backgroundBox = MutableStateFlow<Int>(0)
+    val backgroundBox get() = _backgroundBox
+
+    fun setBackgroundBox(type: Int) {
+        _backgroundBox.value = type
+    }
+
+    fun createRule(ruleName: String) {
+        viewModelScope.launch {
+            Repository.createRule(Rule(ruleName))
+                .runCatching {
+                    collect {
+                        getRules()
+                    }
+                }
         }
     }
-  }
 
-  private fun getRules() {
-    viewModelScope.launch {
-      Repository.getRules()
-        .runCatching {
-          collect {
-            _rules.value = it.ruleResponseDtos.sortedByDescending { it.ruleId }
-          }
+    private fun getRules() {
+        viewModelScope.launch {
+            Repository.getRules()
+                .runCatching {
+                    collect {
+                        _rules.value = it.ruleResponseDtos.sortedByDescending { it.ruleId }
+                    }
+                }
         }
     }
-  }
 
-  fun deleteRule(ruleId: Int) {
-    viewModelScope.launch {
-      Repository.deleteRule(ruleId)
-        .runCatching {
-          collect {
-            if (it.code == 200) {
-              getRules()
-            }
-          }
+    fun deleteRule(ruleId: Int) {
+        viewModelScope.launch {
+            Repository.deleteRule(ruleId)
+                .runCatching {
+                    collect {
+                        if (it.code == 200) {
+                            getRules()
+                        }
+                    }
+                }
         }
     }
-  }
 
 }
