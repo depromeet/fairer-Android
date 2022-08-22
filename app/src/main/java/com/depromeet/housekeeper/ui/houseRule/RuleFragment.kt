@@ -13,9 +13,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.databinding.FragmentRuleBinding
-import kotlinx.coroutines.flow.collect
+import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 
 class RuleFragment : Fragment() {
   lateinit var binding: FragmentRuleBinding
@@ -96,14 +95,9 @@ class RuleFragment : Fragment() {
     }
   }
   private fun validateName() {
-    val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
     binding.etRule.fairerEt.addTextChangedListener{
       val value: String = binding.etRule.fairerEt.text.toString()
       binding.isTextChanged = true
-      binding.isError = !value.matches(pattern.toRegex())
-      if (value == "") {
-        binding.isTextChanged = false
-      }
     }
   }
 }

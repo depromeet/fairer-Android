@@ -194,7 +194,7 @@
                             android:layout_marginTop="14dp"
                             android:layout_marginEnd="25dp"
                             android:background="@drawable/main_today_badge"
-                            android:paddingTop="1dp"
+                            android:gravity="center"
                             android:text="@string/main_today"
                             android:textAlignment="center"
                             android:textColor="@color/positive_20"

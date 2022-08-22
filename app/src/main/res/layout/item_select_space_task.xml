@@ -25,6 +25,7 @@
             android:background="@drawable/todo1_recycler_selector"
             android:minHeight="0dp"
             android:minWidth="0dp"
+            android:padding="10dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
