@@ -345,6 +345,14 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
+            android:id="@+id/actioin_settingFragment_to_AlarmFragment"
+            app:destination="@+id/alarmFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
             android:id="@+id/action_settingFragment_to_contactFragment"
             app:destination="@+id/contactFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -384,9 +392,13 @@
                 app:argType="string"
                 app:nullable="true" />
         </action>
-
-
     </fragment>
+
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.depromeet.housekeeper.ui.settings.AlarmFragment"
+        android:label="AlarmFragment"
+        tools:layout="@layout/fragment_alarm"/>
 
     <fragment
         android:id="@+id/inviteFragment"
