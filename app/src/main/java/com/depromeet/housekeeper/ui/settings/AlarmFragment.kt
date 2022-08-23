@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentAlarmBinding
 
@@ -30,7 +31,10 @@ class AlarmFragment : Fragment() {
 
     private fun initListener() {
         binding.alarmHeader.apply {
-
+            defaultHeaderBackBtn.setOnClickListener {
+                it.findNavController().navigateUp()
+            }
+            defaultHeaderTitleTv.text = getString(R.string.setting_alarm_row_text)
         }
     }
 
