@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.data
 
 
+import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.remote.ApiService
 import com.depromeet.housekeeper.util.NETWORK_ERROR
 import com.depromeet.housekeeper.util.PrefsManager
@@ -19,7 +20,7 @@ object RetrofitBuilder {
     "http://ec2-3-39-60-64.ap-northeast-2.compute.amazonaws.com:8080"
   private const val RELEASE_URL =
     "https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com"
-  private const val BASE_URL: String = RELEASE_URL
+  private val BASE_URL: String = if(BuildConfig.IS_DEBUG) DEBUG_URL else RELEASE_URL
   private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
   }
