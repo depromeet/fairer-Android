@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -25,17 +24,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_white_background"
-        >
+        android:background="@drawable/main_white_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_rule_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
-            tools:context=".ui.settings.SettingFragment"
+            android:clickable="true"
             android:focusableInTouchMode="true"
-            android:clickable="true">
+            tools:context=".ui.settings.SettingFragment">
 
             <include
                 android:id="@+id/rule_header"
@@ -74,43 +72,42 @@
                 android:id="@+id/cl_rule"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/sign_name_edit_text_background"
+                android:padding="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_subTitle"
-                android:padding="1dp"
-                android:background="@drawable/sign_name_edit_text_background"
-                >
+                app:layout_constraintTop_toBottomOf="@id/tv_subTitle">
+
                 <EditText
                     android:id="@+id/et_rule"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@null"
-                    android:inputType="text"
-                    android:imeOptions="actionDone"
-                    android:maxLength="16"
-                    android:hint="@string/rule_hint"
-                    android:textColorHint="@color/gray_400"
-                    android:text="@{textRule}"
-                    android:textSize="16sp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="2dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@null"
+                    android:hint="@string/rule_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLength="16"
+                    android:text="@{textRule}"
+                    android:textColorHint="@color/gray_400"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@id/btn_et_clear"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/btn_et_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:padding="8dp"
                     android:src="@drawable/ic_clear"
                     android:visibility="@{isTextChanged ? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/et_rule"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/et_rule"
-                    android:clickable="true"/>
+                    app:layout_constraintTop_toTopOf="@id/et_rule" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -119,23 +116,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_info"
+                android:src="@drawable/ic_info_fill"
                 app:layout_constraintBottom_toBottomOf="@id/tv_info"
-                android:src="@drawable/ic_info_fill" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_info" />
 
             <TextView
                 android:id="@+id/tv_info"
                 style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:includeFontPadding="false"
                 android:text="@string/rule_info"
                 android:textColor="@color/gray_600"
                 app:layout_constraintStart_toEndOf="@id/iv_info"
-                app:layout_constraintTop_toBottomOf="@id/cl_rule"
-                android:includeFontPadding="false" />
+                app:layout_constraintTop_toBottomOf="@id/cl_rule" />
 
             <TextView
                 android:id="@+id/tv_rule"

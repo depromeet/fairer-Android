@@ -7,24 +7,20 @@ import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_ONE_SHOT
-import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.work.*
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.ui.HouseKeeperActivity
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
-import kotlin.random.Random
 
 
-class FairerFirebaseMessagingService: FirebaseMessagingService() {
+class FairerFirebaseMessagingService : FirebaseMessagingService() {
 
     @Override
     override fun onNewToken(token: String) {
@@ -52,8 +48,10 @@ class FairerFirebaseMessagingService: FirebaseMessagingService() {
         val intent = Intent(this, HouseKeeperActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
-        val pendingIntentFlag = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_IMMUTABLE or FLAG_ONE_SHOT else FLAG_ONE_SHOT
-        val pendingIntent = PendingIntent.getActivity(this, notificationID, intent, pendingIntentFlag)
+        val pendingIntentFlag =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_IMMUTABLE or FLAG_ONE_SHOT else FLAG_ONE_SHOT
+        val pendingIntent =
+            PendingIntent.getActivity(this, notificationID, intent, pendingIntentFlag)
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)

@@ -6,6 +6,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class JoinTeamResponse(
-    val memberNames : List<String>,
-    val teamId : Int
-):Parcelable
+    val memberNames: List<String>,
+    val teamId: Int
+) : Parcelable

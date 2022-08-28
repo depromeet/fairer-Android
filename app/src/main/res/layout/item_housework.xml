@@ -27,10 +27,10 @@
             style="@style/Title.T1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/completed_chore"
-            android:textColor="@color/gray_800"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:text="@string/completed_chore"
+            android:textColor="@color/gray_800"
             android:textStyle="bold"
             android:visibility="gone" />
 

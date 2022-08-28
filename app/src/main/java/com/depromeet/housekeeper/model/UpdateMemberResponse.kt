@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UpdateMemberResponse(
-    val code:Int,
-    val message : String
-): Parcelable
+    val code: Int,
+    val message: String
+) : Parcelable

@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 집안일 선택 버튼 포커스 O -->
     <item android:state_checked="true">
         <shape android:shape="rectangle">
-            <corners android:radius="100dp"/>
-            <solid
-                android:color="@color/gray_700" />
+            <corners android:radius="100dp" />
+            <solid android:color="@color/gray_700" />
         </shape>
     </item>
 
     <!-- 집안일 선택 버튼 포커스 X -->
     <item android:state_checked="false">
         <shape android:shape="rectangle">
-            <corners android:radius="100dp"/>
-            <solid
-                android:color="@color/gray_100" />
+            <corners android:radius="100dp" />
+            <solid android:color="@color/gray_100" />
         </shape>
     </item>
 </selector>

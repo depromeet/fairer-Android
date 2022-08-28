@@ -2,8 +2,8 @@ package com.depromeet.housekeeper.util
 
 import com.depromeet.housekeeper.model.enums.SpaceName
 
-fun spaceNameMapper(engSpace: String):String {
-    return when(engSpace) {
+fun spaceNameMapper(engSpace: String): String {
+    return when (engSpace) {
         "ENTRANCE" -> SpaceName.ENTRANCE.korSpace
         "LIVINGROOM" -> SpaceName.LIVINGROOM.korSpace
         "BATHROOM" -> SpaceName.BATHROOM.korSpace

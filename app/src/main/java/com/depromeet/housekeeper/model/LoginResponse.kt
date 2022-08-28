@@ -8,10 +8,10 @@ import kotlinx.parcelize.Parcelize
 data class LoginResponse(
     val accessToken: String,
     val accessTokenExpireTime: String,
-    val hasTeam : Boolean,
+    val hasTeam: Boolean,
     val isNewMember: Boolean,
     val memberName: String?,
     val memberId: Int,
     val refreshToken: String,
     val refreshTokenExpireTime: String
-):Parcelable
+) : Parcelable

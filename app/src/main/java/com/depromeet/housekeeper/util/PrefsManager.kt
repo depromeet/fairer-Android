@@ -90,8 +90,8 @@ object PrefsManager {
     }
 
     fun getUserProfile(): ProfileData {
-        val memberName = prefs.getString(PREFS_USER_NAME,"")!!
-        val profilePath = prefs.getString(PREFS_USER_PROFILE_PATH,"")!!
+        val memberName = prefs.getString(PREFS_USER_NAME, "")!!
+        val profilePath = prefs.getString(PREFS_USER_PROFILE_PATH, "")!!
         val statusMessage = prefs.getString(PREFS_STATUS_MESSAGE, "")!!
         return ProfileData(memberName, profilePath, statusMessage)
     }

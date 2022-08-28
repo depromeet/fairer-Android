@@ -7,12 +7,12 @@ import timber.log.Timber
 
 class HouseKeeperApplication : Application() {
 
-  override fun onCreate() {
-    super.onCreate()
-    PrefsManager.init(applicationContext)
-    if (BuildConfig.DEBUG) {
-      Timber.plant(Timber.DebugTree())
+    override fun onCreate() {
+        super.onCreate()
+        PrefsManager.init(applicationContext)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+        KakaoSdk.init(this, resources.getString(R.string.KAKAO_NATIVE_APP_KEY))
     }
-    KakaoSdk.init(this, resources.getString(R.string.KAKAO_NATIVE_APP_KEY))
-  }
 }

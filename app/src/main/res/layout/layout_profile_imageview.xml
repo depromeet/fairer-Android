@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.signIn.SignProfileViewModel" />
@@ -26,11 +27,11 @@
             android:id="@+id/sign_profile_imageview"
             android:layout_width="84dp"
             android:layout_height="84dp"
-            app:loadImage="@{vm.selectedImage}"
             app:layout_constraintBottom_toBottomOf="@+id/sign_profile_imageview_bg"
             app:layout_constraintEnd_toEndOf="@+id/sign_profile_imageview_bg"
             app:layout_constraintStart_toStartOf="@+id/sign_profile_imageview_bg"
-            app:layout_constraintTop_toTopOf="@+id/sign_profile_imageview_bg" />
+            app:layout_constraintTop_toTopOf="@+id/sign_profile_imageview_bg"
+            app:loadImage="@{vm.selectedImage}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

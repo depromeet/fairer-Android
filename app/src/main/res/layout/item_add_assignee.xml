@@ -6,38 +6,37 @@
 
     </data>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/item_add_assignee_layout"
-            android:layout_width="87dp"
-            android:layout_height="37dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/main_inactive_stroke_background"
-            android:padding="8dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_add_assignee_layout"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/main_inactive_stroke_background"
+        android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/item_add_assignee_profile_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:layout_constraintEnd_toStartOf="@id/item_add_assignee_name_tv"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/ic_profile1" />
+        <ImageView
+            android:id="@+id/item_add_assignee_profile_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_profile1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_add_assignee_name_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/item_add_assignee_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Body.B2"
-                android:text="고가혜"
-                android:textColor="@color/gray_800"
-                app:layout_constraintStart_toEndOf="@id/item_add_assignee_profile_iv"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/item_add_assignee_name_tv"
+            style="@style/Body.B2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="고가혜"
+            android:textColor="@color/gray_800"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_add_assignee_profile_iv"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

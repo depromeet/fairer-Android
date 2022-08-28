@@ -33,7 +33,7 @@ object BindingAdapter {
             .format(DecodeFormat.PREFER_ARGB_8888)
             .fitCenter()
             .into(imageView)*/
-        imageView.load(url){
+        imageView.load(url) {
             crossfade(true)
         }
     }
@@ -68,7 +68,7 @@ object BindingAdapter {
             .error(placeholder)
             .apply(RequestOptions().fitCenter())
             .into(imageView)*/
-        imageView.load(url){
+        imageView.load(url) {
             placeholder(placeholder)
             crossfade(true)
         }

@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--selected-->
-    <item android:state_selected="true" android:drawable="@drawable/ic_room_living_room__state_activate"/>
+    <item android:drawable="@drawable/ic_room_living_room__state_activate" android:state_selected="true" />
     <!--default-->
-    <item android:drawable="@drawable/ic_room_living_room__state_default"/>
+    <item android:drawable="@drawable/ic_room_living_room__state_default" />
 
 </selector>

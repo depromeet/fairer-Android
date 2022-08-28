@@ -34,7 +34,7 @@ object DateUtil {
         cal.firstDayOfWeek = Calendar.SUNDAY
 
         val dayOfWeek = cal[Calendar.DAY_OF_WEEK]
-        cal.add(Calendar.DAY_OF_MONTH, -dayOfWeek+1)
+        cal.add(Calendar.DAY_OF_MONTH, -dayOfWeek + 1)
         return dateFormat.format(cal.time)
     }
 

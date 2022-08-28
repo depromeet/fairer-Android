@@ -15,13 +15,12 @@ fun getVibrator(context: Context) {
             val vibratorManager =
                 context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibratorManager.defaultVibrator
-        }
-        else {
+        } else {
             @Suppress("DEPRECATION")
             context.getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
         vibrator.vibrate(VibrationEffect.createOneShot(1000, 100))
     } catch (e: Exception) {
-            e.printStackTrace()
-   }
+        e.printStackTrace()
+    }
 }

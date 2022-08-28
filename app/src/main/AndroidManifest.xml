@@ -6,8 +6,9 @@
     <queries>
         <package android:name="com.kakao.talk" />
     </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".HouseKeeperApplication"
@@ -21,8 +22,8 @@
         <activity
             android:name=".ui.HouseKeeperActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.HouseKeeper.SplashScreen">
+            android:theme="@style/Theme.HouseKeeper.SplashScreen"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/nav_graph" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,11 +51,12 @@
         </activity>
         <service
             android:name=".service.FairerFirebaseMessagingService"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
+
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@mipmap/ic_launcher_fairer" />

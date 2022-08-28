@@ -7,7 +7,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.depromeet.housekeeper.model.enums.HouseWorkState"/>
+        <import type="com.depromeet.housekeeper.model.enums.HouseWorkState" />
 
         <variable
             name="vm"
@@ -19,7 +19,7 @@
 
         <variable
             name="houseworkState"
-            type="HouseWorkState"/>
+            type="HouseWorkState" />
 
     </data>
 
@@ -216,8 +216,8 @@
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -236,7 +236,7 @@
                             layout="@layout/layout_home_done_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE}"  />
+                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE}" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_houseWork"
@@ -247,11 +247,10 @@
                             android:orientation="vertical"
                             android:overScrollMode="never"
                             android:paddingBottom="76dp"
+                            android:visibility="@{houseworkState != HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
-                            tools:listitem="@layout/item_housework"
-                            android:visibility="@{houseworkState != HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}"
-                        />
+                            tools:listitem="@layout/item_housework" />
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

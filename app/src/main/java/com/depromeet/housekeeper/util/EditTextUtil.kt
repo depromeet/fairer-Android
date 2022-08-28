@@ -11,7 +11,6 @@ import android.widget.EditText
 import timber.log.Timber
 
 
-
 object EditTextUtil {
     const val textPattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
 
@@ -20,10 +19,11 @@ object EditTextUtil {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun showKeyboard(context: Context, editText: EditText){
+    fun showKeyboard(context: Context, editText: EditText) {
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             if (editText.requestFocus()) {
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(editText, 0)
             }
         }, 1000)

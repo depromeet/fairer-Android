@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class InviteFailedResponse(
-    val code : Int,
-    val errorMessage : String,
-    val referrerUrl : String
-):Parcelable
+    val code: Int,
+    val errorMessage: String,
+    val referrerUrl: String
+) : Parcelable
