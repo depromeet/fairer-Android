@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.BuildTeam
-import com.depromeet.housekeeper.model.InviteFailedResponse
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,11 +29,6 @@ class InviteViewModel : ViewModel() {
     fun setGroupName(groupName: String) {
         _groupName.value = groupName
     }
-
-    private val _errorBody: MutableStateFlow<InviteFailedResponse?> =
-        MutableStateFlow(null)
-    val errorBody: StateFlow<InviteFailedResponse?>
-        get() = _errorBody
 
     private val _inviteCode: MutableStateFlow<String> =
         MutableStateFlow("")
