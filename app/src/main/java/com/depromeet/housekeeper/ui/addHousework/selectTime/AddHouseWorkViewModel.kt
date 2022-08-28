@@ -2,12 +2,12 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.util.PrefsManager
+import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.HouseWork
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AddHouseWorkViewModel: ViewModel(){
 
@@ -26,8 +25,6 @@ class AddHouseWorkViewModel: ViewModel(){
 
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
-    val curDate: StateFlow<String>
-    get() = _curDate
 
     fun setDate(date: String) {
         val lastIndex = date.indexOfLast { it == '-' }
@@ -37,8 +34,6 @@ class AddHouseWorkViewModel: ViewModel(){
 
     private val _curSpace: MutableStateFlow<String> =
         MutableStateFlow("방")
-    val curSpace: StateFlow<String>
-        get() = _curSpace
 
     fun bindingSpace():String {
         return spaceNameMapper(_curSpace.value)
@@ -52,7 +47,7 @@ class AddHouseWorkViewModel: ViewModel(){
         return _curSpace.value
     }
 
-    val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+    private val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val allGroupInfo: StateFlow<ArrayList<Assignee>>
         get() = _allGroupInfo
