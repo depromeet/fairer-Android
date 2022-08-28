@@ -76,11 +76,8 @@ class MainViewModel : ViewModel() {
     val selectUserId: StateFlow<Int>
         get() = _selectUserId
 
-
     private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
         MutableStateFlow(mutableListOf())
-    val userProfiles: StateFlow<MutableList<Assignee>>
-        get() = _userProfiles
 
     private val _rule: MutableStateFlow<String> = MutableStateFlow("")
     val rule: StateFlow<String>
