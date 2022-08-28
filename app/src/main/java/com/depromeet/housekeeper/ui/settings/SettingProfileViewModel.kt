@@ -16,15 +16,13 @@ class SettingProfileViewModel : ViewModel() {
 
     init {
         Timber.d("create settingProfileViewModel")
-        //getMe()
     }
 
     private val _myData: MutableStateFlow<ProfileData?> = MutableStateFlow(null)
     val myData: StateFlow<ProfileData?>
         get() = _myData
 
-
-    fun getMe() {
+    private fun getMe() {
         viewModelScope.launch {
             Repository.getMe().runCatching {
                 collect {
@@ -56,10 +54,6 @@ class SettingProfileViewModel : ViewModel() {
         }
     }
 
-    fun updateProfile(profilePath: String) {
-        _myData.value = _myData.value?.copy(profilePath = profilePath)
-    }
-
     fun getProfile() {
         if (PrefsManager.getUserProfile().memberName == "" || PrefsManager.getUserProfile().profilePath == "") {
             getMe()
@@ -68,7 +62,6 @@ class SettingProfileViewModel : ViewModel() {
             _myData.value = PrefsManager.getUserProfile()
         }
     }
-
 
     fun setProfile(memberName: String, profilePath: String, statusMessage: String) {
         Timber.d("setProfile : $memberName, $profilePath, $statusMessage")
