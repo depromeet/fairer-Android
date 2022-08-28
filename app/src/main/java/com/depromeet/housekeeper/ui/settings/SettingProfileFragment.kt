@@ -175,13 +175,6 @@ class SettingProfileFragment : Fragment() {
     }
 
     private fun ImageView.setImg(url: String?) {
-        /*Glide.with(binding.ivImageview.context)
-          .load(url)
-          .placeholder(R.drawable.bg_profile_imageview_inactive)
-          .error(R.drawable.bg_profile_imageview_inactive)
-          .fitCenter()
-          .override(84, 84)
-          .into(binding.ivImageview)*/
         binding.ivImageview.load(url) {
             crossfade(true)
         }
