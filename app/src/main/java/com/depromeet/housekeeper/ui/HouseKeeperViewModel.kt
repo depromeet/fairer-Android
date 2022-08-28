@@ -23,8 +23,4 @@ class HouseKeeperViewModel : ViewModel() {
             _isLoading.value = false
         }
     }
-
-    fun setInviteCode(code: String) {
-        _inviteCode.value = code
-    }
 }
