@@ -2,13 +2,12 @@ package com.depromeet.housekeeper.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.EditProfileModel
 import com.depromeet.housekeeper.model.ProfileData
-import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -32,7 +31,7 @@ class SettingProfileViewModel : ViewModel() {
                     Timber.d("getMe : $it")
                     _myData.value = it
                 }
-            } .onFailure {
+            }.onFailure {
                 Timber.e("getMe : $it")
             }
         }
@@ -61,8 +60,8 @@ class SettingProfileViewModel : ViewModel() {
         _myData.value = _myData.value?.copy(profilePath = profilePath)
     }
 
-    fun getProfile(){
-        if (PrefsManager.getUserProfile().memberName=="" || PrefsManager.getUserProfile().profilePath ==""){
+    fun getProfile() {
+        if (PrefsManager.getUserProfile().memberName == "" || PrefsManager.getUserProfile().profilePath == "") {
             getMe()
         } else {
             Timber.d("getProfile")

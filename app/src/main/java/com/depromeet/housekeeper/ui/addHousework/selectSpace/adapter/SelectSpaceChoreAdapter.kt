@@ -6,22 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemSelectSpaceTaskBinding
 
-class SelectSpaceChoreAdapter(private val chores: List<String>):RecyclerView.Adapter<SelectSpaceChoreAdapter.ViewHolder>() {
+class SelectSpaceChoreAdapter(private val chores: List<String>) :
+    RecyclerView.Adapter<SelectSpaceChoreAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onClick(v: View,chore:String,position: Int)
+        fun onClick(v: View, chore: String, position: Int)
     }
 
-    private lateinit var itemClickListener : OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
         this.itemClickListener = itemClickListener
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding:ItemSelectSpaceTaskBinding = ItemSelectSpaceTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemSelectSpaceTaskBinding =
+            ItemSelectSpaceTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,16 +32,16 @@ class SelectSpaceChoreAdapter(private val chores: List<String>):RecyclerView.Ada
         return holder.bind(chores[position])
     }
 
-    override fun getItemCount(): Int =chores.size
+    override fun getItemCount(): Int = chores.size
 
-    inner class ViewHolder(private val binding:ItemSelectSpaceTaskBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(chore:String){
-            binding.selectSpaceBtnTask.text=chore
+    inner class ViewHolder(private val binding: ItemSelectSpaceTaskBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(chore: String) {
+            binding.selectSpaceBtnTask.text = chore
             val pos = adapterPosition
-            if(pos!= RecyclerView.NO_POSITION)
-            {
+            if (pos != RecyclerView.NO_POSITION) {
                 binding.selectSpaceBtnTask.setOnClickListener {
-                    itemClickListener?.onClick(itemView,chore,pos)
+                    itemClickListener.onClick(itemView, chore, pos)
                 }
             }
         }

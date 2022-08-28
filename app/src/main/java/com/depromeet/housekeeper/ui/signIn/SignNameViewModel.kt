@@ -56,14 +56,14 @@ class SignNameViewModel : ViewModel() {
     val errorMessage: StateFlow<String>
         get() = _errorMessage
 
-    private var _isNextBtnClickable : Boolean = false
+    private var _isNextBtnClickable: Boolean = false
     val isNextBtnClickable get() = _isNextBtnClickable
 
-    fun setMemberName(){
+    fun setMemberName() {
         PrefsManager.setUserName(inputText.value)
     }
 
-    fun setIsNextBtnClickable(isClickable : Boolean) {
+    fun setIsNextBtnClickable(isClickable: Boolean) {
         _isNextBtnClickable = isClickable
     }
 
@@ -74,7 +74,8 @@ class SignNameViewModel : ViewModel() {
     fun setViewType(viewType: SignViewType) {
         _viewType.value = viewType
     }
-    fun setErrorMessage(){
+
+    fun setErrorMessage() {
         _errorMessage.value = ""
     }
 

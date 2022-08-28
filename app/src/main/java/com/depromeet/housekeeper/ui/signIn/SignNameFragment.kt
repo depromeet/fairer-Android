@@ -51,7 +51,7 @@ class SignNameFragment : Fragment() {
         viewModel.setViewType(navArgs.viewType)
         binding.viewType = viewModel.viewType.value
         binding.signNameEt.apply {
-            hint = when(viewModel.viewType.value){
+            hint = when (viewModel.viewType.value) {
                 SignViewType.UserName -> getString(R.string.sign_name_hint)
                 SignViewType.InviteCode -> getString(R.string.invite_code_hint)
                 else -> getString(R.string.group_name_hint)
@@ -60,17 +60,17 @@ class SignNameFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             viewModel.hasTeam.collect {
                 binding.hasTeam = it
-                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.text = getString(R.string.failed_group_button_text)
+                binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.text =
+                    getString(R.string.failed_group_button_text)
             }
         }
         lifecycleScope.launchWhenCreated {
             viewModel.responseJoinTeam.collect {
                 if (it != null) {
                     viewModel.setIsNextBtnClickable(true)
-                    if(viewModel.isDynamicLink.value){
+                    if (viewModel.isDynamicLink.value) {
                         findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment2)
-                    }
-                    else {
+                    } else {
                         findNavController().navigateSafe(R.id.action_signNameFragment_to_groupInfoFragment)
                     }
                 }
@@ -89,8 +89,8 @@ class SignNameFragment : Fragment() {
 
         lifecycleScope.launchWhenResumed {
             viewModel.errorMessage.collect {
-                if (it.isNotEmpty()){
-                    Toast.makeText(this@SignNameFragment.context,it,Toast.LENGTH_LONG).show()
+                if (it.isNotEmpty()) {
+                    Toast.makeText(this@SignNameFragment.context, it, Toast.LENGTH_LONG).show()
                     viewModel.setErrorMessage()
                 }
             }
@@ -133,7 +133,7 @@ class SignNameFragment : Fragment() {
                 }
             }
         }
-        binding.signNameBackground.setOnClickListener{
+        binding.signNameBackground.setOnClickListener {
             binding.signNameEt.clearFocus()
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(binding.signNameEt.windowToken, 0)
@@ -160,8 +160,8 @@ class SignNameFragment : Fragment() {
 
         binding.signNameEt.setOnTouchListener { status, _ ->
             status.requestFocus()
-            if(viewModel.inputText.value.isNotEmpty()){
-                binding.isTextChanged=true
+            if (viewModel.inputText.value.isNotEmpty()) {
+                binding.isTextChanged = true
             }
             false
         }
@@ -169,7 +169,7 @@ class SignNameFragment : Fragment() {
 
     private fun validateName() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-        binding.signNameEt.addTextChangedListener{
+        binding.signNameEt.addTextChangedListener {
             val value: String = binding.signNameEt.text.toString()
             viewModel.setInputText(binding.signNameEt.text.toString())
             binding.isTextChanged = true

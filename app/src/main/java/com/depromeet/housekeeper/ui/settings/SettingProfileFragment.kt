@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
-import com.depromeet.housekeeper.util.PrefsManager
 import timber.log.Timber
 
 class SettingProfileFragment : Fragment() {
@@ -57,8 +56,12 @@ class SettingProfileFragment : Fragment() {
                     binding.etStatusMessage.fairerEt.setText(it.statusMessage)
 
                     val url: String = when {
-                        !navArgs.profilePath.isNullOrEmpty() -> { navArgs.profilePath!! }
-                        else -> { it.profilePath }
+                        !navArgs.profilePath.isNullOrEmpty() -> {
+                            navArgs.profilePath!!
+                        }
+                        else -> {
+                            it.profilePath
+                        }
                     }
                     Glide.with(requireContext())
                         .load(url)
@@ -132,7 +135,7 @@ class SettingProfileFragment : Fragment() {
 
         binding.profileBtn.mainFooterButton.setOnClickListener {
             val newMemberName = binding.etName.fairerEt.text.toString()
-            val newProfilePath = if (navArgs.profilePath != null){
+            val newProfilePath = if (navArgs.profilePath != null) {
                 navArgs.profilePath
             } else {
                 viewModel.myData.value!!.profilePath

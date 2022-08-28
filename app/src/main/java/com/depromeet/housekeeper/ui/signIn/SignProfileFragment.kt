@@ -92,8 +92,12 @@ class SignProfileFragment : Fragment() {
             if (viewModel.viewType.value == ProfileViewType.Sign) {
                 viewModel.requestUpdateMember()
             }
-            if (viewModel.viewType.value == ProfileViewType.Modify){
-                it.findNavController().navigate(SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(viewModel.selectedImage.value))
+            if (viewModel.viewType.value == ProfileViewType.Modify) {
+                it.findNavController().navigate(
+                    SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(
+                        viewModel.selectedImage.value
+                    )
+                )
             }
         }
     }

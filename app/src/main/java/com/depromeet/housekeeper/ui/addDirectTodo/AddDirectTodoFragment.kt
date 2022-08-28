@@ -17,17 +17,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
-import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
+import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.spaceNameMapper
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
 
@@ -44,8 +43,10 @@ class AddDirectTodoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_add_direct_todo, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_add_direct_todo, container, false
+        )
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
@@ -68,7 +69,7 @@ class AddDirectTodoFragment : Fragment() {
         viewModel.setViewType(navArgs.viewType)
         viewModel.setDate(navArgs.selectDate.date)
 
-        when(viewModel.curViewType.value) {
+        when (viewModel.curViewType.value) {
             ViewType.ADD -> {
                 viewModel.initDirectChore()
             }
@@ -86,9 +87,9 @@ class AddDirectTodoFragment : Fragment() {
         binding.space = spaceNameMapper(viewModel.chores.value[0].space)
 
         lifecycleScope.launchWhenStarted {
-          viewModel.selectCalendar.collect {
-            binding.addDirectTodoDateTv.text = viewModel.bindingDate()
-          }
+            viewModel.selectCalendar.collect {
+                binding.addDirectTodoDateTv.text = viewModel.bindingDate()
+            }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -112,7 +113,7 @@ class AddDirectTodoFragment : Fragment() {
         binding.addDirectTodoTitleEt.fairerEt.hint = getString(R.string.add_direct_todo_title_hint)
 
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener{
+        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener {
             val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
             binding.isTextChanged = true
             if (!value.matches(pattern.toRegex())) {
@@ -121,7 +122,7 @@ class AddDirectTodoFragment : Fragment() {
             } else {
                 binding.isError = false
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
-                   value.isNotEmpty()
+                    value.isNotEmpty()
             }
             if (value == "") {
                 binding.isTextChanged = false
@@ -133,7 +134,8 @@ class AddDirectTodoFragment : Fragment() {
             updateTime()
         }
 
-        binding.addDirectTodoTimePicker.setMyMinChangedListener(object: FairerTimePicker.MyMinChangedListener{
+        binding.addDirectTodoTimePicker.setMyMinChangedListener(object :
+            FairerTimePicker.MyMinChangedListener {
             override fun onMinChange() {
                 updateTime()
             }
@@ -157,7 +159,7 @@ class AddDirectTodoFragment : Fragment() {
             defaultHeaderTitleTv.text = ""
 
             // delete 분기 처리
-            when(viewModel.curViewType.value) {
+            when (viewModel.curViewType.value) {
                 ViewType.ADD -> {
                     defaultHeaderRightTv.visibility = View.GONE
                 }
@@ -176,14 +178,15 @@ class AddDirectTodoFragment : Fragment() {
         binding.addDirectTodoDoneBtn.mainFooterButton.apply {
             isEnabled = binding.addDirectTodoTitleEt.fairerEt.text.isNotEmpty()
             // edit 분기 처리
-            when(viewModel.curViewType.value) {
+            when (viewModel.curViewType.value) {
                 ViewType.ADD -> {
                     text = resources.getString(R.string.add_todo_done_btn_txt)
                     // 집안일 생성 api
                     setOnClickListener {
                         updateChore()
                         viewModel.createHouseWorks()
-                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController()
+                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
 
@@ -193,7 +196,8 @@ class AddDirectTodoFragment : Fragment() {
                     setOnClickListener {
                         updateChore()
                         viewModel.editHouseWork()
-                        it.findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        it.findNavController()
+                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
             }
@@ -211,9 +215,13 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun createBottomSheet() {
-        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
+        val bottomSheet = AssigneeBottomSheetDialog(
+            allGroup = viewModel.allGroupInfo.value,
+            curAssignees = viewModel.curAssignees.value
+        )
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+        bottomSheet.setMyOkBtnClickListener(object :
+            AssigneeBottomSheetDialog.MyOkBtnClickListener {
             override fun onOkBtnClick() {
                 viewModel.setCurAssignees(bottomSheet.selectedAssignees)
                 addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
@@ -229,8 +237,8 @@ class AddDirectTodoFragment : Fragment() {
 
         val calendar = Calendar.getInstance().apply {
             set(Calendar.YEAR, selectDate.split("-")[0].toInt())
-            set(Calendar.MONTH,selectDate.split("-")[1].toInt())
-            set(Calendar.DAY_OF_MONTH,selectDate.split("-")[2].toInt())
+            set(Calendar.MONTH, selectDate.split("-")[1].toInt())
+            set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
         }
 
         val datePickerDialog = DatePickerDialog(
@@ -239,7 +247,7 @@ class AddDirectTodoFragment : Fragment() {
                 viewModel.updateCalendarView(year, month, dayOfMonth)
             },
             calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH)-1,
+            calendar.get(Calendar.MONTH) - 1,
             calendar.get(Calendar.DAY_OF_MONTH),
         )
         datePickerDialog.show()
@@ -253,7 +261,13 @@ class AddDirectTodoFragment : Fragment() {
         houseWork.assignees.map {
             assignees.plus(it.memberId)
         }
-        val chore = Chore(assignees, houseWork.houseWorkName, houseWork.scheduledDate, houseWork.scheduledTime, houseWork.space)
+        val chore = Chore(
+            assignees,
+            houseWork.houseWorkName,
+            houseWork.scheduledDate,
+            houseWork.scheduledTime,
+            houseWork.space
+        )
 
         // viewmodel update
         viewModel.initEditChore(chore, houseWork.assignees)
@@ -265,7 +279,7 @@ class AddDirectTodoFragment : Fragment() {
 
     private fun initUi() {
         binding.addDirectTodoTitleEt.fairerEt.setText(viewModel.chores.value[0].houseWorkName)
-        if(viewModel.chores.value[0].scheduledTime != null) {
+        if (viewModel.chores.value[0].scheduledTime != null) {
             val time: Pair<Int, Int> = parseTime(viewModel.chores.value[0].scheduledTime!!)
             binding.addDirectTodoTimePicker.setDisPlayedValue(time.first, time.second)
             binding.addDirectTodoAllDayCheckBox.isChecked = false
@@ -278,7 +292,7 @@ class AddDirectTodoFragment : Fragment() {
 
         // time set
         when {
-            binding.addDirectTodoAllDayCheckBox.isChecked ->  viewModel.updateChoreTime(null)
+            binding.addDirectTodoAllDayCheckBox.isChecked -> viewModel.updateChoreTime(null)
             else -> viewModel.updateChoreTime(viewModel.curTime.value!!)
         }
 
@@ -304,7 +318,7 @@ class AddDirectTodoFragment : Fragment() {
         v.clearFocus()
     }
 
-    private fun parseTime(time: String): Pair<Int, Int>{
+    private fun parseTime(time: String): Pair<Int, Int> {
         val temp = time.split(":")
         val hour = temp[0].toInt()
         val min = temp[1].toInt()

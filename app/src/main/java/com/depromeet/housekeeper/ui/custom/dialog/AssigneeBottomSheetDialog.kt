@@ -11,7 +11,10 @@ import com.depromeet.housekeeper.databinding.FragmentAssigneeBottomSheetDialogBi
 import com.depromeet.housekeeper.model.Assignee
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>) : BottomSheetDialogFragment() {
+class AssigneeBottomSheetDialog(
+    val allGroup: ArrayList<Assignee>,
+    private val curAssignees: ArrayList<Assignee>
+) : BottomSheetDialogFragment() {
     lateinit var binding: FragmentAssigneeBottomSheetDialogBinding
     lateinit var bottomSheetAssigneeAdapter: BottomSheetAssigneeAdapter
     private lateinit var mOkBtnClickListener: MyOkBtnClickListener
@@ -20,18 +23,23 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val c
         fun onOkBtnClick()
     }
 
-    fun setMyOkBtnClickListener(okBtnClickListener: MyOkBtnClickListener){
+    fun setMyOkBtnClickListener(okBtnClickListener: MyOkBtnClickListener) {
         mOkBtnClickListener = okBtnClickListener
     }
 
-    val selectedAssignees:ArrayList<Assignee> = curAssignees
+    val selectedAssignees: ArrayList<Assignee> = curAssignees
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_assignee_bottom_sheet_dialog, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_assignee_bottom_sheet_dialog,
+            container,
+            false
+        )
         return binding.root
     }
 
@@ -60,7 +68,11 @@ class AssigneeBottomSheetDialog(val allGroup: ArrayList<Assignee>, private val c
                     dialog!!.dismiss()
                 }
                 else -> {
-                    Toast.makeText(requireContext(), getString(R.string.add_assignee_toast_text), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.add_assignee_toast_text),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

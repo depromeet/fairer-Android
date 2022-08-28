@@ -61,20 +61,23 @@ class RuleFragment : Fragment() {
             }
         }
         lifecycleScope.launchWhenCreated {
-            viewModel.backgroundBox.collect{
-                 when (it){
+            viewModel.backgroundBox.collect {
+                when (it) {
                     1 -> { // edit 중
-                        binding.clRule.background = resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
+                        binding.clRule.background =
+                            resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
                         binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
                         binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
                     }
                     2 -> { // error
-                        binding.clRule.background = resources.getDrawable(R.drawable.edit_text_error_background)
+                        binding.clRule.background =
+                            resources.getDrawable(R.drawable.edit_text_error_background)
                         binding.ivInfo.setColorFilter(requireContext().getColor(R.color.negative_20))
                         binding.tvInfo.setTextColor(resources.getColor(R.color.negative_20))
                     }
                     else -> { // default
-                        binding.clRule.background = resources.getDrawable(R.drawable.sign_name_edit_text_background)
+                        binding.clRule.background =
+                            resources.getDrawable(R.drawable.sign_name_edit_text_background)
                         binding.ivInfo.setColorFilter(requireContext().getColor(R.color.gray_200))
                         binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
                     }

@@ -10,7 +10,9 @@ import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
 import com.depromeet.housekeeper.util.DateUtil.getLastDate
 import com.depromeet.housekeeper.util.MAIN_TAG
 import com.depromeet.housekeeper.util.PrefsManager
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -75,7 +77,6 @@ class MainViewModel : ViewModel() {
         get() = _selectUserId
 
 
-
     private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
         MutableStateFlow(mutableListOf())
     val userProfiles: StateFlow<MutableList<Assignee>>
@@ -92,7 +93,6 @@ class MainViewModel : ViewModel() {
     private val _groups: MutableStateFlow<List<AssigneeSelect>> = MutableStateFlow(listOf())
     val groups: MutableStateFlow<List<AssigneeSelect>>
         get() = _groups
-
 
 
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {

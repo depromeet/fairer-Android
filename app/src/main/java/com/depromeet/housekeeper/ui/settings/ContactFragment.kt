@@ -40,6 +40,7 @@ class ContactFragment : Fragment() {
         BindingAdapter.setLinkify(
             binding.contactInstagramTv,
             getString(R.string.fairer_instagram),
-            getString(R.string.fairer_instagram_link))
+            getString(R.string.fairer_instagram_link)
+        )
     }
 }

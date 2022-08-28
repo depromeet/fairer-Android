@@ -14,14 +14,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
+import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
-import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
-import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
 
@@ -39,7 +38,8 @@ class AddHouseWorkFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_house_work, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_add_house_work, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
@@ -112,7 +112,8 @@ class AddHouseWorkFragment : Fragment() {
             updateTime()
         }
 
-        binding.todoTimePicker.setMyMinChangedListener(object: FairerTimePicker.MyMinChangedListener{
+        binding.todoTimePicker.setMyMinChangedListener(object :
+            FairerTimePicker.MyMinChangedListener {
             override fun onMinChange() {
                 updateTime()
             }
@@ -129,7 +130,7 @@ class AddHouseWorkFragment : Fragment() {
             createDatePickerDialog()
         }
 
-        binding.addAssigneeLayout.setOnClickListener{
+        binding.addAssigneeLayout.setOnClickListener {
             createBottomSheet()
         }
     }
@@ -211,7 +212,7 @@ class AddHouseWorkFragment : Fragment() {
         val curAssignees = arrayListOf<Assignee>()
         viewModel.allGroupInfo.value.map { assignee ->
             chore.assignees.map { curId ->
-                if(assignee.memberId == curId) {
+                if (assignee.memberId == curId) {
                     curAssignees.add(assignee)
                 }
             }
@@ -221,9 +222,13 @@ class AddHouseWorkFragment : Fragment() {
     }
 
     private fun createBottomSheet() {
-        val bottomSheet = AssigneeBottomSheetDialog(allGroup = viewModel.allGroupInfo.value, curAssignees = viewModel.curAssignees.value)
+        val bottomSheet = AssigneeBottomSheetDialog(
+            allGroup = viewModel.allGroupInfo.value,
+            curAssignees = viewModel.curAssignees.value
+        )
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        bottomSheet.setMyOkBtnClickListener(object: AssigneeBottomSheetDialog.MyOkBtnClickListener{
+        bottomSheet.setMyOkBtnClickListener(object :
+            AssigneeBottomSheetDialog.MyOkBtnClickListener {
 
             // 담당자 1명 이상 select 될때만 작동
             override fun onOkBtnClick() {

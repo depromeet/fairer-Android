@@ -20,19 +20,15 @@ import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
-import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
-import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
-import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.HouseWorks
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.util.DateUtil
-import com.depromeet.housekeeper.util.MAIN_TAG
-import com.depromeet.housekeeper.util.SwipeHelperCallback
-import com.depromeet.housekeeper.util.VerticalItemDecorator
+import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
+import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
+import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
+import com.depromeet.housekeeper.util.*
 import timber.log.Timber
 
 class MainFragment : Fragment() {

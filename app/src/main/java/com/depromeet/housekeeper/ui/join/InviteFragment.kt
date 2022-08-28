@@ -35,7 +35,6 @@ import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class InviteFragment : Fragment() {
@@ -220,7 +219,7 @@ class InviteFragment : Fragment() {
 
 
     private fun initDynamicLink(): Uri {
-        val playStoreUri : Uri =Uri.parse(getString(R.string.play_store_fairer))
+        val playStoreUri: Uri = Uri.parse(getString(R.string.play_store_fairer))
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")

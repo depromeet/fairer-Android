@@ -16,18 +16,18 @@ import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class ManageHouseFragment : Fragment() {
     lateinit var binding: FragmentManageHouseBinding
-    private val viewModel : ManageHouseViewModel by viewModels()
+    private val viewModel: ManageHouseViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_manage_house, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_manage_house, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         initListener()
@@ -39,7 +39,7 @@ class ManageHouseFragment : Fragment() {
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
             viewModel.response.collect {
-                if(it){
+                if (it) {
                     Timber.d("leave Team response : $it")
                     findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToJoinGroupFragment())
                 }
@@ -57,11 +57,21 @@ class ManageHouseFragment : Fragment() {
         }
 
         binding.renameHouseRow.setOnClickListener {
-            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToSignNameFragment(viewType = SignViewType.ModifyGroupName, code = null))
+            it.findNavController().navigate(
+                ManageHouseFragmentDirections.actionManageHouseFragmentToSignNameFragment(
+                    viewType = SignViewType.ModifyGroupName,
+                    code = null
+                )
+            )
         }
 
         binding.inviteRow.setOnClickListener {
-            it.findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment(InviteViewType.SETTING,null))
+            it.findNavController().navigate(
+                ManageHouseFragmentDirections.actionManageHouseFragmentToInviteFragment(
+                    InviteViewType.SETTING,
+                    null
+                )
+            )
         }
 
         binding.exitHouseRow.setOnClickListener {

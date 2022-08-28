@@ -10,7 +10,6 @@ import com.depromeet.housekeeper.model.Message
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -38,10 +37,11 @@ class GroupInfoViewModel : ViewModel() {
             }
         }
     }
+
     private fun deleteMyInfo() {
         var temp: Assignee? = null
         _groups.value.map {
-            if(it.memberId == PrefsManager.memberId) {
+            if (it.memberId == PrefsManager.memberId) {
                 temp = it
             }
         }
@@ -51,7 +51,11 @@ class GroupInfoViewModel : ViewModel() {
     fun sendAddMemberFCM(context: Context) {
         // 그룹 참여 알림 요청
         val message = Message(
-            body = String.format(context.getString(R.string.fcm_add_member_title), PrefsManager.userName, _groupName.value),
+            body = String.format(
+                context.getString(R.string.fcm_add_member_title),
+                PrefsManager.userName,
+                _groupName.value
+            ),
             memberId = PrefsManager.memberId,
             title = context.getString(R.string.fcm_add_member_title)
         )

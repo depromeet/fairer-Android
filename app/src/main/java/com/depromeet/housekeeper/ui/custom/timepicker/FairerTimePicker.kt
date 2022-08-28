@@ -21,7 +21,7 @@ class FairerTimePicker @JvmOverloads constructor(
         fun onMinChange()
     }
 
-    fun setMyMinChangedListener(minChangedListener: MyMinChangedListener){
+    fun setMyMinChangedListener(minChangedListener: MyMinChangedListener) {
         mMinChangedListener = minChangedListener
     }
 
@@ -61,7 +61,8 @@ class FairerTimePicker @JvmOverloads constructor(
                     "minute",
                     "id",
                     "android"
-                )) as NumberPicker).apply {
+                )
+            ) as NumberPicker).apply {
                 minValue = resources.getInteger(R.integer.minutes_min)
                 maxValue = resources.getInteger(R.integer.minutes_max) / timeInterval - 1
                 displayedValues = getDisplayedValue()
@@ -79,7 +80,7 @@ class FairerTimePicker @JvmOverloads constructor(
         minute = 0
     }
 
-    fun setDisPlayedValue(h:Int, m: Int) {
+    fun setDisPlayedValue(h: Int, m: Int) {
         hour = h
         minute = m / timeInterval
     }

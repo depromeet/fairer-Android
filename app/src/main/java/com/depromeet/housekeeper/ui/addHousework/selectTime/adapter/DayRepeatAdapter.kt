@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
 
-class DayRepeatAdapter(private val days:Array<String>): RecyclerView.Adapter<DayRepeatAdapter.ViewHolder>(){
+class DayRepeatAdapter(private val days: Array<String>) :
+    RecyclerView.Adapter<DayRepeatAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): DayRepeatAdapter.ViewHolder {
         val binding: ItemTodoRepeatDayBtnBinding = ItemTodoRepeatDayBtnBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ViewHolder(binding)
     }
 
@@ -22,7 +24,8 @@ class DayRepeatAdapter(private val days:Array<String>): RecyclerView.Adapter<Day
 
     override fun getItemCount(): Int = days.size
 
-    inner class ViewHolder(private val binding: ItemTodoRepeatDayBtnBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemTodoRepeatDayBtnBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(day: String) {
             binding.itemDayRepeatBtn.text = day
 
