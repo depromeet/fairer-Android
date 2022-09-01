@@ -40,4 +40,12 @@
     <item name="windowSplashScreenAnimationDuration">1000</item>
   </style>
 
+  <style name="FairerSwitch" parent="TextAppearance.AppCompat.Widget.Switch">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:thumb">@drawable/switch_thumb_selector</item>
+    <item name="android:track">@drawable/switch_track_selector</item>
+    <item name="switchMinWidth">42dp</item>
+  </style>
+
 </resources>
