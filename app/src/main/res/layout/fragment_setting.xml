@@ -88,12 +88,41 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/contact_row"
+            android:id="@+id/alarm_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
             app:layout_constraintTop_toBottomOf="@id/space_row">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:drawableStart="@drawable/ic_alarm"
+                android:drawablePadding="18dp"
+                android:text="@string/setting_alarm_row_text"
+                style="@style/Body.B2"
+                android:textColor="@color/gray_800" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow_right" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contact_row"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/bg_under_line"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/alarm_row">
 
             <TextView
                 android:layout_width="wrap_content"

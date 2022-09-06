@@ -57,9 +57,12 @@ class SettingFragment : Fragment() {
                 .navigate(SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment(null))
         }
 
-
         binding.spaceRow.setOnClickListener {
             it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToManageHouseFragment())
+        }
+
+        binding.alarmRow.setOnClickListener {
+            it.findNavController().navigate(SettingFragmentDirections.actioinSettingFragmentToAlarmFragment())
         }
 
         binding.contactRow.setOnClickListener {
