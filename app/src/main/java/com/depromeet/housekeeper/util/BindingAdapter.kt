@@ -25,14 +25,6 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:loadImage")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String) {
-        /*Glide.with(imageView.context)
-            .load(url)
-            .override(Target.SIZE_ORIGINAL)
-            .placeholder(R.drawable.bg_profile_imageview_inactive)
-            .error(R.drawable.bg_profile_imageview_inactive)
-            .format(DecodeFormat.PREFER_ARGB_8888)
-            .fitCenter()
-            .into(imageView)*/
         imageView.load(url) {
             crossfade(true)
         }
@@ -60,14 +52,6 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:imageUrl", "app:placeholder")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String, placeholder: Drawable) {
-        /*Glide.with(imageView.context)
-            .load(url)
-            .format(DecodeFormat.PREFER_ARGB_8888)
-            .override(Target.SIZE_ORIGINAL)
-            .placeholder(placeholder)
-            .error(placeholder)
-            .apply(RequestOptions().fitCenter())
-            .into(imageView)*/
         imageView.load(url) {
             placeholder(placeholder)
             crossfade(true)

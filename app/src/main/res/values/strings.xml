@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">fairer</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- SelectSpaceFragment -->
-    <string name="add_todo_sign2">한 공간의 집안일만 추가할 수 있습니다.</string>
     <string name="add_todo_direct_btn_text">집안일 직접 입력하기</string>
     <string name="next_btn_text">다음</string>
     <string name="add_todo_dialog_title">같은 공간만 선택할 수 있어요</string>
@@ -22,7 +20,6 @@
     <string name="add_direct_todo_day">다른 날에도 이 집안일 하기</string>
     <string name="remove_todo_tv">삭제</string>
     <string name="edit_todo_btn_tv">수정 완료</string>
-    <string name="add_direct_todo_space_tv">기타 공간</string>
 
     <!-- AddHouseWorkFragment -->
     <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
@@ -53,22 +50,15 @@
         <item>일</item>
     </string-array>
 
-    <string name="Clear">완료하기</string>
-
     <!--ItemRecyclerMainList-->
-    <string name="Finish">끝내기</string>
-    <string name="Finished">끝냈어요</string>
     <string name="time">오후 9:30</string>
     <string name="task">이불 정리</string>
-    <string name="time_todo">오전\n12시 30분</string>
 
     <!-- HomeFragment -->
     <string name="user_name">%s님</string>
     <string name="complete_chore">이번주에 %s개나 해주셨어요!</string>
     <string name="complete_chore_yet">아직 집안일을 하지 않으셨네요.</string>
     <string name="completed_chore">끝낸 집안일 %s</string>
-    <string name="remained_chore">남은 집안일</string>
-    <string name="add_chore">집안일 추가</string>
     <string name="empty_chore_title">해야 할 집안일이 없어요</string>
     <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
@@ -82,12 +72,6 @@
     <string name="main_back_chore">되돌리기</string>
 
     <!-- dummy chores -->
-    <string-array name="chore_array">
-        <item>이불 정리</item>
-        <item>화장대 정리</item>
-        <item>음식물 쓰레기 버리기</item>
-        <item>바닥 청소</item>
-    </string-array>
 
     <!--loginFragment-->
     <string name="server_client_id">720771356142-qae75m7290099120eqfih689376on2or.apps.googleusercontent.com</string>
@@ -196,16 +180,10 @@
     <string name="rule_info">규칙은 최대 10개까지 만들 수 있습니다.</string>
     <string name="rule_subtitle">새로운 규칙</string>
     <string name="rule_title">하우스 규칙 설정</string>
-    <string name="status_hint">상태 메세지를 입력해주세요.</string>
     <string name="play_store_fairer">https://play.google.com/store/apps/details?id=com.depromeet.housekeeper</string>
 
     <!-- fcm string -->
     <string name="default_notification_channel_id">fairer-def59</string>
     <string name="fcm_add_member_title">%s님이 %s에 참여</string>
-    <string name="fcm_add_member_body">앞으로 함께 평화롭게 집안일 해보아요✨</string>
-    <string name="fcm_remain_chore_title">아직 끝내지 못한 집안일 %d개</string>
-    <string name="fcm_remain_chore_body">‘%s’이 남아있어요!😢</string>
-    <string name="fcm_add_chore_title">오늘 할 집안일을 추가해보세요!</string>
-    <string name="fcm_add_chore_body">오늘도 평화롭고 깨끗한 %s 만들어봐요!</string>
 
 </resources>
