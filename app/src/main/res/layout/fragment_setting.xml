@@ -105,7 +105,6 @@
                 android:drawableStart="@drawable/ic_alarm"
                 android:drawablePadding="18dp"
                 android:text="@string/setting_alarm_row_text"
-                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -135,9 +134,7 @@
                 android:drawablePadding="12dp"
                 android:text="@string/setting_contact_row_text"
                 android:textColor="@color/gray_800"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
