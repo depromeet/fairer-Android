@@ -104,6 +104,7 @@
     <string name="setting_header_title">설정</string>
     <string name="setting_account_row_text">계정</string>
     <string name="setting_space_row_text">하우스 관리</string>
+    <string name="setting_alarm_row_text">알림</string>
     <string name="setting_contact_row_text">문의하기</string>
     <string name="setting_info_row_text">정보</string>
     <string name="setting_version_row_text">버전</string>
@@ -111,6 +112,11 @@
     <string name="setting_profile_name">이름</string>
     <string name="setting_profile_title">프로필을 설정해주세요.</string>
     <string name="setting_profile_sub_title">상태 메세지</string>
+
+    <!-- alarmFragment -->
+    <string name="alarm_housework_text">설정 시간에 맞춰서 알림</string>
+    <string name="alarm_remain_text">미완료 집안일 리마인드</string>
+    <string name="alarm_morning_text">기본 아침 알림</string>
 
     <!-- inviteFragment -->
     <string name="invite_main_title">하우스에 사람을 초대해주세요.</string>
