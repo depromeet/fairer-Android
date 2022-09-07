@@ -3,8 +3,8 @@ package com.depromeet.housekeeper.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
-import com.depromeet.housekeeper.model.EditProfileModel
-import com.depromeet.housekeeper.model.ProfileData
+import com.depromeet.housekeeper.model.request.EditProfileModel
+import com.depromeet.housekeeper.model.response.ProfileData
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

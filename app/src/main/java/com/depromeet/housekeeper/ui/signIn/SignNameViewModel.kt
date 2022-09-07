@@ -3,8 +3,12 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
-import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.request.JoinTeam
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.model.request.BuildTeam
+import com.depromeet.housekeeper.model.ErrorResponse
+import com.depromeet.housekeeper.model.response.JoinTeamResponse
+import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

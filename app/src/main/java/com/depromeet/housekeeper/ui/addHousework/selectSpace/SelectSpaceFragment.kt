@@ -15,7 +15,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
-import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter

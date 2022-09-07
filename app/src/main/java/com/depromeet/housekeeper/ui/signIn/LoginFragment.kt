@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
-import com.depromeet.housekeeper.model.LoginResponse
+import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.depromeet.housekeeper.util.PrefsManager

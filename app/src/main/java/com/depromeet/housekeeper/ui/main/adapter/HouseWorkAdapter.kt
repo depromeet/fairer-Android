@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
-import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import java.text.SimpleDateFormat
 import java.util.*

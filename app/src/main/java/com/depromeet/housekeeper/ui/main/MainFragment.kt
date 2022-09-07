@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.HouseWorks
+import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter

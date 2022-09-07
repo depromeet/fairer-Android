@@ -3,7 +3,7 @@ package com.depromeet.housekeeper.ui.join
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
-import com.depromeet.housekeeper.model.BuildTeam
+import com.depromeet.housekeeper.model.request.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow

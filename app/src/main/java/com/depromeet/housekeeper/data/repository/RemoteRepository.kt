@@ -1,7 +1,8 @@
 package com.depromeet.housekeeper.data.repository
 
 import com.depromeet.housekeeper.data.remote.RemoteDataSource
-import com.depromeet.housekeeper.model.*
+import com.depromeet.housekeeper.model.request.*
+import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 

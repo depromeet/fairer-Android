@@ -3,8 +3,8 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
-import com.depromeet.housekeeper.model.UpdateMember
-import com.depromeet.housekeeper.model.UpdateMemberResponse
+import com.depromeet.housekeeper.model.request.UpdateMember
+import com.depromeet.housekeeper.model.response.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
