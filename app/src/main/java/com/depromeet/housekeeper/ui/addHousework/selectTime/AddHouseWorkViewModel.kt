@@ -6,7 +6,7 @@ import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.Chores
-import com.depromeet.housekeeper.model.response.HouseWork
+import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper

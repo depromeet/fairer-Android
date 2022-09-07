@@ -1,7 +1,6 @@
-package com.depromeet.housekeeper.model.response
+package com.depromeet.housekeeper.model
 
 import android.os.Parcelable
-import com.depromeet.housekeeper.model.Assignee
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
