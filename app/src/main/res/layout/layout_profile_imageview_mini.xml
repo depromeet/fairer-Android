@@ -17,12 +17,11 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="@drawable/bg_profile_imageview_selector"
-            tool:background="@drawable/bg_profile_imageview_inactive"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-             />
+            tool:background="@drawable/bg_profile_imageview_inactive" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

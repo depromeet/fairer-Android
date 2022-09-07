@@ -273,7 +273,7 @@
             <argument
                 android:name="profilePath"
                 app:argType="string"
-                app:nullable="true"/>
+                app:nullable="true" />
         </action>
     </fragment>
     <fragment

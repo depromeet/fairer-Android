@@ -30,7 +30,7 @@ class PolicyFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.policyScrollview.fullScroll(ScrollView.FOCUS_DOWN);
+        binding.policyScrollview.fullScroll(ScrollView.FOCUS_DOWN)
         binding.policyHeader.apply {
             defaultHeaderTitleTv.text = resources.getString(R.string.policy_header_title)
             defaultHeaderBackBtn.setOnClickListener {

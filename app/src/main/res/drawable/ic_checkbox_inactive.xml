@@ -3,9 +3,9 @@
     android:height="16dp"
     android:viewportWidth="16"
     android:viewportHeight="16">
-  <path
-      android:strokeWidth="1"
-      android:pathData="M2,0.5L14,0.5A1.5,1.5 0,0 1,15.5 2L15.5,14A1.5,1.5 0,0 1,14 15.5L2,15.5A1.5,1.5 0,0 1,0.5 14L0.5,2A1.5,1.5 0,0 1,2 0.5z"
-      android:fillColor="#ffffff"
-      android:strokeColor="#D9D9D9"/>
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M2,0.5L14,0.5A1.5,1.5 0,0 1,15.5 2L15.5,14A1.5,1.5 0,0 1,14 15.5L2,15.5A1.5,1.5 0,0 1,0.5 14L0.5,2A1.5,1.5 0,0 1,2 0.5z"
+        android:strokeWidth="1"
+        android:strokeColor="#D9D9D9" />
 </vector>

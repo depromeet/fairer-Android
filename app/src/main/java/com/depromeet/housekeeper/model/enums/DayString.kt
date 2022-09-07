@@ -1,6 +1,6 @@
 package com.depromeet.housekeeper.model.enums
 
-enum class DayString (val korDay: String) {
+enum class DayString(val korDay: String) {
     Mon("월요일"),
     Tue("화요일"),
     Wed("수요일"),

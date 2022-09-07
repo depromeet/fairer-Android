@@ -34,7 +34,10 @@ class SmallProfileAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    inner class ItemViewHolder(private val binding: ItemSmallProfileBinding, private val context: Context) :
+    inner class ItemViewHolder(
+        private val binding: ItemSmallProfileBinding,
+        private val context: Context
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(assignee: Assignee) {
             Glide.with(context)

@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- button inactive -->
-    <item
-        android:state_enabled="false"
-        android:drawable="@drawable/main_inactive_solid_background" />
+    <item android:drawable="@drawable/main_inactive_solid_background" android:state_enabled="false" />
 
     <!-- button active -->
-    <item
-        android:state_enabled="true"
-        android:drawable="@drawable/main_active_solid_background" />
+    <item android:drawable="@drawable/main_active_solid_background" android:state_enabled="true" />
 </selector>

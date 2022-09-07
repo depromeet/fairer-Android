@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
-import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.PrefsManager
 
 class JoinGroupFragment : Fragment() {
-    lateinit var binding : FragmentJoinGroupBinding
+    lateinit var binding: FragmentJoinGroupBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,19 +40,33 @@ class JoinGroupFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.joinGroupMakeSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.GroupName,null))
+            findNavController().navigate(
+                JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(
+                    SignViewType.GroupName,
+                    null
+                )
+            )
         }
         binding.joinGroupJoinSpaceButton.setOnClickListener {
-            findNavController().navigate(JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(SignViewType.InviteCode,null))
+            findNavController().navigate(
+                JoinGroupFragmentDirections.actionJoinGroupFragmentToSignNameFragment(
+                    SignViewType.InviteCode,
+                    null
+                )
+            )
         }
 
     }
-    private fun spannable(){
-        binding.joinGroupMainText.text = getString(R.string.join_group_main_text, PrefsManager.userName)
+
+    private fun spannable() {
+        binding.joinGroupMainText.text =
+            getString(R.string.join_group_main_text, PrefsManager.userName)
         val spanText = SpannableStringBuilder(binding.joinGroupMainText.text)
-        spanText.apply{
-            setSpan(ForegroundColorSpan(resources.getColor(R.color.highlight)),
-                6,6+ PrefsManager.userName.length+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spanText.apply {
+            setSpan(
+                ForegroundColorSpan(resources.getColor(R.color.highlight)),
+                6, 6 + PrefsManager.userName.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
         binding.joinGroupMainText.text = spanText
     }

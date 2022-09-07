@@ -1,8 +1,6 @@
 package com.depromeet.housekeeper.data.remote
 
 import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.HouseWorkCreateResponse
-import com.depromeet.housekeeper.model.LoginResponse
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
@@ -24,7 +22,11 @@ interface RemoteDataSource {
     ): Flow<UpdateChoreResponse>
 
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
-    suspend fun getDateHouseWorkList(fromDate: String, toDate: String): Flow<Map<String, HouseWorks>>
+    suspend fun getDateHouseWorkList(
+        fromDate: String,
+        toDate: String
+    ): Flow<Map<String, HouseWorks>>
+
     suspend fun getPeriodHouseWorkListOfMember(
         teamMemberId: Int,
         fromDate: String,

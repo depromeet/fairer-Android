@@ -12,48 +12,48 @@
 
         <TextView
             android:id="@+id/failed_group_text"
+            style="@style/Heading.H2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/failed_group_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="72dp"
             android:layout_marginStart="24dp"
-            style="@style/Heading.H2"
+            android:layout_marginTop="72dp"
             android:lineHeight="24dp"
+            android:text="@string/failed_group_text"
+            android:textColor="@color/gray_800"
             android:textSize="20sp"
-            android:textColor="@color/gray_800" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/failed_group_ic"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="19dp"
             android:src="@drawable/ic_info_fill"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/failed_group_text"
-            android:layout_marginTop="19dp"
-            android:layout_marginStart="24dp" />
+            app:layout_constraintTop_toBottomOf="@id/failed_group_text" />
 
         <TextView
             android:id="@+id/failed_group_info_text"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/failed_group_info_text"
-            app:layout_constraintStart_toEndOf="@id/failed_group_ic"
-            app:layout_constraintTop_toBottomOf="@id/failed_group_text"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:text="@string/failed_group_info_text"
             android:textColor="@color/gray_600"
-            style="@style/Body" />
+            app:layout_constraintStart_toEndOf="@id/failed_group_ic"
+            app:layout_constraintTop_toBottomOf="@id/failed_group_text" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_group_home"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/failed_group_next_btn"

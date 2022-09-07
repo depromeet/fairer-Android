@@ -2,8 +2,6 @@ package com.depromeet.housekeeper.data.remote
 
 
 import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.HouseWorkCreateResponse
-import com.depromeet.housekeeper.model.LoginResponse
 import retrofit2.http.*
 
 interface ApiService {

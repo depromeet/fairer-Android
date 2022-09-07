@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,82 +20,83 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.settings.SettingFragment"
-        android:background="@drawable/main_white_background">
+        android:background="@drawable/main_white_background"
+        tools:context=".ui.settings.SettingFragment">
 
         <include
             android:id="@+id/setting_header"
             layout="@layout/layout_default_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/account_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/setting_header">
 
             <TextView
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:drawableStart="@drawable/ic_account"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_account_row_text"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                android:textColor="@color/gray_800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_arrow_right" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/space_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/account_row">
 
             <TextView
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:drawableStart="@drawable/ic_management"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_space_row_text"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                android:textColor="@color/gray_800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_arrow_right" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/alarm_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/space_row">
 
             <TextView
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +105,6 @@
                 android:drawableStart="@drawable/ic_alarm"
                 android:drawablePadding="18dp"
                 android:text="@string/setting_alarm_row_text"
-                style="@style/Body.B2"
                 android:textColor="@color/gray_800" />
 
             <ImageView
@@ -133,76 +133,76 @@
                 android:drawableStart="@drawable/ic_info_outline"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_contact_row_text"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                android:textColor="@color/gray_800"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_arrow_right" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/policy_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/contact_row">
 
             <TextView
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:drawableStart="@drawable/ic_info_outline"
                 android:drawablePadding="12dp"
                 android:text="@string/setting_info_row_text"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                android:textColor="@color/gray_800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_arrow_right" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/version_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/policy_row">
 
             <TextView
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@string/setting_version_row_text"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                android:textColor="@color/gray_800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/setting_version_tv"
+                style="@style/Body.B2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{version}"
+                android:textColor="@color/gray_800"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{version}"
-                style="@style/Body.B2"
-                android:textColor="@color/gray_800" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -210,19 +210,19 @@
             android:id="@+id/logout_row"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:background="@drawable/bg_under_line"
             android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_under_line"
             app:layout_constraintTop_toBottomOf="@id/version_row">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@string/setting_logout_row_text"
+                android:textColor="@color/negative_20"
                 android:textSize="14sp"
-                android:textColor="@color/negative_20" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

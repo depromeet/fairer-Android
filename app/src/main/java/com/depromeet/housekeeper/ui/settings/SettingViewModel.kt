@@ -3,14 +3,13 @@ package com.depromeet.housekeeper.ui.settings
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.ProfileData
+import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -58,13 +57,13 @@ class SettingViewModel : ViewModel() {
 
         mGoogleSignInClient.signOut()
             .addOnCompleteListener {
-                if(it.isComplete)
+                if (it.isComplete)
                     Timber.d("google sign out")
             }
 
         mGoogleSignInClient.revokeAccess()
             .addOnCompleteListener {
-                if(it.isComplete)
+                if (it.isComplete)
                     Timber.d("google account deleted")
             }
     }

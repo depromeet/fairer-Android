@@ -16,7 +16,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 
 class SettingFragment : Fragment() {
-    lateinit var binding:FragmentSettingBinding
+    lateinit var binding: FragmentSettingBinding
     private val viewModel: SettingViewModel by viewModels()
 
     override fun onCreateView(
@@ -54,11 +54,16 @@ class SettingFragment : Fragment() {
 
         binding.accountRow.setOnClickListener {
             it.findNavController()
-                .navigate(SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment(null))
+                .navigate(
+                    SettingFragmentDirections.actionSettingFragmentToSettingProfileFragment(
+                        null
+                    )
+                )
         }
 
         binding.spaceRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToManageHouseFragment())
+            it.findNavController()
+                .navigate(SettingFragmentDirections.actionSettingFragmentToManageHouseFragment())
         }
 
         binding.alarmRow.setOnClickListener {
@@ -66,11 +71,13 @@ class SettingFragment : Fragment() {
         }
 
         binding.contactRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToContactFragment())
+            it.findNavController()
+                .navigate(SettingFragmentDirections.actionSettingFragmentToContactFragment())
         }
 
         binding.policyRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToPolicyFragment())
+            it.findNavController()
+                .navigate(SettingFragmentDirections.actionSettingFragmentToPolicyFragment())
         }
 
         binding.logoutRow.setOnClickListener {

@@ -11,7 +11,10 @@ import com.depromeet.housekeeper.databinding.LayoutProfileImageviewMiniBinding
 import com.depromeet.housekeeper.ui.signIn.SignProfileViewModel
 import timber.log.Timber
 
-class SignProfileAdapter(private val profiles: List<SignProfileViewModel.ProfileState>, private val context: Context) :
+class SignProfileAdapter(
+    private val profiles: List<SignProfileViewModel.ProfileState>,
+    private val context: Context
+) :
     RecyclerView.Adapter<SignProfileAdapter.ViewHolder>() {
     var selectedPosition: Int = 99
     override fun onCreateViewHolder(
@@ -36,10 +39,9 @@ class SignProfileAdapter(private val profiles: List<SignProfileViewModel.Profile
         profiles.map { it.state = false }
         profiles[index].state = true
         notifyItemChanged(index)
-        if(selectedPosition==99){
+        if (selectedPosition == 99) {
             selectedPosition = index
-        }
-        else{
+        } else {
             notifyItemChanged(selectedPosition)
             selectedPosition = index
         }
@@ -59,7 +61,7 @@ class SignProfileAdapter(private val profiles: List<SignProfileViewModel.Profile
             if (pos != RecyclerView.NO_POSITION) {
                 binding.signProfileImageview.setOnClickListener {
                     clearState(pos)
-                    itemClickListener?.onClick(itemView, profileData.url, pos)
+                    itemClickListener.onClick(itemView, profileData.url, pos)
                 }
             }
         }

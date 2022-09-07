@@ -35,7 +35,6 @@ import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class InviteFragment : Fragment() {
@@ -159,8 +158,6 @@ class InviteFragment : Fragment() {
                 title = getString(R.string.kakao_share_text),
                 description = getString(R.string.kakao_share_description),
                 imageUrl = "https://firebasestorage.googleapis.com/v0/b/fairer-def59.appspot.com/o/meta-images%2Finvite-code.png?alt=media&token=f6117459-e48b-41d2-8a61-642ac8ec7e56",
-                imageWidth = 200,
-                imageHeight = 200,
                 link = Link(
                     webUrl = initDynamicLink().toString(),
                     mobileWebUrl = initDynamicLink().toString()
@@ -220,7 +217,7 @@ class InviteFragment : Fragment() {
 
 
     private fun initDynamicLink(): Uri {
-        val playStoreUri : Uri =Uri.parse(getString(R.string.play_store_fairer))
+        val playStoreUri: Uri = Uri.parse(getString(R.string.play_store_fairer))
         val inviteCode = viewModel.inviteCode.value
         val dynamicLink = Firebase.dynamicLinks.dynamicLink {
             link = Uri.parse("https://faireran.com/?code=$inviteCode")

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.depromeet.housekeeper.model.enums.ProfileViewType"/>
+
+        <import type="com.depromeet.housekeeper.model.enums.ProfileViewType" />
+
         <variable
             name="vm"
             type="com.depromeet.housekeeper.ui.signIn.SignProfileViewModel" />
@@ -46,11 +47,11 @@
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_marginTop="24dp"
-            app:loadImage="@{vm.selectedImage}"
             android:background="@drawable/bg_profile_imageview_inactive"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sign_profile_text" />
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_text"
+            app:loadImage="@{vm.selectedImage}" />
 
         <TextView
             android:id="@+id/sign_profile_select_text"
@@ -69,13 +70,13 @@
             android:id="@+id/sign_profile_recycler_imageview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/sign_profile_select_text"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
             android:clipToPadding="false"
             android:paddingHorizontal="24dp"
-            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_profile_select_text"
             tools:itemCount="2"
-            tools:listitem="@layout/layout_profile_imageview_mini"/>
+            tools:listitem="@layout/layout_profile_imageview_mini" />
 
         <include
             android:id="@+id/sign_name_next_btn"
@@ -83,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,8 +8,10 @@ import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.databinding.ItemBottomSheetAssigneeBinding
 import com.depromeet.housekeeper.model.Assignee
 
-class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, private val curAssignees: ArrayList<Assignee>)
-    : RecyclerView.Adapter<BottomSheetAssigneeAdapter.ViewHolder>() {
+class BottomSheetAssigneeAdapter(
+    private val assignees: ArrayList<Assignee>,
+    private val curAssignees: ArrayList<Assignee>
+) : RecyclerView.Adapter<BottomSheetAssigneeAdapter.ViewHolder>() {
 
     private var selectedAssignees: ArrayList<Assignee> = arrayListOf() // 선택한 담당자들
 
@@ -23,7 +25,8 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemBottomSheetAssigneeBinding = ItemBottomSheetAssigneeBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
 
         binding.itemBottomSheetAssigneeCl.isSelected = false
         return ViewHolder(binding)
@@ -37,7 +40,7 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
             setOnClickListener {
                 isSelected = !isSelected
 
-                when(isSelected) {
+                when (isSelected) {
                     true -> selectedAssignees.add(assignees[position])
                     false -> selectedAssignees.remove(assignees[position])
                 }
@@ -48,22 +51,23 @@ class BottomSheetAssigneeAdapter(private val assignees: ArrayList<Assignee>, pri
 
     override fun getItemCount(): Int = assignees.size
 
-    inner class ViewHolder(val binding: ItemBottomSheetAssigneeBinding)
-        : RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: ItemBottomSheetAssigneeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("NotifyDataSetChanged")
         fun bind(assignee: Assignee) {
-          // 초기 selected
-          if(selectedAssignees.contains(assignee)) {
-              binding.itemBottomSheetAssigneeCheckIv.isSelected = true
-              binding.itemBottomSheetAssigneeCl.isSelected = true
-          }
+            // 초기 selected
+            if (selectedAssignees.contains(assignee)) {
+                binding.itemBottomSheetAssigneeCheckIv.isSelected = true
+                binding.itemBottomSheetAssigneeCl.isSelected = true
+            }
 
-          binding.itemBottomSheetAssigneeNameTv.text = assignee.memberName
-          binding.itemBottomSheetAssigneeCl.isSelected = binding.itemBottomSheetAssigneeCheckIv.isSelected
-          Glide.with(binding.root)
-              .load(assignee.profilePath)
-              .into(binding.itemBottomSheetAssigneeProfileIv)
+            binding.itemBottomSheetAssigneeNameTv.text = assignee.memberName
+            binding.itemBottomSheetAssigneeCl.isSelected =
+                binding.itemBottomSheetAssigneeCheckIv.isSelected
+            Glide.with(binding.root)
+                .load(assignee.profilePath)
+                .into(binding.itemBottomSheetAssigneeProfileIv)
         }
     }
 }

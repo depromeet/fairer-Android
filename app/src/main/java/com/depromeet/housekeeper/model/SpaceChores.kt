@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SpaceChores(
-  var spaceName: String,
-  var houseWorks: List<String>,
+    var spaceName: String,
+    var houseWorks: List<String>,
 ) : Parcelable

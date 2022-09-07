@@ -14,15 +14,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.VerticalItemDecorator
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
 
@@ -37,7 +36,8 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_space, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_select_space, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         viewModel.addCalendarView(navArgs.selectDate.date)
         Timber.d("TAG ${navArgs.selectDate.date}")
@@ -87,37 +87,37 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         }
     }
 
-  private fun createDatePickerDialog() {
-      val selectDate = navArgs.selectDate.date
+    private fun createDatePickerDialog() {
+        val selectDate = navArgs.selectDate.date
 
-      val calendar = Calendar.getInstance().apply {
-          set(Calendar.YEAR, selectDate.split("-")[0].toInt())
-          set(Calendar.MONTH,selectDate.split("-")[1].toInt())
-          set(Calendar.DAY_OF_MONTH,selectDate.split("-")[2].toInt())
-      }
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.YEAR, selectDate.split("-")[0].toInt())
+            set(Calendar.MONTH, selectDate.split("-")[1].toInt())
+            set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
+        }
 
-      val datePickerDialog = DatePickerDialog(
-          this.requireContext(),
-          { _, year, month, dayOfMonth ->
-              viewModel.updateCalendarView(year, month, dayOfMonth)
-          },
-          calendar.get(Calendar.YEAR),
-          calendar.get(Calendar.MONTH)-1,
-          calendar.get(Calendar.DAY_OF_MONTH),
-      )
-      datePickerDialog.show()
-  }
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                viewModel.updateCalendarView(year, month, dayOfMonth)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) - 1,
+            calendar.get(Calendar.DAY_OF_MONTH),
+        )
+        datePickerDialog.show()
+    }
 
 
-  private fun setAdapter(){
-        val gridLayoutManager = GridLayoutManager(context,3)
-        binding.selectSpaceRecyclerview.layoutManager=gridLayoutManager
+    private fun setAdapter() {
+        val gridLayoutManager = GridLayoutManager(context, 3)
+        binding.selectSpaceRecyclerview.layoutManager = gridLayoutManager
         binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(12))
         myAdapter = SelectSpaceChoreAdapter(emptyList<String>())
         binding.selectSpaceRecyclerview.adapter = myAdapter
     }
 
-    private fun bindingVm(){
+    private fun bindingVm() {
         viewModel.clearChore()
         lifecycleScope.launchWhenStarted {
             viewModel.choreList.collect {
@@ -125,14 +125,15 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
                 myAdapter.notifyDataSetChanged()
                 binding.selectSpaceRecyclerview.adapter = myAdapter
 
-                myAdapter.setItemClickListener(object: SelectSpaceChoreAdapter.OnItemClickListener{
-                    override fun onClick(v: View, chore:String, position: Int) {
+                myAdapter.setItemClickListener(object :
+                    SelectSpaceChoreAdapter.OnItemClickListener {
+                    override fun onClick(v: View, chore: String, position: Int) {
                         v.isSelected = !v.isSelected
                         Timber.d("item click $position")
-                        viewModel.updateChores(chore,v.isSelected)
+                        viewModel.updateChores(chore, v.isSelected)
                         viewModel.setIsSelectedChore(true)
-                        if(viewModel.getChoreCount()==0){
-                           viewModel.setIsSelectedChore(false)
+                        if (viewModel.getChoreCount() == 0) {
+                            viewModel.setIsSelectedChore(false)
                         }
 
                     }
@@ -164,38 +165,43 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         }
         lifecycleScope.launchWhenCreated {
             viewModel.selectSpace.collect {
-                when(it){
+                when (it) {
                     "ENTRANCE" -> binding.selectedSpace = 1
                     "LIVINGROOM" -> binding.selectedSpace = 2
                     "BATHROOM" -> binding.selectedSpace = 3
                     "OUTSIDE" -> binding.selectedSpace = 4
                     "ROOM" -> binding.selectedSpace = 5
                     "KITCHEN" -> binding.selectedSpace = 6
-                    else -> binding.selectedSpace =0
+                    else -> binding.selectedSpace = 0
                 }
 
             }
         }
     }
 
-  private fun navigateToAddDirectTodoPage() {
-    binding.selectSpaceGoDirectBtn.findNavController()
-      .navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddDirectTodoFragment(
-        viewType = ViewType.ADD,
-        selectDate = viewModel.selectCalendar.value,
-        houseWork = HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
-      ))
-  }
+    private fun navigateToAddDirectTodoPage() {
+        binding.selectSpaceGoDirectBtn.findNavController()
+            .navigate(
+                SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddDirectTodoFragment(
+                    viewType = ViewType.ADD,
+                    selectDate = viewModel.selectCalendar.value,
+                    houseWork = HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
+                )
+            )
+    }
 
-  private fun navigateToAddTodoPage2() {
-    findNavController().navigate(SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddHouseWorkFragment(
-      SpaceChores(
-        spaceName = viewModel.selectSpace.value,
-        houseWorks = viewModel.chores.value,
-      ), selectDate = viewModel.selectCalendar.value))
-  }
+    private fun navigateToAddTodoPage2() {
+        findNavController().navigate(
+            SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddHouseWorkFragment(
+                SpaceChores(
+                    spaceName = viewModel.selectSpace.value,
+                    houseWorks = viewModel.chores.value,
+                ), selectDate = viewModel.selectCalendar.value
+            )
+        )
+    }
 
-    private fun setDialog(space : View?) {
+    private fun setDialog(space: View?) {
         val dialog = FairerDialog(requireContext(), DialogType.CHANGE)
         Timber.d("set dialog")
         dialog.showDialog()
@@ -211,15 +217,13 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(space: View?) {
         if (viewModel.isSelectedSpace.value) {
-            if(viewModel.isSelectedChore.value){
+            if (viewModel.isSelectedChore.value) {
                 setDialog(space)
-            }
-            else{
+            } else {
                 setSelected()
                 onClick(space)
             }
-        }
-        else {
+        } else {
             viewModel.setIsSelectedSpace(true)
             viewModel.setSpace("")
             when (space) {
@@ -251,7 +255,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initViewEnabled(){
+    private fun initViewEnabled() {
         binding.selectSpaceImageEntrance.isEnabled = true
         binding.selectSpaceImageLivingRoom.isEnabled = true
         binding.selectSpaceImageBathroom.isEnabled = true
@@ -260,7 +264,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         binding.selectSpaceImageKitchen.isEnabled = true
     }
 
-    private fun setSelected(){
+    private fun setSelected() {
         binding.selectedSpace = 0
         viewModel.setIsSelectedSpace(false)
     }

@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HouseWorks(
-  val countDone: Int,
-  val countLeft: Int,
-  val houseWorks: List<HouseWork>,
-  val scheduledDate: String,
-  val memberId: Int,
+    val countDone: Int,
+    val countLeft: Int,
+    val houseWorks: List<HouseWork>,
+    val scheduledDate: String,
+    val memberId: Int,
 ) : Parcelable

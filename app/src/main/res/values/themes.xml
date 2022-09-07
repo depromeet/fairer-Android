@@ -1,44 +1,45 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-  <!-- Base application theme. -->
-  <style name="Theme.HouseKeeper" parent="Theme.AppCompat.Light.NoActionBar">
-    <!-- Primary brand color. -->
-    <item name="colorPrimary">@color/purple_500</item>
-    <item name="colorPrimaryVariant">@color/purple_700</item>
-    <item name="colorOnPrimary">@color/white</item>
-    <!-- Secondary brand color. -->
-    <item name="colorSecondary">@color/teal_200</item>
-    <item name="colorSecondaryVariant">@color/teal_700</item>
-    <item name="colorOnSecondary">@color/black</item>
-    <!-- Status bar & icon color color. -->
-    <item name="android:statusBarColor">@color/white</item>
-    <item name="android:windowLightStatusBar">true</item>
-    <!-- Customize your theme here. -->
-    <item name="bottomSheetDialogTheme">@style/FairerBottomSheetDialogTheme</item>
-    <!-- Fairer EditText -->
-    <item name="android:textCursorDrawable">@color/highlight</item>
-    <item name="android:textSelectHandle">@color/highlight</item>
-    <item name="colorAccent">@color/highlight</item>
-    <item name="android:textColorHighlight">@color/positive_10</item>
-  </style>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.HouseKeeper" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar & icon color color. -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
+        <item name="bottomSheetDialogTheme">@style/FairerBottomSheetDialogTheme</item>
+        <!-- Fairer EditText -->
+        <item name="android:textCursorDrawable">@color/highlight</item>
+        <item name="android:textSelectHandle">@color/highlight</item>
+        <item name="colorAccent">@color/highlight</item>
+        <item name="android:textColorHighlight">@color/positive_10</item>
+    </style>
 
-  <style name="FairerTimePicker">
-    <item name="colorControlNormal">@color/highlight</item>
-  </style>
+    <style name="FairerTimePicker">
+        <item name="colorControlNormal">@color/highlight</item>
+    </style>
 
-  <!-- Bottom sheet dialog Style -->
-  <style name="FairerBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-    <item name="bottomSheetStyle">@style/FairerBackgroundBottomSheet</item>
-  </style>
-  <style name="FairerBackgroundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
-    <item name="android:background">@drawable/bg_assignee_bottom_sheet_dialog</item>
-  </style>
+    <!-- Bottom sheet dialog Style -->
+    <style name="FairerBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/FairerBackgroundBottomSheet</item>
+    </style>
 
-  <style name="Theme.HouseKeeper.SplashScreen" parent="Theme.SplashScreen">
-    <item name="windowSplashScreenBackground">@color/white</item>
-    <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
-    <item name="postSplashScreenTheme">@style/Theme.HouseKeeper</item>
-    <item name="windowSplashScreenAnimationDuration">1000</item>
-  </style>
+    <style name="FairerBackgroundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_assignee_bottom_sheet_dialog</item>
+    </style>
+
+    <style name="Theme.HouseKeeper.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.HouseKeeper</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+    </style>
 
   <style name="FairerSwitch" parent="TextAppearance.AppCompat.Widget.Switch">
     <item name="android:layout_width">wrap_content</item>

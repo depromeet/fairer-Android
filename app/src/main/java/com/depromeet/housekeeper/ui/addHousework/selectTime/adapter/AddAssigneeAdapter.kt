@@ -9,8 +9,8 @@ import com.depromeet.housekeeper.databinding.ItemProfileBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
 
-class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
-    : RecyclerView.Adapter<AddAssigneeAdapter.ViewHolder>() {
+class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>) :
+    RecyclerView.Adapter<AddAssigneeAdapter.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateAssignees(assignee: ArrayList<Assignee>) {
@@ -21,7 +21,8 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemProfileBinding = ItemProfileBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ViewHolder(binding)
     }
 
@@ -31,10 +32,11 @@ class AddAssigneeAdapter(private val assignees: ArrayList<Assignee>)
 
     override fun getItemCount(): Int = assignees.size
 
-    inner class ViewHolder(val binding: ItemProfileBinding)
-        : RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: ItemProfileBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(assignee: Assignee) {
-            val assigneeSelect = AssigneeSelect(assignee.memberId, assignee.memberName, assignee.profilePath, false)
+            val assigneeSelect =
+                AssigneeSelect(assignee.memberId, assignee.memberName, assignee.profilePath, false)
             binding.assignTemp = assigneeSelect
             Glide.with(binding.root)
                 .load(assignee.profilePath)

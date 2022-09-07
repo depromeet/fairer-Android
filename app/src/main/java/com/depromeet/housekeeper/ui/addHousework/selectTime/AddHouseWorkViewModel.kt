@@ -2,12 +2,12 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.util.PrefsManager
+import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.Chore
 import com.depromeet.housekeeper.model.Chores
 import com.depromeet.housekeeper.model.HouseWork
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +16,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class AddHouseWorkViewModel: ViewModel(){
+class AddHouseWorkViewModel : ViewModel() {
 
     init {
         setGroupInfo()
@@ -26,8 +25,6 @@ class AddHouseWorkViewModel: ViewModel(){
 
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
-    val curDate: StateFlow<String>
-    get() = _curDate
 
     fun setDate(date: String) {
         val lastIndex = date.indexOfLast { it == '-' }
@@ -37,10 +34,8 @@ class AddHouseWorkViewModel: ViewModel(){
 
     private val _curSpace: MutableStateFlow<String> =
         MutableStateFlow("방")
-    val curSpace: StateFlow<String>
-        get() = _curSpace
 
-    fun bindingSpace():String {
+    fun bindingSpace(): String {
         return spaceNameMapper(_curSpace.value)
     }
 
@@ -52,7 +47,7 @@ class AddHouseWorkViewModel: ViewModel(){
         return _curSpace.value
     }
 
-    val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+    private val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val allGroupInfo: StateFlow<ArrayList<Assignee>>
         get() = _allGroupInfo
@@ -60,7 +55,7 @@ class AddHouseWorkViewModel: ViewModel(){
     private fun getMyInfo(): Assignee? {
         var temp: Assignee? = null
         _allGroupInfo.value.map {
-            if(it.memberId == PrefsManager.memberId) {
+            if (it.memberId == PrefsManager.memberId) {
                 temp = it
             }
         }
@@ -76,7 +71,7 @@ class AddHouseWorkViewModel: ViewModel(){
         _curAssignees.value = assignees
     }
 
-    fun getCurAssignees() : ArrayList<Assignee> {
+    fun getCurAssignees(): ArrayList<Assignee> {
         return _curAssignees.value
     }
 
@@ -106,7 +101,7 @@ class AddHouseWorkViewModel: ViewModel(){
         _positions.value.add(position)
     }
 
-    fun getPosition(type: PositionType):Int {
+    fun getPosition(type: PositionType): Int {
         return when (type) {
             PositionType.CUR -> _positions.value[_positions.value.size - 1]
             PositionType.PRE -> _positions.value[_positions.value.size - 2]
@@ -118,9 +113,9 @@ class AddHouseWorkViewModel: ViewModel(){
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
-    fun initChores(space:String, choreName: List<String>) {
+    fun initChores(space: String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
-        choreName.map{ name ->
+        choreName.map { name ->
             val chore = Chore()
             chore.apply {
                 scheduledDate = _curDate.value
@@ -141,7 +136,7 @@ class AddHouseWorkViewModel: ViewModel(){
         return _chores.value[position]
     }
 
-    fun getChores() : ArrayList<Chore>{
+    fun getChores(): ArrayList<Chore> {
         return _chores.value
     }
 
@@ -151,11 +146,12 @@ class AddHouseWorkViewModel: ViewModel(){
         }
     }
 
-  private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-  val networkError: StateFlow<Boolean>
-    get() = _networkError
+    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val networkError: StateFlow<Boolean>
+        get() = _networkError
 
-    private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> = MutableStateFlow(null)
+    private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> =
+        MutableStateFlow(null)
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
 
@@ -166,7 +162,7 @@ class AddHouseWorkViewModel: ViewModel(){
                     _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
 
                     // 초기에 "나"만 들어가도록 수정
-                     setCurAssignees(arrayListOf(getMyInfo()!!))
+                    setCurAssignees(arrayListOf(getMyInfo()!!))
                 }
             }
         }
@@ -183,8 +179,8 @@ class AddHouseWorkViewModel: ViewModel(){
                 }.onFailure {
                     _networkError.value = true
                 }
-            }
         }
+    }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -196,7 +192,7 @@ class AddHouseWorkViewModel: ViewModel(){
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
 
-    fun addCalendarView(selectDate : String) {
+    fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
     }
 
@@ -206,7 +202,8 @@ class AddHouseWorkViewModel: ViewModel(){
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
         val datePattern = "yyyy-MM-dd-EEE"
-        _selectCalendar.value = SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+        _selectCalendar.value =
+            SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
     }
 
 
@@ -221,10 +218,9 @@ class AddHouseWorkViewModel: ViewModel(){
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
         val temp = arrayListOf<Assignee>()
         allAssignees.map { assignee ->
-            if(assignee.memberId == PrefsManager.memberId) {
+            if (assignee.memberId == PrefsManager.memberId) {
                 temp.add(0, assignee)
-            }
-            else {
+            } else {
                 temp.add(assignee)
             }
         }

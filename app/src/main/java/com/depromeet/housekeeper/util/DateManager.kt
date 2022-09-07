@@ -7,8 +7,8 @@ fun parseDate(date: String): Triple<String, String, String> {
     return Triple(str[0], str[1], str[2])
 }
 
-fun dayMapper(day: String):String {
-    return when(day) {
+fun dayMapper(day: String): String {
+    return when (day) {
         "Mon" -> DayString.Mon.korDay
         "월" -> DayString.Mon.korDay
         "Tue" -> DayString.Tue.korDay

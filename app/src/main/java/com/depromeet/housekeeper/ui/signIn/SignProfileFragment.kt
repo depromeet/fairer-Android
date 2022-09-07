@@ -14,12 +14,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
-import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.VerticalItemDecorator
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class SignProfileFragment : Fragment() {
@@ -76,24 +75,30 @@ class SignProfileFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun initListener() {
         navArgs.name?.let { viewModel.setMemberName(it) }
+
         binding.signProfileHeader.defaultHeaderTitleTv.text = ""
+
         binding.signNameNextBtn.mainFooterButton.setText(R.string.sign_profile_next_btn_text)
+
         binding.signProfileHeader.defaultHeaderBackBtn.setOnClickListener {
             findNavController().navigateUp()
         }
+
         binding.signNameNextBtn.mainFooterButton.setOnClickListener {
             if (viewModel.viewType.value == ProfileViewType.Sign) {
                 viewModel.requestUpdateMember()
             }
-            if (viewModel.viewType.value == ProfileViewType.Modify){
-                it.findNavController().navigate(SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(viewModel.selectedImage.value))
+            if (viewModel.viewType.value == ProfileViewType.Modify) {
+                it.findNavController().navigate(
+                    SignProfileFragmentDirections.actionSignProfileFragmentToSettingProfileFragment(
+                        viewModel.selectedImage.value
+                    )
+                )
             }
-
         }
     }
 
