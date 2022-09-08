@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.Message
+import com.depromeet.housekeeper.model.request.Message
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

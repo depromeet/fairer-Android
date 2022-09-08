@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRecyclerAddTodoListBinding
-import com.depromeet.housekeeper.model.Chore
+import com.depromeet.housekeeper.model.request.Chore
 import timber.log.Timber
 
 class AddHouseWorkChoreAdapter(private val chores: ArrayList<Chore>) :

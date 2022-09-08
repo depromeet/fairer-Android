@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRuleBinding
-import com.depromeet.housekeeper.model.RuleResponse
+import com.depromeet.housekeeper.model.response.RuleResponse
 
 class RuleAdapter(
     private val list: MutableList<RuleResponse>,

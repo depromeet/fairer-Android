@@ -3,7 +3,7 @@ package com.depromeet.housekeeper.ui.addHousework.selectSpace
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.Repository
-import com.depromeet.housekeeper.model.ChoreList
+import com.depromeet.housekeeper.model.request.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.util.dayMapper
 import kotlinx.coroutines.flow.MutableStateFlow

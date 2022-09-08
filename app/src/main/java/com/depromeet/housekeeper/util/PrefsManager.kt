@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.depromeet.housekeeper.model.ProfileData
+import com.depromeet.housekeeper.model.response.ProfileData
 
 object PrefsManager {
     private lateinit var prefs: SharedPreferences
