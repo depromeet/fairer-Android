@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.data
 
 
-import com.depromeet.housekeeper.data.remote.ApiService
 import com.depromeet.housekeeper.util.NETWORK_ERROR
 import com.depromeet.housekeeper.util.PrefsManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

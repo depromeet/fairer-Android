@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.data.remote
+package com.depromeet.housekeeper.data.dataSource
 
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
@@ -6,11 +6,6 @@ import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteDataSource {
-    /**
-    fcm
-     */
-    suspend fun saveToken(token: Token): Flow<Unit>
-    suspend fun sendMessage(message: Message): Flow<Message>
 
     /**
      * houseWorks
@@ -74,5 +69,11 @@ interface RemoteDataSource {
     suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse>
     suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse>
     suspend fun leaveTeam(): Flow<Unit>
+
+    /**
+    fcm
+     */
+    suspend fun saveToken(token: Token): Flow<Unit>
+    suspend fun sendMessage(message: Message): Flow<Message>
 
 }

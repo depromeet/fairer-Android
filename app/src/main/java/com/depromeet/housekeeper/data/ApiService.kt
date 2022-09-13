@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.data.remote
+package com.depromeet.housekeeper.data
 
 
 import com.depromeet.housekeeper.model.HouseWork
@@ -7,14 +7,6 @@ import com.depromeet.housekeeper.model.response.*
 import retrofit2.http.*
 
 interface ApiService {
-    /**
-    fcm
-     */
-    @POST("/api/fcm/token")
-    suspend fun saveToken(@Body token: Token)
-
-    @POST("/api/fcm/message")
-    suspend fun sendMessage(@Body message: Message): Message
 
     /**
      * houseWorks
@@ -57,6 +49,7 @@ interface ApiService {
     @GET("/api/houseworks")
     suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
+
     /**
      * members
      */
@@ -82,11 +75,13 @@ interface ApiService {
     @POST("/api/oauth/logout")
     suspend fun logout()
 
+
     /**
      * presets
      */
     @GET("/api/preset")
     suspend fun getChoreList(): List<ChoreList>
+
 
     /**
      * rules
@@ -99,6 +94,7 @@ interface ApiService {
 
     @DELETE("/api/rules/{ruleId}")
     suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
+
 
     /**
      * teams
@@ -120,5 +116,15 @@ interface ApiService {
 
     @POST("/api/teams/leave")
     suspend fun leaveTeam()
+
+
+    /**
+    fcm
+     */
+    @POST("/api/fcm/token")
+    suspend fun saveToken(@Body token: Token)
+
+    @POST("/api/fcm/message")
+    suspend fun sendMessage(@Body message: Message): Message
 
 }
