@@ -3,8 +3,10 @@ package com.depromeet.housekeeper
 import android.app.Application
 import com.depromeet.housekeeper.util.PrefsManager
 import com.kakao.sdk.common.KakaoSdk
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class HouseKeeperApplication : Application() {
 
     override fun onCreate() {
