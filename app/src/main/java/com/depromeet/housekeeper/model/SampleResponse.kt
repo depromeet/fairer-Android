@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.model.response
+package com.depromeet.housekeeper.model
 
 import com.squareup.moshi.JsonClass
 
