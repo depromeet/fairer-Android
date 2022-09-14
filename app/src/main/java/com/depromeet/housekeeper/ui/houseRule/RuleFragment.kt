@@ -17,7 +17,9 @@ import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.listenEditorDoneAction
 import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RuleFragment : Fragment() {
     lateinit var binding: FragmentRuleBinding
     private val viewModel: RuleViewModel by viewModels()

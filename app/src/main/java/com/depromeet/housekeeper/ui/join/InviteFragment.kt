@@ -35,8 +35,10 @@ import com.kakao.sdk.template.model.Button
 import com.kakao.sdk.template.model.Content
 import com.kakao.sdk.template.model.FeedTemplate
 import com.kakao.sdk.template.model.Link
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class InviteFragment : Fragment() {
     lateinit var binding: FragmentInviteBinding
     lateinit var clipboard: ClipboardManager

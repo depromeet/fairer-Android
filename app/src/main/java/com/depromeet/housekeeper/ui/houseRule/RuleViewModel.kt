@@ -2,15 +2,18 @@ package com.depromeet.housekeeper.ui.houseRule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.request.Rule
 import com.depromeet.housekeeper.model.response.RuleResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class RuleViewModel : ViewModel() {
+class RuleViewModel @Inject constructor(
+    private val mainRepository: MainRepository
+) : ViewModel() {
     init {
         getRules()
     }
@@ -30,9 +33,13 @@ class RuleViewModel : ViewModel() {
         _backgroundBox.value = type
     }
 
+
+    /**
+     * Network Communication
+     */
     fun createRule(ruleName: String) {
         viewModelScope.launch {
-            Repository.createRule(Rule(ruleName))
+            mainRepository.createRule(Rule(ruleName))
                 .runCatching {
                     collect {
                         getRules()
@@ -43,7 +50,7 @@ class RuleViewModel : ViewModel() {
 
     private fun getRules() {
         viewModelScope.launch {
-            Repository.getRules()
+            mainRepository.getRules()
                 .runCatching {
                     collect {
                         _rules.value = it.ruleResponseDtos.sortedByDescending { it.ruleId }
@@ -54,7 +61,7 @@ class RuleViewModel : ViewModel() {
 
     fun deleteRule(ruleId: Int) {
         viewModelScope.launch {
-            Repository.deleteRule(ruleId)
+            mainRepository.deleteRule(ruleId)
                 .runCatching {
                     collect {
                         if (it.code == 200) {

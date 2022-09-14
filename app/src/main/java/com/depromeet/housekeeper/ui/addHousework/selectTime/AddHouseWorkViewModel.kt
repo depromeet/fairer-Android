@@ -18,9 +18,10 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 @HiltViewModel
-class AddHouseWorkViewModel(
+class AddHouseWorkViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {

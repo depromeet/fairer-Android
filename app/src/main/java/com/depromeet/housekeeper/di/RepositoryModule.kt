@@ -2,7 +2,6 @@ package com.depromeet.housekeeper.di
 
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.data.repository.MainRepository
-import com.depromeet.housekeeper.data.repository.SettingRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -25,9 +24,4 @@ class RepositoryModule {
         return MainRepository(remoteDataSourceImpl)
     }
 
-    @Provides
-    @ViewModelScoped
-    fun provideSettingRepository(remoteDataSourceImpl: RemoteDataSourceImpl): SettingRepository {
-        return SettingRepository(remoteDataSourceImpl)
-    }
 }
