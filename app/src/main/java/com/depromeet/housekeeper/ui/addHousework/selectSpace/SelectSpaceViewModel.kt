@@ -6,6 +6,7 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.request.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.util.dayMapper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+@HiltViewModel
 class SelectSpaceViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {

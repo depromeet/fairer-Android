@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.request.Rule
 import com.depromeet.housekeeper.model.response.RuleResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@HiltViewModel
 class RuleViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {

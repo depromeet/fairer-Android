@@ -16,6 +16,7 @@ import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
 import com.depromeet.housekeeper.util.DateUtil.getLastDate
 import com.depromeet.housekeeper.util.MAIN_TAG
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
+@HiltViewModel
 class MainViewModel(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository

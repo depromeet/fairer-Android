@@ -7,12 +7,13 @@ import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+@HiltViewModel
 class InviteViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {

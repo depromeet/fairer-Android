@@ -8,11 +8,13 @@ import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Message
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class GroupInfoViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {

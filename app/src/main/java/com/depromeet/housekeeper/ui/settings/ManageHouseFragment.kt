@@ -16,8 +16,10 @@ import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class ManageHouseFragment : Fragment() {
     lateinit var binding: FragmentManageHouseBinding
     private val viewModel: ManageHouseViewModel by viewModels()
