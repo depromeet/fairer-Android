@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.signIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.UpdateMember
 import com.depromeet.housekeeper.model.response.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
@@ -12,9 +12,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
-class SignProfileViewModel : ViewModel() {
+class SignProfileViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     init {
         setProfileImageList()
     }
@@ -66,7 +69,7 @@ class SignProfileViewModel : ViewModel() {
     private fun setProfileImageList() {
         var profileImages = mutableListOf<ProfileState>()
         viewModelScope.launch {
-            Repository.getProfileImages().runCatching {
+            userRepository.getProfileImages().runCatching {
                 collect {
                     Timber.d("list get ${it.bigImageList.size}")
                     for (i in 0 until it.bigImageList.size) {
@@ -86,7 +89,7 @@ class SignProfileViewModel : ViewModel() {
     fun requestUpdateMember() {
         PrefsManager.setUserProfilePath(selectedImage.value)
         viewModelScope.launch {
-            Repository.updateMember(
+            userRepository.updateMember(
                 UpdateMember(memberName.value, selectedImage.value)
             ).runCatching {
                 collect {

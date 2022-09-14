@@ -11,8 +11,10 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class HouseKeeperActivity : AppCompatActivity() {
 
     private val viewModel: HouseKeeperViewModel by viewModels()
