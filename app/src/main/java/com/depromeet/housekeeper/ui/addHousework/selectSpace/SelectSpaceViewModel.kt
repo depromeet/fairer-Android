@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.addHousework.selectSpace
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.request.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.util.dayMapper
@@ -12,8 +12,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class SelectSpaceViewModel : ViewModel() {
+class SelectSpaceViewModel @Inject constructor(
+    private val mainRepository: MainRepository
+) : ViewModel() {
     init {
         getChoreList()
     }
@@ -85,20 +88,6 @@ class SelectSpaceViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    private fun getChoreList() {
-        viewModelScope.launch {
-            Repository.getHouseWorkList()
-                .runCatching {
-                    collect {
-                        _chorePreset.value = it
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                    Timber.d("networkerror")
-                }
-
-        }
-    }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -135,6 +124,24 @@ class SelectSpaceViewModel : ViewModel() {
         val day = dayMapper(str[3])
         Timber.d("TAG ${str[3]}")
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+    }
+
+
+    /**
+     * Network Communication
+     */
+    private fun getChoreList() {
+        viewModelScope.launch {
+            mainRepository.getHouseWorkList()
+                .runCatching {
+                    collect {
+                        _chorePreset.value = it
+                    }
+                }.onFailure {
+                    _networkError.value = true
+                    Timber.d("networkError")
+                }
+        }
     }
 
 }
