@@ -12,12 +12,14 @@ import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
 
+@HiltViewModel
 class SignNameViewModel : ViewModel() {
     private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
     val inputText: StateFlow<String>

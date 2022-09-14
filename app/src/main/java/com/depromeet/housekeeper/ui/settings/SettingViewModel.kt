@@ -3,18 +3,22 @@ package com.depromeet.housekeeper.ui.settings
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.response.ProfileData
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-
-class SettingViewModel : ViewModel() {
+@HiltViewModel
+class SettingViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _version: MutableStateFlow<String> =
         MutableStateFlow("")
     val version: StateFlow<String>
@@ -28,21 +32,6 @@ class SettingViewModel : ViewModel() {
     val networkError: StateFlow<Boolean>
         get() = _networkError
 
-    // logout api
-    private fun logout() {
-        viewModelScope.launch {
-            Repository.logout()
-                .runCatching {
-                    collect {
-                        Timber.d(it.toString())
-                        PrefsManager.deleteTokens()
-                        PrefsManager.deleteMemberInfo()
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                }
-        }
-    }
 
     // google sign out
     fun signOut(context: Context) {
@@ -66,5 +55,23 @@ class SettingViewModel : ViewModel() {
                 if (it.isComplete)
                     Timber.d("google account deleted")
             }
+    }
+
+    /**
+     * Network Communication
+     */
+    private fun logout() {
+        viewModelScope.launch {
+            userRepository.logout()
+                .runCatching {
+                    collect {
+                        Timber.d(it.toString())
+                        PrefsManager.deleteTokens()
+                        PrefsManager.deleteMemberInfo()
+                    }
+                }.onFailure {
+                    _networkError.value = true
+                }
+        }
     }
 }

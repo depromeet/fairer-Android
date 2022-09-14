@@ -8,11 +8,13 @@ import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.request.SocialType
 import com.depromeet.housekeeper.model.request.Token
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@HiltViewModel
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)

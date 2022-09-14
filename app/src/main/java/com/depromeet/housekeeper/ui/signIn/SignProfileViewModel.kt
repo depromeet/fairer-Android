@@ -7,11 +7,13 @@ import com.depromeet.housekeeper.model.request.UpdateMember
 import com.depromeet.housekeeper.model.response.UpdateMemberResponse
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@HiltViewModel
 class SignProfileViewModel : ViewModel() {
     init {
         setProfileImageList()

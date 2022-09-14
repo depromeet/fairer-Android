@@ -18,8 +18,10 @@ import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SettingProfileFragment : Fragment() {
     lateinit var binding: FragmentSettingProfileBinding
     private val viewModel: SettingProfileViewModel by viewModels()
