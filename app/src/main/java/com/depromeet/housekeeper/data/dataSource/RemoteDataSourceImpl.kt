@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.data.dataSource
 
 import com.depromeet.housekeeper.data.ApiService
-import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
@@ -62,7 +61,7 @@ class RemoteDataSourceImpl @Inject constructor(
     ): Flow<Map<String, HouseWorks>> {
         return flow {
             emit(apiService.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate))
-        }
+        }.flowOn(ioDispatcher)
     }
 
     override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =

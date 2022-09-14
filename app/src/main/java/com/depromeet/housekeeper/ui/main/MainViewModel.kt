@@ -3,7 +3,6 @@ package com.depromeet.housekeeper.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.MainRepository
-import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.Assignee
@@ -185,7 +184,7 @@ class MainViewModel @Inject constructor(
 
         Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
-            Repository.getPeriodHouseWorkListOfMember(
+            mainRepository.getPeriodHouseWorkListOfMember(
                 selectUserId.value,
                 fromDate,
                 toDate

@@ -5,11 +5,15 @@ import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+// mutex 사용할 일 있으면 여기서
+// CoroutineScope Default로 받아와 결과 캐시 작업
 class MainRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSourceImpl
+    private val remoteDataSource: RemoteDataSourceImpl,
+    private val externalScope: CoroutineScope? = null
 ) {
     /**
      * houseWorks
