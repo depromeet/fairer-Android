@@ -24,10 +24,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     lateinit var binding: FragmentLoginBinding
     private val RC_SIGN_IN = 1

@@ -2,7 +2,8 @@ package com.depromeet.housekeeper.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.MainRepository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
@@ -15,6 +16,7 @@ import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
 import com.depromeet.housekeeper.util.DateUtil.getLastDate
 import com.depromeet.housekeeper.util.MAIN_TAG
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -23,8 +25,13 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val mainRepository: MainRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     init {
         getCompleteHouseWorkNumber()
@@ -167,13 +174,17 @@ class MainViewModel : ViewModel() {
     }
 
 
+    /**
+     * Network Communication
+     */
+
     fun getHouseWorks() {
         val fromDate = startDateOfWeek.value
         val toDate = getLastDate(fromDate)
 
         Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
         viewModelScope.launch {
-            Repository.getPeriodHouseWorkListOfMember(
+            mainRepository.getPeriodHouseWorkListOfMember(
                 selectUserId.value,
                 fromDate,
                 toDate
@@ -212,7 +223,7 @@ class MainViewModel : ViewModel() {
     private fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         viewModelScope.launch {
-            Repository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
+            mainRepository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
                 .runCatching {
                     collect {
                         _completeChoreNum.value = it.count
@@ -229,7 +240,7 @@ class MainViewModel : ViewModel() {
             else -> 0
         }
         viewModelScope.launch {
-            Repository.updateChoreState(
+            mainRepository.updateChoreState(
                 houseWorkId = houseWork.houseWorkId,
                 updateChoreBody = UpdateChoreBody(toBeStatus)
             ).runCatching {
@@ -238,30 +249,6 @@ class MainViewModel : ViewModel() {
                 }
             }.onFailure {
                 _networkError.value = true
-            }
-        }
-    }
-
-    fun getGroupName() {
-        viewModelScope.launch {
-            Repository.getTeam().runCatching {
-                collect {
-
-                    val groupSize: Int = it.members.size
-                    _groupName.value = "${it.teamName} $groupSize"
-
-                    val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
-                    val assignees = listOf(myAssignee) + it.members
-
-                    _groups.value = assignees.distinct().map {
-                        AssigneeSelect(
-                            it.memberId,
-                            it.memberName,
-                            it.profilePath,
-                            it.memberId == selectUserId.value
-                        )
-                    }
-                }
             }
         }
     }
@@ -282,7 +269,7 @@ class MainViewModel : ViewModel() {
 
     fun getRules() {
         viewModelScope.launch {
-            Repository.getRules()
+            mainRepository.getRules()
                 .runCatching {
                     collect {
                         _rule.value = when {
@@ -296,11 +283,35 @@ class MainViewModel : ViewModel() {
 
     fun getDetailHouseWork(houseWorkId: Int) {
         viewModelScope.launch {
-            Repository.getDetailHouseWorks(houseWorkId).runCatching {
+            mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
                 collect {
                     _userProfiles.value = it.assignees.toMutableList()
                 }
             }.onFailure {
+            }
+        }
+    }
+
+    fun getGroupName() {
+        viewModelScope.launch {
+            userRepository.getTeam().runCatching {
+                collect {
+
+                    val groupSize: Int = it.members.size
+                    _groupName.value = "${it.teamName} $groupSize"
+
+                    val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
+                    val assignees = listOf(myAssignee) + it.members
+
+                    _groups.value = assignees.distinct().map {
+                        AssigneeSelect(
+                            it.memberId,
+                            it.memberName,
+                            it.profilePath,
+                            it.memberId == selectUserId.value
+                        )
+                    }
+                }
             }
         }
     }

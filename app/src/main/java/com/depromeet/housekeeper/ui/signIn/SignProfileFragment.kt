@@ -19,8 +19,10 @@ import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.VerticalItemDecorator
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SignProfileFragment : Fragment() {
     lateinit var binding: FragmentSignProfileBinding
     private val viewModel: SignProfileViewModel by viewModels()

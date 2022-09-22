@@ -17,8 +17,9 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
 import com.depromeet.housekeeper.ui.join.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.util.VerticalItemDecorator
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class GroupInfoFragment : Fragment() {
     lateinit var binding: FragmentGroupInfoBinding
     private val viewModel: GroupInfoViewModel by viewModels()

@@ -14,7 +14,9 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentSettingBinding
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingFragment : Fragment() {
     lateinit var binding: FragmentSettingBinding
     private val viewModel: SettingViewModel by viewModels()

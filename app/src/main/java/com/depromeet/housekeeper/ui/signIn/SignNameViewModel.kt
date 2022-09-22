@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.ui.signIn
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.JoinTeam
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.request.BuildTeam
@@ -12,13 +12,18 @@ import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
-class SignNameViewModel : ViewModel() {
+@HiltViewModel
+class SignNameViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
     val inputText: StateFlow<String>
         get() = _inputText
@@ -89,7 +94,7 @@ class SignNameViewModel : ViewModel() {
 
     fun teamNameUpdate(teamName: String) {
         viewModelScope.launch {
-            Repository.updateTeam(BuildTeam(teamName)).runCatching {
+            userRepository.updateTeam(BuildTeam(teamName)).runCatching {
                 collect {
                     _responseTeamUpdate.value = it
                 }
@@ -104,7 +109,7 @@ class SignNameViewModel : ViewModel() {
         viewModelScope.launch {
             Timber.d("joinTeam: $inviteCode")
 
-            Repository.joinTeam(JoinTeam(inviteCode)).runCatching {
+            userRepository.joinTeam(JoinTeam(inviteCode)).runCatching {
                 collect {
                     _responseJoinTeam.value = it
                     PrefsManager.setHasTeam(hasTeam = true)

@@ -21,10 +21,12 @@ import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddHouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 
 
+@AndroidEntryPoint
 class AddHouseWorkFragment : Fragment() {
     lateinit var binding: FragmentAddHouseWorkBinding
     lateinit var dayRepeatAdapter: DayRepeatAdapter

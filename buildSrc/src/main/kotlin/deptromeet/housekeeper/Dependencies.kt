@@ -106,4 +106,8 @@ object Dependencies {
   private const val COIL = "2.1.0"
   const val coil = "io.coil-kt:coil:$COIL"
 
+  private const val HILT = "2.38.1"
+  const val hilt = "com.google.dagger:hilt-android:$HILT"
+  const val hiltCompiler = "com.google.dagger:hilt-compiler:$HILT"
+
 }

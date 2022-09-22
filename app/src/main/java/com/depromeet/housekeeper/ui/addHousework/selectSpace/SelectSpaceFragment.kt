@@ -22,9 +22,11 @@ import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpace
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.util.VerticalItemDecorator
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 
+@AndroidEntryPoint
 class SelectSpaceFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentSelectSpaceBinding
     private lateinit var myAdapter: SelectSpaceChoreAdapter

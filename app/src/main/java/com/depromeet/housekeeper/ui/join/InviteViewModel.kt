@@ -2,16 +2,20 @@ package com.depromeet.housekeeper.ui.join
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.BuildTeam
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class InviteViewModel : ViewModel() {
+@HiltViewModel
+class InviteViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _viewType: MutableStateFlow<InviteViewType> =
         MutableStateFlow(InviteViewType.DEFAULT)
     val viewType: StateFlow<InviteViewType>
@@ -45,9 +49,13 @@ class InviteViewModel : ViewModel() {
         get() = _networkError
 
 
+    /**
+     * Network Communication
+     */
+
     fun setCode(teamName: String) {
         viewModelScope.launch {
-            Repository.buildTeam(
+            userRepository.buildTeam(
                 buildTeam = BuildTeam(teamName)
             ).runCatching {
                 collect {
@@ -65,7 +73,7 @@ class InviteViewModel : ViewModel() {
 
     fun getInviteCodeResponse() {
         viewModelScope.launch {
-            Repository.getInviteCode(
+            userRepository.getInviteCode(
             ).runCatching {
                 collect {
                     _groupName.value = it.teamName

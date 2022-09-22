@@ -4,16 +4,20 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Message
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import javax.inject.Inject
 
-class GroupInfoViewModel : ViewModel() {
+@HiltViewModel
+class GroupInfoViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     init {
         getGroupName()
     }
@@ -26,17 +30,6 @@ class GroupInfoViewModel : ViewModel() {
     val groups: MutableStateFlow<ArrayList<Assignee>>
         get() = _groups
 
-    private fun getGroupName() {
-        viewModelScope.launch {
-            Repository.getTeam().runCatching {
-                collect {
-                    _groupName.value = it.teamName
-                    _groups.value = it.members as ArrayList<Assignee>
-                    deleteMyInfo()
-                }
-            }
-        }
-    }
 
     private fun deleteMyInfo() {
         var temp: Assignee? = null
@@ -46,6 +39,22 @@ class GroupInfoViewModel : ViewModel() {
             }
         }
         _groups.value.remove(temp)
+    }
+
+    /**
+     * Network Communication
+     */
+
+    private fun getGroupName() {
+        viewModelScope.launch {
+            userRepository.getTeam().runCatching {
+                collect {
+                    _groupName.value = it.teamName
+                    _groups.value = it.members as ArrayList<Assignee>
+                    deleteMyInfo()
+                }
+            }
+        }
     }
 
     fun sendAddMemberFCM(context: Context) {
@@ -61,11 +70,11 @@ class GroupInfoViewModel : ViewModel() {
         )
 
         viewModelScope.launch {
-            Repository.sendMessage(message = message).runCatching {
-                collect {
-                    Timber.d(it.toString())
-                }
-            }
+//            Repository.sendMessage(message = message).runCatching {
+//                collect {
+//                    Timber.d(it.toString())
+//                }
+//            }
         }
     }
 }

@@ -29,10 +29,11 @@ import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
-
     lateinit var binding: FragmentMainBinding
     private lateinit var dayOfAdapter: DayOfWeekAdapter
     private var houseWorkAdapter: HouseWorkAdapter? = null

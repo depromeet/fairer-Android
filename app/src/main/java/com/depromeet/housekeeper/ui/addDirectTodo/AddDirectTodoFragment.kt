@@ -27,9 +27,11 @@ import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.spaceNameMapper
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 
+@AndroidEntryPoint
 class AddDirectTodoFragment : Fragment() {
     lateinit var binding: FragmentAddDirectTodoBinding
     lateinit var imm: InputMethodManager

@@ -2,21 +2,28 @@ package com.depromeet.housekeeper.ui.addDirectTodo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.MainRepository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.Chores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AddDirectTodoViewModel : ViewModel() {
+@HiltViewModel
+class AddDirectTodoViewModel @Inject constructor(
+    private val mainRepository: MainRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     init {
         setGroupInfo()
@@ -182,10 +189,28 @@ class AddDirectTodoViewModel : ViewModel() {
         return temp
     }
 
+
+    fun bindingDate(): String {
+        // yyyy-mm-dd-eee
+        setDate(_selectCalendar.value)
+        val str = _selectCalendar.value.split("-")
+        val day = dayMapper(str[3])
+        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+    }
+
+
+    /**
+     * Network Communication
+     */
+
+    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val networkError: StateFlow<Boolean>
+        get() = _networkError
+
     // TODO: 팀 조회 API에서 members 정보만 GET
     private fun setGroupInfo() {
         viewModelScope.launch {
-            Repository.getTeam().runCatching {
+            userRepository.getTeam().runCatching {
                 collect {
                     _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
 
@@ -201,7 +226,7 @@ class AddDirectTodoViewModel : ViewModel() {
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
-            Repository.createHouseWorks(Chores(_chores.value))
+            mainRepository.createHouseWorks(Chores(_chores.value))
                 .runCatching {
                     collect {
                     }
@@ -211,9 +236,23 @@ class AddDirectTodoViewModel : ViewModel() {
         }
     }
 
+
+    fun deleteHouseWork() {
+        viewModelScope.launch {
+            mainRepository.deleteHouseWork(houseWorkId.value)
+                .runCatching {
+                    collect {
+
+                    }
+                }.onFailure {
+                    _networkError.value = true
+                }
+        }
+    }
+
     fun editHouseWork() {
         viewModelScope.launch {
-            Repository.editHouseWork(houseWorkId.value, _chores.value[0])
+            mainRepository.editHouseWork(houseWorkId.value, _chores.value[0])
                 .runCatching {
                     collect {
                         Timber.d(it.toString())
@@ -224,28 +263,5 @@ class AddDirectTodoViewModel : ViewModel() {
         }
     }
 
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
 
-    fun deleteHouseWork() {
-        viewModelScope.launch {
-            Repository.deleteHouseWork(houseWorkId.value)
-                .runCatching {
-                    collect {
-
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                }
-        }
-    }
-
-    fun bindingDate(): String {
-        // yyyy-mm-dd-eee
-        setDate(_selectCalendar.value)
-        val str = _selectCalendar.value.split("-")
-        val day = dayMapper(str[3])
-        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
-    }
 }

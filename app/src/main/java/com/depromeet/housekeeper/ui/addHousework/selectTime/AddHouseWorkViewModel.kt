@@ -2,7 +2,8 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.depromeet.housekeeper.data.repository.Repository
+import com.depromeet.housekeeper.data.repository.MainRepository
+import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.Chores
@@ -10,14 +11,20 @@ import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AddHouseWorkViewModel : ViewModel() {
+@HiltViewModel
+class AddHouseWorkViewModel @Inject constructor(
+    private val mainRepository: MainRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     init {
         setGroupInfo()
@@ -155,32 +162,6 @@ class AddHouseWorkViewModel : ViewModel() {
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
         get() = _houseWorkCreateResponse
 
-    private fun setGroupInfo() {
-        viewModelScope.launch {
-            Repository.getTeam().runCatching {
-                collect {
-                    _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
-
-                    // 초기에 "나"만 들어가도록 수정
-                    setCurAssignees(arrayListOf(getMyInfo()!!))
-                }
-            }
-        }
-    }
-
-    fun createHouseWorks() {
-        viewModelScope.launch {
-            Repository.createHouseWorks(Chores(_chores.value))
-                .runCatching {
-                    collect {
-                        Timber.d(it.houseWorks.toString())
-                        _houseWorkCreateResponse.value = it.houseWorks
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                }
-        }
-    }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -225,6 +206,38 @@ class AddHouseWorkViewModel : ViewModel() {
             }
         }
         return temp
+    }
+
+
+    /**
+     * Network Communication
+     */
+
+    private fun setGroupInfo() {
+        viewModelScope.launch {
+            userRepository.getTeam().runCatching {
+                collect {
+                    _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
+
+                    // 초기에 "나"만 들어가도록 수정
+                    setCurAssignees(arrayListOf(getMyInfo()!!))
+                }
+            }
+        }
+    }
+
+    fun createHouseWorks() {
+        viewModelScope.launch {
+            mainRepository.createHouseWorks(Chores(_chores.value))
+                .runCatching {
+                    collect {
+                        Timber.d(it.houseWorks.toString())
+                        _houseWorkCreateResponse.value = it.houseWorks
+                    }
+                }.onFailure {
+                    _networkError.value = true
+                }
+        }
     }
 }
 

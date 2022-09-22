@@ -7,9 +7,11 @@ import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 //todo CoroutineDispatcher IO 사용해서 server로부터 정보 받아오도록 변경
-class RemoteDataSourceImpl(
+class RemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
     private val ioDispatcher: CoroutineDispatcher
 ) : RemoteDataSource {
@@ -47,7 +49,9 @@ class RemoteDataSourceImpl(
         fromDate: String,
         toDate: String
     ): Flow<Map<String, HouseWorks>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(apiService.getDateHouseWorkList(fromDate, toDate))
+        }
     }
 
     override suspend fun getPeriodHouseWorkListOfMember(
@@ -55,7 +59,9 @@ class RemoteDataSourceImpl(
         fromDate: String,
         toDate: String
     ): Flow<Map<String, HouseWorks>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(apiService.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate))
+        }.flowOn(ioDispatcher)
     }
 
     override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
@@ -110,7 +116,6 @@ class RemoteDataSourceImpl(
     override suspend fun getHouseWorkList(): Flow<List<ChoreList>> = flow {
         emit(apiService.getChoreList())
     }
-
 
 
     /**

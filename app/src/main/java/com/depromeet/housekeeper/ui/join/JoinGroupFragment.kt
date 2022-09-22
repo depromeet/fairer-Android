@@ -14,7 +14,9 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.util.PrefsManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class JoinGroupFragment : Fragment() {
     lateinit var binding: FragmentJoinGroupBinding
     override fun onCreateView(
