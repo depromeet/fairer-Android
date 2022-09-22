@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentRuleBinding
 import com.depromeet.housekeeper.ui.houseRule.adapter.RuleAdapter
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
@@ -20,27 +21,20 @@ import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RuleFragment : Fragment() {
-    lateinit var binding: FragmentRuleBinding
+class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
     private val viewModel: RuleViewModel by viewModels()
     lateinit var adapter: RuleAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rule, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return binding.root
+    override fun createView(binding: FragmentRuleBinding) {
+        initView()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
+    override fun viewCreated() {
         initListener()
         setAdapter()
         bindingVm()
     }
+
 
     private fun initView() {
         binding.textRule = ""
@@ -136,4 +130,6 @@ class RuleFragment : Fragment() {
             }
         }
     }
+
+
 }

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
 import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
@@ -27,29 +28,23 @@ import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class SelectSpaceFragment : Fragment(), View.OnClickListener {
-    lateinit var binding: FragmentSelectSpaceBinding
+class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fragment_select_space), View.OnClickListener {
     private lateinit var myAdapter: SelectSpaceChoreAdapter
     private val viewModel: SelectSpaceViewModel by viewModels()
     private val navArgs by navArgs<SelectSpaceFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_select_space, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentSelectSpaceBinding) {
         viewModel.addCalendarView(navArgs.selectDate.date)
         Timber.d("TAG ${navArgs.selectDate.date}")
         binding.currentDate = viewModel.bindingDate()
+    }
 
+    override fun viewCreated() {
         initListener()
         setAdapter()
         bindingVm()
-        return binding.root
     }
+
 
     private fun initListener() {
         binding.selectSpaceImageEntrance.setOnClickListener(this)
@@ -270,5 +265,7 @@ class SelectSpaceFragment : Fragment(), View.OnClickListener {
         binding.selectedSpace = 0
         viewModel.setIsSelectedSpace(false)
     }
+
+
 
 }
