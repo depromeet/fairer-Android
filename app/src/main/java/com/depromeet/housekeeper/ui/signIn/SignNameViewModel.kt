@@ -6,7 +6,7 @@ import com.depromeet.housekeeper.data.repository.Repository
 import com.depromeet.housekeeper.model.request.JoinTeam
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.request.BuildTeam
-import com.depromeet.housekeeper.model.ErrorResponse
+import com.depromeet.housekeeper.model.response.ErrorResponse
 import com.depromeet.housekeeper.model.response.JoinTeamResponse
 import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
