@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSignProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.ui.signIn.adapter.SignProfileAdapter
@@ -23,26 +24,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SignProfileFragment : Fragment() {
-    lateinit var binding: FragmentSignProfileBinding
+class SignProfileFragment : BaseFragment<FragmentSignProfileBinding>(R.layout.fragment_sign_profile) {
     private val viewModel: SignProfileViewModel by viewModels()
     private lateinit var myAdapter: SignProfileAdapter
     private val navArgs by navArgs<SignProfileFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_sign_profile, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentSignProfileBinding) {
         binding.vm = viewModel
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         Timber.d(navArgs.name)
         initListener()
         setAdapter()
@@ -116,4 +107,5 @@ class SignProfileFragment : Fragment() {
             }
         })
     }
+
 }

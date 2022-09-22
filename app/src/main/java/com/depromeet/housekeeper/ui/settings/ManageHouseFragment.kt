@@ -1,16 +1,11 @@
 package com.depromeet.housekeeper.ui.settings
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentManageHouseBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -20,23 +15,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class ManageHouseFragment : Fragment() {
-    lateinit var binding: FragmentManageHouseBinding
+class ManageHouseFragment : BaseFragment<FragmentManageHouseBinding>(R.layout.fragment_manage_house) {
     private val viewModel: ManageHouseViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_manage_house, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
 
+    override fun createView(binding: FragmentManageHouseBinding) {
+    }
+
+    override fun viewCreated() {
         initListener()
         bindingVm()
-
-        return binding.root
     }
+
 
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
@@ -93,5 +82,6 @@ class ManageHouseFragment : Fragment() {
             }
         }
     }
+
 
 }

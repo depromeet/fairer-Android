@@ -1,14 +1,8 @@
 package com.depromeet.housekeeper.ui.settings
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -16,31 +10,21 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SettingProfileFragment : Fragment() {
-    lateinit var binding: FragmentSettingProfileBinding
+class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.layout.fragment_setting_profile) {
     private val viewModel: SettingProfileViewModel by viewModels()
     private val navArgs by navArgs<SettingProfileFragmentArgs>()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_setting_profile, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return binding.root
+    override fun createView(binding: FragmentSettingProfileBinding) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         initView()
         setListener()

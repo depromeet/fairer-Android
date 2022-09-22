@@ -1,17 +1,12 @@
 package com.depromeet.housekeeper.ui.signIn
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -29,26 +24,21 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
-    lateinit var binding: FragmentLoginBinding
+class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val RC_SIGN_IN = 1
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val viewModel: LoginViewModel by viewModels()
     private val navArgs by navArgs<LoginFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
+    override fun createView(binding: FragmentLoginBinding) {
         initGoogleLogin()
+    }
+
+    override fun viewCreated() {
         bindingVM()
         initListener()
-        return binding.root
     }
+
 
     private fun initListener() {
         binding.signInButton.setOnClickListener {
@@ -197,4 +187,5 @@ class LoginFragment : Fragment() {
         }
 
     }
+
 }

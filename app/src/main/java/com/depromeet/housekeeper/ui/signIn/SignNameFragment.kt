@@ -1,20 +1,15 @@
 package com.depromeet.housekeeper.ui.signIn
 
 import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
@@ -24,30 +19,20 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SignNameFragment : Fragment() {
-    lateinit var binding: FragmentSignNameBinding
+class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment_sign_name) {
     private val viewModel: SignNameViewModel by viewModels()
     private val navArgs by navArgs<SignNameFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_name, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentSignNameBinding) {
         binding.vm = viewModel
-
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         bindingVm()
         initListener()
         validateName()
     }
+
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
@@ -188,5 +173,6 @@ class SignNameFragment : Fragment() {
             }
         }
     }
+
 }
 
