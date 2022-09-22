@@ -6,9 +6,7 @@ import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // mutex 사용할 일 있으면 여기서
