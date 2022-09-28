@@ -1,43 +1,29 @@
 package com.depromeet.housekeeper.ui.settings
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSettingBinding
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingFragment : Fragment() {
-    lateinit var binding: FragmentSettingBinding
+class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
     private val viewModel: SettingViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentSettingBinding) {
         binding.vm = viewModel
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         bindingVm()
         initListener()
     }
+
 
     private fun bindingVm() {
         viewModel.setVersion(BuildConfig.VERSION_NAME)
@@ -98,5 +84,6 @@ class SettingFragment : Fragment() {
             }
         }
     }
+
 
 }

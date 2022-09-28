@@ -22,16 +22,16 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> =
         flow {
             emit(apiService.createHouseWorks(houseWorks))
-        }
+        }.flowOn(ioDispatcher)
 
     override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {
-        apiService.editHouseWork(id, chore)
-    }
+        emit(apiService.editHouseWork(id, chore))
+    }.flowOn(ioDispatcher)
 
     override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
         flow {
             emit(apiService.deleteHouseWork(id))
-        }
+        }.flowOn(ioDispatcher)
 
     override suspend fun updateChoreState(
         houseWorkId: Int,
@@ -39,11 +39,11 @@ class RemoteDataSourceImpl @Inject constructor(
     ): Flow<UpdateChoreResponse> =
         flow {
             emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
-        }
+        }.flowOn(ioDispatcher)
 
     override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork> = flow {
         emit(apiService.getDetailHouseWork(houseWorkId))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun getDateHouseWorkList(
         fromDate: String,
@@ -51,7 +51,7 @@ class RemoteDataSourceImpl @Inject constructor(
     ): Flow<Map<String, HouseWorks>> {
         return flow {
             emit(apiService.getDateHouseWorkList(fromDate, toDate))
-        }
+        }.flowOn(ioDispatcher)
     }
 
     override suspend fun getPeriodHouseWorkListOfMember(
@@ -67,32 +67,32 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
         flow {
             emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
-        }
+        }.flowOn(ioDispatcher)
 
     override suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>> = flow {
         emit(apiService.getList(scheduledDate))
-    }
+    }.flowOn(ioDispatcher)
 
     /**
      * members
      */
     override suspend fun getProfileImages(): Flow<ProfileImages> = flow {
         emit(apiService.getProfileImages())
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> =
         flow {
             emit(apiService.updateMember(updateMember = updateMember))
-        }
+        }.flowOn(ioDispatcher)
 
     override suspend fun getMe(): Flow<ProfileData> = flow {
         emit(apiService.getMe())
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody> =
         flow {
             emit(apiService.updateMe(editProfileModel))
-        }
+        }.flowOn(ioDispatcher)
 
 
     /**
@@ -102,12 +102,12 @@ class RemoteDataSourceImpl @Inject constructor(
         socialType: SocialType,
     ): Flow<LoginResponse> = flow {
         emit(apiService.googlelogin(socialType))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun logout(
     ): Flow<Unit> = flow {
         emit(apiService.logout())
-    }
+    }.flowOn(ioDispatcher)
 
 
     /**
@@ -115,7 +115,7 @@ class RemoteDataSourceImpl @Inject constructor(
      */
     override suspend fun getHouseWorkList(): Flow<List<ChoreList>> = flow {
         emit(apiService.getChoreList())
-    }
+    }.flowOn(ioDispatcher)
 
 
     /**
@@ -123,15 +123,15 @@ class RemoteDataSourceImpl @Inject constructor(
      */
     override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
         emit(apiService.createRules(rule))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun getRules(): Flow<RuleResponses> = flow {
         emit(apiService.getRules())
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
         emit(apiService.deleteRule(ruleId))
-    }
+    }.flowOn(ioDispatcher)
 
 
     /**
@@ -141,27 +141,27 @@ class RemoteDataSourceImpl @Inject constructor(
         buildTeam: BuildTeam,
     ): Flow<BuildTeamResponse> = flow {
         emit(apiService.buildTeam(buildTeam))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun getTeam(): Flow<Groups> = flow {
         emit(apiService.getTeamData())
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun getInviteCode(): Flow<GetInviteCode> = flow {
         emit(apiService.getInviteCode())
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse> = flow {
         emit(apiService.updateTeam(teamName))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> = flow {
         emit(apiService.joinTeam(inviteCode))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun leaveTeam(): Flow<Unit> = flow {
         emit(apiService.leaveTeam())
-    }
+    }.flowOn(ioDispatcher)
 
 
     /**
@@ -169,10 +169,10 @@ class RemoteDataSourceImpl @Inject constructor(
      */
     override suspend fun saveToken(token: Token): Flow<Unit> = flow {
         emit(apiService.saveToken(token = token))
-    }
+    }.flowOn(ioDispatcher)
 
     override suspend fun sendMessage(message: Message): Flow<Message> = flow {
         emit(apiService.sendMessage(message = message))
-    }
+    }.flowOn(ioDispatcher)
 
 }

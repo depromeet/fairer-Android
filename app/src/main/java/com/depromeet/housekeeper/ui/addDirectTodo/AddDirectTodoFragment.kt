@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.Chore
@@ -32,40 +33,28 @@ import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class AddDirectTodoFragment : Fragment() {
-    lateinit var binding: FragmentAddDirectTodoBinding
+class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layout.fragment_add_direct_todo) {
     lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
     private val viewModel: AddDirectTodoViewModel by viewModels()
     private val navArgs by navArgs<AddDirectTodoFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_add_direct_todo, container, false
-        )
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentAddDirectTodoBinding) {
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
         binding.currentDate = viewModel.bindingDate()
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         setAdapter()
         bindingVm()
         initListener()
     }
+
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)

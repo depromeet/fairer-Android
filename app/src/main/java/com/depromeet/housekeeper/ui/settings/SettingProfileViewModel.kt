@@ -58,16 +58,16 @@ class SettingProfileViewModel @Inject constructor(
         statueMessage: String,
     ) {
         viewModelScope.launch {
+            Timber.d("updateMe :  $memberName $profilePath $statueMessage")
             userRepository.updateMe(
                 EditProfileModel(
                     memberName, profilePath, statueMessage
                 )
-            )
-                .runCatching {
-                    collect {
-                        it.message
-                    }
+            ).runCatching {
+                collect {
+                    Timber.d("updateMe: ${it.message}")
                 }
+            }
         }
     }
 

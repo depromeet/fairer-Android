@@ -1,32 +1,17 @@
 package com.depromeet.housekeeper.ui.settings
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentContactBinding
 import com.depromeet.housekeeper.util.BindingAdapter
 
-class ContactFragment : Fragment() {
-    lateinit var binding: FragmentContactBinding
+class ContactFragment : BaseFragment<FragmentContactBinding>(R.layout.fragment_contact) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
-        return binding.root
+    override fun createView(binding: FragmentContactBinding) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         initListener()
     }
 
@@ -43,4 +28,6 @@ class ContactFragment : Fragment() {
             getString(R.string.fairer_instagram_link)
         )
     }
+
+
 }

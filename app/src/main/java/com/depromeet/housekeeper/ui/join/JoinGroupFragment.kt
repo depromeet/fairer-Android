@@ -1,40 +1,27 @@
 package com.depromeet.housekeeper.ui.join
 
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentJoinGroupBinding
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class JoinGroupFragment : Fragment() {
-    lateinit var binding: FragmentJoinGroupBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_join_group, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+class JoinGroupFragment : BaseFragment<FragmentJoinGroupBinding>(R.layout.fragment_join_group) {
 
-        return binding.root
+    override fun createView(binding: FragmentJoinGroupBinding) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         initListener()
         spannable()
     }
+
 
     private fun initListener() {
         binding.joinGroupHeader.defaultHeaderTitleTv.text = ""
@@ -72,4 +59,6 @@ class JoinGroupFragment : Fragment() {
         }
         binding.joinGroupMainText.text = spanText
     }
+
+
 }

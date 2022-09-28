@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.response.HouseWorks
@@ -33,27 +34,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
-    lateinit var binding: FragmentMainBinding
+class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private lateinit var dayOfAdapter: DayOfWeekAdapter
     private var houseWorkAdapter: HouseWorkAdapter? = null
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentMainBinding) {
         binding.vm = mainViewModel
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun viewCreated() {
         mainViewModel.apply {
             getRules()
             getGroupName()
@@ -66,6 +57,7 @@ class MainFragment : Fragment() {
         bindingVm()
         setListener()
     }
+
 
     private fun initView() {
         val userNameFormat =
@@ -351,4 +343,6 @@ class MainFragment : Fragment() {
         }
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
     }
+
+
 }

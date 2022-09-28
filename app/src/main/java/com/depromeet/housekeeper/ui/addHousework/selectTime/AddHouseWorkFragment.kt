@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
@@ -27,34 +28,25 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class AddHouseWorkFragment : Fragment() {
-    lateinit var binding: FragmentAddHouseWorkBinding
+class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addHouseWorkChoreAdapter: AddHouseWorkChoreAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
     private val viewModel: AddHouseWorkViewModel by viewModels()
     private val navArgs by navArgs<AddHouseWorkFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        // Inflate the layout for this fragment
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_add_house_work, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
+    override fun createView(binding: FragmentAddHouseWorkBinding) {
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
         binding.currentDate = viewModel.bindingDate()
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         setAdapter()
         bindingVm()
         initListener()
     }
+
 
     private fun bindingVm() {
 
@@ -269,5 +261,7 @@ class AddHouseWorkFragment : Fragment() {
         val min = temp[1].toInt()
         return Pair(hour, min)
     }
+
+
 
 }

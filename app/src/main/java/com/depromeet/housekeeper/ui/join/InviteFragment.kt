@@ -6,21 +6,17 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.net.Uri
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentInviteBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.google.firebase.dynamiclinks.ktx.androidParameters
@@ -39,29 +35,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class InviteFragment : Fragment() {
-    lateinit var binding: FragmentInviteBinding
+class InviteFragment : BaseFragment<FragmentInviteBinding>(R.layout.fragment_invite) {
     lateinit var clipboard: ClipboardManager
     private val viewModel: InviteViewModel by viewModels()
     private val navArgs by navArgs<InviteFragmentArgs>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_invite, container, false)
+    override fun createView(binding: FragmentInviteBinding) {
         clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.vm = viewModel
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun viewCreated() {
         initListener()
         bindingVm()
     }
+
 
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
@@ -232,4 +220,6 @@ class InviteFragment : Fragment() {
         return dynamicLinkUri
 
     }
+
+
 }

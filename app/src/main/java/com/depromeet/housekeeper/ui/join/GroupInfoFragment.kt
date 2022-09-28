@@ -1,48 +1,33 @@
 package com.depromeet.housekeeper.ui.join
 
-import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentGroupInfoBinding
 import com.depromeet.housekeeper.ui.join.adapter.UserInfoAdapter
 import com.depromeet.housekeeper.util.VerticalItemDecorator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GroupInfoFragment : Fragment() {
-    lateinit var binding: FragmentGroupInfoBinding
+class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragment_group_info) {
     private val viewModel: GroupInfoViewModel by viewModels()
     private lateinit var myAdapter: UserInfoAdapter
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_info, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        return binding.root
+    override fun createView(binding: FragmentGroupInfoBinding) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun viewCreated() {
         bindingVm()
         setAdapter()
         initListener()
     }
+
 
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
@@ -87,4 +72,6 @@ class GroupInfoFragment : Fragment() {
         }
         binding.groupInfoText.text = spanText
     }
+
+
 }

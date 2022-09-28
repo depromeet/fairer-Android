@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 // mutex 사용할 일 있으면 여기서
-// CoroutineScope Default로 받아와 결과 캐시 작업
+// externalScope: 취소되면 안되는 작업
 class MainRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSourceImpl,
     private val externalScope: CoroutineScope? = null
