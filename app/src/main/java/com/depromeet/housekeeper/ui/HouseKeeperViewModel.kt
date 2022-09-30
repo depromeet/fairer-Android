@@ -17,8 +17,8 @@ class HouseKeeperViewModel : ViewModel() {
     val inviteCode: StateFlow<String>
         get() = _inviteCode
 
-    private var _isNetworkDisconnected: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isNetworkDisconnected get() = _isNetworkDisconnected
+    private var _isInternetDisconnected: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val isInternetDisconnected get() = _isInternetDisconnected
 
     init {
         viewModelScope.launch {
@@ -27,8 +27,8 @@ class HouseKeeperViewModel : ViewModel() {
         }
     }
 
-    fun setIsNetworkDisconnected(value: Boolean) {
-        _isNetworkDisconnected.value = value
+    fun setIsInternetDisconnected(value: Boolean) {
+        _isInternetDisconnected.value = value
     }
 
 }

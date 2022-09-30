@@ -14,7 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
 import com.depromeet.housekeeper.service.InternetService
-import com.depromeet.housekeeper.util.FILTER_NETWORK_CONNECTED
+import com.depromeet.housekeeper.util.FILTER_INTERNET_CONNECTED
 import com.depromeet.housekeeper.util.IS_INTERNET_CONNECTED
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
@@ -31,7 +31,7 @@ class HouseKeeperActivity : AppCompatActivity() {
         override fun onReceive(p0: Context?, mIntent: Intent?) {
             if (mIntent != null && mIntent.action == ACTION_SEND) {
                 val isInternetConnected = mIntent.getBooleanExtra(IS_INTERNET_CONNECTED, false)
-                viewModel.setIsNetworkDisconnected(!isInternetConnected)
+                viewModel.setIsInternetDisconnected(!isInternetConnected)
             }
         }
     }
@@ -41,7 +41,7 @@ class HouseKeeperActivity : AppCompatActivity() {
             setKeepOnScreenCondition { viewModel.isLoading.value }
         }
         super.onCreate(savedInstanceState)
-        val filter = IntentFilter(FILTER_NETWORK_CONNECTED).apply {
+        val filter = IntentFilter(FILTER_INTERNET_CONNECTED).apply {
             addAction(Intent.ACTION_SEND)
         }
         registerReceiver(internetReceiver, filter)
@@ -53,10 +53,10 @@ class HouseKeeperActivity : AppCompatActivity() {
 
     private fun bindingVm() {
         lifecycleScope.launchWhenStarted {
-            viewModel.isNetworkDisconnected.collect{
-                Timber.d(">>> bindingVm : isNetworkDisconnected = $it")
-                binding.layoutNetworkDisconnected.root.bringToFront()
-                binding.layoutNetworkDisconnected.root.visibility = if (it) View.VISIBLE else View.GONE
+            viewModel.isInternetDisconnected.collect{
+                Timber.d(">>> bindingVm : isInternetDisconnected = $it")
+                binding.layoutInternetDisconnected.root.bringToFront()
+                binding.layoutInternetDisconnected.root.visibility = if (it) View.VISIBLE else View.GONE
             }
         }
     }

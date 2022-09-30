@@ -11,7 +11,7 @@ import android.net.NetworkRequest
 import android.os.Binder
 import android.os.IBinder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.depromeet.housekeeper.util.FILTER_NETWORK_CONNECTED
+import com.depromeet.housekeeper.util.FILTER_INTERNET_CONNECTED
 import com.depromeet.housekeeper.util.IS_INTERNET_CONNECTED
 import timber.log.Timber
 
@@ -77,7 +77,7 @@ class InternetService : Service() {
         }
 
         private fun sendInternetConnected(value: Boolean) {
-            val intent = Intent(FILTER_NETWORK_CONNECTED).apply {
+            val intent = Intent(FILTER_INTERNET_CONNECTED).apply {
                 this.action = ACTION_SEND
                 this.putExtra(IS_INTERNET_CONNECTED, value)
             }
