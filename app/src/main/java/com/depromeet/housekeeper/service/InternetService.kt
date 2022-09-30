@@ -81,7 +81,7 @@ class InternetService : Service() {
                 this.action = ACTION_SEND
                 this.putExtra(IS_INTERNET_CONNECTED, value)
             }
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            context.sendBroadcast(intent)
         }
 
         override fun onAvailable(network: Network) {
