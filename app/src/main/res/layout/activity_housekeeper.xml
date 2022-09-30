@@ -28,7 +28,7 @@
             android:id="@+id/layout_internet_disconnected"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/layout_disconnected_network"
+            layout="@layout/layout_disconnected_internet"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

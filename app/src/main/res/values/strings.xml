@@ -63,8 +63,6 @@
     <string name="done_chore_title">오늘 집안일을 다 마쳤어요</string>
     <string name="add_chore_empty_description">집안일을 추가해 보세요!</string>
     <string name="add_chore_done_description">fairer한 하루를 보내셨군요!</string>
-    <string name="disconnected_network_title">인터넷에 연결되지 않았습니다.</string>
-    <string name="disconnected_network_subtitle">연결 확인 후 다시 시도해 주세요</string>
     <string name="rule">규칙</string>
     <string name="rule_place_holder">여기를 눌러 하우스의 규칙을 입력해주세요</string>
     <string name="main_today">오늘</string>
@@ -158,6 +156,12 @@
     <string name="invite_code_text">초대코드를 입력해주세요.</string>
     <string name="invite_code_sub_text">초대코드를 입력 후 바로 공간에 참여할 수 있어요!</string>
     <string name="invite_code_hint">12글자 입력</string>
+
+    <!--Layout-->
+    <string name="disconnected_internet_title">인터넷에 연결되지 않았습니다.</string>
+    <string name="disconnected_internet_subtitle">연결 확인 후 다시 시도해 주세요.</string>
+    <string name="disconnected_network_title">서버가 점검 중입니다.</string>
+    <string name="disconnected_network_subtitle">잠시 후 다시 시도해 주세요.</string>
 
     <!--ModifyGroupName-->
     <string name="modify_group_name_text">하우스 이름 변경</string>
