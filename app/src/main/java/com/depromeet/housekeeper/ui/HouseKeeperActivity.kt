@@ -4,10 +4,12 @@ import android.content.*
 import android.content.Intent.ACTION_SEND
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
@@ -29,7 +31,7 @@ class HouseKeeperActivity : AppCompatActivity() {
         override fun onReceive(p0: Context?, mIntent: Intent?) {
             if (mIntent != null && mIntent.action == ACTION_SEND) {
                 val isInternetConnected = mIntent.getBooleanExtra(IS_INTERNET_CONNECTED, false)
-                Timber.d(">>> isInternetConnected = $isInternetConnected")
+                viewModel.setIsNetworkDisconnected(!isInternetConnected)
             }
         }
     }
@@ -39,14 +41,24 @@ class HouseKeeperActivity : AppCompatActivity() {
             setKeepOnScreenCondition { viewModel.isLoading.value }
         }
         super.onCreate(savedInstanceState)
-        applicationContext.startService(Intent(this, InternetService::class.java))
         val filter = IntentFilter(FILTER_NETWORK_CONNECTED).apply {
             addAction(Intent.ACTION_SEND)
         }
         registerReceiver(internetReceiver, filter)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_housekeeper)
         binding.lifecycleOwner = this
+        bindingVm()
         getDynamicLink()
+    }
+
+    private fun bindingVm() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.isNetworkDisconnected.collect{
+                Timber.d(">>> bindingVm : isNetworkDisconnected = $it")
+                binding.layoutNetworkDisconnected.root.bringToFront()
+                binding.layoutNetworkDisconnected.root.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        }
     }
 
     private fun getDynamicLink() {

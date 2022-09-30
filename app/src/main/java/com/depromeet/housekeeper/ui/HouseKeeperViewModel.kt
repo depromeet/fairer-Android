@@ -17,10 +17,18 @@ class HouseKeeperViewModel : ViewModel() {
     val inviteCode: StateFlow<String>
         get() = _inviteCode
 
+    private var _isNetworkDisconnected: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val isNetworkDisconnected get() = _isNetworkDisconnected
+
     init {
         viewModelScope.launch {
             delay(1000)
             _isLoading.value = false
         }
     }
+
+    fun setIsNetworkDisconnected(value: Boolean) {
+        _isNetworkDisconnected.value = value
+    }
+
 }
