@@ -50,6 +50,11 @@
             </intent-filter>
         </activity>
         <service
+            android:name=".service.InternetService"
+            android:exported="false"
+            android:enabled="true"/>
+
+        <service
             android:name=".service.FairerFirebaseMessagingService"
             android:directBootAware="true"
             android:exported="false">
