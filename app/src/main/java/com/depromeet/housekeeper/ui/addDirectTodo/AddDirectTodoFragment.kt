@@ -103,11 +103,13 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun initListener() {
+        binding.switchHouseworkTime.isChecked = false
+        binding.switchHouseworkRepeat.isChecked = false
         binding.addDirectTodoTitleEt.signNameClear.setOnClickListener {
             binding.addDirectTodoTitleEt.fairerEt.setText(R.string.sign_name_blank)
         }
         binding.addDirectTodoBackgroundCl.setOnClickListener {
-            //hideKeyboard(binding.addDirectTodoTitleEt)
+            hideKeyboard(binding.switchHouseworkTime)
             binding.addDirectTodoTitleEt.fairerEt.isEnabled = false
             binding.isTextChanged = false
             binding.addDirectTodoTitleEt.fairerEt.isEnabled = true
@@ -132,21 +134,22 @@ class AddDirectTodoFragment : Fragment() {
         }
 
 
-        binding.addDirectTodoTimePicker.setOnTimeChangedListener { _, _, _ ->
+        binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
             updateTime()
         }
 
-        binding.addDirectTodoTimePicker.setMyMinChangedListener(object :
+        binding.todoTimePicker.setMyMinChangedListener(object :
             FairerTimePicker.MyMinChangedListener {
             override fun onMinChange() {
                 updateTime()
             }
         })
 
-        binding.addDirectTodoAllDayCheckBox.apply {
-            setOnClickListener {
-                val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
+        binding.switchHouseworkTime.apply {
+            setOnCheckedChangeListener { buttonView, isChecked ->
+                val time = binding.todoTimePicker.getDisPlayedTime()
                 viewModel.updateTime(time.first, time.second)
+                binding.timeSwitch = isChecked
             }
         }
 
@@ -211,8 +214,7 @@ class AddDirectTodoFragment : Fragment() {
     }
 
     private fun updateTime() {
-        binding.addDirectTodoAllDayCheckBox.isChecked = false
-        val time = binding.addDirectTodoTimePicker.getDisPlayedTime()
+        val time = binding.todoTimePicker.getDisPlayedTime()
         viewModel.updateTime(time.first, time.second)
     }
 
@@ -283,8 +285,8 @@ class AddDirectTodoFragment : Fragment() {
         binding.addDirectTodoTitleEt.fairerEt.setText(viewModel.chores.value[0].houseWorkName)
         if (viewModel.chores.value[0].scheduledTime != null) {
             val time: Pair<Int, Int> = parseTime(viewModel.chores.value[0].scheduledTime!!)
-            binding.addDirectTodoTimePicker.setDisPlayedValue(time.first, time.second)
-            binding.addDirectTodoAllDayCheckBox.isChecked = false
+            binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
+
         }
     }
 
@@ -294,8 +296,8 @@ class AddDirectTodoFragment : Fragment() {
 
         // time set
         when {
-            binding.addDirectTodoAllDayCheckBox.isChecked -> viewModel.updateChoreTime(null)
-            else -> viewModel.updateChoreTime(viewModel.curTime.value!!)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewModel.curTime.value!!)
+            else -> viewModel.updateChoreTime(null)
         }
 
         //date set
@@ -312,7 +314,7 @@ class AddDirectTodoFragment : Fragment() {
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
-        binding.addDirectTodoRepeatRv.adapter = dayRepeatAdapter
+        //binding.addDirectTodoRepeatRv.adapter = dayRepeatAdapter
     }
 
     private fun hideKeyboard(v: View) {
