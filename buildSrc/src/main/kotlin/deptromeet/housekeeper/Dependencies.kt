@@ -98,7 +98,9 @@ object Dependencies {
 
   private const val GLIDE = "4.13.0"
   const val glide ="com.github.bumptech.glide:glide:$GLIDE"
-  const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
+  const val glidecompiler ="com.github.bumptech.glide:compiler:$GLIDE"
+  const val glideannotation ="com.github.bumptech.glide:annotations:$GLIDE"
+  const val glidesvgloader ="com.caverock:androidsvg:1.2.1"
 
   private const val WORKER_MANAGER = "2.7.1"
   const val workermanager = "androidx.work:work-runtime-ktx:$WORKER_MANAGER"
