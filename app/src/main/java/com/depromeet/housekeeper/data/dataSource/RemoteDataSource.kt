@@ -28,7 +28,7 @@ interface RemoteDataSource {
         teamMemberId: Int,
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>>
+    ): Flow<ApiResult<Map<String, HouseWorks>>>
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
 

@@ -49,7 +49,7 @@ class RemoteDataSourceImpl @Inject constructor(
         fromDate: String,
         toDate: String
     ): Flow<Map<String, HouseWorks>> {
-        return flow {
+        return flow{
             emit(apiService.getDateHouseWorkList(fromDate, toDate))
         }.flowOn(ioDispatcher)
     }
@@ -58,9 +58,9 @@ class RemoteDataSourceImpl @Inject constructor(
         teamMemberId: Int,
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>> {
-        return flow {
-            emit(apiService.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate))
+    ): Flow<ApiResult<Map<String, HouseWorks>>> {
+        return safeFlow {
+            apiService.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
         }.flowOn(ioDispatcher)
     }
 

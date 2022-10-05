@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.request.UpdateChoreBody
 import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.model.response.ApiResult
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil.dateFormat
@@ -19,6 +20,7 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -188,27 +190,39 @@ class MainViewModel @Inject constructor(
                 selectUserId.value,
                 fromDate,
                 toDate
-            )
-                .runCatching {
-                    collect {
-                        _weekendHouseWorks.value = it.toSortedMap()
-
-                        val choreLeftMap = mutableMapOf<String, Int>()
-                        it.toSortedMap().forEach { item ->
-                            val scheduledDate = item.key
-                            val countLeft = item.value.countLeft
-                            choreLeftMap[scheduledDate] = countLeft
-                        }
-                        weekendChoresLeft.update { choreLeftMap }
-
-
-                        Timber.d("${it[dayOfWeek.value.date.substring(0, 10)]}")
-                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0, 10)]
+            ).collectLatest { result ->
+                when (result) {
+                    is ApiResult.Success -> {
+                        // todo 작업!
                     }
-                }.onFailure {
-                    Timber.e(it)
-                    _networkError.value = true
+                    is ApiResult.Error -> {
+
+                    }
+                    is ApiResult.Exception -> {
+
+                    }
                 }
+            }
+//                .runCatching {
+//                    collect {
+//                        _weekendHouseWorks.value = it.toSortedMap()
+//
+//                        val choreLeftMap = mutableMapOf<String, Int>()
+//                        it.toSortedMap().forEach { item ->
+//                            val scheduledDate = item.key
+//                            val countLeft = item.value.countLeft
+//                            choreLeftMap[scheduledDate] = countLeft
+//                        }
+//                        weekendChoresLeft.update { choreLeftMap }
+//
+//
+//                        Timber.d("${it[dayOfWeek.value.date.substring(0, 10)]}")
+//                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0, 10)]
+//                    }
+//                }.onFailure {
+//                    Timber.e(it)
+//                    _networkError.value = true
+//                }
 
         }
         getCompleteHouseWorkNumber()

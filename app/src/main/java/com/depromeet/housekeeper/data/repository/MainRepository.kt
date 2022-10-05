@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 // mutex 사용할 일 있으면 여기서
 // externalScope: 취소되면 안되는 작업
+// repository에서 mapper 사용해 실제 사용하는 데이터로 바꾸어줌
 class MainRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSourceImpl,
     private val externalScope: CoroutineScope? = null
@@ -44,7 +45,7 @@ class MainRepository @Inject constructor(
         teamMemberId: Int,
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>> = remoteDataSource.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
+    ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
