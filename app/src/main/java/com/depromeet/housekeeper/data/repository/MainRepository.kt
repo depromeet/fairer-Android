@@ -50,9 +50,6 @@ class MainRepository @Inject constructor(
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
 
-    suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>> =
-        remoteDataSource.getList(scheduledDate)
-
     /**
      * presets
      */

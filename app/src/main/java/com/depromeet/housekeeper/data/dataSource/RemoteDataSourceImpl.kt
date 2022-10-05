@@ -69,10 +69,6 @@ class RemoteDataSourceImpl @Inject constructor(
             emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
         }.flowOn(ioDispatcher)
 
-    override suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>> = flow {
-        emit(apiService.getList(scheduledDate))
-    }.flowOn(ioDispatcher)
-
     /**
      * members
      */

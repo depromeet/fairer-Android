@@ -32,8 +32,6 @@ interface RemoteDataSource {
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
 
-    suspend fun getList(scheduledDate: String): Flow<List<HouseWorks>>
-
     /**
      * members
      */

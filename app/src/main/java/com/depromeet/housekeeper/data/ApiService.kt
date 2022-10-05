@@ -14,12 +14,15 @@ interface ApiService {
     @POST("/api/houseworks")
     suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 
+    //todo v2 수정
     @PUT("/api/houseworks/{houseWorkId}")
     suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
 
+    //todo v2 수정
     @DELETE("/api/houseworks/{houseWorkId}")
     suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
+    //todo v2 삭제 -> houseWorkComplete로 변경
     @PATCH("/api/houseworks/{houseWorkId}")
     suspend fun updateChoreState(
         @Path("houseWorkId") houseWorkId: Int,
@@ -29,13 +32,13 @@ interface ApiService {
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
-    @GET("/api/houseworks/list")
+    @GET("/api/houseworks/list/query")
     suspend fun getDateHouseWorkList(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
     ): Map<String, HouseWorks>
 
-    @GET("/api/houseworks/list/member/{teamMemberId}")
+    @GET("/api/houseworks/list/member/{teamMemberId}/query")
     suspend fun getPeriodHouseWorkListOfMember(
         @Path("teamMemberId") teamMemberId: Int,
         @Query("fromDate") fromDate: String,
@@ -44,10 +47,6 @@ interface ApiService {
 
     @GET("/api/houseworks/success/count")
     suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
-
-    // todo 삭제 예정
-    @GET("/api/houseworks")
-    suspend fun getList(@Query("scheduledDate") scheduledDate: String): List<HouseWorks>
 
 
     /**
