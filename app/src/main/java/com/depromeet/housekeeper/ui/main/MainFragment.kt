@@ -3,14 +3,8 @@ package com.depromeet.housekeeper.ui.main
 import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Color
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -231,12 +225,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.networkError.collect {
-                binding.isConnectedNetwork = it
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
             mainViewModel.groupName.collect {
                 binding.tvGroupName.text = it
             }
@@ -265,6 +253,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
                 mainViewModel.getHouseWorks()
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

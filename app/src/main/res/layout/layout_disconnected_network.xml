@@ -3,15 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
+        <variable
+            name="isNetworkError"
+            type="boolean" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_disconnected_network"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="@{isNetworkError ? View.VISIBLE : View.GONE}">
 
         <ImageView
             android:id="@+id/image_check_server"

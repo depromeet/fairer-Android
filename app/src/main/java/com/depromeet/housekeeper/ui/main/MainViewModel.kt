@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper.ui.main
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.*
@@ -33,16 +33,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     init {
         getCompleteHouseWorkNumber()
         getGroupName()
     }
-
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
 
     /**
      * 캘린더 관련
@@ -193,37 +189,22 @@ class MainViewModel @Inject constructor(
             ).collectLatest { result ->
                 when (result) {
                     is ApiResult.Success -> {
-                        // todo 작업!
-                    }
-                    is ApiResult.Error -> {
+                        _weekendHouseWorks.value = result.value.toSortedMap()
 
+                        val choreLeftMap = mutableMapOf<String, Int>()
+                        result.value.toSortedMap().forEach { item ->
+                            val scheduledDate = item.key
+                            val countLeft = item.value.countLeft
+                            choreLeftMap[scheduledDate] = countLeft
+                        }
+                        weekendChoresLeft.update { choreLeftMap }
+                        _selectHouseWorks.value = result.value[dayOfWeek.value.date.substring(0, 10)]
                     }
-                    is ApiResult.Exception -> {
-
+                    else -> {
+                        setNetworkError(true)
                     }
                 }
             }
-//                .runCatching {
-//                    collect {
-//                        _weekendHouseWorks.value = it.toSortedMap()
-//
-//                        val choreLeftMap = mutableMapOf<String, Int>()
-//                        it.toSortedMap().forEach { item ->
-//                            val scheduledDate = item.key
-//                            val countLeft = item.value.countLeft
-//                            choreLeftMap[scheduledDate] = countLeft
-//                        }
-//                        weekendChoresLeft.update { choreLeftMap }
-//
-//
-//                        Timber.d("${it[dayOfWeek.value.date.substring(0, 10)]}")
-//                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0, 10)]
-//                    }
-//                }.onFailure {
-//                    Timber.e(it)
-//                    _networkError.value = true
-//                }
-
         }
         getCompleteHouseWorkNumber()
     }
@@ -243,7 +224,7 @@ class MainViewModel @Inject constructor(
                         _completeChoreNum.value = it.count
                     }
                 }.onFailure {
-                    _networkError.value = true
+                    setNetworkError(true)
                 }
         }
     }
@@ -262,7 +243,7 @@ class MainViewModel @Inject constructor(
                     getHouseWorks()
                 }
             }.onFailure {
-                _networkError.value = true
+                setNetworkError(true)
             }
         }
     }
