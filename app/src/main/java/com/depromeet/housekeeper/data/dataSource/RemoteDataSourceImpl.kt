@@ -101,8 +101,8 @@ class RemoteDataSourceImpl @Inject constructor(
     }.flowOn(ioDispatcher)
 
     override suspend fun logout(
-    ): Flow<Unit> = flow {
-        emit(apiService.logout())
+    ): Flow<ApiResult<Unit>> = safeFlow {
+        apiService.logout()
     }.flowOn(ioDispatcher)
 
 
@@ -155,8 +155,8 @@ class RemoteDataSourceImpl @Inject constructor(
         emit(apiService.joinTeam(inviteCode))
     }.flowOn(ioDispatcher)
 
-    override suspend fun leaveTeam(): Flow<Unit> = flow {
-        emit(apiService.leaveTeam())
+    override suspend fun leaveTeam(): Flow<ApiResult<Unit>> = safeFlow {
+        apiService.leaveTeam()
     }.flowOn(ioDispatcher)
 
 

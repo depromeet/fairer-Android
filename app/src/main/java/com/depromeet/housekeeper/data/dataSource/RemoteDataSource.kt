@@ -44,7 +44,7 @@ interface RemoteDataSource {
      * oauth
      */
     suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse>
-    suspend fun logout(): Flow<Unit>
+    suspend fun logout(): Flow<ApiResult<Unit>>
 
     /**
      * presets
@@ -66,7 +66,7 @@ interface RemoteDataSource {
     suspend fun getInviteCode(): Flow<GetInviteCode>
     suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse>
     suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse>
-    suspend fun leaveTeam(): Flow<Unit>
+    suspend fun leaveTeam(): Flow<ApiResult<Unit>>
 
     /**
     fcm

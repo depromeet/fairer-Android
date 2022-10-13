@@ -3,6 +3,7 @@ package com.depromeet.housekeeper.ui.settings
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.response.ProfileData
 import com.depromeet.housekeeper.util.PrefsManager
@@ -11,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
     private val _version: MutableStateFlow<String> =
         MutableStateFlow("")
     val version: StateFlow<String>
@@ -27,11 +29,6 @@ class SettingViewModel @Inject constructor(
     fun setVersion(version: String) {
         _version.value = version
     }
-
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
 
     // google sign out
     fun signOut(context: Context) {
@@ -62,16 +59,14 @@ class SettingViewModel @Inject constructor(
      */
     private fun logout() {
         viewModelScope.launch {
-            userRepository.logout()
-                .runCatching {
-                    collect {
-                        Timber.d(it.toString())
-                        PrefsManager.deleteTokens()
-                        PrefsManager.deleteMemberInfo()
-                    }
-                }.onFailure {
-                    _networkError.value = true
+            userRepository.logout().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    Timber.d(it.toString())
+                    PrefsManager.deleteTokens()
+                    PrefsManager.deleteMemberInfo()
                 }
+            }
         }
     }
 }

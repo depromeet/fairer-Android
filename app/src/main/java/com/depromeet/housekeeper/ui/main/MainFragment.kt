@@ -87,24 +87,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     }
 
-    private fun createDatePickerDialog() {
-        val currentDate = mainViewModel.dayOfWeek.value
-
-        val datePickerDialog = DatePickerDialog(
-            this.requireContext(),
-            { _, year, month, dayOfMonth ->
-                //TODO("DayOfWeek Adapter 변경")
-                val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
-                dayOfAdapter.updateDate(list)
-            },
-            currentDate.date.split("-")[0].toInt(),
-            currentDate.date.split("-")[1].toInt() - 1,
-            currentDate.date.split("-")[2].toInt(),
-        )
-        datePickerDialog.show()
-
-    }
-
     private fun setAdapter() {
         dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
             onClick = {
@@ -262,7 +244,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 binding.layoutNetwork.isNetworkError = it
                 if (it) {
                     val fm = requireActivity().supportFragmentManager
-                    for (i in 0..fm.backStackEntryCount){
+                    for (i in 0..fm.backStackEntryCount) {
                         fm.popBackStack()
                         Timber.d("back stack $i")
                     }
@@ -344,6 +326,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
         }
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
+    }
+
+    private fun createDatePickerDialog() {
+        val currentDate = mainViewModel.dayOfWeek.value
+
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                //TODO("DayOfWeek Adapter 변경")
+                val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+                dayOfAdapter.updateDate(list)
+            },
+            currentDate.date.split("-")[0].toInt(),
+            currentDate.date.split("-")[1].toInt() - 1,
+            currentDate.date.split("-")[2].toInt(),
+        )
+        datePickerDialog.show()
     }
 
 

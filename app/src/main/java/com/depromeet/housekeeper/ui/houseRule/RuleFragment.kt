@@ -30,6 +30,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
     }
 
     override fun viewCreated() {
+        initView()
         initListener()
         setAdapter()
         bindingVm()
@@ -38,6 +39,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
 
     private fun initView() {
         binding.textRule = ""
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
     private fun bindingVm() {
@@ -56,6 +58,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                 }
             }
         }
+
         lifecycleScope.launchWhenCreated {
             viewModel.backgroundBox.collect {
                 when (it) {
@@ -78,6 +81,12 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                         binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect{
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

@@ -22,8 +22,13 @@ class ManageHouseFragment : BaseFragment<FragmentManageHouseBinding>(R.layout.fr
     }
 
     override fun viewCreated() {
+        initView()
         initListener()
         bindingVm()
+    }
+
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
 
@@ -34,6 +39,12 @@ class ManageHouseFragment : BaseFragment<FragmentManageHouseBinding>(R.layout.fr
                     Timber.d("leave Team response : $it")
                     findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToJoinGroupFragment())
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect{
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

@@ -16,7 +16,7 @@ class UserRepository @Inject constructor(
     suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse> =
         remoteDataSource.getGoogleLogin(socialType)
 
-    suspend fun logout(): Flow<Unit> = remoteDataSource.logout()
+    suspend fun logout(): Flow<ApiResult<Unit>> = remoteDataSource.logout()
 
     /**
      * teams
@@ -34,7 +34,7 @@ class UserRepository @Inject constructor(
     suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> =
         remoteDataSource.joinTeam(inviteCode)
 
-    suspend fun leaveTeam(): Flow<Unit> = remoteDataSource.leaveTeam()
+    suspend fun leaveTeam() = remoteDataSource.leaveTeam()
     /**
      * members
      */
