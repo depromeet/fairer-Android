@@ -56,6 +56,7 @@ class SignProfileAdapter(
                 .placeholder(context.getDrawable(R.drawable.bg_profile_imageview_inactive))
                 .into(binding.signProfileImageview)
 
+
             binding.signProfileImageview.isSelected = profileData.state
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

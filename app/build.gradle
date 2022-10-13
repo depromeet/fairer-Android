@@ -103,7 +103,10 @@ dependencies {
     implementation Dependencies.kakaoSdk
 
     implementation Dependencies.glide
-    annotationProcessor Dependencies.glideannotation
+    implementation Dependencies.glideannotation
+    annotationProcessor Dependencies.glidecompiler
+    kapt Dependencies.glidecompiler
+    implementation Dependencies.glidesvgloader
 
     implementation platform(Dependencies.firebaseBOM)
     implementation Dependencies.firebasektx
