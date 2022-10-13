@@ -19,9 +19,9 @@ class RemoteDataSourceImpl @Inject constructor(
     /**
      * houseWorks
      */
-    override suspend fun createHouseWorks(houseWorks: Chores): Flow<HouseWorkCreateResponse> =
-        flow {
-            emit(apiService.createHouseWorks(houseWorks))
+    override suspend fun createHouseWorks(houseWorks: Chores): Flow<ApiResult<HouseWorkCreateResponse>> =
+        safeFlow {
+            apiService.createHouseWorks(houseWorks)
         }.flowOn(ioDispatcher)
 
     override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {

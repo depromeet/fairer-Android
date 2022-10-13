@@ -57,6 +57,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         val userNameFormat =
             String.format(resources.getString(R.string.user_name), PrefsManager.userName)
         binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
+
     }
 
     private fun setListener() {
@@ -259,6 +260,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         lifecycleScope.launchWhenCreated {
             mainViewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
+                if (it) {
+                    val fm = requireActivity().supportFragmentManager
+                    for (i in 0..fm.backStackEntryCount){
+                        fm.popBackStack()
+                        Timber.d("back stack $i")
+                    }
+                }
             }
         }
     }

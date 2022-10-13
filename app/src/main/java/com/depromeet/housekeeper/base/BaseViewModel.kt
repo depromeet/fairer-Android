@@ -1,5 +1,7 @@
 package com.depromeet.housekeeper.base
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.depromeet.housekeeper.model.response.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +22,7 @@ open class BaseViewModel: ViewModel() {
                 return result.value
             }
             else ->{
-                setNetworkError(false)
+                setNetworkError(true)
             }
         }
         return null

@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper.ui.addHousework.selectTime
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
@@ -14,6 +14,7 @@ import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class AddHouseWorkViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     init {
         setGroupInfo()
@@ -153,10 +154,6 @@ class AddHouseWorkViewModel @Inject constructor(
         }
     }
 
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
     private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> =
         MutableStateFlow(null)
     val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
@@ -229,14 +226,20 @@ class AddHouseWorkViewModel @Inject constructor(
     fun createHouseWorks() {
         viewModelScope.launch {
             mainRepository.createHouseWorks(Chores(_chores.value))
-                .runCatching {
-                    collect {
-                        Timber.d(it.houseWorks.toString())
-                        _houseWorkCreateResponse.value = it.houseWorks
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    result?.houseWorks?.forEach {
+                        if (!it.success) setNetworkError(false)
                     }
-                }.onFailure {
-                    _networkError.value = true
                 }
+//                .runCatching {
+//                    collect {
+//                        Timber.d(it.houseWorks.toString())
+//                        _houseWorkCreateResponse.value = it.houseWorks
+//                    }
+//                }.onFailure {
+//                    _networkError.value = true
+//                }
         }
     }
 }

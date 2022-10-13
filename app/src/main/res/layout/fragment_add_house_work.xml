@@ -16,10 +16,6 @@
             name="currentDate"
             type="String" />
 
-        <variable
-            name="isConnectedNetwork"
-            type="boolean" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,9 +36,8 @@
         <include
             android:id="@+id/layoutNetwork"
             layout="@layout/layout_disconnected_network"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{isConnectedNetwork ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
-            android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_house_work_header">
