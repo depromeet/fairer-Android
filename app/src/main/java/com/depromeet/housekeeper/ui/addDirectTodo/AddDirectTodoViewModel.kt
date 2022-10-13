@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui.addDirectTodo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
@@ -13,6 +14,7 @@ import com.depromeet.housekeeper.util.dayMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -23,7 +25,7 @@ import javax.inject.Inject
 class AddDirectTodoViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     init {
         setGroupInfo()
@@ -202,18 +204,13 @@ class AddDirectTodoViewModel @Inject constructor(
     /**
      * Network Communication
      */
-
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
     // TODO: 팀 조회 API에서 members 정보만 GET
     private fun setGroupInfo() {
         viewModelScope.launch {
-            userRepository.getTeam().runCatching {
-                collect {
-                    _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
-
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _allGroupInfo.value = sortAssignees(result.members as ArrayList<Assignee>)
                     // 직접 추가 뷰라면 "나" 자신 담당자 추가
                     if (_curViewType.value == ViewType.ADD) {
                         setCurAssignees(arrayListOf(getMyInfo()!!))
@@ -231,7 +228,7 @@ class AddDirectTodoViewModel @Inject constructor(
                     collect {
                     }
                 }.onFailure {
-                    _networkError.value = true
+                    setNetworkError(true)
                 }
         }
     }
@@ -245,7 +242,7 @@ class AddDirectTodoViewModel @Inject constructor(
 
                     }
                 }.onFailure {
-                    _networkError.value = true
+                    setNetworkError(true)
                 }
         }
     }
@@ -258,7 +255,7 @@ class AddDirectTodoViewModel @Inject constructor(
                         Timber.d(it.toString())
                     }
                 }.onFailure {
-                    _networkError.value = true
+                    setNetworkError(true)
                 }
         }
     }

@@ -29,6 +29,7 @@ interface ApiService {
         @Body updateChoreBody: UpdateChoreBody,
     ): UpdateChoreResponse
 
+    //todo
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 

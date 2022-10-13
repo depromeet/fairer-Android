@@ -206,9 +206,10 @@ class AddHouseWorkViewModel @Inject constructor(
 
     private fun setGroupInfo() {
         viewModelScope.launch {
-            userRepository.getTeam().runCatching {
-                collect {
-                    _allGroupInfo.value = sortAssignees(it.members as ArrayList<Assignee>)
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null){
+                    _allGroupInfo.value = sortAssignees(result.members as ArrayList<Assignee>)
 
                     // 초기에 "나"만 들어가도록 수정
                     setCurAssignees(arrayListOf(getMyInfo()!!))

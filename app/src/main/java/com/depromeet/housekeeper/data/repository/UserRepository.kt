@@ -24,7 +24,7 @@ class UserRepository @Inject constructor(
     suspend fun buildTeam(buildTeam: BuildTeam) : Flow<BuildTeamResponse> =
         remoteDataSource.buildTeam(buildTeam)
 
-    suspend fun getTeam(): Flow<Groups> = remoteDataSource.getTeam()
+    suspend fun getTeam(): Flow<ApiResult<Groups>> = remoteDataSource.getTeam()
 
     suspend fun getInviteCode(): Flow<GetInviteCode> = remoteDataSource.getInviteCode()
 

@@ -62,7 +62,7 @@ interface RemoteDataSource {
      * teams
      */
     suspend fun buildTeam(buildTeam: BuildTeam): Flow<BuildTeamResponse>
-    suspend fun getTeam(): Flow<Groups>
+    suspend fun getTeam(): Flow<ApiResult<Groups>>
     suspend fun getInviteCode(): Flow<GetInviteCode>
     suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse>
     suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse>

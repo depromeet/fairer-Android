@@ -203,20 +203,20 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             mainRepository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate)
                 .collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    _weekendHouseWorks.value = result.toSortedMap()
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _weekendHouseWorks.value = result.toSortedMap()
 
-                    val choreLeftMap = mutableMapOf<String, Int>()
-                    result.toSortedMap().forEach { item ->
-                        val scheduledDate = item.key
-                        val countLeft = item.value.countLeft
-                        choreLeftMap[scheduledDate] = countLeft
+                        val choreLeftMap = mutableMapOf<String, Int>()
+                        result.toSortedMap().forEach { item ->
+                            val scheduledDate = item.key
+                            val countLeft = item.value.countLeft
+                            choreLeftMap[scheduledDate] = countLeft
+                        }
+                        weekendChoresLeft.update { choreLeftMap }
+                        _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
                     }
-                    weekendChoresLeft.update { choreLeftMap }
-                    _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
                 }
-            }
         }
         getCompleteHouseWorkNumber()
     }
@@ -256,6 +256,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    // todo
+    fun getDetailHouseWork(houseWorkId: Int) {
+        viewModelScope.launch {
+            mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
+                collect {
+                    _userProfiles.value = it.assignees.toMutableList()
+                }
+            }.onFailure {
+            }
+        }
+    }
+
 
     fun getRules() {
         viewModelScope.launch {
@@ -272,27 +284,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getDetailHouseWork(houseWorkId: Int) {
-        viewModelScope.launch {
-            mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
-                collect {
-                    _userProfiles.value = it.assignees.toMutableList()
-                }
-            }.onFailure {
-            }
-        }
-    }
-
     fun getGroupName() {
         viewModelScope.launch {
-            userRepository.getTeam().runCatching {
-                collect {
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    val groupSize: Int = result.members.size
+                    _groupName.value = "${result.teamName} $groupSize"
 
-                    val groupSize: Int = it.members.size
-                    _groupName.value = "${it.teamName} $groupSize"
-
-                    val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
-                    val assignees = listOf(myAssignee) + it.members
+                    val myAssignee = result.members.find { it.memberId == PrefsManager.memberId }!!
+                    val assignees = listOf(myAssignee) + result.members
 
                     _groups.value = assignees.distinct().map {
                         AssigneeSelect(
@@ -303,6 +304,7 @@ class MainViewModel @Inject constructor(
                         )
                     }
                 }
+
             }
         }
     }

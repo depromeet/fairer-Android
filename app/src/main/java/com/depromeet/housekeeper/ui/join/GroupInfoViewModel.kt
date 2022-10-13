@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Message
@@ -11,13 +12,14 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GroupInfoViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
     init {
         getGroupName()
     }
@@ -47,10 +49,11 @@ class GroupInfoViewModel @Inject constructor(
 
     private fun getGroupName() {
         viewModelScope.launch {
-            userRepository.getTeam().runCatching {
-                collect {
-                    _groupName.value = it.teamName
-                    _groups.value = it.members as ArrayList<Assignee>
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null){
+                    _groupName.value = result.teamName
+                    _groups.value = result.members as ArrayList<Assignee>
                     deleteMyInfo()
                 }
             }
