@@ -64,9 +64,9 @@ class RemoteDataSourceImpl @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
-        flow {
-            emit(apiService.getCompletedHouseWorkNumber(scheduledDate))
+    override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
+        safeFlow {
+            apiService.getCompletedHouseWorkNumber(scheduledDate)
         }.flowOn(ioDispatcher)
 
     /**
@@ -117,16 +117,16 @@ class RemoteDataSourceImpl @Inject constructor(
     /**
      * rules
      */
-    override suspend fun createRule(rule: Rule): Flow<RuleResponses> = flow {
-        emit(apiService.createRules(rule))
+    override suspend fun createRule(rule: Rule): Flow<ApiResult<RuleResponses>> = safeFlow {
+        apiService.createRules(rule)
     }.flowOn(ioDispatcher)
 
-    override suspend fun getRules(): Flow<RuleResponses> = flow {
-        emit(apiService.getRules())
+    override suspend fun getRules(): Flow<ApiResult<RuleResponses>> = safeFlow {
+        apiService.getRules()
     }.flowOn(ioDispatcher)
 
-    override suspend fun deleteRule(ruleId: Int): Flow<Response> = flow {
-        emit(apiService.deleteRule(ruleId))
+    override suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>> = safeFlow {
+        apiService.deleteRule(ruleId)
     }.flowOn(ioDispatcher)
 
 

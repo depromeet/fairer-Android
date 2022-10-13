@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.base
 
 import androidx.lifecycle.ViewModel
+import com.depromeet.housekeeper.model.response.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -11,5 +12,17 @@ open class BaseViewModel: ViewModel() {
 
     fun setNetworkError(value: Boolean) {
         _networkError.value = value
+    }
+
+    fun <T : Any> receiveApiResult(result: ApiResult<T>): T? {
+        when (result) {
+            is ApiResult.Success -> {
+                return result.value
+            }
+            else ->{
+                setNetworkError(false)
+            }
+        }
+        return null
     }
 }

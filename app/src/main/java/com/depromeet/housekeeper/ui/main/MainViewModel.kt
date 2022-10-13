@@ -171,6 +171,24 @@ class MainViewModel @Inject constructor(
             .toMutableList()
     }
 
+    fun updateSelectHouseWork(date: String) { // date ex) 2022-10-19
+        _selectHouseWorks.value = weekendHouseWorks.value[date]
+    }
+
+    fun updateSelectUser(selectUser: Int) {
+        _selectUserId.value = selectUser
+
+        val newGroups = _groups.value.map {
+            AssigneeSelect(
+                it.memberId,
+                it.memberName,
+                it.profilePath,
+                it.memberId == selectUser
+            )
+        }
+        _groups.value = newGroups
+    }
+
 
     /**
      * Network Communication
@@ -180,29 +198,22 @@ class MainViewModel @Inject constructor(
         val fromDate = startDateOfWeek.value
         val toDate = getLastDate(fromDate)
 
-        Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
+        Timber.d("$MAIN_TAG getHouseWorks $fromDate : $toDate : ${selectUserId.value}")
         viewModelScope.launch {
-            mainRepository.getPeriodHouseWorkListOfMember(
-                selectUserId.value,
-                fromDate,
-                toDate
-            ).collectLatest { result ->
-                when (result) {
-                    is ApiResult.Success -> {
-                        _weekendHouseWorks.value = result.value.toSortedMap()
+            mainRepository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate)
+                .collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _weekendHouseWorks.value = result.toSortedMap()
 
-                        val choreLeftMap = mutableMapOf<String, Int>()
-                        result.value.toSortedMap().forEach { item ->
-                            val scheduledDate = item.key
-                            val countLeft = item.value.countLeft
-                            choreLeftMap[scheduledDate] = countLeft
-                        }
-                        weekendChoresLeft.update { choreLeftMap }
-                        _selectHouseWorks.value = result.value[dayOfWeek.value.date.substring(0, 10)]
+                    val choreLeftMap = mutableMapOf<String, Int>()
+                    result.toSortedMap().forEach { item ->
+                        val scheduledDate = item.key
+                        val countLeft = item.value.countLeft
+                        choreLeftMap[scheduledDate] = countLeft
                     }
-                    else -> {
-                        setNetworkError(true)
-                    }
+                    weekendChoresLeft.update { choreLeftMap }
+                    _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
                 }
             }
         }
@@ -210,25 +221,21 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun updateSelectHouseWork(date: String) { // date ex) 2022-10-19
-        _selectHouseWorks.value = weekendHouseWorks.value[date]
-    }
-
     //이번주에 끝낸 집안일
     private fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         viewModelScope.launch {
             mainRepository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
-                .runCatching {
-                    collect {
-                        _completeChoreNum.value = it.count
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _completeChoreNum.value = result.count
                     }
-                }.onFailure {
-                    setNetworkError(true)
                 }
         }
     }
 
+    //todo
     fun updateChoreState(houseWork: HouseWork) {
         val toBeStatus = when (houseWork.success) {
             false -> 1
@@ -248,27 +255,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateSelectUser(selectUser: Int) {
-        _selectUserId.value = selectUser
-
-        val newGroups = _groups.value.map {
-            AssigneeSelect(
-                it.memberId,
-                it.memberName,
-                it.profilePath,
-                it.memberId == selectUser
-            )
-        }
-        _groups.value = newGroups
-    }
 
     fun getRules() {
         viewModelScope.launch {
             mainRepository.getRules()
-                .runCatching {
-                    collect {
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
                         _rule.value = when {
-                            it.ruleResponseDtos.isNotEmpty() -> it.ruleResponseDtos.random().ruleName
+                            result.ruleResponseDtos.isNotEmpty() -> result.ruleResponseDtos.random().ruleName
                             else -> ""
                         }
                     }

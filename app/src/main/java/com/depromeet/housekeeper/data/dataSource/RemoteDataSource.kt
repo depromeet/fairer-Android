@@ -30,7 +30,7 @@ interface RemoteDataSource {
         toDate: String
     ): Flow<ApiResult<Map<String, HouseWorks>>>
 
-    suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork>
+    suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>>
 
     /**
      * members
@@ -54,9 +54,9 @@ interface RemoteDataSource {
     /**
      * rules
      */
-    suspend fun createRule(rule: Rule): Flow<RuleResponses>
-    suspend fun getRules(): Flow<RuleResponses>
-    suspend fun deleteRule(ruleId: Int): Flow<Response>
+    suspend fun createRule(rule: Rule): Flow<ApiResult<RuleResponses>>
+    suspend fun getRules(): Flow<ApiResult<RuleResponses>>
+    suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>>
 
     /**
      * teams

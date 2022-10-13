@@ -47,7 +47,7 @@ class MainRepository @Inject constructor(
         toDate: String
     ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
 
-    suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<CompleteHouseWork> =
+    suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
 
     /**
@@ -59,11 +59,11 @@ class MainRepository @Inject constructor(
     /**
      * rules
      */
-    suspend fun createRule(rule: Rule): Flow<RuleResponses> =
+    suspend fun createRule(rule: Rule): Flow<ApiResult<RuleResponses>> =
         remoteDataSource.createRule(rule)
-    suspend fun getRules(): Flow<RuleResponses> =
+    suspend fun getRules(): Flow<ApiResult<RuleResponses>> =
         remoteDataSource.getRules()
-    suspend fun deleteRule(ruleId: Int): Flow<Response> =
+    suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>> =
         remoteDataSource.deleteRule(ruleId)
 
 }
