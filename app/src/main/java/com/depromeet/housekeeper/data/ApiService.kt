@@ -11,7 +11,7 @@ interface ApiService {
     /**
      * houseWorks
      */
-    //todo body 항목 추가됨
+    //todo body에 항목 추가됨
     @POST("/api/houseworks")
     suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 
@@ -30,7 +30,7 @@ interface ApiService {
         @Body updateChoreBody: UpdateChoreBody,
     ): UpdateChoreResponse
 
-    //todo
+    //todo response 변경됨
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 

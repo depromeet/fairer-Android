@@ -85,7 +85,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.networkError.collect{
+            viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
             }
         }

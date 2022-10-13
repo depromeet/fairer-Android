@@ -23,11 +23,15 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragme
     }
 
     override fun viewCreated() {
+        initView()
         bindingVm()
         setAdapter()
         initListener()
     }
 
+    private fun initView() {
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
@@ -37,9 +41,16 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>(R.layout.fragme
                 spannable()
             }
         }
+
         lifecycleScope.launchWhenCreated {
             viewModel.groups.collect {
                 setAdapter()
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect{
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

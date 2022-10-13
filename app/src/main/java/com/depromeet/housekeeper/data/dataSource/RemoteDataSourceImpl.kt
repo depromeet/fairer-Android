@@ -135,16 +135,16 @@ class RemoteDataSourceImpl @Inject constructor(
      */
     override suspend fun buildTeam(
         buildTeam: BuildTeam,
-    ): Flow<BuildTeamResponse> = flow {
-        emit(apiService.buildTeam(buildTeam))
+    ): Flow<ApiResult<BuildTeamResponse>> = safeFlow {
+        apiService.buildTeam(buildTeam)
     }.flowOn(ioDispatcher)
 
     override suspend fun getTeam(): Flow<ApiResult<Groups>> = safeFlow {
         apiService.getTeamData()
     }.flowOn(ioDispatcher)
 
-    override suspend fun getInviteCode(): Flow<GetInviteCode> = flow {
-        emit(apiService.getInviteCode())
+    override suspend fun getInviteCode(): Flow<ApiResult<GetInviteCode>> = safeFlow {
+        apiService.getInviteCode()
     }.flowOn(ioDispatcher)
 
     override suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse> = flow {
