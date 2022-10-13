@@ -57,7 +57,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         val userNameFormat =
             String.format(resources.getString(R.string.user_name), PrefsManager.userName)
         binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
-
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
     private fun setListener() {

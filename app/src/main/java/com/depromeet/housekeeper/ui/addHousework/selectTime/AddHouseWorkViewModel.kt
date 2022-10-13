@@ -111,8 +111,8 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun getPosition(type: PositionType): Int {
         return when (type) {
-            PositionType.CUR -> _positions.value[_positions.value.size - 1]
-            PositionType.PRE -> _positions.value[_positions.value.size - 2]
+            PositionType.CUR -> positions.value[positions.value.size - 1]
+            PositionType.PRE -> positions.value[positions.value.size - 2]
         }
     }
 
@@ -145,7 +145,7 @@ class AddHouseWorkViewModel @Inject constructor(
     }
 
     fun getChores(): ArrayList<Chore> {
-        return _chores.value
+        return chores.value
     }
 
     fun updateChoreDate() {
@@ -153,12 +153,6 @@ class AddHouseWorkViewModel @Inject constructor(
             chore.scheduledDate = _curDate.value
         }
     }
-
-    private val _houseWorkCreateResponse: MutableStateFlow<List<HouseWork>?> =
-        MutableStateFlow(null)
-    val houseWorkCreateResponse: StateFlow<List<HouseWork>?>
-        get() = _houseWorkCreateResponse
-
 
     private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
@@ -232,14 +226,6 @@ class AddHouseWorkViewModel @Inject constructor(
                         if (!it.success) setNetworkError(false)
                     }
                 }
-//                .runCatching {
-//                    collect {
-//                        Timber.d(it.houseWorks.toString())
-//                        _houseWorkCreateResponse.value = it.houseWorks
-//                    }
-//                }.onFailure {
-//                    _networkError.value = true
-//                }
         }
     }
 }

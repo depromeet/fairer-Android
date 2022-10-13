@@ -51,7 +51,6 @@ class HouseKeeperActivity : AppCompatActivity() {
         getDynamicLink()
     }
 
-
     private fun bindingVm() {
         lifecycleScope.launchWhenStarted {
             viewModel.isInternetDisconnected.collect{

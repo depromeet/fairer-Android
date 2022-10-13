@@ -2,8 +2,11 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -59,20 +62,11 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         }
 
-//        lifecycleScope.launchWhenCreated {
-//            viewModel.houseWorkCreateResponse.collect {
-//                if (it?.any { it.success } == false) {
-//                    // 화면 전환
-//                    findNavController().navigate(R.id.action_addHouseWorkFragment_to_mainFragment)
-//                }
-//            }
-//        }
-
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
                 if (it) {
-                    findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+                    fragmentManager?.popBackStack(R.id.SelectSpaceFragment, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }
