@@ -224,7 +224,7 @@ class AddHouseWorkViewModel @Inject constructor(
                 .collectLatest {
                     val result = receiveApiResult(it)
                     result?.houseWorks?.forEach {
-                        if (!it.success) setNetworkError(false)
+                        if (!it.success) setNetworkError(true)
                     }
                 }
         }

@@ -50,15 +50,19 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        setAdapter()
+        initView()
         bindingVm()
+        setAdapter()
         initListener()
     }
 
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
-        viewModel.setDate(navArgs.selectDate.date)
+        viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
             ViewType.ADD -> {
@@ -85,7 +89,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
-                binding.isConnectedNetwork = it
+                binding.layoutNetwork.isNetworkError = it
             }
         }
 

@@ -11,6 +11,7 @@ interface ApiService {
     /**
      * houseWorks
      */
+    //todo body 항목 추가됨
     @POST("/api/houseworks")
     suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
 

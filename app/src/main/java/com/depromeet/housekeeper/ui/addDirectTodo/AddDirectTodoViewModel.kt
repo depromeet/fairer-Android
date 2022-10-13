@@ -27,63 +27,31 @@ class AddDirectTodoViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    init {
-        setGroupInfo()
-    }
-
     private val _curViewType: MutableStateFlow<ViewType> =
         MutableStateFlow(ViewType.ADD)
     val curViewType: StateFlow<ViewType>
         get() = _curViewType
 
-    fun setViewType(viewType: ViewType) {
-        _curViewType.value = viewType
-    }
 
     private val _houseWorkId: MutableStateFlow<Int> = MutableStateFlow(-1)
     val houseWorkId: StateFlow<Int>
         get() = _houseWorkId
 
-    fun setHouseWorkId(id: Int) {
-        _houseWorkId.value = id
-    }
 
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
     val curDate: StateFlow<String>
         get() = _curDate
 
-    fun setDate(date: String) {
-        val lastIndex = date.indexOfLast { it == '-' }
-        val requestDate = date.dropLast(date.length - lastIndex)
-        _curDate.value = requestDate
-    }
-
-    fun updateChoreDate() {
-        _chores.value[0].scheduledDate = _curDate.value
-    }
-
     private val _curChoreName: MutableStateFlow<String> =
         MutableStateFlow("")
     val curChoreName: StateFlow<String?>
         get() = _curChoreName
 
-    fun updateChoreName(name: String) {
-        _chores.value[0].houseWorkName = name
-    }
-
     private val _curTime: MutableStateFlow<String?> =
         MutableStateFlow(null)
     val curTime: StateFlow<String?>
         get() = _curTime
-
-    fun updateTime(hour: Int, min: Int) {
-        _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
-    }
-
-    fun updateChoreTime(time: String?) {
-        _chores.value[0].scheduledTime = time
-    }
 
     private val _curSpace: MutableStateFlow<String> =
         MutableStateFlow(Chore.ETC_SPACE) // ETC
@@ -95,42 +63,30 @@ class AddDirectTodoViewModel @Inject constructor(
     val allGroupInfo: StateFlow<ArrayList<Assignee>>
         get() = _allGroupInfo
 
-    private fun getMyInfo(): Assignee? {
-        var temp: Assignee? = null
-        _allGroupInfo.value.map {
-            if (it.memberId == PrefsManager.memberId) {
-                temp = it
-            }
-        }
-        return temp
-    }
-
     private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val curAssignees: StateFlow<ArrayList<Assignee>>
         get() = _curAssignees
-
-    fun setCurAssignees(assignees: ArrayList<Assignee>) {
-        _curAssignees.value = assignees
-    }
-
-    fun getCurAssignees(): ArrayList<Assignee> {
-        return _curAssignees.value
-    }
-
-    fun updateAssigneeId() {
-        val assigneeIds: ArrayList<Int> = arrayListOf()
-        _curAssignees.value.map {
-            assigneeIds.add(it.memberId)
-        }
-        _chores.value[0].assignees = assigneeIds
-    }
 
     // 직접 추가 or 수정은 chore 개수 1
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
         MutableStateFlow(arrayListOf(Chore()))
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
+
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String>
+        get() = _selectCalendar
+
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.MONTH, this.get(Calendar.MONTH))
+        firstDayOfWeek = Calendar.MONDAY
+        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+
+    init {
+        setGroupInfo()
+    }
 
     fun initDirectChore() {
         _chores.value[0].assignees = arrayListOf(PrefsManager.memberId)
@@ -154,16 +110,6 @@ class AddDirectTodoViewModel @Inject constructor(
         setCurAssignees(curAssignees as ArrayList<Assignee>)
     }
 
-
-    private val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.MONTH, this.get(Calendar.MONTH))
-        firstDayOfWeek = Calendar.MONDAY
-        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    }
-
-    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
-    val selectCalendar: StateFlow<String>
-        get() = _selectCalendar
 
     fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
@@ -194,16 +140,73 @@ class AddDirectTodoViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        setDate(_selectCalendar.value)
+        setCurrentDate(_selectCalendar.value)
         val str = _selectCalendar.value.split("-")
         val day = dayMapper(str[3])
         return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+    }
+
+    fun updateChoreDate() {
+        chores.value[0].scheduledDate = curDate.value
+    }
+
+    fun updateChoreName(name: String) {
+        _chores.value[0].houseWorkName = name
+    }
+
+    fun updateTime(hour: Int, min: Int) {
+        _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
+    }
+
+    fun updateChoreTime(time: String?) {
+        _chores.value[0].scheduledTime = time
+    }
+
+    fun updateAssigneeId() {
+        val assigneeIds: ArrayList<Int> = arrayListOf()
+        _curAssignees.value.map {
+            assigneeIds.add(it.memberId)
+        }
+        _chores.value[0].assignees = assigneeIds
+    }
+
+    fun setViewType(viewType: ViewType) {
+        _curViewType.value = viewType
+    }
+
+    fun setCurAssignees(assignees: ArrayList<Assignee>) {
+        _curAssignees.value = assignees
+    }
+
+    fun getCurAssignees(): ArrayList<Assignee> {
+        return _curAssignees.value
+    }
+
+    fun setHouseWorkId(id: Int) {
+        _houseWorkId.value = id
+    }
+
+    fun setCurrentDate(date: String) {
+        val lastIndex = date.indexOfLast { it == '-' }
+        val requestDate = date.dropLast(date.length - lastIndex)
+        _curDate.value = requestDate
+    }
+
+    private fun getMyInfo(): Assignee? {
+        var temp: Assignee? = null
+        _allGroupInfo.value.map {
+            if (it.memberId == PrefsManager.memberId) {
+                temp = it
+            }
+        }
+        return temp
     }
 
 
     /**
      * Network Communication
      */
+
     // TODO: 팀 조회 API에서 members 정보만 GET
     private fun setGroupInfo() {
         viewModelScope.launch {
@@ -224,16 +227,17 @@ class AddDirectTodoViewModel @Inject constructor(
     fun createHouseWorks() {
         viewModelScope.launch {
             mainRepository.createHouseWorks(Chores(_chores.value))
-                .runCatching {
-                    collect {
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    result?.houseWorks?.forEach {
+                        if (!it.success) setNetworkError(true)
                     }
-                }.onFailure {
-                    setNetworkError(true)
                 }
         }
     }
 
 
+    // todo api 변경후 작업
     fun deleteHouseWork() {
         viewModelScope.launch {
             mainRepository.deleteHouseWork(houseWorkId.value)
@@ -247,6 +251,7 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
+    // todo api 변경후 작업
     fun editHouseWork() {
         viewModelScope.launch {
             mainRepository.editHouseWork(houseWorkId.value, _chores.value[0])
@@ -259,6 +264,5 @@ class AddDirectTodoViewModel @Inject constructor(
                 }
         }
     }
-
 
 }
