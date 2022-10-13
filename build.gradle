@@ -3,9 +3,13 @@ import deptromeet.housekeeper.Dependencies
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     dependencies {
-        classpath Dependencies.navigationSafeArgs
         classpath Dependencies.firebaseSdk
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+        def nav_version = "2.5.2"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
+    repositories {
+        google()
     }
 }
 plugins {

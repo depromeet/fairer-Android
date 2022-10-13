@@ -6,8 +6,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("kotlin-android")
     id("kotlin-kapt")
-    id("org.jetbrains.kotlin.plugin.serialization")
     id 'androidx.navigation.safeargs.kotlin'
+    id("org.jetbrains.kotlin.plugin.serialization")
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'dagger.hilt.android.plugin'
@@ -77,8 +77,7 @@ dependencies {
 
     implementation Dependencies.navVersionKtx
     implementation Dependencies.navVersionUi
-    implementation Dependencies.navVersionDynamicFeatures
-    androidTestImplementation Dependencies.navTesting
+    implementation Dependencies.navVersionDynamic
 
     implementation Dependencies.okhttp
     implementation Dependencies.okhttpLogging
