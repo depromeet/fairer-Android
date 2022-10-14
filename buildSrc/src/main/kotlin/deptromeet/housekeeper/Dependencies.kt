@@ -43,13 +43,11 @@ object Dependencies {
   private const val COROUTINES = "1.5.0"
   const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES"
 
-  private const val NAV_VERSION = "2.3.5"
+  private const val NAV_VERSION = "2.5.2"
   const val navVersionKtx = "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
   const val navVersionUi = "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
-  const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION"
-  const val navVersionDynamicFeatures =
-    "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
-  const val navTesting = "androidx.navigation:navigation-testing:$NAV_VERSION"
+  const val navVersionDynamic = "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
+
 
   private const val OKHTTP = "4.3.1"
   const val okhttp = "com.squareup.okhttp3:okhttp:OKHTTP"
@@ -64,7 +62,7 @@ object Dependencies {
   const val coroutineAdapter =
     "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$COROUTINE_ADAPTER"
 
-  private const val MOSHI = "1.12.0"
+  private const val MOSHI = "1.14.0"
   const val moshi = "com.squareup.moshi:moshi:$MOSHI"
   const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:$MOSHI"
   const val moshiCodegen = "com.squareup.moshi:moshi-kotlin-codegen:$MOSHI"
@@ -98,7 +96,9 @@ object Dependencies {
 
   private const val GLIDE = "4.13.0"
   const val glide ="com.github.bumptech.glide:glide:$GLIDE"
-  const val glideannotation ="com.github.bumptech.glide:compiler:$GLIDE"
+  const val glidecompiler ="com.github.bumptech.glide:compiler:$GLIDE"
+  const val glideannotation ="com.github.bumptech.glide:annotations:$GLIDE"
+  const val glidesvgloader ="com.caverock:androidsvg:1.2.1"
 
   private const val WORKER_MANAGER = "2.7.1"
   const val workermanager = "androidx.work:work-runtime-ktx:$WORKER_MANAGER"

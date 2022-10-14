@@ -71,6 +71,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.etName.fairerEt.addTextChangedListener {
             val value: String = binding.etName.fairerEt.text.toString()
+            viewModel.getNameData(value)
             if (!value.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
@@ -83,6 +84,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
         binding.etStatusMessage.fairerEt.addTextChangedListener {
             val value: String = binding.etStatusMessage.fairerEt.text.toString()
+            viewModel.getMassageData(value)
             if (!value.matches(pattern.toRegex())) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false

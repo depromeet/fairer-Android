@@ -6,7 +6,7 @@ import android.text.util.Linkify
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import coil.load
+import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
 import java.util.regex.Pattern
@@ -25,9 +25,12 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:loadImage")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String) {
-        imageView.load(url) {
-            crossfade(true)
-        }
+        Glide.with(imageView.context)
+            .load(url)
+            .placeholder(R.drawable.bg_profile_imageview_inactive)
+            .error(R.drawable.bg_profile_imageview_inactive)
+            .fitCenter()
+            .into(imageView)
     }
 
     @androidx.databinding.BindingAdapter("app:signViewType")
@@ -52,11 +55,12 @@ object BindingAdapter {
     @androidx.databinding.BindingAdapter("app:imageUrl", "app:placeholder")
     @JvmStatic
     fun loadImage(imageView: ImageView, url: String, placeholder: Drawable) {
-        imageView.load(url) {
-            placeholder(placeholder)
-            crossfade(true)
-        }
-
+        Glide.with(imageView.context)
+            .load(url)
+            .placeholder(R.drawable.bg_profile_imageview_inactive)
+            .error(R.drawable.bg_profile_imageview_inactive)
+            .fitCenter()
+            .into(imageView)
     }
 
     @androidx.databinding.BindingAdapter("app:setLinkify")

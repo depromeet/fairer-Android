@@ -23,6 +23,22 @@ class SettingProfileViewModel @Inject constructor(
     val myData: StateFlow<ProfileData?>
         get() = _myData
 
+    private val _nameData:MutableStateFlow<String> = MutableStateFlow("")
+    val nameData: StateFlow<String>
+        get() = _nameData
+
+    private val _massageData:MutableStateFlow<String> = MutableStateFlow("")
+    val massageData: StateFlow<String>
+        get() = _massageData
+
+    fun getNameData(name:String){
+        _nameData.value = name
+    }
+
+    fun getMassageData(massage:String){
+        _massageData.value = massage
+    }
+
     fun getProfile() {
         if (PrefsManager.getUserProfile().memberName == "" || PrefsManager.getUserProfile().profilePath == "") {
             getMe()

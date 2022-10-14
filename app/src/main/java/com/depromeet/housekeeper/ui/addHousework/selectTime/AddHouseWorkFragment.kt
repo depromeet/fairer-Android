@@ -74,6 +74,8 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initListener() {
+        binding.switchHouseworkTime.isChecked = false
+        binding.switchHouseworkRepeat.isChecked = false
         // header title
         binding.addHouseWorkHeader.defaultHeaderTitleTv.text = ""
 
@@ -107,10 +109,11 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         })
 
-        binding.addHouseWorkAllDayCheckBox.apply {
-            setOnClickListener {
+        binding.switchHouseworkTime.apply {
+            setOnCheckedChangeListener { _, isChecked ->
                 val time = binding.todoTimePicker.getDisPlayedTime()
                 viewModel.updateTime(time.first, time.second)
+                binding.timeSwitch = isChecked
             }
         }
 
@@ -171,18 +174,14 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
     }
 
     private fun updateTime() {
-        binding.addHouseWorkAllDayCheckBox.isChecked = false
         val time = binding.todoTimePicker.getDisPlayedTime()
         viewModel.updateTime(time.first, time.second)
     }
 
     private fun updateChore(position: Int) {
         when {
-            binding.addHouseWorkAllDayCheckBox.isChecked -> viewModel.updateChore(
-                null,
-                position
-            )
-            else -> viewModel.updateChore(viewModel.curTime.value, position)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChore(viewModel.curTime.value, position)
+            else -> viewModel.updateChore(null, position)
         }
     }
 
@@ -190,11 +189,11 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         val chore = viewModel.getChore(position)
         if (chore.scheduledTime == null) {
             binding.todoTimePicker.initDisPlayedValue()
-            binding.addHouseWorkAllDayCheckBox.isChecked = true
+            binding.switchHouseworkTime.isChecked = false
         } else {
             val time = parseTime(chore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
-            binding.addHouseWorkAllDayCheckBox.isChecked = false
+            binding.switchHouseworkTime.isChecked = true
         }
 
         val curAssignees = arrayListOf<Assignee>()
