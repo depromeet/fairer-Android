@@ -37,8 +37,8 @@ interface RemoteDataSource {
      */
     suspend fun getProfileImages(): Flow<ProfileImages>
     suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>
-    suspend fun getMe(): Flow<ProfileData>
-    suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody>
+    suspend fun getMe(): Flow<ApiResult<ProfileData>>
+    suspend fun updateMe(editProfileModel: EditProfileModel): Flow<ApiResult<EditResponseBody>>
 
     /**
      * oauth

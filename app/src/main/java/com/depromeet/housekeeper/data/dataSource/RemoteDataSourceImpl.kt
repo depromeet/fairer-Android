@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-//todo CoroutineDispatcher IO 사용해서 server로부터 정보 받아오도록 변경
 class RemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
     private val ioDispatcher: CoroutineDispatcher
@@ -81,13 +80,13 @@ class RemoteDataSourceImpl @Inject constructor(
             emit(apiService.updateMember(updateMember = updateMember))
         }.flowOn(ioDispatcher)
 
-    override suspend fun getMe(): Flow<ProfileData> = flow {
-        emit(apiService.getMe())
+    override suspend fun getMe(): Flow<ApiResult<ProfileData>> = safeFlow {
+        apiService.getMe()
     }.flowOn(ioDispatcher)
 
-    override suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody> =
-        flow {
-            emit(apiService.updateMe(editProfileModel))
+    override suspend fun updateMe(editProfileModel: EditProfileModel): Flow<ApiResult<EditResponseBody>> =
+        safeFlow {
+            apiService.updateMe(editProfileModel)
         }.flowOn(ioDispatcher)
 
 

@@ -44,9 +44,9 @@ class UserRepository @Inject constructor(
     suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> =
         remoteDataSource.updateMember(updateMember)
 
-    suspend fun getMe(): Flow<ProfileData> = remoteDataSource.getMe()
+    suspend fun getMe(): Flow<ApiResult<ProfileData>> = remoteDataSource.getMe()
 
-    suspend fun updateMe(editProfileModel: EditProfileModel): Flow<EditResponseBody> =
+    suspend fun updateMe(editProfileModel: EditProfileModel): Flow<ApiResult<EditResponseBody>> =
         remoteDataSource.updateMe(editProfileModel)
 
     /**

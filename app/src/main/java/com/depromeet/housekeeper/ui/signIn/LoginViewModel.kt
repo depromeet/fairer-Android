@@ -1,8 +1,8 @@
 package com.depromeet.housekeeper.ui.signIn
 
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.request.SocialType
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)
     val response: StateFlow<LoginResponse?>
