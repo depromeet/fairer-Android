@@ -35,9 +35,14 @@ class SignProfileFragment : BaseFragment<FragmentSignProfileBinding>(R.layout.fr
 
     override fun viewCreated() {
         Timber.d(navArgs.name)
+        initView()
         initListener()
         setAdapter()
         bindingVm()
+    }
+
+    private fun initView() {
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -66,6 +71,12 @@ class SignProfileFragment : BaseFragment<FragmentSignProfileBinding>(R.layout.fr
                         SignProfileFragmentDirections.actionSignProfileFragmentToJoinGroupFragment()
                     )
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

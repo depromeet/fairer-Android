@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.ui.settings
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository

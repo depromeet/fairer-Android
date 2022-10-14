@@ -5,10 +5,7 @@ import android.app.DatePickerDialog
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
@@ -22,7 +19,6 @@ import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
-
 
 @AndroidEntryPoint
 class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {

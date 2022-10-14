@@ -35,21 +35,21 @@ interface RemoteDataSource {
     /**
      * members
      */
-    suspend fun getProfileImages(): Flow<ProfileImages>
-    suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse>
+    suspend fun getProfileImages(): Flow<ApiResult<ProfileImages>>
+    suspend fun updateMember(updateMember: UpdateMember): Flow<ApiResult<UpdateMemberResponse>>
     suspend fun getMe(): Flow<ApiResult<ProfileData>>
     suspend fun updateMe(editProfileModel: EditProfileModel): Flow<ApiResult<EditResponseBody>>
 
     /**
      * oauth
      */
-    suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse>
+    suspend fun getGoogleLogin(socialType: SocialType): Flow<ApiResult<LoginResponse>>
     suspend fun logout(): Flow<ApiResult<Unit>>
 
     /**
      * presets
      */
-    suspend fun getHouseWorkList(): Flow<List<ChoreList>>
+    suspend fun getHouseWorkList(): Flow<ApiResult<List<ChoreList>>>
 
     /**
      * rules
@@ -64,14 +64,14 @@ interface RemoteDataSource {
     suspend fun buildTeam(buildTeam: BuildTeam): Flow<ApiResult<BuildTeamResponse>>
     suspend fun getTeam(): Flow<ApiResult<Groups>>
     suspend fun getInviteCode(): Flow<ApiResult<GetInviteCode>>
-    suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse>
-    suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse>
+    suspend fun updateTeam(teamName: BuildTeam): Flow<ApiResult<TeamUpdateResponse>>
+    suspend fun joinTeam(inviteCode: JoinTeam): Flow<ApiResult<JoinTeamResponse>>
     suspend fun leaveTeam(): Flow<ApiResult<Unit>>
 
     /**
     fcm
      */
-    suspend fun saveToken(token: Token): Flow<Unit>
-    suspend fun sendMessage(message: Message): Flow<Message>
+    suspend fun saveToken(token: Token): Flow<ApiResult<Unit>>
+    suspend fun sendMessage(message: Message): Flow<ApiResult<Message>>
 
 }

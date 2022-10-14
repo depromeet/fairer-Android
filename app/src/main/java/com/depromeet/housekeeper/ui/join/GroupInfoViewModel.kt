@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.ui.join
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseViewModel

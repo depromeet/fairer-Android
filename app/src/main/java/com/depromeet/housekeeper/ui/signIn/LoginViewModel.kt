@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.signIn
 
-
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
@@ -11,6 +10,7 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,13 +37,12 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.getGoogleLogin(
                 SocialType("GOOGLE")
-            ).runCatching {
-                collect {
-                    _response.value = it
-                    Timber.d("!@#${it.memberName.toString()}")
+            ).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _response.value = result
+                    Timber.d("!@#${result.memberName.toString()}")
                 }
-            }.onFailure {
-                Timber.e("$it")
             }
         }
     }
@@ -51,13 +50,11 @@ class LoginViewModel @Inject constructor(
     fun saveToken() {
         viewModelScope.launch {
             userRepository.saveToken(Token(token = PrefsManager.deviceToken))
-                .runCatching {
-                    collect {
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
                         Timber.d("set fcm token response $this")
                     }
-                }
-                .onFailure {
-                    Timber.d("set fcm token error $it")
                 }
         }
     }

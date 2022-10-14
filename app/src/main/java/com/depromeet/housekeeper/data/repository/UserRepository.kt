@@ -13,7 +13,7 @@ class UserRepository @Inject constructor(
     /**
      * oauth
      */
-    suspend fun getGoogleLogin(socialType: SocialType): Flow<LoginResponse> =
+    suspend fun getGoogleLogin(socialType: SocialType): Flow<ApiResult<LoginResponse>> =
         remoteDataSource.getGoogleLogin(socialType)
 
     suspend fun logout(): Flow<ApiResult<Unit>> = remoteDataSource.logout()
@@ -28,20 +28,20 @@ class UserRepository @Inject constructor(
 
     suspend fun getInviteCode(): Flow<ApiResult<GetInviteCode>> = remoteDataSource.getInviteCode()
 
-    suspend fun updateTeam(teamName: BuildTeam): Flow<TeamUpdateResponse> =
+    suspend fun updateTeam(teamName: BuildTeam): Flow<ApiResult<TeamUpdateResponse>> =
         remoteDataSource.updateTeam(teamName)
 
-    suspend fun joinTeam(inviteCode: JoinTeam): Flow<JoinTeamResponse> =
+    suspend fun joinTeam(inviteCode: JoinTeam): Flow<ApiResult<JoinTeamResponse>> =
         remoteDataSource.joinTeam(inviteCode)
 
     suspend fun leaveTeam() = remoteDataSource.leaveTeam()
     /**
      * members
      */
-    suspend fun getProfileImages(): Flow<ProfileImages> =
+    suspend fun getProfileImages(): Flow<ApiResult<ProfileImages>> =
         remoteDataSource.getProfileImages()
 
-    suspend fun updateMember(updateMember: UpdateMember): Flow<UpdateMemberResponse> =
+    suspend fun updateMember(updateMember: UpdateMember): Flow<ApiResult<UpdateMemberResponse>> =
         remoteDataSource.updateMember(updateMember)
 
     suspend fun getMe(): Flow<ApiResult<ProfileData>> = remoteDataSource.getMe()
@@ -52,10 +52,10 @@ class UserRepository @Inject constructor(
     /**
     fcm
      */
-    suspend fun saveToken(token: Token): Flow<Unit> =
+    suspend fun saveToken(token: Token): Flow<ApiResult<Unit>> =
         remoteDataSource.saveToken(token)
 
-    suspend fun sendMessage(message: Message): Flow<Message> =
+    suspend fun sendMessage(message: Message): Flow<ApiResult<Message>> =
         remoteDataSource.sendMessage(message)
 
 }

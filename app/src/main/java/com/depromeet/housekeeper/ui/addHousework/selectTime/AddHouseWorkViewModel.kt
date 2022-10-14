@@ -7,7 +7,6 @@ import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.Chores
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

@@ -53,7 +53,7 @@ class MainRepository @Inject constructor(
     /**
      * presets
      */
-    suspend fun getHouseWorkList(): Flow<List<ChoreList>> =
+    suspend fun getHouseWorkList(): Flow<ApiResult<List<ChoreList>>> =
         remoteDataSource.getHouseWorkList()
 
     /**
