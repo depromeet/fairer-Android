@@ -5,11 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.Chores
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
-import com.depromeet.housekeeper.util.dayMapper
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -190,10 +189,9 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        val str = _selectCalendar.value.split("-")
-        val day = dayMapper(str[3])
         setDate(_selectCalendar.value)
-        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+        val str = _selectCalendar.value.split("-")
+        return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
