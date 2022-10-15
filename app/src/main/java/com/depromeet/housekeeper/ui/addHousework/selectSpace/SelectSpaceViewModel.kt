@@ -3,9 +3,8 @@ package com.depromeet.housekeeper.ui.addHousework.selectSpace
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.data.repository.MainRepository
-import com.depromeet.housekeeper.model.request.ChoreList
 import com.depromeet.housekeeper.model.DayOfWeek
-import com.depromeet.housekeeper.util.dayMapper
+import com.depromeet.housekeeper.model.request.ChoreList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -123,9 +122,7 @@ class SelectSpaceViewModel @Inject constructor(
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
         val str = _selectCalendar.value.date.split("-")
-        val day = dayMapper(str[3])
-        Timber.d("TAG ${str[3]}")
-        return "${str[0]}년 ${str[1]}월 ${str[2]}일 $day"
+        return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
 
 
