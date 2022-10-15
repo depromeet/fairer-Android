@@ -2,16 +2,10 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
@@ -25,7 +19,6 @@ import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
-
 
 @AndroidEntryPoint
 class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
@@ -45,20 +38,17 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         setAdapter()
         bindingVm()
         initListener()
+        initView()
     }
 
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
-
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
                 binding.addHouseWorkDateTv.text = viewModel.bindingDate()
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.networkError.collect {
-                binding.isConnectedNetwork = it
             }
         }
 
@@ -69,10 +59,10 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.houseWorkCreateResponse.collect {
-                if (it?.any { it.success } == false) {
-                    // 화면 전환
-                    findNavController().navigate(R.id.action_addHouseWorkFragment_to_mainFragment)
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
+                if (it) {
+                    fragmentManager?.popBackStack(R.id.SelectSpaceFragment, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }

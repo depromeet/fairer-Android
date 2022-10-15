@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper.ui.settings
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.EditProfileModel
 import com.depromeet.housekeeper.model.response.ProfileData
@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _myData: MutableStateFlow<ProfileData?> = MutableStateFlow(null)
     val myData: StateFlow<ProfileData?>
@@ -57,13 +58,11 @@ class SettingProfileViewModel @Inject constructor(
      */
     private fun getMe() {
         viewModelScope.launch {
-            userRepository.getMe().runCatching {
-                collect {
-                    Timber.d("getMe : $it")
-                    _myData.value = it
+            userRepository.getMe().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _myData.value = result
                 }
-            }.onFailure {
-                Timber.e("getMe : $it")
             }
         }
     }
@@ -79,13 +78,10 @@ class SettingProfileViewModel @Inject constructor(
                 EditProfileModel(
                     memberName, profilePath, statueMessage
                 )
-            ).runCatching {
-                collect {
-                    Timber.d("updateMe: ${it.message}")
-                }
+            ).collectLatest {
+                receiveApiResult(it)
             }
         }
     }
-
 
 }

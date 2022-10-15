@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui.signIn
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -35,10 +36,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     override fun viewCreated() {
+        initView()
         bindingVM()
         initListener()
     }
 
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun initListener() {
         binding.signInButton.setOnClickListener {
@@ -116,6 +121,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     PrefsManager.setMemberId(response.memberId)
                     initNavigation(response)
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

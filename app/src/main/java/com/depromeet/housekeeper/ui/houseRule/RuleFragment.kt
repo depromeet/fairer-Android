@@ -1,13 +1,8 @@
 package com.depromeet.housekeeper.ui.houseRule
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -30,6 +25,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
     }
 
     override fun viewCreated() {
+        initView()
         initListener()
         setAdapter()
         bindingVm()
@@ -38,6 +34,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
 
     private fun initView() {
         binding.textRule = ""
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
     private fun bindingVm() {
@@ -56,6 +53,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                 }
             }
         }
+
         lifecycleScope.launchWhenCreated {
             viewModel.backgroundBox.collect {
                 when (it) {
@@ -78,6 +76,12 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                         binding.tvInfo.setTextColor(resources.getColor(R.color.gray_600))
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

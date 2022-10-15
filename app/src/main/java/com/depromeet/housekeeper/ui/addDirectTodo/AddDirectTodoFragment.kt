@@ -2,15 +2,10 @@ package com.depromeet.housekeeper.ui.addDirectTodo
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -50,15 +45,19 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
-        setAdapter()
+        initView()
         bindingVm()
+        setAdapter()
         initListener()
     }
 
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
-        viewModel.setDate(navArgs.selectDate.date)
+        viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
             ViewType.ADD -> {
@@ -85,7 +84,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
-                binding.isConnectedNetwork = it
+                binding.layoutNetwork.isNetworkError = it
             }
         }
 

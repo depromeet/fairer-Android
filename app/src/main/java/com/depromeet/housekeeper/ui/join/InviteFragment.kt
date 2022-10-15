@@ -50,7 +50,6 @@ class InviteFragment : BaseFragment<FragmentInviteBinding>(R.layout.fragment_inv
         bindingVm()
     }
 
-
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
             viewModel.viewType.collect {
@@ -89,6 +88,12 @@ class InviteFragment : BaseFragment<FragmentInviteBinding>(R.layout.fragment_inv
                     }
                     binding.inviteGroupNameTv.text = spannerString
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
             }
         }
     }

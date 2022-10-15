@@ -3,14 +3,8 @@ package com.depromeet.housekeeper.ui.main
 import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Color
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -63,6 +57,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         val userNameFormat =
             String.format(resources.getString(R.string.user_name), PrefsManager.userName)
         binding.tvName.text = getSpannableText(userNameFormat, 0, userNameFormat.indexOf("님"))
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
     private fun setListener() {
@@ -89,24 +84,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.updateSelectDate(DateUtil.getTodayFull())
             mainViewModel.updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
-
-    }
-
-    private fun createDatePickerDialog() {
-        val currentDate = mainViewModel.dayOfWeek.value
-
-        val datePickerDialog = DatePickerDialog(
-            this.requireContext(),
-            { _, year, month, dayOfMonth ->
-                //TODO("DayOfWeek Adapter 변경")
-                val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
-                dayOfAdapter.updateDate(list)
-            },
-            currentDate.date.split("-")[0].toInt(),
-            currentDate.date.split("-")[1].toInt() - 1,
-            currentDate.date.split("-")[2].toInt(),
-        )
-        datePickerDialog.show()
 
     }
 
@@ -231,12 +208,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.networkError.collect {
-                binding.isConnectedNetwork = it
-            }
-        }
-
-        lifecycleScope.launchWhenCreated {
             mainViewModel.groupName.collect {
                 binding.tvGroupName.text = it
             }
@@ -265,6 +236,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
                 mainViewModel.getHouseWorks()
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
+                if (it) {
+                    val fm = requireActivity().supportFragmentManager
+                    for (i in 0..fm.backStackEntryCount) {
+                        fm.popBackStack()
+                        Timber.d("back stack $i")
+                    }
+                }
             }
         }
     }
@@ -342,6 +326,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
         }
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvWeek)
+    }
+
+    private fun createDatePickerDialog() {
+        val currentDate = mainViewModel.dayOfWeek.value
+
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
+            { _, year, month, dayOfMonth ->
+                //TODO("DayOfWeek Adapter 변경")
+                val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+                dayOfAdapter.updateDate(list)
+            },
+            currentDate.date.split("-")[0].toInt(),
+            currentDate.date.split("-")[1].toInt() - 1,
+            currentDate.date.split("-")[2].toInt(),
+        )
+        datePickerDialog.show()
     }
 
 

@@ -3,32 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View" />
+        <variable
+            name="isNetworkError"
+            type="boolean" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_disconnected_network"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".ui.main.MainFragment"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="@{isNetworkError ? View.VISIBLE : View.GONE}">
 
         <ImageView
-            android:id="@+id/tv_complete_house_chore"
+            android:id="@+id/image_check_server"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_network_state" />
+            android:src="@drawable/img_network_error" />
 
         <TextView
             style="@style/Title.T1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="52dp"
             android:text="@string/disconnected_network_title"
             android:textColor="@color/gray_600"
             android:textStyle="bold"
-            tools:text="@string/disconnected_network_title" />
+            tools:text="@string/disconnected_network_title"
+            />
 
         <TextView
             style="@style/Title.T1"

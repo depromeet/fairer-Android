@@ -1,20 +1,21 @@
 package com.depromeet.housekeeper.ui.houseRule
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.request.Rule
 import com.depromeet.housekeeper.model.response.RuleResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RuleViewModel @Inject constructor(
     private val mainRepository: MainRepository
-) : ViewModel() {
+) : BaseViewModel() {
     init {
         getRules()
     }
@@ -41,10 +42,9 @@ class RuleViewModel @Inject constructor(
     fun createRule(ruleName: String) {
         viewModelScope.launch {
             mainRepository.createRule(Rule(ruleName))
-                .runCatching {
-                    collect {
-                        getRules()
-                    }
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) getRules()
                 }
         }
     }
@@ -52,9 +52,10 @@ class RuleViewModel @Inject constructor(
     private fun getRules() {
         viewModelScope.launch {
             mainRepository.getRules()
-                .runCatching {
-                    collect {
-                        _rules.value = it.ruleResponseDtos.sortedByDescending { it.ruleId }
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _rules.value = result.ruleResponseDtos.sortedByDescending { it.ruleId }
                     }
                 }
         }
@@ -63,11 +64,10 @@ class RuleViewModel @Inject constructor(
     fun deleteRule(ruleId: Int) {
         viewModelScope.launch {
             mainRepository.deleteRule(ruleId)
-                .runCatching {
-                    collect {
-                        if (it.code == 200) {
-                            getRules()
-                        }
+                .collect {
+                    val result = receiveApiResult(it)
+                    if (result != null && result.code == 200) {
+                        getRules()
                     }
                 }
         }

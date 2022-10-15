@@ -1,12 +1,15 @@
 package com.depromeet.housekeeper.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import timber.log.Timber
 
 abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragment() {
 
@@ -36,4 +39,6 @@ abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragmen
         super.onDestroyView()
         _binding = null
     }
+
+
 }

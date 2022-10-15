@@ -59,6 +59,12 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
                 }
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
+            }
+        }
     }
 
     private fun validateName() {
@@ -158,6 +164,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         binding.profileBtn.mainFooterButton.text = "입력 완료"
         binding.profileBtn.mainFooterButton.isEnabled = true
         binding.etStatusMessage.fairerEt.hint = getString(R.string.setting_profile_status_hint)
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
 
         viewModel.getProfile()
     }

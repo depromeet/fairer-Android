@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.ui.settings
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.depromeet.housekeeper.BuildConfig
@@ -20,14 +21,24 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     }
 
     override fun viewCreated() {
+        initView()
         bindingVm()
         initListener()
     }
 
+    private fun initView(){
+        binding.version = viewModel.version.value
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
         viewModel.setVersion(BuildConfig.VERSION_NAME)
-        binding.version = viewModel.version.value
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect{
+                binding.layoutNetwork.isNetworkError = it
+            }
+        }
     }
 
     private fun initListener() {

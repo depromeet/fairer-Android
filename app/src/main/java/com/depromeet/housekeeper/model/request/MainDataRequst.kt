@@ -4,10 +4,13 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
+//todo repeat~
 @Serializable
 data class Chore(
     var assignees: List<Int> = listOf(),
     var houseWorkName: String = "",
+    var repeatCycle: String? = "0",
+    var repeatEndDate: String? = "yyyy-MM-dd",
     var scheduledDate: String = "yyyy-MM-dd",
     var scheduledTime: String? = null,
     var space: String = ""

@@ -1,29 +1,26 @@
 package com.depromeet.housekeeper.ui.signIn
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.JoinTeam
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.request.BuildTeam
-import com.depromeet.housekeeper.model.response.ErrorResponse
 import com.depromeet.housekeeper.model.response.JoinTeamResponse
 import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SignNameViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
     private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
     val inputText: StateFlow<String>
         get() = _inputText
@@ -57,10 +54,6 @@ class SignNameViewModel @Inject constructor(
     val responseJoinTeam: StateFlow<JoinTeamResponse?>
         get() = _responseJoinTeam
 
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
     private val _errorMessage: MutableStateFlow<String> = MutableStateFlow("")
     val errorMessage: StateFlow<String>
         get() = _errorMessage
@@ -92,16 +85,17 @@ class SignNameViewModel @Inject constructor(
         _hasTeam.value = hasTeam
     }
 
+    /**
+     * Network Communication
+     */
     fun teamNameUpdate(teamName: String) {
         viewModelScope.launch {
-            userRepository.updateTeam(BuildTeam(teamName)).runCatching {
-                collect {
-                    _responseTeamUpdate.value = it
+            userRepository.updateTeam(BuildTeam(teamName)).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _responseTeamUpdate.value = result
                 }
             }
-                .onFailure {
-                    _networkError.value = true
-                }
         }
     }
 
@@ -109,25 +103,14 @@ class SignNameViewModel @Inject constructor(
         viewModelScope.launch {
             Timber.d("joinTeam: $inviteCode")
 
-            userRepository.joinTeam(JoinTeam(inviteCode)).runCatching {
-                collect {
-                    _responseJoinTeam.value = it
+            userRepository.joinTeam(JoinTeam(inviteCode)).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _responseJoinTeam.value = result
                     PrefsManager.setHasTeam(hasTeam = true)
-                }
-            }.onFailure {
-                when (it) {
-                    is HttpException -> {
-                        val errorBody = it.response()?.errorBody()
-                        val type = object : TypeToken<ErrorResponse>() {}.type
-                        val errorResponse: ErrorResponse =
-                            Gson().fromJson(errorBody?.charStream(), type)
-                        _errorMessage.value = errorResponse.errorMessage
-                    }
-                    else -> {
-                        Timber.e("onFailure: $it")
-                    }
                 }
             }
         }
     }
+
 }

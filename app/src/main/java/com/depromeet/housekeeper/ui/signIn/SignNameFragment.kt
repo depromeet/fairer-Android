@@ -28,11 +28,15 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
     }
 
     override fun viewCreated() {
+        initView()
         bindingVm()
         initListener()
         validateName()
     }
 
+    private fun initView(){
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+    }
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
@@ -83,7 +87,11 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             }
         }
 
-
+        lifecycleScope.launchWhenCreated {
+            viewModel.networkError.collect {
+                binding.layoutNetwork.isNetworkError = it
+            }
+        }
     }
 
     private fun initListener() {

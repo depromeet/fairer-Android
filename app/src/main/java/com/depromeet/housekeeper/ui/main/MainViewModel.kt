@@ -1,7 +1,7 @@
 package com.depromeet.housekeeper.ui.main
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.*
@@ -19,6 +19,7 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -31,16 +32,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository,
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     init {
         getCompleteHouseWorkNumber()
         getGroupName()
     }
-
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
 
     /**
      * 캘린더 관련
@@ -173,84 +170,8 @@ class MainViewModel @Inject constructor(
             .toMutableList()
     }
 
-
-    /**
-     * Network Communication
-     */
-
-    fun getHouseWorks() {
-        val fromDate = startDateOfWeek.value
-        val toDate = getLastDate(fromDate)
-
-        Timber.d("$MAIN_TAG getHouseWorks $fromDate : ${toDate} : ${selectUserId.value}")
-        viewModelScope.launch {
-            mainRepository.getPeriodHouseWorkListOfMember(
-                selectUserId.value,
-                fromDate,
-                toDate
-            )
-                .runCatching {
-                    collect {
-                        _weekendHouseWorks.value = it.toSortedMap()
-
-                        val choreLeftMap = mutableMapOf<String, Int>()
-                        it.toSortedMap().forEach { item ->
-                            val scheduledDate = item.key
-                            val countLeft = item.value.countLeft
-                            choreLeftMap[scheduledDate] = countLeft
-                        }
-                        weekendChoresLeft.update { choreLeftMap }
-
-
-                        Timber.d("${it[dayOfWeek.value.date.substring(0, 10)]}")
-                        _selectHouseWorks.value = it[dayOfWeek.value.date.substring(0, 10)]
-                    }
-                }.onFailure {
-                    Timber.e(it)
-                    _networkError.value = true
-                }
-
-        }
-        getCompleteHouseWorkNumber()
-    }
-
-
     fun updateSelectHouseWork(date: String) { // date ex) 2022-10-19
         _selectHouseWorks.value = weekendHouseWorks.value[date]
-    }
-
-    //이번주에 끝낸 집안일
-    private fun getCompleteHouseWorkNumber() {
-        val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        viewModelScope.launch {
-            mainRepository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
-                .runCatching {
-                    collect {
-                        _completeChoreNum.value = it.count
-                    }
-                }.onFailure {
-                    _networkError.value = true
-                }
-        }
-    }
-
-    fun updateChoreState(houseWork: HouseWork) {
-        val toBeStatus = when (houseWork.success) {
-            false -> 1
-            else -> 0
-        }
-        viewModelScope.launch {
-            mainRepository.updateChoreState(
-                houseWorkId = houseWork.houseWorkId,
-                updateChoreBody = UpdateChoreBody(toBeStatus)
-            ).runCatching {
-                collect {
-                    getHouseWorks()
-                }
-            }.onFailure {
-                _networkError.value = true
-            }
-        }
     }
 
     fun updateSelectUser(selectUser: Int) {
@@ -267,20 +188,73 @@ class MainViewModel @Inject constructor(
         _groups.value = newGroups
     }
 
-    fun getRules() {
+
+    /**
+     * Network Communication
+     */
+
+    fun getHouseWorks() {
+        val fromDate = startDateOfWeek.value
+        val toDate = getLastDate(fromDate)
+
+        Timber.d("$MAIN_TAG getHouseWorks $fromDate : $toDate : ${selectUserId.value}")
         viewModelScope.launch {
-            mainRepository.getRules()
-                .runCatching {
-                    collect {
-                        _rule.value = when {
-                            it.ruleResponseDtos.isNotEmpty() -> it.ruleResponseDtos.random().ruleName
-                            else -> ""
+            mainRepository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _weekendHouseWorks.value = result.toSortedMap()
+
+                        val choreLeftMap = mutableMapOf<String, Int>()
+                        result.toSortedMap().forEach { item ->
+                            val scheduledDate = item.key
+                            val countLeft = item.value.countLeft
+                            choreLeftMap[scheduledDate] = countLeft
                         }
+                        weekendChoresLeft.update { choreLeftMap }
+                        _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
+                    }
+                }
+        }
+        getCompleteHouseWorkNumber()
+    }
+
+
+    //이번주에 끝낸 집안일
+    private fun getCompleteHouseWorkNumber() {
+        val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        viewModelScope.launch {
+            mainRepository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _completeChoreNum.value = result.count
                     }
                 }
         }
     }
 
+    //todo
+    fun updateChoreState(houseWork: HouseWork) {
+        val toBeStatus = when (houseWork.success) {
+            false -> 1
+            else -> 0
+        }
+        viewModelScope.launch {
+            mainRepository.updateChoreState(
+                houseWorkId = houseWork.houseWorkId,
+                updateChoreBody = UpdateChoreBody(toBeStatus)
+            ).runCatching {
+                collect {
+                    getHouseWorks()
+                }
+            }.onFailure {
+                setNetworkError(true)
+            }
+        }
+    }
+
+    // todo
     fun getDetailHouseWork(houseWorkId: Int) {
         viewModelScope.launch {
             mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
@@ -292,16 +266,32 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
+    fun getRules() {
+        viewModelScope.launch {
+            mainRepository.getRules()
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _rule.value = when {
+                            result.ruleResponseDtos.isNotEmpty() -> result.ruleResponseDtos.random().ruleName
+                            else -> ""
+                        }
+                    }
+                }
+        }
+    }
+
     fun getGroupName() {
         viewModelScope.launch {
-            userRepository.getTeam().runCatching {
-                collect {
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    val groupSize: Int = result.members.size
+                    _groupName.value = "${result.teamName} $groupSize"
 
-                    val groupSize: Int = it.members.size
-                    _groupName.value = "${it.teamName} $groupSize"
-
-                    val myAssignee = it.members.find { it.memberId == PrefsManager.memberId }!!
-                    val assignees = listOf(myAssignee) + it.members
+                    val myAssignee = result.members.find { it.memberId == PrefsManager.memberId }!!
+                    val assignees = listOf(myAssignee) + result.members
 
                     _groups.value = assignees.distinct().map {
                         AssigneeSelect(
@@ -312,6 +302,7 @@ class MainViewModel @Inject constructor(
                         )
                     }
                 }
+
             }
         }
     }

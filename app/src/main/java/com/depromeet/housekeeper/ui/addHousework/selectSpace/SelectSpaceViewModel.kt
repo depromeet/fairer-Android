@@ -1,13 +1,14 @@
 package com.depromeet.housekeeper.ui.addHousework.selectSpace
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.request.ChoreList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -17,13 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SelectSpaceViewModel @Inject constructor(
     private val mainRepository: MainRepository
-) : ViewModel() {
+) : BaseViewModel() {
     init {
         getChoreList()
     }
 
     private val _chorePreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
-    val chorePreset: StateFlow<List<ChoreList>>
+    private val chorePreset: StateFlow<List<ChoreList>>
         get() = _chorePreset
 
     private val _choreList: MutableStateFlow<List<String>> = MutableStateFlow(listOf())
@@ -46,14 +47,27 @@ class SelectSpaceViewModel @Inject constructor(
     val isSelectedSpace: StateFlow<Boolean>
         get() = _isSelectedSpace
 
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.MONTH, this.get(Calendar.MONTH))
+        firstDayOfWeek = Calendar.MONDAY
+        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+
+    private val _selectCalendar: MutableStateFlow<DayOfWeek> =
+        MutableStateFlow(DayOfWeek(date = ""))
+    val selectCalendar: StateFlow<DayOfWeek>
+        get() = _selectCalendar
+
+
+
     fun clearChore() {
         _chores.value = emptyList()
     }
 
     fun setChoreList(space: String) {
-        for (i in 0 until _chorePreset.value.size) {
-            if (space == _chorePreset.value[i].space) {
-                _choreList.value = _chorePreset.value[i].houseWorks
+        for (i in 0 until chorePreset.value.size) {
+            if (space == chorePreset.value[i].space) {
+                _choreList.value = chorePreset.value[i].houseWorks
             }
         }
     }
@@ -84,22 +98,6 @@ class SelectSpaceViewModel @Inject constructor(
             }
         }
     }
-
-    private val _networkError: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val networkError: StateFlow<Boolean>
-        get() = _networkError
-
-
-    private val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.MONTH, this.get(Calendar.MONTH))
-        firstDayOfWeek = Calendar.MONDAY
-        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-    }
-
-    private val _selectCalendar: MutableStateFlow<DayOfWeek> =
-        MutableStateFlow(DayOfWeek(date = ""))
-    val selectCalendar: StateFlow<DayOfWeek>
-        get() = _selectCalendar
 
     fun updateSelectDate(date: String) {
         _selectCalendar.value = DayOfWeek(date)
@@ -132,13 +130,11 @@ class SelectSpaceViewModel @Inject constructor(
     private fun getChoreList() {
         viewModelScope.launch {
             mainRepository.getHouseWorkList()
-                .runCatching {
-                    collect {
-                        _chorePreset.value = it
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _chorePreset.value = result
                     }
-                }.onFailure {
-                    _networkError.value = true
-                    Timber.d("networkError")
                 }
         }
     }

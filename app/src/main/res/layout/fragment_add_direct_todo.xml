@@ -21,10 +21,6 @@
             type="String" />
 
         <variable
-            name="isConnectedNetwork"
-            type="boolean" />
-
-        <variable
             name="isError"
             type="boolean" />
 
@@ -56,7 +52,6 @@
             layout="@layout/layout_disconnected_network"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:visibility="@{isConnectedNetwork ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +61,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
-            android:visibility="@{isConnectedNetwork ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_direct_todo_header">
