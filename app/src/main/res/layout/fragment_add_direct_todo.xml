@@ -78,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:drawableStart="@drawable/ic_calendar_today"
+                android:drawableEnd="@drawable/ic_arrow_down"
                 android:drawablePadding="4dp"
                 android:paddingStart="4dp"
                 android:text="@{currentDate}"
