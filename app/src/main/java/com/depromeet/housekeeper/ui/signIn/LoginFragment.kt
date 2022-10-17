@@ -8,8 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
-import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -88,7 +88,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     PrefsManager.setAuthCode(authCode)
                     viewModel.requestLogin()
                 }
-                Timber.d("!! $authCode")
             } catch (e: ApiException) {
                 Timber.w("failed $e")
             }
@@ -98,20 +97,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private fun bindingVM() {
         viewModel.viewModelScope.launch {
             viewModel.response.collect { response ->
-                Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
-                Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, MemberName: ${response?.memberName}")
                 response?.run {
                     PrefsManager.setTokens(response.accessToken, response.refreshToken)
-
                     // set fcm token
                     viewModel.saveToken()
-
                     response.memberName?.let {
                         PrefsManager.setUserName(it)
                     }
                     PrefsManager.setMemberId(this.memberId)
                     // this.memberId
-
                     PrefsManager.setHasTeam(response.hasTeam)
                     PrefsManager.setMemberId(response.memberId)
                     initNavigation(response)

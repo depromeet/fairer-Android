@@ -2,37 +2,40 @@ package com.depromeet.housekeeper.util
 
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.SocialType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
 import okhttp3.ResponseBody
 import timber.log.Timber
+import javax.inject.Inject
 
 class TokenErrorInterceptor() : Interceptor {
-    private lateinit var userRepository : UserRepository
-
+    @Inject
+    lateinit var userRepository : UserRepository
     override fun intercept(chain: Interceptor.Chain): Response {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            userRepository.getGoogleLogin(SocialType("GOOGLE")).runCatching {
-                collect { response ->
-                    PrefsManager.setTokens(response.accessToken, response.refreshToken)
+        val tokenAddedRequest = chain.request()
+        val response = chain.proceed(tokenAddedRequest)
+        //todo 401에러 일때만 아래의 내용 처리
+        if (response.code == 401) {
+            Timber.d("401error")
+            PrefsManager.deleteTokens()
+            runBlocking{
+                userRepository.getGoogleLogin(SocialType("GOOGLE")).runCatching {
+                    collect{
+                        PrefsManager.setTokens(it.accessToken, it.refreshToken)
+                    }
                 }
-            }.onFailure {
-                Timber.e("$it")
             }
         }
-
-        val tokenAddedRequest = chain.request()
-        try{
-            tokenAddedRequest.newBuilder()
-                .addHeader(
-                    "authorization",
-                    PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
-                .build()
+        try {
+            chain.proceed(
+                tokenAddedRequest.newBuilder()
+                    .addHeader(
+                        "Authorization",
+                        PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
+                    .build()
+            )
         } catch (e: Exception) {
             Response.Builder()
                 .request(tokenAddedRequest)
@@ -42,7 +45,7 @@ class TokenErrorInterceptor() : Interceptor {
                 .body(ResponseBody.create(null, e.message ?: ""))
                 .build()
         }
-            return chain.proceed(tokenAddedRequest)
-    }
+        return response
 
+    }
 }

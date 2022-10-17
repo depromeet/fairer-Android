@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.di
 
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
+import com.depromeet.housekeeper.util.NETWORK_ERROR
+import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.TokenErrorInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -11,7 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -23,7 +25,7 @@ import javax.inject.Singleton
 class NetworkModule {
     private val BASE_URL = "http://ec2-3-39-60-64.ap-northeast-2.compute.amazonaws.com:8080"
 
-    /*private val networkInterceptor: Interceptor = Interceptor { chain ->
+    private val networkInterceptor: Interceptor = Interceptor { chain ->
         val request = chain.request()
         try {
             chain.proceed(
@@ -42,7 +44,7 @@ class NetworkModule {
                 .body(ResponseBody.create(null, e.message ?: ""))
                 .build()
         }
-    }*/
+    }
 
     @Singleton
     @Provides
@@ -51,6 +53,7 @@ class NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
         return OkHttpClient.Builder()
+            .addInterceptor(networkInterceptor)
             .addInterceptor(TokenErrorInterceptor())
             .addNetworkInterceptor(httpLoggingInterceptor)
             .connectTimeout(5, TimeUnit.SECONDS)
