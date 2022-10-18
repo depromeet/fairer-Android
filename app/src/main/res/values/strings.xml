@@ -82,6 +82,7 @@
     <string name="sign_name_hint">예) 홍길동</string>
     <string name="sign_name_next_btn_text">입력 완료</string>
     <string name="sign_name_error">&amp;,!,#,@,^와 같은 특수문자는 입력하실 수 없어요.</string>
+    <string name="sign_name_text_over_error">텍스트는 16글자를 초과하여 입력하실 수 없어요.</string>
     <string name="sign_name_blank" />
 
     <!--SignProfileFragment-->

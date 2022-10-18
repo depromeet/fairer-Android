@@ -171,7 +171,12 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             if (!value.matches(pattern.toRegex())) {
                 binding.isError = true
                 binding.signNameNextBtn.mainFooterButton.isEnabled = false
-            } else {
+                binding.signNameError.setText(R.string.sign_name_error)
+            } else if(value.length>16) {
+                binding.isError = true
+                binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                binding.signNameError.setText(R.string.sign_name_text_over_error)
+            } else{
                 binding.isError = false
                 binding.signNameNextBtn.mainFooterButton.isEnabled =
                     viewModel.inputText.value != ""
