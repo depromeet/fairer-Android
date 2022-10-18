@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.util
 
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.SocialType
+import com.depromeet.housekeeper.model.response.LoginResponse
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Protocol
@@ -16,6 +17,7 @@ class TokenErrorInterceptor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val tokenAddedRequest = chain.request()
         val response = chain.proceed(tokenAddedRequest)
+        var loginResponse : LoginResponse? = null
         //todo 401에러 일때만 아래의 내용 처리
         if (response.code == 401) {
             Timber.d("401error")
@@ -23,10 +25,11 @@ class TokenErrorInterceptor() : Interceptor {
             runBlocking{
                 userRepository.getGoogleLogin(SocialType("GOOGLE")).runCatching {
                     collect{
-                        PrefsManager.setTokens(it.accessToken, it.refreshToken)
+                        loginResponse = it
                     }
                 }
             }
+            loginResponse?.let { PrefsManager.setTokens(it.accessToken, it.refreshToken) }
         }
         try {
             chain.proceed(
