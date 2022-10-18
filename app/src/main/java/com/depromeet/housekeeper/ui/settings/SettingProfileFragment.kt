@@ -75,7 +75,10 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             if (!value.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else {
+            } else if(value.length>16) {
+                binding.nameIsError = true
+                binding.profileBtn.mainFooterButton.isEnabled = false
+            }else {
                 binding.nameIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled =
                     value.isNotEmpty()
@@ -88,7 +91,10 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             if (!value.matches(pattern.toRegex())) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else {
+            } else if(value.length>16) {
+                binding.stateIsError = true
+                binding.profileBtn.mainFooterButton.isEnabled = false
+            }else {
                 binding.stateIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled = true
             }
