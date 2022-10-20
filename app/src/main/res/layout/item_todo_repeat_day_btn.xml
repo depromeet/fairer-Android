@@ -4,7 +4,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="37dp"
         android:layout_height="36dp"
-        android:layout_marginHorizontal="7dp">
+        android:layout_marginHorizontal="3.9dp">
 
         <Button
             android:id="@+id/item_day_repeat_btn"

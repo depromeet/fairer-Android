@@ -21,6 +21,7 @@
     <string name="remove_todo_tv">삭제</string>
     <string name="edit_todo_btn_tv">수정 완료</string>
     <string name="add_direct_todo_repeat">반복하기</string>
+    <string name="add_direct_todo_repeat_every_month">매달 반복하기</string>
 
     <!-- AddHouseWorkFragment -->
     <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
@@ -28,6 +29,7 @@
     <string name="assignee_bottom_sheet_cancel_text">취소</string>
     <string name="assignee_bottom_sheet_ok_text">확인</string>
     <string name="add_assignee_toast_text">집안일 담당자를 지정해주세요.</string>
+
 
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_btn_text">취소</string>
