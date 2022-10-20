@@ -61,245 +61,239 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_direct_todo_header">
+
+            <TextView
+                android:id="@+id/add_direct_todo_date_tv"
+                style="@style/Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_calendar_today"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:drawablePadding="4dp"
+                android:paddingStart="4dp"
+                android:text="@{currentDate}"
+                android:textColor="@color/gray_900"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_calendar_today"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2022년 * 4월 25일" />
+
+
+            <TextView
+                android:id="@+id/add_direct_todo_space_tv"
+                style="@style/Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:drawablePadding="4dp"
+                android:text="@{space}"
+                android:textColor="@color/gray_900"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_space"
+                app:layout_constraintBottom_toBottomOf="@id/add_direct_todo_date_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/add_direct_todo_date_tv" />
+
+            <TextView
+                android:id="@+id/add_direct_todo_title_sign_tv"
+                style="@style/Caption.C1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/add_direct_todo_title"
+                android:textColor="@color/gray_900"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_direct_todo_date_tv" />
+
+            <include
+                android:id="@+id/add_direct_todo_title_et"
+                layout="@layout/layout_fairer_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_sign_tv"
+                bind:isError="@{isError}"
+                bind:isTextChanged="@{isTextChanged}" />
+
+            <TextView
+                android:id="@+id/add_house_work_assignee_tv"
+                style="@style/Caption.C1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/add_housework_assignee_sign_tv"
+                android:textColor="@color/gray_900"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_et" />
+
+            <LinearLayout
+                android:id="@+id/add_assignee_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/add_house_work_assignee_tv">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/add_assignee_rv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_profile" />
+
+                <ImageView
+                    android:id="@+id/add_assignee_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_plus" />
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_time_setting"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/add_house_work_header">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/add_assignee_layout">
 
                 <TextView
-                    android:id="@+id/add_direct_todo_date_tv"
-                    style="@style/Caption"
+                    android:id="@+id/tv_todo_time"
+                    style="@style/Title.T1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:drawableStart="@drawable/ic_calendar_today"
-                    android:drawableEnd="@drawable/ic_arrow_down"
-                    android:drawablePadding="4dp"
-                    android:paddingStart="4dp"
-                    android:text="@{currentDate}"
-                    android:textColor="@color/gray_900"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/add_direct_todo_time"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_calendar_today"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="2022년 * 4월 25일" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-                <TextView
-                    android:id="@+id/add_direct_todo_space_tv"
-                    style="@style/Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:drawablePadding="4dp"
-                    android:text="@{space}"
-                    android:textColor="@color/gray_900"
-                    android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_space"
-                    app:layout_constraintBottom_toBottomOf="@id/add_direct_todo_date_tv"
+                <Switch
+                    android:id="@+id/switch_housework_time"
+                    style="@style/FairerSwitch"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:checked="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/add_direct_todo_date_tv" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-                <TextView
-                    android:id="@+id/add_direct_todo_title_sign_tv"
-                    style="@style/Caption.C1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/add_direct_todo_title"
-                    android:textColor="@color/gray_900"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_direct_todo_date_tv" />
-
-                <include
-                    android:id="@+id/add_direct_todo_title_et"
-                    layout="@layout/layout_fairer_edit_text"
+                <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+                    android:id="@+id/todo_time_picker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_sign_tv"
-                    bind:isError="@{isError}"
-                    bind:isTextChanged="@{isTextChanged}" />
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_todo_item_no_input"
+                    android:theme="@style/FairerTimePicker"
+                    android:timePickerMode="spinner"
+                    android:visibility="@{timeSwitch ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_repeat_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cl_time_setting">
 
                 <TextView
-                    android:id="@+id/add_house_work_assignee_tv"
-                    style="@style/Caption.C1"
+                    android:id="@+id/tv_todo_time_repeat"
+                    style="@style/Title.T1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="@string/add_housework_assignee_sign_tv"
-                    android:textColor="@color/gray_900"
+                    android:text="@string/add_direct_todo_repeat"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_et" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/add_assignee_layout"
+                <Switch
+                    android:id="@+id/switch_housework_repeat"
+                    style="@style/FairerSwitch"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:checked="@{isRepeatChecked ? true : false, default = false}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_add_house_work_repeat"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="36dp"
+                    android:layout_marginHorizontal="20.1dp"
+                    android:layout_marginTop="8dp"
+                    android:choiceMode="multipleChoice"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/add_house_work_assignee_tv">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/add_assignee_rv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_profile" />
-
-                    <ImageView
-                        android:id="@+id/add_assignee_btn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_plus" />
-
-                </LinearLayout>
+                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/switch_housework_repeat"
+                    tools:listitem="@layout/item_todo_repeat_day_btn" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_time_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/add_assignee_layout">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="26dp"
+                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layout_constraintTop_toBottomOf="@id/rv_add_house_work_repeat">
 
-                    <TextView
-                        android:id="@+id/tv_todo_time"
-                        style="@style/Title.T1"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_every_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/add_direct_todo_time"
-                        android:textStyle="bold"
+                        android:drawableStart="@drawable/ic_repeat_one"
+                        android:drawablePadding="2dp"
+                        android:drawableTint="@color/text_fairer_color_selector_300"
+                        android:text="@string/add_direct_todo_repeat_every_month"
+                        android:textColor="@color/text_fairer_color_selector_300"
+                        android:textFontWeight="600"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Switch
-                        android:id="@+id/switch_housework_time"
+                        android:id="@+id/switch_repeat_every_month"
                         style="@style/FairerSwitch"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:checked="true"
+                        android:checked="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                    <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
-                        android:id="@+id/todo_time_picker"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_todo_item_no_input"
-                        android:theme="@style/FairerTimePicker"
-                        android:timePickerMode="spinner"
-                        android:visibility="@{timeSwitch ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_repeat_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/cl_time_setting">
-
-                    <TextView
-                        android:id="@+id/tv_todo_time_repeat"
-                        style="@style/Title.T1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/add_direct_todo_repeat"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Switch
-                        android:id="@+id/switch_housework_repeat"
-                        style="@style/FairerSwitch"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:checked="@{isRepeatChecked ? true : false, default = false}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_add_house_work_repeat"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_marginHorizontal="20.1dp"
-                        android:layout_marginTop="8dp"
-                        android:choiceMode="multipleChoice"
-                        android:orientation="horizontal"
-                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toBottomOf="@id/switch_housework_repeat"
-                        tools:listitem="@layout/item_todo_repeat_day_btn" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="24dp"
-                        android:paddingTop="26dp"
-                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
-                        app:layout_constraintTop_toBottomOf="@id/rv_add_house_work_repeat">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_every_month"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_repeat_one"
-                            android:drawablePadding="2dp"
-                            android:drawableTint="@color/text_fairer_color_selector_300"
-                            android:text="@string/add_direct_todo_repeat_every_month"
-                            android:textColor="@color/text_fairer_color_selector_300"
-                            android:textFontWeight="600"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <Switch
-                            android:id="@+id/switch_repeat_every_month"
-                            style="@style/FairerSwitch"
-                            android:checked="false"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <include
-                    android:id="@+id/add_direct_todo_done_btn"
-                    layout="@layout/layout_main_footer_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_repeat_setting" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/add_direct_todo_done_btn"
+            layout="@layout/layout_main_footer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

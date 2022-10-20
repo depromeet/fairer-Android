@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
@@ -119,6 +120,13 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         }
 
+        binding.switchRepeatEveryMonth.apply {
+            setOnCheckedChangeListener { button, isChecked ->
+                binding.isMonthRepeatChecked = isChecked
+                binding.tvEveryMonth.isSelected = isChecked
+            }
+        }
+
         binding.addHouseWorkDateTv.setOnClickListener {
             createDatePickerDialog()
         }
@@ -172,6 +180,7 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
+        binding.rvAddHouseWorkRepeat.layoutManager = GridLayoutManager(context, 7)
         binding.rvAddHouseWorkRepeat.adapter = dayRepeatAdapter
     }
 
