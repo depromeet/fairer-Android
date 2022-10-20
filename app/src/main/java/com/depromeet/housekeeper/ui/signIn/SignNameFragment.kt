@@ -40,12 +40,16 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
+        if(viewModel.viewType.value==SignViewType.ModifyGroupName){
+            viewModel.getMyTeam()
+        }
         binding.viewType = viewModel.viewType.value
         binding.signNameEt.apply {
             hint = when (viewModel.viewType.value) {
                 SignViewType.UserName -> getString(R.string.sign_name_hint)
                 SignViewType.InviteCode -> getString(R.string.invite_code_hint)
                 else -> getString(R.string.group_name_hint)
+
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -53,6 +57,15 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                 binding.hasTeam = it
                 binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.text =
                     getString(R.string.failed_group_button_text)
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.responseMyTeam.collect {
+                if (it != null) {
+                    if(viewModel.viewType.value==SignViewType.ModifyGroupName){
+                        binding.signNameEt.hint = it.teamName
+                    }
+                }
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -171,7 +184,12 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             if (!value.matches(pattern.toRegex())) {
                 binding.isError = true
                 binding.signNameNextBtn.mainFooterButton.isEnabled = false
-            } else {
+                binding.signNameError.setText(R.string.sign_name_error)
+            } else if(value.length>16) {
+                binding.isError = true
+                binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                binding.signNameError.setText(R.string.sign_name_text_over_error)
+            } else{
                 binding.isError = false
                 binding.signNameNextBtn.mainFooterButton.isEnabled =
                     viewModel.inputText.value != ""

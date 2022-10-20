@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="profilePath"
@@ -109,19 +110,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lv_profile_imageview"
             tools:text="@string/setting_profile_name" />
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:id="@+id/et_name_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_name">
+    <include
+        android:id="@+id/et_name"
+        layout="@layout/layout_fairer_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        bind:isError="@{nameIsError}"
+        bind:isTextChanged="@{nameIsTextChanged}" />
+    <TextView
+        android:id="@+id/sign_name_error"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/sign_name_text_over_error"
+        android:textColor="@color/negative_20"
+        android:textSize="14sp"
+        android:visibility="@{nameIsError ? View.VISIBLE : View.GONE}" />
+</androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include
-            android:id="@+id/et_name"
-            layout="@layout/layout_fairer_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name"
-            bind:isError="@{nameIsError}"
-            bind:isTextChanged="@{nameIsTextChanged}" />
+
 
         <TextView
             android:id="@+id/tv_rule"
@@ -135,21 +154,37 @@
             android:textColor="@color/gray_600"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_name"
+            app:layout_constraintTop_toBottomOf="@id/et_name_layout"
             tools:text="@string/setting_profile_sub_title" />
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_rule">
+    <include
+        android:id="@+id/et_status_message"
+        layout="@layout/layout_fairer_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        bind:isError="@{stateIsError}"
+        bind:isTextChanged="@{stateIsTextChanged}" />
 
-        <include
-            android:id="@+id/et_status_message"
-            layout="@layout/layout_fairer_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_rule"
-            bind:isError="@{stateIsError}"
-            bind:isTextChanged="@{stateIsTextChanged}" />
+    <TextView
+        android:id="@+id/sign_state_error"
+        style="@style/Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/sign_name_text_over_error"
+        android:textColor="@color/negative_20"
+        android:textSize="14sp"
+        android:visibility="@{stateIsError ? View.VISIBLE : View.GONE}" />
+</androidx.appcompat.widget.LinearLayoutCompat>
 
         <include
             android:id="@+id/profile_btn"

@@ -111,16 +111,38 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_direct_todo_date_tv" />
 
-            <include
-                android:id="@+id/add_direct_todo_title_et"
-                layout="@layout/layout_fairer_edit_text"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_title_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_sign_tv"
-                bind:isError="@{isError}"
-                bind:isTextChanged="@{isTextChanged}" />
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/add_direct_todo_title_et"
+                    layout="@layout/layout_fairer_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_sign_tv"
+                    bind:isError="@{isError}"
+                    bind:isTextChanged="@{isTextChanged}" />
+
+                <TextView
+                    android:id="@+id/tv_error"
+                    style="@style/Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sign_name_text_over_error"
+                    android:textColor="@color/negative_20"
+                    android:textSize="14sp"
+                    android:visibility="@{isError ? View.VISIBLE : View.GONE}" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
             <TextView
                 android:id="@+id/add_house_work_assignee_tv"
@@ -132,7 +154,7 @@
                 android:text="@string/add_housework_assignee_sign_tv"
                 android:textColor="@color/gray_900"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_direct_todo_title_et" />
+                app:layout_constraintTop_toBottomOf="@id/layout_title_et" />
 
             <LinearLayout
                 android:id="@+id/add_assignee_layout"

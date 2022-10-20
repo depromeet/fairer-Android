@@ -36,7 +36,7 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:longClickable="false"
-            android:maxLength="16"
+            android:maxLength="17"
             android:maxLines="1"
             android:singleLine="true"
             android:textColorHint="@color/gray_400"

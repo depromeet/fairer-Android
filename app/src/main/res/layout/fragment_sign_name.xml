@@ -120,7 +120,7 @@
                         android:background="@null"
                         android:ellipsize="end"
                         android:inputType="text"
-                        android:maxLength="16"
+                        android:maxLength="17"
                         android:maxLines="1"
                         android:paddingStart="16dp"
                         android:textSize="20sp"
