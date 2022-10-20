@@ -45,9 +45,9 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        setAdapter()
         initView()
         bindingVm()
-        setAdapter()
         initListener()
     }
 
@@ -111,6 +111,11 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             if (!value.matches(pattern.toRegex())) {
                 binding.isError = true
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                binding.tvError.setText(R.string.sign_name_error)
+            } else if(value.length>16) {
+                binding.isError = true
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                binding.tvError.setText(R.string.sign_name_text_over_error)
             } else {
                 binding.isError = false
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =

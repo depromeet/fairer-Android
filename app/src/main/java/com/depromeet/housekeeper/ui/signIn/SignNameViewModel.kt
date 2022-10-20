@@ -3,9 +3,10 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
-import com.depromeet.housekeeper.model.request.JoinTeam
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.request.BuildTeam
+import com.depromeet.housekeeper.model.request.JoinTeam
+import com.depromeet.housekeeper.model.response.Groups
 import com.depromeet.housekeeper.model.response.JoinTeamResponse
 import com.depromeet.housekeeper.model.response.TeamUpdateResponse
 import com.depromeet.housekeeper.util.PrefsManager
@@ -53,6 +54,10 @@ class SignNameViewModel @Inject constructor(
     private val _responseJoinTeam: MutableStateFlow<JoinTeamResponse?> = MutableStateFlow(null)
     val responseJoinTeam: StateFlow<JoinTeamResponse?>
         get() = _responseJoinTeam
+
+    private val _responseMyTeam: MutableStateFlow<Groups?> = MutableStateFlow(null)
+    val responseMyTeam: StateFlow<Groups?>
+        get() = _responseMyTeam
 
     private val _errorMessage: MutableStateFlow<String> = MutableStateFlow("")
     val errorMessage: StateFlow<String>
@@ -108,6 +113,16 @@ class SignNameViewModel @Inject constructor(
                 if (result != null) {
                     _responseJoinTeam.value = result
                     PrefsManager.setHasTeam(hasTeam = true)
+                }
+            }
+        }
+    }
+    fun getMyTeam(){
+        viewModelScope.launch {
+            userRepository.getTeam().collectLatest {
+                val result = receiveApiResult(it)
+                if(result != null){
+                    _responseMyTeam.value = result
                 }
             }
         }

@@ -35,6 +35,7 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
     private fun initView() {
         binding.textRule = ""
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+        binding.isError = false
     }
 
     private fun bindingVm() {
@@ -68,6 +69,10 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                             resources.getDrawable(R.drawable.edit_text_error_background)
                         binding.ivInfo.setColorFilter(requireContext().getColor(R.color.negative_20))
                         binding.tvInfo.setTextColor(resources.getColor(R.color.negative_20))
+                    }
+                    3 -> {
+                        binding.clRule.background =
+                            resources.getDrawable(R.drawable.edit_text_error_background)
                     }
                     else -> { // default
                         binding.clRule.background =
@@ -111,14 +116,20 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                     binding.textRule = ""
                     viewModel.setBackgroundBox(2)
                     Toast.makeText(requireContext(), R.string.rule_info, Toast.LENGTH_LONG).show()
+                } else if(binding.etRule.text.length>16){
+                    binding.isError = true
+                    viewModel.setBackgroundBox(3)
                 } else {
-                    viewModel.setBackgroundBox(1)
+                        binding.isError = false
+                        viewModel.setBackgroundBox(1)
                 }
             }
 
             listenEditorDoneAction {
-                viewModel.createRule(it)
-                hideKeyboard(requireContext(), this)
+                if (it.length<=16){
+                    viewModel.createRule(it)
+                    hideKeyboard(requireContext(), this)
+                }
             }
 
             setOnFocusChangeListener { view, hasFocus ->
