@@ -23,6 +23,16 @@
     <string name="add_direct_todo_repeat">반복하기</string>
     <string name="add_direct_todo_repeat_every_month">매달 반복하기</string>
 
+    <!-- Repeat Dialog -->
+    <string name="dialog_repeat_title_delete">반복 일정 삭제</string>
+    <string name="dialog_repeat_title_modify">반복 일정 수정</string>
+    <string name="dialog_repeat_current_schedule">이 일정</string>
+    <string name="dialog_repeat_after_schedules">이 일정 및 향후 일정</string>
+    <string name="dialog_repeat_all_schedules">모든 일정</string>
+    <string name="dialog_repeat_cancel">취소</string>
+    <string name="dialog_repeat_delete">삭제</string>
+    <string name="dialog_repeat_modify">수정</string>
+
     <!-- AddHouseWorkFragment -->
     <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
     <string name="assignee_bottom_sheet_title">집안일 담당자 선택</string>
