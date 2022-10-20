@@ -141,6 +141,12 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             }
         }
 
+        binding.switchHouseworkRepeat.apply {
+            setOnCheckedChangeListener { compoundButton, isChecked ->
+                binding.isRepeatChecked = isChecked
+            }
+        }
+
         binding.addAssigneeLayout.setOnClickListener {
             createBottomSheet()
         }

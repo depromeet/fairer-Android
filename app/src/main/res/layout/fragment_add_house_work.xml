@@ -20,6 +20,10 @@
             name="timeSwitch"
             type="boolean" />
 
+        <variable
+            name="isRepeatChecked"
+            type="boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -219,7 +223,7 @@
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="24dp"
-                        android:checked="true"
+                        android:checked="@{isRepeatChecked ? true : false, default = false}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -234,7 +238,8 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/switch_housework_repeat"
-                        tools:listitem="@layout/item_todo_repeat_day_btn" />
+                        tools:listitem="@layout/item_todo_repeat_day_btn"
+                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -243,6 +248,7 @@
                         app:layout_constraintTop_toBottomOf="@id/rv_add_house_work_repeat"
                         android:paddingHorizontal="24dp"
                         android:paddingTop="26dp"
+                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
                         >
 
                     <androidx.appcompat.widget.AppCompatTextView

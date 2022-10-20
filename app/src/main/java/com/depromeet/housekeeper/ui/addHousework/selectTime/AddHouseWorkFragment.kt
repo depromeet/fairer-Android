@@ -113,6 +113,12 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         }
 
+        binding.switchHouseworkRepeat.apply {
+            setOnCheckedChangeListener { compoundButton, isChecked ->
+                binding.isRepeatChecked = isChecked
+            }
+        }
+
         binding.addHouseWorkDateTv.setOnClickListener {
             createDatePickerDialog()
         }
@@ -166,7 +172,7 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
-        binding.addHouseWorkRepeatRv.adapter = dayRepeatAdapter
+        binding.rvAddHouseWorkRepeat.adapter = dayRepeatAdapter
     }
 
     private fun updateTime() {
