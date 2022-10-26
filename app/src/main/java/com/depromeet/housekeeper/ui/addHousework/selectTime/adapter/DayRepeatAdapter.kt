@@ -8,6 +8,17 @@ import com.depromeet.housekeeper.databinding.ItemTodoRepeatDayBtnBinding
 class DayRepeatAdapter(private val days: Array<String>) :
     RecyclerView.Adapter<DayRepeatAdapter.ViewHolder>() {
 
+    private var selectedDays = Array(7) { false }
+    private lateinit var mItemClickListener: DayItemClickListener
+
+    interface DayItemClickListener {
+        fun onItemClick(selectedDays: Array<Boolean>)
+    }
+
+    fun setDayItemClickListener(listener: DayItemClickListener){
+        mItemClickListener = listener
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -30,7 +41,10 @@ class DayRepeatAdapter(private val days: Array<String>) :
             binding.itemDayRepeatBtn.text = day
             binding.itemDayRepeatBtn.setOnClickListener {
                 binding.itemDayRepeatBtn.isSelected = !binding.itemDayRepeatBtn.isSelected
+                selectedDays[adapterPosition] = binding.itemDayRepeatBtn.isSelected
+                mItemClickListener.onItemClick(selectedDays)
             }
         }
     }
+
 }

@@ -9,16 +9,34 @@ import kotlinx.serialization.Serializable
 data class Chore(
     var assignees: List<Int> = listOf(),
     var houseWorkName: String = "",
-    var repeatCycle: String? = "0",
-    var repeatEndDate: String? = "yyyy-MM-dd",
+    var repeatCycle: String? = RepeatCycle.ONCE.value,
+    var repeatPattern: String = "yyyy-MM-dd", // ONCE -> "yyyy-MM-dd", DAILY -> "", WEEKLY -> "monday" , MONTHLY -> "5"
     var scheduledDate: String = "yyyy-MM-dd",
-    var scheduledTime: String? = null,
+    var scheduledTime: String? = null, // ex) "10:00"
     var space: String = ""
 ) {
     companion object {
         const val DEFAULT_TIME = "하루 종일"
         const val ETC_SPACE = "ETC"
     }
+}
+
+enum class RepeatCycle(val value: String){
+    ONCE("O"),
+    DAYILY("D"),
+    WEEKLY("W"),
+    MONTHLY("M"),
+}
+
+enum class WeekDays(val value: String) {
+    MON("monday"),
+    TUE("tuesday"),
+    WED("wednesday"),
+    THR("thursday"),
+    FRI("friday"),
+    SAT("saturday"),
+    SUN("sunday"),
+    NONE("none")
 }
 
 @Serializable

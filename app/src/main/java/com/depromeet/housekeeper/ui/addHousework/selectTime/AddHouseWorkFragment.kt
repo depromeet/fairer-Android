@@ -22,7 +22,8 @@ import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
+class AddHouseWorkFragment :
+    BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addHouseWorkChoreAdapter: AddHouseWorkChoreAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
@@ -42,7 +43,7 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         initView()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -63,7 +64,10 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
                 if (it) {
-                    fragmentManager?.popBackStack(R.id.SelectSpaceFragment, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    fragmentManager?.popBackStack(
+                        R.id.SelectSpaceFragment,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                 }
             }
         }
@@ -182,6 +186,13 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.rvAddHouseWorkRepeat.layoutManager = GridLayoutManager(context, 7)
         binding.rvAddHouseWorkRepeat.adapter = dayRepeatAdapter
+        dayRepeatAdapter.setDayItemClickListener(object :
+            DayRepeatAdapter.DayItemClickListener {
+            override fun onItemClick(selectedDays: Array<Boolean>) {
+                val pos = viewModel.getPosition(PositionType.CUR)
+                viewModel.updateRepeatDays(pos, selectedDays)
+            }
+        })
     }
 
     private fun updateTime() {
@@ -191,7 +202,10 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
 
     private fun updateChore(position: Int) {
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChore(viewModel.curTime.value, position)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChore(
+                viewModel.curTime.value,
+                position
+            )
             else -> viewModel.updateChore(null, position)
         }
     }
@@ -265,7 +279,6 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         val min = temp[1].toInt()
         return Pair(hour, min)
     }
-
 
 
 }

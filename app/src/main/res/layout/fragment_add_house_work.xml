@@ -80,7 +80,7 @@
                     android:drawablePadding="4dp"
                     android:paddingStart="4dp"
                     android:text="@{currentDate}"
-                    android:textColor="@color/gray_900"
+                    android:textColor="@color/text_inactive_selector"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/ic_calendar_today"
                     app:layout_constraintStart_toStartOf="parent"
