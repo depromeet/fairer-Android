@@ -66,6 +66,11 @@
         <item>일</item>
     </string-array>
 
+    <string-array name="repeat_cycle_array">
+        <item>매주</item>
+        <item>매달</item>
+    </string-array>
+
     <!--ItemRecyclerMainList-->
     <string name="time">오후 9:30</string>
     <string name="task">이불 정리</string>

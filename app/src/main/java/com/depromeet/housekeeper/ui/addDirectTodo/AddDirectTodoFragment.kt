@@ -265,11 +265,11 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             assignees.plus(it.memberId)
         }
         val chore = Chore(
-            assignees,
-            houseWork.houseWorkName,
-            houseWork.scheduledDate,
-            houseWork.scheduledTime,
-            houseWork.space
+            assignees = assignees,
+            houseWorkName = houseWork.houseWorkName,
+            scheduledDate = houseWork.scheduledDate,
+            scheduledTime = houseWork.scheduledTime,
+            space = houseWork.space
         )
 
         // viewmodel update

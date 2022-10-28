@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -124,13 +125,6 @@ class AddHouseWorkFragment :
             }
         }
 
-        binding.switchRepeatEveryMonth.apply {
-            setOnCheckedChangeListener { button, isChecked ->
-                binding.isMonthRepeatChecked = isChecked
-                binding.tvEveryMonth.isSelected = isChecked
-            }
-        }
-
         binding.addHouseWorkDateTv.setOnClickListener {
             createDatePickerDialog()
         }
@@ -180,6 +174,16 @@ class AddHouseWorkFragment :
                 updateView(viewModel.getPosition(PositionType.CUR))
             }
         })
+
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.repeat_cycle_array,
+            R.layout.item_spinner
+        ).also {
+            it.setDropDownViewResource(R.layout.item_spinner_dropdown)
+            binding.spinnerRepeat.adapter = it
+        }
 
         // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
