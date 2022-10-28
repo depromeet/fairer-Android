@@ -39,7 +39,10 @@
     <string name="assignee_bottom_sheet_cancel_text">취소</string>
     <string name="assignee_bottom_sheet_ok_text">확인</string>
     <string name="add_assignee_toast_text">집안일 담당자를 지정해주세요.</string>
-
+    <string name="add_house_repeat_cycle">반복주기</string>
+    <string name="add_house_describe_repeat">에 반복해요</string>
+    <string name="add_house_repeat_weekly">매주</string>
+    <string name="add_house_repeat_monthly">매달</string>
 
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_btn_text">취소</string>
