@@ -126,7 +126,7 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun updateRepeatDays(pos: Int, selectedDays: Array<Boolean>) {
         val dayList = mutableListOf<String>()
-        for (i in 0.. selectedDays.size){
+        for (i in selectedDays.indices){
             if (!selectedDays[i]) continue
             val day: WeekDays = when (i) {
                 0 -> WeekDays.MON
@@ -197,9 +197,14 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        setDate(_selectCalendar.value)
-        val str = _selectCalendar.value.split("-")
+        setDate(selectCalendar.value)
+        val str = selectCalendar.value.split("-")
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
+    }
+
+    fun getCurDay(): String {
+        val str = curDate.value.split("-")
+        return "${str[2]}일"
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {

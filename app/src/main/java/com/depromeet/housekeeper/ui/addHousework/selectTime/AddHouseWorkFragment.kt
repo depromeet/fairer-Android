@@ -2,6 +2,8 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -35,7 +37,6 @@ class AddHouseWorkFragment :
     override fun createView(binding: FragmentAddHouseWorkBinding) {
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
-        binding.currentDate = viewModel.bindingDate()
     }
 
     override fun viewCreated() {
@@ -47,6 +48,9 @@ class AddHouseWorkFragment :
 
     private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+        binding.currentDate = viewModel.bindingDate()
+        binding.doRepeatMontly = false
+        setRepeatTextView()
     }
 
     private fun bindingVm() {
@@ -134,9 +138,24 @@ class AddHouseWorkFragment :
             createBottomSheet()
         }
 
+        binding.clRepeatCycle.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
+
         binding.btnSpinnerDropdown.setOnClickListener {
             binding.spinnerRepeat.performClick()
         }
+
+        binding.spinnerRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
+                binding.doRepeatMontly = pos == 1
+                setRepeatTextView()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
     }
 
     private fun setAdapter() {
@@ -181,6 +200,12 @@ class AddHouseWorkFragment :
         })
 
 
+        setRepeatAdapter()
+
+    }
+
+    private fun setRepeatAdapter() {
+        // 반복주기
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.repeat_cycle_array,
@@ -202,8 +227,23 @@ class AddHouseWorkFragment :
             override fun onItemClick(selectedDays: Array<Boolean>) {
                 val pos = viewModel.getPosition(PositionType.CUR)
                 viewModel.updateRepeatDays(pos, selectedDays)
+                var realSize = 0
+                selectedDays.forEach {
+                    if (it) realSize++
+                }
+                binding.repeatDaySelected = realSize != 0
             }
         })
+    }
+
+    private fun setRepeatTextView(){
+        binding.repeatDay = " " + viewModel.getCurDay()
+
+        binding.repeatCycle = if (binding.doRepeatMontly == true){
+            getString(R.string.add_house_repeat_monthly)
+        } else {
+            getString(R.string.add_house_repeat_weekly)
+        }
     }
 
     private fun updateTime() {
@@ -272,10 +312,10 @@ class AddHouseWorkFragment :
             set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
         }
 
-        val datePickerDialog = DatePickerDialog(
-            this.requireContext(),
+        val datePickerDialog = DatePickerDialog(this.requireContext(),
             { _, year, month, dayOfMonth ->
                 viewModel.updateCalendarView(year, month, dayOfMonth)
+                binding.repeatDay = " ${dayOfMonth}일"
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) - 1,

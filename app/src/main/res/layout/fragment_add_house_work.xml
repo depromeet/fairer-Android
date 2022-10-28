@@ -32,6 +32,13 @@
             name="repeatDay"
             type="String" />
 
+        <variable
+            name="doRepeatMontly"
+            type="Boolean" />
+
+        <variable
+            name="repeatDaySelected"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -249,8 +256,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/cl_repeat_setting"
-                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}">
+                    android:clickable="true"
+                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layout_constraintTop_toBottomOf="@id/cl_repeat_setting">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_repeat_cycle_selector"
@@ -276,24 +284,23 @@
                             android:id="@+id/spinner_repeat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@null"
                             android:dropDownWidth="98dp"
                             android:spinnerMode="dropdown"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/btn_spinner_dropdown"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:background="@null"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/btn_spinner_dropdown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_expand_more"
-                            android:padding="4dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/spinner_repeat"
-                            app:layout_constraintBottom_toBottomOf="@id/spinner_repeat"
                             android:clickable="true"
-                            />
+                            android:padding="4dp"
+                            android:src="@drawable/ic_expand_more"
+                            app:layout_constraintBottom_toBottomOf="@id/spinner_repeat"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/spinner_repeat" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,6 +312,7 @@
                         android:choiceMode="multipleChoice"
                         android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
+                        android:visibility="@{isRepeatChecked &amp;&amp; !doRepeatMontly ? View.VISIBLE : View.GONE, default = gone}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/cl_repeat_cycle_selector"
                         tools:listitem="@layout/item_todo_repeat_day_btn" />
@@ -315,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
+                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMontly || repeatDaySelected) ? View.VISIBLE : View.GONE, default = gone}"
                     app:layout_constraintTop_toBottomOf="@id/cl_repeat_cycle">
 
                     <TextView
