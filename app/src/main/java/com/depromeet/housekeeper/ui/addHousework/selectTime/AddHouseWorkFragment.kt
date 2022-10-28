@@ -18,6 +18,7 @@ import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddHouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.util.dp2px
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
@@ -132,6 +133,10 @@ class AddHouseWorkFragment :
         binding.addAssigneeLayout.setOnClickListener {
             createBottomSheet()
         }
+
+        binding.btnSpinnerDropdown.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
     }
 
     private fun setAdapter() {
@@ -182,6 +187,8 @@ class AddHouseWorkFragment :
             R.layout.item_spinner
         ).also {
             it.setDropDownViewResource(R.layout.item_spinner_dropdown)
+            binding.spinnerRepeat.dropDownVerticalOffset = dp2px(requireContext(), 30f).toInt()
+            binding.spinnerRepeat.dropDownHorizontalOffset = -dp2px(requireContext(), 26f).toInt()
             binding.spinnerRepeat.adapter = it
         }
 
