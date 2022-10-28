@@ -58,6 +58,8 @@ class AddHouseWorkViewModel @Inject constructor(
     private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
     val selectCalendar: StateFlow<String> get() = _selectCalendar
 
+    private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
 
     init {
         setGroupInfo()
@@ -124,9 +126,9 @@ class AddHouseWorkViewModel @Inject constructor(
         }
     }
 
-    fun updateRepeatDays(pos: Int, selectedDays: Array<Boolean>) {
-        val dayList = mutableListOf<String>()
-        for (i in selectedDays.indices){
+    fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
+        val dayList = mutableListOf<WeekDays>()
+        for (i in selectedDays.indices) {
             if (!selectedDays[i]) continue
             val day: WeekDays = when (i) {
                 0 -> WeekDays.MON
@@ -136,11 +138,29 @@ class AddHouseWorkViewModel @Inject constructor(
                 4 -> WeekDays.FRI
                 5 -> WeekDays.SAT
                 6 -> WeekDays.SUN
-                else -> {WeekDays.NONE}
+                else -> {
+                    WeekDays.NONE
+                }
             }
-            dayList.add(day.value)
+            dayList.add(day)
         }
-        _chores.value[pos].repeatCycle = if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        _selectedDayList = dayList
+        return dayList.toList()
+    }
+
+    fun getRepeatDaysString(type: String): MutableList<String> {
+        val repeatDaysString = mutableListOf<String>()
+        if (type == "kor") {
+            selectedDayList.forEach { repeatDaysString.add(it.kor) }
+        } else if (type == "eng"){
+            selectedDayList.forEach { repeatDaysString.add(it.eng) }
+        }
+        return repeatDaysString
+    }
+
+    fun updateRepeatDays(pos: Int, dayList: List<String>) {
+        _chores.value[pos].repeatCycle =
+            if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
         _chores.value[pos].repeatPattern = dayList.joinToString(",")
     }
 

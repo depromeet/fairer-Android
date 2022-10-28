@@ -28,15 +28,15 @@ enum class RepeatCycle(val value: String){
     MONTHLY("M"),
 }
 
-enum class WeekDays(val value: String) {
-    MON("monday"),
-    TUE("tuesday"),
-    WED("wednesday"),
-    THR("thursday"),
-    FRI("friday"),
-    SAT("saturday"),
-    SUN("sunday"),
-    NONE("none")
+enum class WeekDays(val eng: String, val kor: String) {
+    MON("monday", "월"),
+    TUE("tuesday", "화"),
+    WED("wednesday", "수"),
+    THR("thursday", "목"),
+    FRI("friday", "금"),
+    SAT("saturday","토"),
+    SUN("sunday","일"),
+    NONE("none","")
 }
 
 @Serializable

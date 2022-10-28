@@ -226,12 +226,14 @@ class AddHouseWorkFragment :
             DayRepeatAdapter.DayItemClickListener {
             override fun onItemClick(selectedDays: Array<Boolean>) {
                 val pos = viewModel.getPosition(PositionType.CUR)
-                viewModel.updateRepeatDays(pos, selectedDays)
-                var realSize = 0
-                selectedDays.forEach {
-                    if (it) realSize++
-                }
-                binding.repeatDaySelected = realSize != 0
+                val repeatDays = viewModel.getRepeatDays(selectedDays)
+                binding.repeatDaySelected = repeatDays.isNotEmpty()
+
+                var repeatDaysString = viewModel.getRepeatDaysString("eng")
+                viewModel.updateRepeatDays(pos, repeatDaysString)
+
+                repeatDaysString = viewModel.getRepeatDaysString("kor")
+                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
             }
         })
     }
@@ -239,10 +241,11 @@ class AddHouseWorkFragment :
     private fun setRepeatTextView(){
         binding.repeatDay = " " + viewModel.getCurDay()
 
-        binding.repeatCycle = if (binding.doRepeatMontly == true){
-            getString(R.string.add_house_repeat_monthly)
+        if (binding.doRepeatMontly == true){
+            binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
-            getString(R.string.add_house_repeat_weekly)
+            binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
+            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
         }
     }
 
@@ -315,7 +318,7 @@ class AddHouseWorkFragment :
         val datePickerDialog = DatePickerDialog(this.requireContext(),
             { _, year, month, dayOfMonth ->
                 viewModel.updateCalendarView(year, month, dayOfMonth)
-                binding.repeatDay = " ${dayOfMonth}일"
+                if (binding.doRepeatMontly == true) binding.repeatDay = " ${dayOfMonth}일"
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) - 1,
