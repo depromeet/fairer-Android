@@ -39,6 +39,27 @@ enum class WeekDays(val eng: String, val kor: String) {
     NONE("NONE","")
 }
 
+@Parcelize
+data class EditChore(
+    var assignees: List<Int> = listOf(),
+    var houseWorkId: Int,
+    var houseWorkName: String = "",
+    var repeatCycle: String? = RepeatCycle.ONCE.value,
+    var repeatEndDate: String,
+    var repeatPattern: String = "yyyy-MM-dd", // ONCE -> "yyyy-MM-dd", DAILY -> "", WEEKLY -> "monday" , MONTHLY -> "5"
+    var scheduledDate: String = "yyyy-MM-dd",
+    var scheduledTime: String? = null, // ex) "10:00"
+    var space: String = "",
+    var type: String = EditType.ONLY.value,
+    var updateStandardDate: String,
+): Parcelable
+
+enum class EditType(val value: String){
+    ONLY("O"),
+    FORWARD("H"),
+    ALL("A")
+}
+
 @Serializable
 data class ChoreList(
     val space: String,

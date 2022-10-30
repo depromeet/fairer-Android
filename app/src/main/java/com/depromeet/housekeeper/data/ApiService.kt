@@ -13,10 +13,6 @@ interface ApiService {
     suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
     //todo v2 수정
-    @PUT("/api/houseworks/{houseWorkId}")
-    suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
-
-    //todo v2 수정
     @DELETE("/api/houseworks/{houseWorkId}")
     suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
@@ -43,8 +39,13 @@ interface ApiService {
         @Query("toDate") toDate: String
     ): Map<String, HouseWorks>
 
+    // todo 집안일 완료 api로 변경
     @GET("/api/houseworks/success/count")
     suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
+
+    @PUT("/api/houseworks/v2")
+    suspend fun editHouseWork(@Body editChore: EditChore)
+
 
 
     /**

@@ -20,12 +20,6 @@ class MainRepository @Inject constructor(
     suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>> =
         remoteDataSource.createHouseWorks(houseWorks)
 
-    suspend fun editHouseWork(houseWorkId: Int, chore: Chore): Flow<HouseWork> =
-        remoteDataSource.editHouseWork(houseWorkId,chore)
-
-    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> =
-        remoteDataSource.deleteHouseWork(houseWorkId)
-
     suspend fun updateChoreState(
         houseWorkId: Int,
         updateChoreBody: UpdateChoreBody,
@@ -47,6 +41,13 @@ class MainRepository @Inject constructor(
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
+
+    suspend fun editHouseWork(editChore: EditChore):  Flow<ApiResult<Unit>> =
+        remoteDataSource.editHouseWork(editChore)
+
+    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> =
+        remoteDataSource.deleteHouseWork(houseWorkId)
+
 
     /**
      * presets
