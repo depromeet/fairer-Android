@@ -8,7 +8,7 @@ import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.request.UpdateChoreBody
-import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil.dateFormat

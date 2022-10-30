@@ -1,8 +1,6 @@
 package com.depromeet.housekeeper.data.repository
 
-
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineScope
@@ -36,16 +34,16 @@ class MainRepository @Inject constructor(
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
         remoteDataSource.getDetailHouseWorks(houseWorkId)
 
-    suspend fun getDateHouseWorkList(
-        fromDate: String,
-        toDate: String
-    ): Flow<Map<String, HouseWorks>> = remoteDataSource.getDateHouseWorkList(fromDate, toDate)
-
     suspend fun getPeriodHouseWorkListOfMember(
         teamMemberId: Int,
         fromDate: String,
         toDate: String
     ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
+
+    suspend fun getDateHouseWorkList(
+        fromDate: String,
+        toDate: String
+    ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getDateHouseWorkList(fromDate, toDate)
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)

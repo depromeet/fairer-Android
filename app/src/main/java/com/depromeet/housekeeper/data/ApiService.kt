@@ -1,7 +1,5 @@
 package com.depromeet.housekeeper.data
 
-
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import retrofit2.http.*
@@ -32,18 +30,18 @@ interface ApiService {
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
+    @GET("/api/houseworks/list/member/{teamMemberId}/query")
+    suspend fun getPeriodHouseWorkListOfMember(
+        @Path("teamMemberId") teamMemberId: Int,
+        @Query("fromDate") fromDate: String,
+        @Query("toDate") toDate: String,
+    ): Map<String, HouseWorks> // ex) key: 2022-08-14
+
     @GET("/api/houseworks/list/query")
     suspend fun getDateHouseWorkList(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
     ): Map<String, HouseWorks>
-
-    @GET("/api/houseworks/list/member/{teamMemberId}/query")
-    suspend fun getPeriodHouseWorkListOfMember(
-        @Path("teamMemberId") teamMemberId: Int,
-        @Query("fromDate") fromDate: String,
-        @Query("toDate") toDate: String
-    ): Map<String, HouseWorks> // ex) key: 2022-08-14
 
     @GET("/api/houseworks/success/count")
     suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork

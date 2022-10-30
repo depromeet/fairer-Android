@@ -1,6 +1,7 @@
 package com.depromeet.housekeeper.model.request
 
 import android.os.Parcelable
+import com.depromeet.housekeeper.model.Assignee
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 

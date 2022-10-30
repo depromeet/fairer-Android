@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.data.dataSource
 
 import com.depromeet.housekeeper.data.ApiService
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -48,9 +47,9 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun getDateHouseWorkList(
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>> {
-        return flow {
-            emit(apiService.getDateHouseWorkList(fromDate, toDate))
+    ): Flow<ApiResult<Map<String, HouseWorks>>> {
+        return safeFlow {
+            apiService.getDateHouseWorkList(fromDate, toDate)
         }.flowOn(ioDispatcher)
     }
 
