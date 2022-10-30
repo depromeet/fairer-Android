@@ -25,7 +25,7 @@ open class BaseViewModel : ViewModel() {
                 Timber.e("ApiResult Error : code = ${result.code}, msg = ${result.message}")
             }
             is ApiResult.Exception -> {
-                //setNetworkError(true)
+                setNetworkError(true)
                 Timber.e("ApiResult Exception : ${result.e}")
             }
         }

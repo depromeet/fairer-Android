@@ -254,14 +254,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    // todo
     fun getDetailHouseWork(houseWorkId: Int) {
         viewModelScope.launch {
-            mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
-                collect {
-                    _userProfiles.value = it.assignees.toMutableList()
+            mainRepository.getDetailHouseWorks(houseWorkId).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null){
+                    _userProfiles.value = result.assignees.toMutableList()
                 }
-            }.onFailure {
             }
         }
     }
