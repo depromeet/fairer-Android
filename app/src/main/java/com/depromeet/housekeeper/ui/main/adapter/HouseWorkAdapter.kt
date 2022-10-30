@@ -52,9 +52,9 @@ class HouseWorkAdapter(
 
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return list[position].now
-    }
+//    override fun getItemViewType(position: Int): Int {
+//        return list[position].now
+//    }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(list[position])

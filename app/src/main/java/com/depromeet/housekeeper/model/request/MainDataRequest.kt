@@ -4,7 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-//todo repeat~
 @Serializable
 data class Chore(
     var assignees: List<Int> = listOf(),

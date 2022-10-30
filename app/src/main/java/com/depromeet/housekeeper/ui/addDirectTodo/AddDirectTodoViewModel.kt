@@ -223,7 +223,7 @@ class AddDirectTodoViewModel @Inject constructor(
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
-            mainRepository.createHouseWorks(Chores(_chores.value))
+            mainRepository.createHouseWorks(_chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
                     result?.houseWorks?.forEach {

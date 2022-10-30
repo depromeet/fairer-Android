@@ -158,10 +158,10 @@ class AddHouseWorkViewModel @Inject constructor(
         return repeatDaysString
     }
 
-    fun updateRepeatDays(pos: Int, dayList: List<String>) {
+    fun updateRepeatInform(pos: Int, dayList: List<String>) {
         _chores.value[pos].repeatCycle =
             if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
-        _chores.value[pos].repeatPattern = dayList.joinToString(",")
+        _chores.value[pos].repeatPattern = dayList.joinToString(", ")
     }
 
     fun initChores(space: String, choreName: List<String>) {
@@ -260,7 +260,7 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun createHouseWorks() {
         viewModelScope.launch {
-            mainRepository.createHouseWorks(Chores(chores.value))
+            mainRepository.createHouseWorks(chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
                     result?.houseWorks?.forEach {
