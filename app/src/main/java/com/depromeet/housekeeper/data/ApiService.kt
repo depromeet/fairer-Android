@@ -12,7 +12,7 @@ interface ApiService {
      * houseWorks
      */
     @POST("/api/houseworks")
-    suspend fun createHouseWorks(@Body houseWorks: List<Chore>): HouseWorkCreateResponse
+    suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
     //todo v2 수정
     @PUT("/api/houseworks/{houseWorkId}")

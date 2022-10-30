@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
@@ -63,6 +64,12 @@ class AddHouseWorkFragment :
         lifecycleScope.launchWhenCreated {
             viewModel.curAssignees.collect {
                 addAssigneeAdapter.updateAssignees(it)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.createdSucess.collect{
+                if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
             }
         }
 
@@ -150,6 +157,9 @@ class AddHouseWorkFragment :
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
                 binding.doRepeatMontly = pos == 1
                 setRepeatTextView()
+                if (pos == 1) {
+                    viewModel.updateRepeatInform()
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -225,12 +235,11 @@ class AddHouseWorkFragment :
         dayRepeatAdapter.setDayItemClickListener(object :
             DayRepeatAdapter.DayItemClickListener {
             override fun onItemClick(selectedDays: Array<Boolean>) {
-                val pos = viewModel.getPosition(PositionType.CUR)
                 val repeatDays = viewModel.getRepeatDays(selectedDays)
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
 
                 var repeatDaysString = viewModel.getRepeatDaysString("eng")
-                viewModel.updateRepeatInform(pos, repeatDaysString)
+                viewModel.updateRepeatInform(repeatDaysString)
 
                 repeatDaysString = viewModel.getRepeatDaysString("kor")
                 binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
@@ -238,10 +247,10 @@ class AddHouseWorkFragment :
         })
     }
 
-    private fun setRepeatTextView(){
-        binding.repeatDay = " " + viewModel.getCurDay()
+    private fun setRepeatTextView() {
+        binding.repeatDay = " " + viewModel.getCurDay("일")
 
-        if (binding.doRepeatMontly == true){
+        if (binding.doRepeatMontly == true) {
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
@@ -256,11 +265,9 @@ class AddHouseWorkFragment :
 
     private fun updateChore(position: Int) {
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChore(
-                viewModel.curTime.value,
-                position
-            )
-            else -> viewModel.updateChore(null, position)
+            binding.switchHouseworkTime.isChecked ->
+                viewModel.updateChoreTime(viewModel.curTime.value, position)
+            else -> viewModel.updateChoreTime(null, position)
         }
     }
 
@@ -315,7 +322,8 @@ class AddHouseWorkFragment :
             set(Calendar.DAY_OF_MONTH, selectDate.split("-")[2].toInt())
         }
 
-        val datePickerDialog = DatePickerDialog(this.requireContext(),
+        val datePickerDialog = DatePickerDialog(
+            this.requireContext(),
             { _, year, month, dayOfMonth ->
                 viewModel.updateCalendarView(year, month, dayOfMonth)
                 if (binding.doRepeatMontly == true) binding.repeatDay = " ${dayOfMonth}일"

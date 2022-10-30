@@ -7,12 +7,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HouseWork(
     val assignees: List<Assignee>,
-    val houseWorkCompleteId: Int,
+    val houseWorkCompleteId: Int? = 0,
     val houseWorkId: Int,
     val houseWorkName: String,
-    val repeatCycle: String,
-    val repeatEndDate: String,
-    val repeatPattern: String,
+    val repeatCycle: String? ="",
+    val repeatEndDate: String? = "",
+    val repeatPattern: String? = "",
     val scheduledDate: String,
     val scheduledTime: String?,
     val space: String,

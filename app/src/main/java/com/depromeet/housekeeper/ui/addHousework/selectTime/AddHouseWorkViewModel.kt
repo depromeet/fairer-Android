@@ -61,6 +61,9 @@ class AddHouseWorkViewModel @Inject constructor(
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
     val selectedDayList get() = _selectedDayList
 
+    private var _createdSuccess = MutableStateFlow(false)
+    val createdSucess get() = _createdSuccess
+
     init {
         setGroupInfo()
     }
@@ -158,10 +161,17 @@ class AddHouseWorkViewModel @Inject constructor(
         return repeatDaysString
     }
 
-    fun updateRepeatInform(pos: Int, dayList: List<String>) {
+    fun updateRepeatInform(dayList: List<String>) {
+        val pos = getPosition(PositionType.CUR)
         _chores.value[pos].repeatCycle =
             if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
         _chores.value[pos].repeatPattern = dayList.joinToString(", ")
+    }
+
+    fun updateRepeatInform(){
+        val pos = getPosition(PositionType.CUR)
+        _chores.value[pos].repeatCycle = RepeatCycle.MONTHLY.value
+        _chores.value[pos].repeatPattern = getCurDay()
     }
 
     fun initChores(space: String, choreName: List<String>) {
@@ -181,16 +191,12 @@ class AddHouseWorkViewModel @Inject constructor(
         _chores.value.addAll(temp)
     }
 
-    fun updateChore(time: String?, position: Int) {
+    fun updateChoreTime(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
     }
 
     fun getChore(position: Int): Chore {
         return _chores.value[position]
-    }
-
-    fun getChores(): ArrayList<Chore> {
-        return chores.value
     }
 
     fun updateChoreDate() {
@@ -199,6 +205,9 @@ class AddHouseWorkViewModel @Inject constructor(
         }
     }
 
+    fun getChores(): ArrayList<Chore> {
+        return chores.value
+    }
 
     fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
@@ -222,9 +231,14 @@ class AddHouseWorkViewModel @Inject constructor(
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
 
+    fun getCurDay(lastWord: String): String {
+        val str = curDate.value.split("-")
+        return "${str[2]}$lastWord"
+    }
+
     fun getCurDay(): String {
         val str = curDate.value.split("-")
-        return "${str[2]}일"
+        return str[2]
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
@@ -263,8 +277,10 @@ class AddHouseWorkViewModel @Inject constructor(
             mainRepository.createHouseWorks(chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
-                    result?.houseWorks?.forEach {
-                        if (!it.success) setNetworkError(true)
+                    if (result.isNullOrEmpty()) {
+                        setNetworkError(true)
+                    }else {
+                        _createdSuccess.value = true
                     }
                 }
         }

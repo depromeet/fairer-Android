@@ -226,8 +226,8 @@ class AddDirectTodoViewModel @Inject constructor(
             mainRepository.createHouseWorks(_chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
-                    result?.houseWorks?.forEach {
-                        if (!it.success) setNetworkError(true)
+                    if (result.isNullOrEmpty()) {
+                        setNetworkError(true)
                     }
                 }
         }

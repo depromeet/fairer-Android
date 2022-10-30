@@ -323,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMontly || repeatDaySelected) ? View.VISIBLE : View.GONE, default = gone}"
+                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMontly || repeatDaySelected) ? View.VISIBLE : View.INVISIBLE, default = gone}"
                     app:layout_constraintTop_toBottomOf="@id/cl_repeat_cycle">
 
                     <TextView

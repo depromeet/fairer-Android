@@ -19,7 +19,7 @@ class MainRepository @Inject constructor(
     /**
      * houseWorks
      */
-    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<HouseWorkCreateResponse>> =
+    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>> =
         remoteDataSource.createHouseWorks(houseWorks)
 
     suspend fun editHouseWork(houseWorkId: Int, chore: Chore): Flow<HouseWork> =

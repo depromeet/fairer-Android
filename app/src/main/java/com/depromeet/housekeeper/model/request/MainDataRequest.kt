@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Parcelize
 data class Chore(
     var assignees: List<Int> = listOf(),
     var houseWorkName: String = "",
@@ -13,7 +13,7 @@ data class Chore(
     var scheduledDate: String = "yyyy-MM-dd",
     var scheduledTime: String? = null, // ex) "10:00"
     var space: String = ""
-) {
+): Parcelable {
     companion object {
         const val DEFAULT_TIME = "하루 종일"
         const val ETC_SPACE = "ETC"
@@ -28,14 +28,14 @@ enum class RepeatCycle(val value: String){
 }
 
 enum class WeekDays(val eng: String, val kor: String) {
-    MON("monday", "월"),
-    TUE("tuesday", "화"),
-    WED("wednesday", "수"),
-    THR("thursday", "목"),
-    FRI("friday", "금"),
-    SAT("saturday","토"),
-    SUN("sunday","일"),
-    NONE("none","")
+    MON("MONDAY", "월"),
+    TUE("TUESDAY", "화"),
+    WED("WEDNESDAY", "수"),
+    THR("THURSDAY", "목"),
+    FRI("FRIDAY", "금"),
+    SAT("SATURDAY","토"),
+    SUN("SUNDAY","일"),
+    NONE("NONE","")
 }
 
 @Serializable
@@ -44,10 +44,10 @@ data class ChoreList(
     val houseWorks: List<String>
 )
 
-@Serializable
+@Parcelize
 data class Chores(
     val houseWorks: List<Chore>
-)
+): Parcelable
 
 @Parcelize
 data class Rule(
