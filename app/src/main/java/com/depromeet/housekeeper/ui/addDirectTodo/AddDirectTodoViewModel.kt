@@ -75,6 +75,9 @@ class AddDirectTodoViewModel @Inject constructor(
     private var _editChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
     val editChore: StateFlow<EditChore?> get() = _editChore
 
+    private var _nEditChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
+    val nEditChore: StateFlow<EditChore?> get() = _nEditChore
+
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
     val selectedDayList get() = _selectedDayList
 
@@ -115,21 +118,23 @@ class AddDirectTodoViewModel @Inject constructor(
                 scheduledTime = scheduledTime,
                 space = space,
                 type = EditType.NONE.value,
-                updateStandardDate =scheduledDate
+                updateStandardDate = scheduledDate
             )
             _editChore.value = nEditChore
         }
         _curDate.value = houseWork.scheduledDate
         _curTime.value = houseWork.scheduledTime
         setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
+
+        _nEditChore.value = editChore.value
     }
 
-    fun setSelectedDayList(repeatPattern: String){
+    fun setSelectedDayList(repeatPattern: String) {
         val arr = repeatPattern.split(",")
         _selectedDayList.clear()
         arr.forEach {
             var item = WeekDays.NONE
-            when (it){
+            when (it) {
                 WeekDays.MON.eng -> WeekDays.MON
                 WeekDays.TUE.eng -> WeekDays.TUE
                 WeekDays.WED.eng -> WeekDays.WED
@@ -146,10 +151,56 @@ class AddDirectTodoViewModel @Inject constructor(
         val repeatDaysString = mutableListOf<String>()
         if (type == "kor") {
             selectedDayList.forEach { repeatDaysString.add(it.kor) }
-        } else if (type == "eng"){
+        } else if (type == "eng") {
             selectedDayList.forEach { repeatDaysString.add(it.eng) }
         }
         return repeatDaysString
+    }
+
+    fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
+        val dayList = mutableListOf<WeekDays>()
+        for (i in selectedDays.indices) {
+            if (!selectedDays[i]) continue
+            val day: WeekDays = when (i) {
+                0 -> WeekDays.MON
+                1 -> WeekDays.TUE
+                2 -> WeekDays.WED
+                3 -> WeekDays.THR
+                4 -> WeekDays.FRI
+                5 -> WeekDays.SAT
+                6 -> WeekDays.SUN
+                else -> {
+                    WeekDays.NONE
+                }
+            }
+            dayList.add(day)
+        }
+        _selectedDayList = dayList
+        return dayList.toList()
+    }
+
+    fun updateRepeatInform(dayList: List<String>) {
+        val cycle = if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        val pattern = dayList.joinToString(",")
+        if (nEditChore.value != null) {
+            _nEditChore.value!!.repeatCycle = cycle
+            _nEditChore.value!!.repeatPattern = pattern
+        } else {
+            _chores.value[0].repeatCycle = cycle
+            _chores.value[0].repeatPattern = pattern
+        }
+    }
+
+    fun updateRepeatInform(repeatCycle: RepeatCycle){
+        if (repeatCycle != RepeatCycle.MONTHLY) return
+
+        if (nEditChore.value != null) {
+            _nEditChore.value!!.repeatCycle = repeatCycle.value
+            _nEditChore.value!!.repeatPattern = getCurDay("")
+        }else {
+            _chores.value[0].repeatCycle = repeatCycle.value
+            _chores.value[0].repeatPattern = getCurDay("")
+        }
     }
 
     fun getCurDay(lastWord: String): String {
@@ -297,16 +348,12 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    // todo api 변경후 작업
     fun editHouseWork() {
         viewModelScope.launch {
-            mainRepository.editHouseWork(houseWorkId.value, _chores.value[0])
-                .runCatching {
-                    collect {
-                        Timber.d(it.toString())
-                    }
-                }.onFailure {
-                    setNetworkError(true)
+            if (nEditChore.value == null) return@launch
+            mainRepository.editHouseWork(nEditChore.value!!)
+                .collectLatest {
+                    receiveApiResult(it)
                 }
         }
     }

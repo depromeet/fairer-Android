@@ -16,6 +16,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
@@ -158,7 +159,7 @@ class AddHouseWorkFragment :
                 binding.doRepeatMontly = pos == 1
                 setRepeatTextView()
                 if (pos == 1) {
-                    viewModel.updateRepeatInform()
+                    viewModel.updateRepeatInform(RepeatCycle.MONTHLY)
                 }
             }
 

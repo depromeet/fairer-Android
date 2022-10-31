@@ -166,10 +166,12 @@ class AddHouseWorkViewModel @Inject constructor(
         _chores.value[pos].repeatPattern = dayList.joinToString(",")
     }
 
-    fun updateRepeatInform(){
-        val pos = getPosition(PositionType.CUR)
-        _chores.value[pos].repeatCycle = RepeatCycle.MONTHLY.value
-        _chores.value[pos].repeatPattern = getCurDay()
+    fun updateRepeatInform(repeatCycle: RepeatCycle){
+        if (repeatCycle == RepeatCycle.MONTHLY) {
+            val pos = getPosition(PositionType.CUR)
+            _chores.value[pos].repeatCycle = repeatCycle.value
+            _chores.value[pos].repeatPattern = getCurDay("")
+        }
     }
 
     fun initChores(space: String, choreName: List<String>) {
@@ -232,11 +234,6 @@ class AddHouseWorkViewModel @Inject constructor(
     fun getCurDay(lastWord: String): String {
         val str = curDate.value.split("-")
         return "${str[2]}$lastWord"
-    }
-
-    fun getCurDay(): String {
-        val str = curDate.value.split("-")
-        return str[2]
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {

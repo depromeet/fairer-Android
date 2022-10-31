@@ -5,6 +5,8 @@ import android.content.Context
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +29,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.util.dp2px
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -110,28 +113,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         }
         binding.addDirectTodoTitleEt.fairerEt.hint = getString(R.string.add_direct_todo_title_hint)
 
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener {
-            val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
-            binding.isTextChanged = true
-            if (!value.matches(pattern.toRegex())) {
-                binding.isError = true
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
-                binding.tvError.setText(R.string.sign_name_error)
-            } else if(value.length>16) {
-                binding.isError = true
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
-                binding.tvError.setText(R.string.sign_name_text_over_error)
-            } else {
-                binding.isError = false
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
-                    value.isNotEmpty()
-            }
-            if (value == "") {
-                binding.isTextChanged = false
-            }
-        }
-
+        initEditTextListener()
 
         binding.todoTimePicker.setOnTimeChangedListener { _, _, _ ->
             updateTime()
@@ -216,6 +198,38 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         binding.addDirectTodoDateTv.setOnClickListener {
             createDatePickerDialog()
         }
+
+        binding.clAddDirectTodoRepeatCycle.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
+
+        binding.btnSpinnerDropdown.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
+
+        binding.spinnerRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
+                binding.doRepeatMontly = pos == 1
+                setRepeatTextView()
+                if (pos == 1) {
+                    viewModel.updateRepeatInform(RepeatCycle.MONTHLY)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private fun setRepeatTextView() {
+        binding.repeatDay = " " + viewModel.getCurDay("일")
+
+        if (binding.doRepeatMontly == true) {
+            binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
+        } else {
+            binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
+            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+        }
     }
 
     private fun updateTime() {
@@ -299,17 +313,65 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
         binding.addAssigneeRv.adapter = addAssigneeAdapter
 
+        setRepeatAdapter()
+    }
+
+    private fun setRepeatAdapter(){
+        // 반복주기
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.repeat_cycle_array,
+            R.layout.item_spinner
+        ).also {
+            it.setDropDownViewResource(R.layout.item_spinner_dropdown)
+            binding.spinnerRepeat.dropDownVerticalOffset = dp2px(requireContext(), 30f).toInt()
+            binding.spinnerRepeat.dropDownHorizontalOffset = -dp2px(requireContext(), 26f).toInt()
+            binding.spinnerRepeat.adapter = it
+        }
+
         // 요일 반복 rv adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.rvAddDirectTodoRepeat.layoutManager = GridLayoutManager(context, 7)
         binding.rvAddDirectTodoRepeat.adapter = dayRepeatAdapter
         dayRepeatAdapter.setDayItemClickListener(object :
-        DayRepeatAdapter.DayItemClickListener{
+            DayRepeatAdapter.DayItemClickListener{
             override fun onItemClick(selectedDays: Array<Boolean>) {
-                TODO("Not yet implemented")
+                val repeatDays = viewModel.getRepeatDays(selectedDays)
+                binding.repeatDaySelected = repeatDays.isNotEmpty()
+
+                var repeatDaysString = viewModel.getRepeatDaysString("eng")
+                viewModel.updateRepeatInform(repeatDaysString)
+
+                repeatDaysString = viewModel.getRepeatDaysString("kor")
+                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
+
             }
         })
+    }
+
+    private fun initEditTextListener(){
+        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener {
+            val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
+            binding.isTextChanged = true
+            if (!value.matches(pattern.toRegex())) {
+                binding.isError = true
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                binding.tvError.setText(R.string.sign_name_error)
+            } else if(value.length>16) {
+                binding.isError = true
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                binding.tvError.setText(R.string.sign_name_text_over_error)
+            } else {
+                binding.isError = false
+                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
+                    value.isNotEmpty()
+            }
+            if (value == "") {
+                binding.isTextChanged = false
+            }
+        }
     }
 
     private fun hideKeyboard(v: View) {
