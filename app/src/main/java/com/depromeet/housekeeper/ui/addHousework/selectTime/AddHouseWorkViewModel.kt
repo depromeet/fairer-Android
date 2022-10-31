@@ -5,9 +5,7 @@ import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.Chore
-import com.depromeet.housekeeper.model.request.Chores
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.request.WeekDays
 import com.depromeet.housekeeper.util.PrefsManager

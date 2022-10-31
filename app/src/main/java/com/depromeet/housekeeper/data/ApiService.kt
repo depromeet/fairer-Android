@@ -12,10 +12,6 @@ interface ApiService {
     @POST("/api/houseworks")
     suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
-    //todo v2 수정
-    @DELETE("/api/houseworks/{houseWorkId}")
-    suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
-
     //todo v2 삭제 -> houseWorkComplete로 변경
     @PATCH("/api/houseworks/{houseWorkId}")
     suspend fun updateChoreState(
@@ -46,6 +42,9 @@ interface ApiService {
     @PUT("/api/houseworks/v2")
     suspend fun editHouseWork(@Body editChore: EditChore)
 
+    //todo v2 수정
+    @DELETE("/api/houseworks/{houseWorkId}")
+    suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
 
     /**

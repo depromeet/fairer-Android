@@ -6,8 +6,8 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.model.request.Chore
-import com.depromeet.housekeeper.model.request.Chores
+import com.depromeet.housekeeper.model.request.*
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,6 +72,12 @@ class AddDirectTodoViewModel @Inject constructor(
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
+    private var _editChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
+    val editChore: StateFlow<EditChore?> get() = _editChore
+
+    private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
+
     private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
@@ -92,22 +98,64 @@ class AddDirectTodoViewModel @Inject constructor(
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
-    fun initEditChore(chore: Chore, curAssignees: List<Assignee>) {
-        // main에서 받아온 집안일 정보 init
-        _curDate.value = chore.scheduledDate
-        _curTime.value = chore.scheduledTime
-
-        _chores.value[0].apply {
-            scheduledDate = chore.scheduledDate
-            houseWorkName = chore.houseWorkName
-            scheduledTime = chore.scheduledTime
-            space = chore.space
-            assignees = chore.assignees
+    fun initEditChore(houseWork: HouseWork) {
+        val assignList: ArrayList<Int> = arrayListOf()
+        houseWork.assignees.map {
+            assignList.plus(it.memberId)
         }
-
-        setCurAssignees(curAssignees as ArrayList<Assignee>)
+        houseWork.apply {
+            val nEditChore = EditChore(
+                assignees = assignList,
+                houseWorkId = houseWorkId,
+                houseWorkName = houseWorkName,
+                repeatCycle = repeatCycle,
+                repeatEndDate = repeatEndDate,
+                repeatPattern = repeatPattern,
+                scheduledDate = scheduledDate,
+                scheduledTime = scheduledTime,
+                space = space,
+                type = EditType.NONE.value,
+                updateStandardDate =scheduledDate
+            )
+            _editChore.value = nEditChore
+        }
+        _curDate.value = houseWork.scheduledDate
+        _curTime.value = houseWork.scheduledTime
+        setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
     }
 
+    fun setSelectedDayList(repeatPattern: String){
+        val arr = repeatPattern.split(",")
+        _selectedDayList.clear()
+        arr.forEach {
+            var item = WeekDays.NONE
+            when (it){
+                WeekDays.MON.eng -> WeekDays.MON
+                WeekDays.TUE.eng -> WeekDays.TUE
+                WeekDays.WED.eng -> WeekDays.WED
+                WeekDays.THR.eng -> WeekDays.THR
+                WeekDays.FRI.eng -> WeekDays.FRI
+                WeekDays.SAT.eng -> WeekDays.SAT
+                WeekDays.SUN.eng -> WeekDays.SUN
+            }
+            if (item != WeekDays.NONE) _selectedDayList.add(item)
+        }
+    }
+
+    fun getRepeatDaysString(type: String): MutableList<String> {
+        val repeatDaysString = mutableListOf<String>()
+        if (type == "kor") {
+            selectedDayList.forEach { repeatDaysString.add(it.kor) }
+        } else if (type == "eng"){
+            selectedDayList.forEach { repeatDaysString.add(it.eng) }
+        }
+        return repeatDaysString
+    }
+
+    fun getCurDay(lastWord: String): String {
+        val str = curDate.value.split("-")
+        return "${str[2]}$lastWord"
+    }
 
     fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
@@ -220,6 +268,7 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
+    //todo
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {

@@ -11,11 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.Chore
+import com.depromeet.housekeeper.model.request.EditChore
+import com.depromeet.housekeeper.model.request.EditType
+import com.depromeet.housekeeper.model.request.RepeatCycle
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
@@ -60,12 +65,8 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
-            ViewType.ADD -> {
-                viewModel.initDirectChore()
-            }
-            ViewType.EDIT -> {
-                onEditView()
-            }
+            ViewType.ADD -> { viewModel.initDirectChore() }
+            ViewType.EDIT -> { onEditView() }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -74,7 +75,12 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             }
         }
 
-        binding.space = spaceNameMapper(viewModel.chores.value[0].space)
+        val space = if (viewModel.editChore.value != null) {
+            viewModel.editChore.value!!.space
+        } else {
+            viewModel.chores.value[0].space
+        }
+        binding.space = spaceNameMapper(space)
 
         lifecycleScope.launchWhenStarted {
             viewModel.selectCalendar.collect {
@@ -217,6 +223,112 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         viewModel.updateTime(time.first, time.second)
     }
 
+
+    private fun onEditView() {
+        val houseWork: HouseWork = navArgs.houseWork
+        Timber.d("TAG $houseWork")
+        viewModel.initEditChore(houseWork)
+        viewModel.setHouseWorkId(houseWork.houseWorkId)
+        if (houseWork.repeatCycle== RepeatCycle.WEEKLY.value) {
+            viewModel.setSelectedDayList(houseWork.repeatPattern!!)
+        }
+
+        initEditView()
+    }
+
+    private fun initEditView() {
+        val editChore = viewModel.editChore.value!!
+
+        binding.addDirectTodoTitleEt.fairerEt.setText(editChore.houseWorkName)
+
+        if (editChore.scheduledTime != null) {
+            binding.switchHouseworkTime.isChecked = true
+            val time: Pair<Int, Int> = parseTime(editChore.scheduledTime!!)
+            binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
+        }
+
+        when (editChore.repeatCycle){
+            RepeatCycle.MONTHLY.value ->{
+                binding.isRepeatChecked = true
+                binding.doRepeatMontly = true
+                binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
+                binding.repeatDay = viewModel.getCurDay("일")
+            }
+            RepeatCycle.WEEKLY.value -> {
+                binding.isRepeatChecked = true
+                binding.doRepeatMontly = false
+                binding.repeatDaySelected = true
+                dayRepeatAdapter.updateSelectedDays(viewModel.selectedDayList)
+                dayRepeatAdapter.notifyDataSetChanged()
+                binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
+                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+            }
+            RepeatCycle.DAYILY.value -> {
+                binding.isRepeatChecked = true
+                binding.doRepeatMontly = false
+                binding.repeatDaySelected = true
+                dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY)
+                dayRepeatAdapter.notifyDataSetChanged()
+                binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
+                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+            }
+            else -> {
+                binding.isRepeatChecked = false
+            }
+        }
+    }
+
+    private fun updateChore() {
+        // name set
+        viewModel.updateChoreName(binding.addDirectTodoTitleEt.fairerEt.text.toString())
+
+        // time set
+        when {
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewModel.curTime.value!!)
+            else -> viewModel.updateChoreTime(null)
+        }
+
+        //date set
+        viewModel.updateChoreDate()
+
+        Timber.d(viewModel.chores.value.toString())
+    }
+
+    private fun setAdapter() {
+        // 집안일 담당자 adapter
+        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
+        binding.addAssigneeRv.adapter = addAssigneeAdapter
+
+        // 요일 반복 rv adapter
+        val days: Array<String> = resources.getStringArray(R.array.day_array)
+        dayRepeatAdapter = DayRepeatAdapter(days)
+        binding.rvAddDirectTodoRepeat.layoutManager = GridLayoutManager(context, 7)
+        binding.rvAddDirectTodoRepeat.adapter = dayRepeatAdapter
+        dayRepeatAdapter.setDayItemClickListener(object :
+        DayRepeatAdapter.DayItemClickListener{
+            override fun onItemClick(selectedDays: Array<Boolean>) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun hideKeyboard(v: View) {
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
+        v.clearFocus()
+    }
+
+    private fun parseTime(time: String): Pair<Int, Int> {
+        val temp = time.split(":")
+        val hour = temp[0].toInt()
+        val min = temp[1].toInt()
+        return Pair(hour, min)
+    }
+
+
+    /**
+     * Dialog
+     */
+
     private fun createBottomSheet() {
         val bottomSheet = AssigneeBottomSheetDialog(
             allGroup = viewModel.allGroupInfo.value,
@@ -254,78 +366,6 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             calendar.get(Calendar.DAY_OF_MONTH),
         )
         datePickerDialog.show()
-    }
-
-    private fun onEditView() {
-        // set arg
-        val houseWork = navArgs.houseWork
-        Timber.d("TAG $houseWork")
-        val assignees: List<Int> = arrayListOf()
-        houseWork.assignees.map {
-            assignees.plus(it.memberId)
-        }
-        val chore = Chore(
-            assignees = assignees,
-            houseWorkName = houseWork.houseWorkName,
-            scheduledDate = houseWork.scheduledDate,
-            scheduledTime = houseWork.scheduledTime,
-            space = houseWork.space
-        )
-
-        // viewmodel update
-        viewModel.initEditChore(chore, houseWork.assignees)
-        viewModel.setHouseWorkId(houseWork.houseWorkId)
-
-        // ui update
-        initUi()
-    }
-
-    private fun initUi() {
-        binding.addDirectTodoTitleEt.fairerEt.setText(viewModel.chores.value[0].houseWorkName)
-        if (viewModel.chores.value[0].scheduledTime != null) {
-            val time: Pair<Int, Int> = parseTime(viewModel.chores.value[0].scheduledTime!!)
-            binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
-
-        }
-    }
-
-    private fun updateChore() {
-        // name set
-        viewModel.updateChoreName(binding.addDirectTodoTitleEt.fairerEt.text.toString())
-
-        // time set
-        when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewModel.curTime.value!!)
-            else -> viewModel.updateChoreTime(null)
-        }
-
-        //date set
-        viewModel.updateChoreDate()
-
-        Timber.d(viewModel.chores.value.toString())
-    }
-
-    private fun setAdapter() {
-        // 집안일 담당자 adapter
-        addAssigneeAdapter = AddAssigneeAdapter(viewModel.curAssignees.value)
-        binding.addAssigneeRv.adapter = addAssigneeAdapter
-
-        // 요일 반복 rv adapter
-        val days: Array<String> = resources.getStringArray(R.array.day_array)
-        dayRepeatAdapter = DayRepeatAdapter(days)
-        //binding.addDirectTodoRepeatRv.adapter = dayRepeatAdapter
-    }
-
-    private fun hideKeyboard(v: View) {
-        imm.hideSoftInputFromWindow(v.windowToken, 0)
-        v.clearFocus()
-    }
-
-    private fun parseTime(time: String): Pair<Int, Int> {
-        val temp = time.split(":")
-        val hour = temp[0].toInt()
-        val min = temp[1].toInt()
-        return Pair(hour, min)
     }
 
     private fun showDeleteDialog() {
