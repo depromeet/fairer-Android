@@ -18,9 +18,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.EditChore
-import com.depromeet.housekeeper.model.request.EditType
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
@@ -92,6 +90,12 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         }
 
         lifecycleScope.launchWhenCreated {
+            viewModel.createdSucess.collect{
+                if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
             }
@@ -130,7 +134,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
             setOnCheckedChangeListener { buttonView, isChecked ->
                 val time = binding.todoTimePicker.getDisPlayedTime()
                 viewModel.updateTime(time.first, time.second)
-                binding.timeSwitch = isChecked
+                binding.isTimeChecked = isChecked
             }
         }
 
@@ -146,7 +150,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
         binding.addDirectTodoHeader.apply {
             defaultHeaderBackBtn.setOnClickListener {
-                it.findNavController().navigateUp()
+                it.findNavController().popBackStack()
             }
             defaultHeaderTitleTv.text = ""
 
@@ -177,8 +181,6 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
                     setOnClickListener {
                         updateChore()
                         viewModel.createHouseWorks()
-                        it.findNavController()
-                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
                     }
                 }
 
@@ -255,15 +257,22 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
         binding.addDirectTodoTitleEt.fairerEt.setText(editChore.houseWorkName)
 
+        Timber.d("시간 : ${editChore.scheduledTime}")
         if (editChore.scheduledTime != null) {
-            binding.switchHouseworkTime.isChecked = true
+            binding.isTimeChecked = true
+            Timber.d("시간 null 아님: ${editChore.scheduledTime}, ${binding.isTimeChecked}")
             val time: Pair<Int, Int> = parseTime(editChore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
 
+        initEditRepeatView(editChore)
+    }
+
+    private fun initEditRepeatView(editChore: EditChore){
         when (editChore.repeatCycle){
             RepeatCycle.MONTHLY.value ->{
                 binding.isRepeatChecked = true
+                binding.spinnerRepeat.setSelection(1)
                 binding.doRepeatMontly = true
                 binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
                 binding.repeatDay = viewModel.getCurDay("일")

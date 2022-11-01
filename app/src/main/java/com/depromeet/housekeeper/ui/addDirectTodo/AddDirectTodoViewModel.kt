@@ -91,6 +91,9 @@ class AddDirectTodoViewModel @Inject constructor(
         set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     }
 
+    private var _createdSuccess = MutableStateFlow(false)
+    val createdSucess get() = _createdSuccess
+
     init {
         setGroupInfo()
     }
@@ -98,6 +101,7 @@ class AddDirectTodoViewModel @Inject constructor(
     fun initDirectChore() {
         _chores.value[0].assignees = arrayListOf(PrefsManager.memberId)
         _chores.value[0].scheduledDate = _curDate.value
+        _chores.value[0].repeatPattern = _curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
@@ -133,8 +137,7 @@ class AddDirectTodoViewModel @Inject constructor(
         val arr = repeatPattern.split(",")
         _selectedDayList.clear()
         arr.forEach {
-            var item = WeekDays.NONE
-            when (it) {
+            val item = when (it) {
                 WeekDays.MON.eng -> WeekDays.MON
                 WeekDays.TUE.eng -> WeekDays.TUE
                 WeekDays.WED.eng -> WeekDays.WED
@@ -142,6 +145,7 @@ class AddDirectTodoViewModel @Inject constructor(
                 WeekDays.FRI.eng -> WeekDays.FRI
                 WeekDays.SAT.eng -> WeekDays.SAT
                 WeekDays.SUN.eng -> WeekDays.SUN
+                else -> WeekDays.NONE
             }
             if (item != WeekDays.NONE) _selectedDayList.add(item)
         }
@@ -328,6 +332,8 @@ class AddDirectTodoViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result.isNullOrEmpty()) {
                         setNetworkError(true)
+                    } else {
+                        _createdSuccess.value = true
                     }
                 }
         }

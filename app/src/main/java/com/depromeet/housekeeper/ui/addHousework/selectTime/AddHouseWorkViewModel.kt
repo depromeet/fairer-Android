@@ -153,7 +153,7 @@ class AddHouseWorkViewModel @Inject constructor(
         val repeatDaysString = mutableListOf<String>()
         if (type == "kor") {
             selectedDayList.forEach { repeatDaysString.add(it.kor) }
-        } else if (type == "eng"){
+        } else if (type == "eng") {
             selectedDayList.forEach { repeatDaysString.add(it.eng) }
         }
         return repeatDaysString
@@ -166,7 +166,7 @@ class AddHouseWorkViewModel @Inject constructor(
         _chores.value[pos].repeatPattern = dayList.joinToString(",")
     }
 
-    fun updateRepeatInform(repeatCycle: RepeatCycle){
+    fun updateRepeatInform(repeatCycle: RepeatCycle) {
         if (repeatCycle == RepeatCycle.MONTHLY) {
             val pos = getPosition(PositionType.CUR)
             _chores.value[pos].repeatCycle = repeatCycle.value
@@ -274,7 +274,7 @@ class AddHouseWorkViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result.isNullOrEmpty()) {
                         setNetworkError(true)
-                    }else {
+                    } else {
                         _createdSuccess.value = true
                     }
                 }

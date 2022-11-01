@@ -29,7 +29,7 @@
             type="boolean" />
 
         <variable
-            name="timeSwitch"
+            name="isTimeChecked"
             type="boolean" />
 
         <variable
@@ -234,10 +234,11 @@
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="24dp"
-                        android:checked="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        tools:ignore="UseSwitchCompatOrMaterialXml"
+                        android:checked="@{isTimeChecked}"
+                        />
 
                     <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
                         android:id="@+id/todo_time_picker"
@@ -249,7 +250,7 @@
                         android:nestedScrollingEnabled="false"
                         android:theme="@style/FairerTimePicker"
                         android:timePickerMode="spinner"
-                        android:visibility="@{timeSwitch ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{isTimeChecked ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -352,6 +353,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_add_direct_todo_repeat_texts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
