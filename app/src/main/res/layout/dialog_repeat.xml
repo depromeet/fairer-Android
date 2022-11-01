@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="okText"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog_fairer_outside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="24dp"
+            android:background="@drawable/bg_dialog_rounded"
+            android:paddingHorizontal="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/Heading.H3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{title}"
+                android:textColor="@color/gray_800"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingVertical="24dp"/>
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="start"
+                    android:buttonTint="@color/radio_button_selector"
+                    android:checked="true"
+                    android:layoutDirection="rtl"
+                    android:text="@string/dialog_repeat_current_schedule"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/gray_600"
+                    android:textFontWeight="400"
+                    android:textSize="14sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_100"
+                    />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="start"
+                    android:buttonTint="@color/radio_button_selector"
+                    android:layoutDirection="rtl"
+                    android:text="@string/dialog_repeat_after_schedules"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/gray_600"
+                    android:textFontWeight="400"
+                    android:textSize="14sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_100"
+                    />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="start"
+                    android:buttonTint="@color/radio_button_selector"
+                    android:layoutDirection="rtl"
+                    android:text="@string/dialog_repeat_all_schedules"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/gray_600"
+                    android:textFontWeight="400"
+                    android:textSize="14sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_100"
+                    />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radio_group">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="49dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/main_white_background"
+                    android:text="@string/dialog_repeat_cancel"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"
+                    android:textFontWeight="400"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/dialog_fairer_ok_btn" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_ok"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="49dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/main_white_background"
+                    android:text="@{okText}"
+                    android:textSize="14sp"
+                    android:textColor="@color/negative_20"
+                    android:textFontWeight="600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
+

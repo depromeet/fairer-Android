@@ -28,7 +28,6 @@ class DayRepeatAdapter(private val days: Array<String>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(day: String) {
             binding.itemDayRepeatBtn.text = day
-
             binding.itemDayRepeatBtn.setOnClickListener {
                 binding.itemDayRepeatBtn.isSelected = !binding.itemDayRepeatBtn.isSelected
             }
