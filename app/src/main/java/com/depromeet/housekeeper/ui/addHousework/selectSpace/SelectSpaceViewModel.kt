@@ -5,12 +5,12 @@ import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.request.ChoreList
+import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -22,6 +22,9 @@ class SelectSpaceViewModel @Inject constructor(
     init {
         getChoreList()
     }
+    private val _choreAdapter : MutableStateFlow<SelectSpaceChoreAdapter?> = MutableStateFlow(null)
+    val choreAdapter : StateFlow<SelectSpaceChoreAdapter?>
+        get() = _choreAdapter
 
     private val _chorePreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
     private val chorePreset: StateFlow<List<ChoreList>>
@@ -59,6 +62,9 @@ class SelectSpaceViewModel @Inject constructor(
         get() = _selectCalendar
 
 
+    fun setChoreAdapter(adapter : SelectSpaceChoreAdapter) {
+        _choreAdapter.value = adapter
+    }
 
     fun clearChore() {
         _chores.value = emptyList()
