@@ -28,8 +28,7 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"
-            app:popUpToSaveState="true">
+            app:popExitAnim="@android:anim/fade_out">
             <argument
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.ViewType" />
@@ -117,7 +116,6 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:restoreState="true"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -271,7 +269,6 @@
             android:id="@+id/action_signProfileFragment_to_SettingProfileFragment"
             app:destination="@id/settingProfileFragment"
             app:popUpTo="@id/signProfileFragment"
-            app:restoreState="true"
             app:popUpToInclusive="true">
             <argument
                 android:name="profilePath"
@@ -473,7 +470,6 @@
             android:id="@+id/action_settingProfileFragment_to_signProfileFragment"
             app:destination="@id/signProfileFragment"
             app:popUpTo="@id/settingProfileFragment"
-            app:popUpToSaveState="true"
             >
             <argument
                 android:name="viewType"

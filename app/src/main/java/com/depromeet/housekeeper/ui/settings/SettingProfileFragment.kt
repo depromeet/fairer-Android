@@ -14,6 +14,7 @@ import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -63,6 +64,16 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.nameData.collectLatest {
+                binding.etName.fairerEt.setText(it)
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.massageData.collectLatest {
+                binding.etStatusMessage.fairerEt.setText(it)
             }
         }
     }
