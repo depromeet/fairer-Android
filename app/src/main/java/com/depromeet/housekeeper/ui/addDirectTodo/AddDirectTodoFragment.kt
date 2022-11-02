@@ -27,6 +27,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.dp2px
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,6 @@ import java.util.*
 @AndroidEntryPoint
 class AddDirectTodoFragment :
     BaseFragment<FragmentAddDirectTodoBinding>(R.layout.fragment_add_direct_todo) {
-    lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
     private val viewModel: AddDirectTodoViewModel by viewModels()
@@ -46,8 +46,6 @@ class AddDirectTodoFragment :
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
         binding.currentDate = viewModel.bindingDate()
-
-        imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
     override fun viewCreated() {
@@ -111,7 +109,7 @@ class AddDirectTodoFragment :
             binding.addDirectTodoTitleEt.fairerEt.setText(R.string.sign_name_blank)
         }
         binding.addDirectTodoBackgroundCl.setOnClickListener {
-            hideKeyboard(binding.switchHouseworkTime)
+            hideKeyboard(requireContext(), binding.root)
             binding.addDirectTodoTitleEt.fairerEt.isEnabled = false
             binding.isTextChanged = false
             binding.addDirectTodoTitleEt.fairerEt.isEnabled = true
@@ -258,10 +256,8 @@ class AddDirectTodoFragment :
 
         binding.addDirectTodoTitleEt.fairerEt.setText(editChore.houseWorkName)
 
-        Timber.d("시간 : ${editChore.scheduledTime}")
         if (editChore.scheduledTime != null) {
             binding.isTimeChecked = true
-            Timber.d("시간 null 아님: ${editChore.scheduledTime}, ${binding.isTimeChecked}")
             val time: Pair<Int, Int> = parseTime(editChore.scheduledTime!!)
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
         }
@@ -382,11 +378,6 @@ class AddDirectTodoFragment :
                 binding.isTextChanged = false
             }
         }
-    }
-
-    private fun hideKeyboard(v: View) {
-        imm.hideSoftInputFromWindow(v.windowToken, 0)
-        v.clearFocus()
     }
 
     private fun parseTime(time: String): Pair<Int, Int> {
