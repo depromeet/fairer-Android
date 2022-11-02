@@ -2,7 +2,6 @@ package com.depromeet.housekeeper.model.response
 
 import android.os.Parcelable
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.HouseWork
 import kotlinx.parcelize.Parcelize
 
 data class CompleteHouseWork(
@@ -21,8 +20,19 @@ data class Groups(
 )
 
 @Parcelize
-data class HouseWorkCreateResponse(
-    val houseWorks: List<HouseWork>
+data class HouseWork(
+    val assignees: List<Assignee>,
+    val houseWorkCompleteId: Int? = 0,
+    val houseWorkId: Int,
+    val houseWorkName: String,
+    val repeatCycle: String? ="",
+    val repeatEndDate: String? = "",
+    val repeatPattern: String? = "",
+    val scheduledDate: String,
+    val scheduledTime: String?,
+    val space: String,
+    val success: Boolean,
+    val successDateTime: String?,
 ) : Parcelable
 
 @Parcelize

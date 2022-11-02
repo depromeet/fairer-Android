@@ -32,15 +32,15 @@ class InternetService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         Timber.d(">>>>>>>> InternetService onStartCommand")
-        if (networkCallback == null) {
-            networkCallback = CheckNetworkConnected(applicationContext)
-            networkCallback!!.register()
-        }
         return START_REDELIVER_INTENT
     }
 
     override fun onBind(p0: Intent?): IBinder? {
         Timber.d(">>>>>>>> InternetService onBind")
+        if (networkCallback == null) {
+            networkCallback = CheckNetworkConnected(applicationContext)
+            networkCallback!!.register()
+        }
         return binder
     }
 

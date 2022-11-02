@@ -30,6 +30,7 @@ import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -131,17 +132,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
         val list =
             mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
-        houseWorkAdapter = HouseWorkAdapter(list, onClick = {
-            findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
-                    viewType = ViewType.EDIT,
-                    houseWork = it,
-                    selectDate = mainViewModel.dayOfWeek.value
-                )
-            )
-        }, {
-            mainViewModel.updateChoreState(it)
-        }
+        houseWorkAdapter = HouseWorkAdapter(list,
+            onClick = { mainViewModel.getDetailHouseWork(it.houseWorkId) },
+            onDone = { mainViewModel.updateChoreState(it) }
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
         binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
@@ -209,11 +202,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     }
 
                     updateHouseWorkData(it)
-                    it.houseWorks.forEach {
-                        mainViewModel.getDetailHouseWork(it.houseWorkId)
-                    }
                 } else {
                     binding.houseworkState = HouseWorkState.EMPTY
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.selectedHouseWorkItem.collect{
+                if (it != null) {
+                    mainViewModel.setSelectedHouseWorkItem(null)
+                    findNavController().navigate(
+                        MainFragmentDirections.actionMainFragmentToAddDirectTodoFragment(
+                            viewType = ViewType.EDIT,
+                            houseWork = it,
+                            selectDate = mainViewModel.dayOfWeek.value
+                        )
+                    )
                 }
             }
         }

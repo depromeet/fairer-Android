@@ -8,7 +8,7 @@ import com.depromeet.housekeeper.model.*
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.request.UpdateChoreBody
-import com.depromeet.housekeeper.model.HouseWork
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil.dateFormat
@@ -81,12 +81,12 @@ class MainViewModel @Inject constructor(
     )
     val weekendChoresLeft get() = _weekendChoresLeft
 
+    private var _selectedHouseWorkItem: MutableStateFlow<HouseWork?> = MutableStateFlow(null)
+    val selectedHouseWorkItem get() = _selectedHouseWorkItem
+
     private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
     val selectUserId: StateFlow<Int>
         get() = _selectUserId
-
-    private val _userProfiles: MutableStateFlow<MutableList<Assignee>> =
-        MutableStateFlow(mutableListOf())
 
     private val _rule: MutableStateFlow<String> = MutableStateFlow("")
     val rule: StateFlow<String>
@@ -188,6 +188,9 @@ class MainViewModel @Inject constructor(
         _groups.value = newGroups
     }
 
+    fun setSelectedHouseWorkItem(houseWork: HouseWork?){
+        _selectedHouseWorkItem.value = houseWork
+    }
 
     /**
      * Network Communication
@@ -213,6 +216,8 @@ class MainViewModel @Inject constructor(
                         }
                         weekendChoresLeft.update { choreLeftMap }
                         _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
+                        Timber.d("AddDirect ${dayOfWeek.value.date.substring(0, 10)} : ${selectHouseWorks.value}")
+
                     }
                 }
         }
@@ -220,6 +225,7 @@ class MainViewModel @Inject constructor(
     }
 
 
+    //todo
     //이번주에 끝낸 집안일
     private fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -254,14 +260,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    // todo
     fun getDetailHouseWork(houseWorkId: Int) {
         viewModelScope.launch {
-            mainRepository.getDetailHouseWorks(houseWorkId).runCatching {
-                collect {
-                    _userProfiles.value = it.assignees.toMutableList()
+            mainRepository.getDetailHouseWorks(houseWorkId).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null){
+                    _selectedHouseWorkItem.value = result
                 }
-            }.onFailure {
             }
         }
     }

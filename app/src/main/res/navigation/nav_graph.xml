@@ -34,7 +34,7 @@
                 app:argType="com.depromeet.housekeeper.model.enums.ViewType" />
             <argument
                 android:name="houseWork"
-                app:argType="com.depromeet.housekeeper.model.HouseWork" />
+                app:argType="com.depromeet.housekeeper.model.response.HouseWork" />
         </action>
 
         <action
@@ -108,7 +108,7 @@
             app:argType="com.depromeet.housekeeper.model.DayOfWeek" />
         <argument
             android:name="houseWork"
-            app:argType="com.depromeet.housekeeper.model.HouseWork" />
+            app:argType="com.depromeet.housekeeper.model.response.HouseWork" />
         <action
             android:id="@+id/action_addDirectTodoFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -117,7 +117,8 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:restoreState="true" />
     </fragment>
 
     <fragment
@@ -269,7 +270,8 @@
             android:id="@+id/action_signProfileFragment_to_SettingProfileFragment"
             app:destination="@id/settingProfileFragment"
             app:popUpTo="@id/signProfileFragment"
-            app:popUpToInclusive="true">
+            app:popUpToInclusive="true"
+            app:restoreState="true">
             <argument
                 android:name="profilePath"
                 app:argType="string"
@@ -398,7 +400,7 @@
         android:id="@+id/alarmFragment"
         android:name="com.depromeet.housekeeper.ui.settings.AlarmFragment"
         android:label="AlarmFragment"
-        tools:layout="@layout/fragment_alarm"/>
+        tools:layout="@layout/fragment_alarm" />
 
     <fragment
         android:id="@+id/inviteFragment"
@@ -470,7 +472,7 @@
             android:id="@+id/action_settingProfileFragment_to_signProfileFragment"
             app:destination="@id/signProfileFragment"
             app:popUpTo="@id/settingProfileFragment"
-            >
+            app:popUpToSaveState="true">
             <argument
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />

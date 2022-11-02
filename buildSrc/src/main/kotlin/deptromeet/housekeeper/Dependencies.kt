@@ -47,6 +47,7 @@ object Dependencies {
   const val navVersionKtx = "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
   const val navVersionUi = "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
   const val navVersionDynamic = "androidx.navigation:navigation-dynamic-features-fragment:$NAV_VERSION"
+  const val navVersionSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION"
 
 
   private const val OKHTTP = "4.3.1"
@@ -106,8 +107,8 @@ object Dependencies {
   private const val COIL = "2.1.0"
   const val coil = "io.coil-kt:coil:$COIL"
 
-  private const val HILT = "2.38.1"
+  private const val HILT = "2.43.2"
   const val hilt = "com.google.dagger:hilt-android:$HILT"
   const val hiltCompiler = "com.google.dagger:hilt-compiler:$HILT"
-
+  const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:$HILT"
 }

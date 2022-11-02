@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.data.dataSource
 
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.flow.Flow
@@ -10,19 +9,17 @@ interface RemoteDataSource {
     /**
      * houseWorks
      */
-    suspend fun createHouseWorks(houseWorks: Chores): Flow<ApiResult<HouseWorkCreateResponse>>
-    suspend fun editHouseWork(houseWorkId: Int, chore: Chore): Flow<HouseWork>
-    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit>
+    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>>
     suspend fun updateChoreState(
         houseWorkId: Int,
         updateChoreBody: UpdateChoreBody,
     ): Flow<UpdateChoreResponse>
 
-    suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork>
+    suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>>
     suspend fun getDateHouseWorkList(
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>>
+    ): Flow<ApiResult<Map<String, HouseWorks>>>
 
     suspend fun getPeriodHouseWorkListOfMember(
         teamMemberId: Int,
@@ -31,6 +28,9 @@ interface RemoteDataSource {
     ): Flow<ApiResult<Map<String, HouseWorks>>>
 
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>>
+
+    suspend fun editHouseWork(editChore: EditChore): Flow<ApiResult<Unit>>
+    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit>
 
     /**
      * members

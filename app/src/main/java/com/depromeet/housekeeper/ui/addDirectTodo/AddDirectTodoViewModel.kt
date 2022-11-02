@@ -6,8 +6,8 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.model.request.Chore
-import com.depromeet.housekeeper.model.request.Chores
+import com.depromeet.housekeeper.model.request.*
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,6 +72,15 @@ class AddDirectTodoViewModel @Inject constructor(
     val chores: StateFlow<ArrayList<Chore>>
         get() = _chores
 
+    private var _editChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
+    val editChore: StateFlow<EditChore?> get() = _editChore
+
+    private var _nEditChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
+    val nEditChore: StateFlow<EditChore?> get() = _nEditChore
+
+    private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
+
     private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
     val selectCalendar: StateFlow<String>
         get() = _selectCalendar
@@ -82,6 +91,9 @@ class AddDirectTodoViewModel @Inject constructor(
         set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
     }
 
+    private var _createdSuccess = MutableStateFlow(false)
+    val createdSucess get() = _createdSuccess
+
     init {
         setGroupInfo()
     }
@@ -89,25 +101,116 @@ class AddDirectTodoViewModel @Inject constructor(
     fun initDirectChore() {
         _chores.value[0].assignees = arrayListOf(PrefsManager.memberId)
         _chores.value[0].scheduledDate = _curDate.value
+        _chores.value[0].repeatPattern = _curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
-    fun initEditChore(chore: Chore, curAssignees: List<Assignee>) {
-        // main에서 받아온 집안일 정보 init
-        _curDate.value = chore.scheduledDate
-        _curTime.value = chore.scheduledTime
-
-        _chores.value[0].apply {
-            scheduledDate = chore.scheduledDate
-            houseWorkName = chore.houseWorkName
-            scheduledTime = chore.scheduledTime
-            space = chore.space
-            assignees = chore.assignees
+    fun initEditChore(houseWork: HouseWork) {
+        val assignList: ArrayList<Int> = arrayListOf()
+        houseWork.assignees.map {
+            assignList.plus(it.memberId)
         }
+        houseWork.apply {
+            val nEditChore = EditChore(
+                assignees = assignList,
+                houseWorkId = houseWorkId,
+                houseWorkName = houseWorkName,
+                repeatCycle = repeatCycle,
+                repeatEndDate = repeatEndDate,
+                repeatPattern = repeatPattern,
+                scheduledDate = scheduledDate,
+                scheduledTime = scheduledTime,
+                space = space,
+                type = EditType.NONE.value,
+                updateStandardDate = scheduledDate
+            )
+            _editChore.value = nEditChore
+        }
+        _curDate.value = houseWork.scheduledDate
+        _curTime.value = houseWork.scheduledTime
+        setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
 
-        setCurAssignees(curAssignees as ArrayList<Assignee>)
+        _nEditChore.value = editChore.value
     }
 
+    fun setSelectedDayList(repeatPattern: String) {
+        val arr = repeatPattern.split(",")
+        _selectedDayList.clear()
+        arr.forEach {
+            val item = when (it) {
+                WeekDays.MON.eng -> WeekDays.MON
+                WeekDays.TUE.eng -> WeekDays.TUE
+                WeekDays.WED.eng -> WeekDays.WED
+                WeekDays.THR.eng -> WeekDays.THR
+                WeekDays.FRI.eng -> WeekDays.FRI
+                WeekDays.SAT.eng -> WeekDays.SAT
+                WeekDays.SUN.eng -> WeekDays.SUN
+                else -> WeekDays.NONE
+            }
+            if (item != WeekDays.NONE) _selectedDayList.add(item)
+        }
+    }
+
+    fun getRepeatDaysString(type: String): MutableList<String> {
+        val repeatDaysString = mutableListOf<String>()
+        if (type == "kor") {
+            selectedDayList.forEach { repeatDaysString.add(it.kor) }
+        } else if (type == "eng") {
+            selectedDayList.forEach { repeatDaysString.add(it.eng) }
+        }
+        return repeatDaysString
+    }
+
+    fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
+        val dayList = mutableListOf<WeekDays>()
+        for (i in selectedDays.indices) {
+            if (!selectedDays[i]) continue
+            val day: WeekDays = when (i) {
+                0 -> WeekDays.MON
+                1 -> WeekDays.TUE
+                2 -> WeekDays.WED
+                3 -> WeekDays.THR
+                4 -> WeekDays.FRI
+                5 -> WeekDays.SAT
+                6 -> WeekDays.SUN
+                else -> {
+                    WeekDays.NONE
+                }
+            }
+            dayList.add(day)
+        }
+        _selectedDayList = dayList
+        return dayList.toList()
+    }
+
+    fun updateRepeatInform(dayList: List<String>) {
+        val cycle = if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        val pattern = dayList.joinToString(",")
+        if (nEditChore.value != null) {
+            _nEditChore.value!!.repeatCycle = cycle
+            _nEditChore.value!!.repeatPattern = pattern
+        } else {
+            _chores.value[0].repeatCycle = cycle
+            _chores.value[0].repeatPattern = pattern
+        }
+    }
+
+    fun updateRepeatInform(repeatCycle: RepeatCycle){
+        if (repeatCycle != RepeatCycle.MONTHLY) return
+
+        if (nEditChore.value != null) {
+            _nEditChore.value!!.repeatCycle = repeatCycle.value
+            _nEditChore.value!!.repeatPattern = getCurDay("")
+        }else {
+            _chores.value[0].repeatCycle = repeatCycle.value
+            _chores.value[0].repeatPattern = getCurDay("")
+        }
+    }
+
+    fun getCurDay(lastWord: String): String {
+        val str = curDate.value.split("-")
+        return "${str[2]}$lastWord"
+    }
 
     fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
@@ -220,14 +323,17 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
+    //todo
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
-            mainRepository.createHouseWorks(Chores(_chores.value))
+            mainRepository.createHouseWorks(_chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
-                    result?.houseWorks?.forEach {
-                        if (!it.success) setNetworkError(true)
+                    if (result.isNullOrEmpty()) {
+                        setNetworkError(true)
+                    } else {
+                        _createdSuccess.value = true
                     }
                 }
         }
@@ -248,16 +354,12 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    // todo api 변경후 작업
     fun editHouseWork() {
         viewModelScope.launch {
-            mainRepository.editHouseWork(houseWorkId.value, _chores.value[0])
-                .runCatching {
-                    collect {
-                        Timber.d(it.toString())
-                    }
-                }.onFailure {
-                    setNetworkError(true)
+            if (nEditChore.value == null) return@launch
+            mainRepository.editHouseWork(nEditChore.value!!)
+                .collectLatest {
+                    receiveApiResult(it)
                 }
         }
     }

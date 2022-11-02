@@ -21,6 +21,17 @@
     <string name="remove_todo_tv">삭제</string>
     <string name="edit_todo_btn_tv">수정 완료</string>
     <string name="add_direct_todo_repeat">반복하기</string>
+    <string name="add_direct_todo_repeat_every_month">매달 반복하기</string>
+
+    <!-- Repeat Dialog -->
+    <string name="dialog_repeat_title_delete">반복 일정 삭제</string>
+    <string name="dialog_repeat_title_modify">반복 일정 수정</string>
+    <string name="dialog_repeat_current_schedule">이 일정</string>
+    <string name="dialog_repeat_after_schedules">이 일정 및 향후 일정</string>
+    <string name="dialog_repeat_all_schedules">모든 일정</string>
+    <string name="dialog_repeat_cancel">취소</string>
+    <string name="dialog_repeat_delete">삭제</string>
+    <string name="dialog_repeat_modify">수정</string>
 
     <!-- AddHouseWorkFragment -->
     <string name="add_housework_assignee_sign_tv">집안일 담당자</string>
@@ -28,6 +39,10 @@
     <string name="assignee_bottom_sheet_cancel_text">취소</string>
     <string name="assignee_bottom_sheet_ok_text">확인</string>
     <string name="add_assignee_toast_text">집안일 담당자를 지정해주세요.</string>
+    <string name="add_house_repeat_cycle">반복주기</string>
+    <string name="add_house_describe_repeat">에 반복해요</string>
+    <string name="add_house_repeat_weekly">매주</string>
+    <string name="add_house_repeat_monthly">매달</string>
 
     <!-- Fairer Dialog -->
     <string name="fairer_dialog_cancel_btn_text">취소</string>
@@ -49,6 +64,11 @@
         <item>금</item>
         <item>토</item>
         <item>일</item>
+    </string-array>
+
+    <string-array name="repeat_cycle_array">
+        <item>매주</item>
+        <item>매달</item>
     </string-array>
 
     <!--ItemRecyclerMainList-->
