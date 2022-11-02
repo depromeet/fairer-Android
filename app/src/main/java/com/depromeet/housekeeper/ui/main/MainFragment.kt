@@ -3,8 +3,12 @@ package com.depromeet.housekeeper.ui.main
 import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,9 +21,10 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.response.HouseWorks
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
@@ -33,6 +38,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var houseWorkAdapter: HouseWorkAdapter? = null
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if(savedInstanceState != null){
+            savedInstanceState.getString("Date")
+                ?.let { DayOfWeek(it) }?.let { mainViewModel.updateSelectDate(it) }
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        lifecycleScope.launchWhenCreated {
+            mainViewModel.dayOfWeek.collect{
+                outState.putString("Date",it.date)
+            }
+        }
+
+
+        super.onSaveInstanceState(outState)
+    }
 
     override fun createView(binding: FragmentMainBinding) {
         binding.vm = mainViewModel
