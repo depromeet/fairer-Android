@@ -63,9 +63,9 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.editHouseWork(editChore)
     }.flowOn(ioDispatcher)
 
-    override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
-        flow {
-            emit(apiService.deleteHouseWork(id))
+    override suspend fun deleteHouseWork(deleteChore: DeleteChoreRequest): Flow<ApiResult<Unit>> =
+        safeFlow {
+            apiService.deleteHouseWork(deleteChore)
         }.flowOn(ioDispatcher)
 
     /**

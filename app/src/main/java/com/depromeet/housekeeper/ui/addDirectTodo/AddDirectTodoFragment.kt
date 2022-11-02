@@ -34,7 +34,8 @@ import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layout.fragment_add_direct_todo) {
+class AddDirectTodoFragment :
+    BaseFragment<FragmentAddDirectTodoBinding>(R.layout.fragment_add_direct_todo) {
     lateinit var imm: InputMethodManager
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
@@ -57,7 +58,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         initListener()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -66,8 +67,12 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
-            ViewType.ADD -> { viewModel.initDirectChore() }
-            ViewType.EDIT -> { onEditView() }
+            ViewType.ADD -> {
+                viewModel.initDirectChore()
+            }
+            ViewType.EDIT -> {
+                onEditView()
+            }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -90,7 +95,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.createdSucess.collect{
+            viewModel.createdSucess.collect {
                 if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
             }
         }
@@ -245,7 +250,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         Timber.d("TAG $houseWork")
         viewModel.initEditChore(houseWork)
         viewModel.setHouseWorkId(houseWork.houseWorkId)
-        if (houseWork.repeatCycle== RepeatCycle.WEEKLY.value) {
+        if (houseWork.repeatCycle == RepeatCycle.WEEKLY.value) {
             viewModel.setSelectedDayList(houseWork.repeatPattern!!)
         }
 
@@ -268,9 +273,9 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         initEditRepeatView(editChore)
     }
 
-    private fun initEditRepeatView(editChore: EditChore){
-        when (editChore.repeatCycle){
-            RepeatCycle.MONTHLY.value ->{
+    private fun initEditRepeatView(editChore: EditChore) {
+        when (editChore.repeatCycle) {
+            RepeatCycle.MONTHLY.value -> {
                 binding.isRepeatChecked = true
                 binding.spinnerRepeat.setSelection(1)
                 binding.doRepeatMontly = true
@@ -325,7 +330,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         setRepeatAdapter()
     }
 
-    private fun setRepeatAdapter(){
+    private fun setRepeatAdapter() {
         // 반복주기
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -344,7 +349,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         binding.rvAddDirectTodoRepeat.layoutManager = GridLayoutManager(context, 7)
         binding.rvAddDirectTodoRepeat.adapter = dayRepeatAdapter
         dayRepeatAdapter.setDayItemClickListener(object :
-            DayRepeatAdapter.DayItemClickListener{
+            DayRepeatAdapter.DayItemClickListener {
             override fun onItemClick(selectedDays: Array<Boolean>) {
                 val repeatDays = viewModel.getRepeatDays(selectedDays)
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
@@ -359,7 +364,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
         })
     }
 
-    private fun initEditTextListener(){
+    private fun initEditTextListener() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener {
             val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
@@ -368,7 +373,7 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
                 binding.isError = true
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
                 binding.tvError.setText(R.string.sign_name_error)
-            } else if(value.length>16) {
+            } else if (value.length > 16) {
                 binding.isError = true
                 binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
                 binding.tvError.setText(R.string.sign_name_text_over_error)
@@ -441,13 +446,9 @@ class AddDirectTodoFragment : BaseFragment<FragmentAddDirectTodoBinding>(R.layou
 
     private fun showDeleteDialog() {
         val dialog = FairerDialog(requireContext(), DialogType.DELETE)
-        dialog.showDialog()
-
-        dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
-            override fun onItemClick() {
-                viewModel.deleteHouseWork()
-                findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
-            }
+        dialog.showRepeatDialog { type ->
+            viewModel.deleteHouseWork(type)
+            findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
         }
     }
 

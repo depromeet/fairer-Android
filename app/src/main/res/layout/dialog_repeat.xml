@@ -12,7 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/dialog_fairer_outside"
+        android:id="@+id/dialog_repeat_outside"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,12 +44,12 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/radio_btn_1"
                     style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_gravity="start"
                     android:buttonTint="@color/radio_button_selector"
-                    android:checked="true"
                     android:layoutDirection="rtl"
                     android:text="@string/dialog_repeat_current_schedule"
                     android:textAlignment="textStart"
@@ -63,6 +63,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/radio_btn_2"
                     style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -81,6 +82,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/radio_btn_3"
                     style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
