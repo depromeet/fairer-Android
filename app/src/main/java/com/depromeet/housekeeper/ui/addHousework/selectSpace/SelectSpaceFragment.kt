@@ -108,6 +108,7 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
         binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(12))
         myAdapter = SelectSpaceChoreAdapter(emptyList<String>())
         binding.selectSpaceRecyclerview.adapter = myAdapter
+        viewModel.setChoreAdapter(myAdapter)
     }
 
     private fun bindingVm() {
@@ -128,9 +129,14 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
                         if (viewModel.getChoreCount() == 0) {
                             viewModel.setIsSelectedChore(false)
                         }
-
                     }
                 })
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.choreAdapter.collect{
+                binding.selectSpaceRecyclerview.adapter = it
+                viewModel.setIsSelectedChore(false)
             }
         }
 
@@ -223,6 +229,7 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
     override fun onClick(space: View?) {
         if (viewModel.isSelectedSpace.value) {
             if (viewModel.isSelectedChore.value) {
+                if(viewModel.selectSpace.value==setSpaceNum(binding.selectedSpace))
                 setDialog(space)
             } else {
                 setSelected()
@@ -274,6 +281,17 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
         viewModel.setIsSelectedSpace(false)
     }
 
+    private fun setSpaceNum(num: Int):String{
+        return when(num) {
+            1 -> "ENTRANCE"
+            2 -> "LIVINGROOM"
+            3 -> "BATHROOM"
+            4 -> "OUTSIDE"
+            5 -> "ROOM"
+            6 -> "KITCHEN"
+            else -> ""
+        }
+    }
 
 
 }

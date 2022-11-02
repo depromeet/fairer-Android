@@ -67,12 +67,8 @@ class AddDirectTodoFragment :
         viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
-            ViewType.ADD -> {
-                viewModel.initDirectChore()
-            }
-            ViewType.EDIT -> {
-                onEditView()
-            }
+            ViewType.ADD -> { viewModel.initDirectChore() }
+            ViewType.EDIT -> { onEditView() }
         }
 
         lifecycleScope.launchWhenCreated {
