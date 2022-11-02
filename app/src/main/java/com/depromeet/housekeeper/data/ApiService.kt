@@ -1,7 +1,5 @@
 package com.depromeet.housekeeper.data
 
-
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import retrofit2.http.*
@@ -11,17 +9,8 @@ interface ApiService {
     /**
      * houseWorks
      */
-    //todo body에 항목 추가됨
     @POST("/api/houseworks")
-    suspend fun createHouseWorks(@Body houseWorks: Chores): HouseWorkCreateResponse
-
-    //todo v2 수정
-    @PUT("/api/houseworks/{houseWorkId}")
-    suspend fun editHouseWork(@Path("houseWorkId") houseWorkId: Int, @Body chore: Chore): HouseWork
-
-    //todo v2 수정
-    @DELETE("/api/houseworks/{houseWorkId}")
-    suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
+    suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
     //todo v2 삭제 -> houseWorkComplete로 변경
     @PATCH("/api/houseworks/{houseWorkId}")
@@ -30,9 +19,15 @@ interface ApiService {
         @Body updateChoreBody: UpdateChoreBody,
     ): UpdateChoreResponse
 
-    //todo response 변경됨
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
+
+    @GET("/api/houseworks/list/member/{teamMemberId}/query")
+    suspend fun getPeriodHouseWorkListOfMember(
+        @Path("teamMemberId") teamMemberId: Int,
+        @Query("fromDate") fromDate: String,
+        @Query("toDate") toDate: String,
+    ): Map<String, HouseWorks> // ex) key: 2022-08-14
 
     @GET("/api/houseworks/list/query")
     suspend fun getDateHouseWorkList(
@@ -40,15 +35,16 @@ interface ApiService {
         @Query("toDate") toDate: String
     ): Map<String, HouseWorks>
 
-    @GET("/api/houseworks/list/member/{teamMemberId}/query")
-    suspend fun getPeriodHouseWorkListOfMember(
-        @Path("teamMemberId") teamMemberId: Int,
-        @Query("fromDate") fromDate: String,
-        @Query("toDate") toDate: String
-    ): Map<String, HouseWorks> // ex) key: 2022-08-14
-
+    // todo 집안일 완료 api로 변경
     @GET("/api/houseworks/success/count")
     suspend fun getCompletedHouseWorkNumber(@Query("scheduledDate") scheduledDate: String): CompleteHouseWork
+
+    @PUT("/api/houseworks/v2")
+    suspend fun editHouseWork(@Body editChore: EditChore)
+
+    //todo v2 수정
+    @DELETE("/api/houseworks/{houseWorkId}")
+    suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
 
 
     /**

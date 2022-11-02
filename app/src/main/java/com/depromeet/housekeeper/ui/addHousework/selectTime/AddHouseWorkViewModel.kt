@@ -5,9 +5,9 @@ import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.Chore
-import com.depromeet.housekeeper.model.request.Chores
+import com.depromeet.housekeeper.model.request.RepeatCycle
+import com.depromeet.housekeeper.model.request.WeekDays
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,21 +25,52 @@ class AddHouseWorkViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
+    private val _curDate: MutableStateFlow<String> = MutableStateFlow("")
+    val curDate get() = _curDate
+
+    private val _curSpace: MutableStateFlow<String> = MutableStateFlow("방")
+
+    private val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val allGroupInfo: StateFlow<ArrayList<Assignee>> get() = _allGroupInfo
+
+    private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
+        MutableStateFlow(arrayListOf())
+    val curAssignees: StateFlow<ArrayList<Assignee>> get() = _curAssignees
+
+    private val _curTime: MutableStateFlow<String?> = MutableStateFlow(null)
+    val curTime: StateFlow<String?> get() = _curTime
+
+    private val _positions: MutableStateFlow<ArrayList<Int>> = MutableStateFlow(arrayListOf(0))
+    val positions: StateFlow<ArrayList<Int>> get() = _positions
+
+    private val _chores: MutableStateFlow<ArrayList<Chore>> = MutableStateFlow(arrayListOf())
+    val chores: StateFlow<ArrayList<Chore>> get() = _chores
+
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.MONTH, this.get(Calendar.MONTH))
+        firstDayOfWeek = Calendar.MONDAY
+        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    }
+
+    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
+    val selectCalendar: StateFlow<String> get() = _selectCalendar
+
+    private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
+
+    private var _createdSuccess = MutableStateFlow(false)
+    val createdSucess get() = _createdSuccess
+
     init {
         setGroupInfo()
     }
-
-    private val _curDate: MutableStateFlow<String> =
-        MutableStateFlow("")
 
     fun setDate(date: String) {
         val lastIndex = date.indexOfLast { it == '-' }
         val requestDate = date.dropLast(date.length - lastIndex)
         _curDate.value = requestDate
     }
-
-    private val _curSpace: MutableStateFlow<String> =
-        MutableStateFlow("방")
 
     fun bindingSpace(): String {
         return spaceNameMapper(_curSpace.value)
@@ -53,11 +84,6 @@ class AddHouseWorkViewModel @Inject constructor(
         return _curSpace.value
     }
 
-    private val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
-        MutableStateFlow(arrayListOf())
-    val allGroupInfo: StateFlow<ArrayList<Assignee>>
-        get() = _allGroupInfo
-
     private fun getMyInfo(): Assignee? {
         var temp: Assignee? = null
         _allGroupInfo.value.map {
@@ -67,11 +93,6 @@ class AddHouseWorkViewModel @Inject constructor(
         }
         return temp
     }
-
-    private val _curAssignees: MutableStateFlow<ArrayList<Assignee>> =
-        MutableStateFlow(arrayListOf())
-    val curAssignees: StateFlow<ArrayList<Assignee>>
-        get() = _curAssignees
 
     fun setCurAssignees(assignees: ArrayList<Assignee>) {
         _curAssignees.value = assignees
@@ -89,19 +110,11 @@ class AddHouseWorkViewModel @Inject constructor(
         _chores.value[position].assignees = assigneeIds
     }
 
-    private val _curTime: MutableStateFlow<String?> =
-        MutableStateFlow(null)
-    val curTime: StateFlow<String?>
-        get() = _curTime
 
     fun updateTime(hour: Int, min: Int) {
         _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
     }
 
-    private val _positions: MutableStateFlow<ArrayList<Int>> =
-        MutableStateFlow(arrayListOf(0))
-    val positions: StateFlow<ArrayList<Int>>
-        get() = _positions
 
     fun updatePositions(position: Int) {
         _positions.value.add(position)
@@ -114,19 +127,63 @@ class AddHouseWorkViewModel @Inject constructor(
         }
     }
 
-    private val _chores: MutableStateFlow<ArrayList<Chore>> =
-        MutableStateFlow(arrayListOf())
-    val chores: StateFlow<ArrayList<Chore>>
-        get() = _chores
+    fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
+        val dayList = mutableListOf<WeekDays>()
+        for (i in selectedDays.indices) {
+            if (!selectedDays[i]) continue
+            val day: WeekDays = when (i) {
+                0 -> WeekDays.MON
+                1 -> WeekDays.TUE
+                2 -> WeekDays.WED
+                3 -> WeekDays.THR
+                4 -> WeekDays.FRI
+                5 -> WeekDays.SAT
+                6 -> WeekDays.SUN
+                else -> {
+                    WeekDays.NONE
+                }
+            }
+            dayList.add(day)
+        }
+        _selectedDayList = dayList
+        return dayList.toList()
+    }
+
+    fun getRepeatDaysString(type: String): MutableList<String> {
+        val repeatDaysString = mutableListOf<String>()
+        if (type == "kor") {
+            selectedDayList.forEach { repeatDaysString.add(it.kor) }
+        } else if (type == "eng") {
+            selectedDayList.forEach { repeatDaysString.add(it.eng) }
+        }
+        return repeatDaysString
+    }
+
+    fun updateRepeatInform(dayList: List<String>) {
+        val pos = getPosition(PositionType.CUR)
+        _chores.value[pos].repeatCycle =
+            if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        _chores.value[pos].repeatPattern = dayList.joinToString(",")
+    }
+
+    fun updateRepeatInform(repeatCycle: RepeatCycle) {
+        if (repeatCycle == RepeatCycle.MONTHLY) {
+            val pos = getPosition(PositionType.CUR)
+            _chores.value[pos].repeatCycle = repeatCycle.value
+            _chores.value[pos].repeatPattern = getCurDay("")
+        }
+    }
 
     fun initChores(space: String, choreName: List<String>) {
         val temp = arrayListOf<Chore>()
         choreName.map { name ->
             val chore = Chore()
             chore.apply {
-                scheduledDate = _curDate.value
+                scheduledDate = curDate.value
                 this.space = space.uppercase()
                 houseWorkName = name
+                repeatCycle = RepeatCycle.ONCE.value
+                repeatPattern = curDate.value
                 assignees = arrayListOf(PrefsManager.memberId)
             }
             temp.add(chore)
@@ -134,7 +191,7 @@ class AddHouseWorkViewModel @Inject constructor(
         _chores.value.addAll(temp)
     }
 
-    fun updateChore(time: String?, position: Int) {
+    fun updateChoreTime(time: String?, position: Int) {
         _chores.value[position].scheduledTime = time
     }
 
@@ -142,25 +199,15 @@ class AddHouseWorkViewModel @Inject constructor(
         return _chores.value[position]
     }
 
-    fun getChores(): ArrayList<Chore> {
-        return chores.value
-    }
-
     fun updateChoreDate() {
         _chores.value.map { chore ->
-            chore.scheduledDate = _curDate.value
+            chore.scheduledDate = curDate.value
         }
     }
 
-    private val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.MONTH, this.get(Calendar.MONTH))
-        firstDayOfWeek = Calendar.MONDAY
-        set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+    fun getChores(): ArrayList<Chore> {
+        return chores.value
     }
-
-    private val _selectCalendar: MutableStateFlow<String> = MutableStateFlow("")
-    val selectCalendar: StateFlow<String>
-        get() = _selectCalendar
 
     fun addCalendarView(selectDate: String) {
         _selectCalendar.value = selectDate
@@ -179,9 +226,14 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        setDate(_selectCalendar.value)
-        val str = _selectCalendar.value.split("-")
+        setDate(selectCalendar.value)
+        val str = selectCalendar.value.split("-")
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
+    }
+
+    fun getCurDay(lastWord: String): String {
+        val str = curDate.value.split("-")
+        return "${str[2]}$lastWord"
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
@@ -205,7 +257,7 @@ class AddHouseWorkViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.getTeam().collectLatest {
                 val result = receiveApiResult(it)
-                if (result != null){
+                if (result != null) {
                     _allGroupInfo.value = sortAssignees(result.members as ArrayList<Assignee>)
 
                     // 초기에 "나"만 들어가도록 수정
@@ -217,11 +269,13 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun createHouseWorks() {
         viewModelScope.launch {
-            mainRepository.createHouseWorks(Chores(_chores.value))
+            mainRepository.createHouseWorks(chores.value)
                 .collectLatest {
                     val result = receiveApiResult(it)
-                    result?.houseWorks?.forEach {
-                        if (!it.success) setNetworkError(true)
+                    if (result.isNullOrEmpty()) {
+                        setNetworkError(true)
+                    } else {
+                        _createdSuccess.value = true
                     }
                 }
         }

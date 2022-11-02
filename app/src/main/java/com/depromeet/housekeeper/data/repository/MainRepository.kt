@@ -1,8 +1,6 @@
 package com.depromeet.housekeeper.data.repository
 
-
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineScope
@@ -19,27 +17,16 @@ class MainRepository @Inject constructor(
     /**
      * houseWorks
      */
-    suspend fun createHouseWorks(houseWorks: Chores): Flow<ApiResult<HouseWorkCreateResponse>> =
+    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>> =
         remoteDataSource.createHouseWorks(houseWorks)
-
-    suspend fun editHouseWork(houseWorkId: Int, chore: Chore): Flow<HouseWork> =
-        remoteDataSource.editHouseWork(houseWorkId,chore)
-
-    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> =
-        remoteDataSource.deleteHouseWork(houseWorkId)
 
     suspend fun updateChoreState(
         houseWorkId: Int,
         updateChoreBody: UpdateChoreBody,
     ): Flow<UpdateChoreResponse> = remoteDataSource.updateChoreState(houseWorkId,updateChoreBody)
 
-    suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork> =
+    suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
         remoteDataSource.getDetailHouseWorks(houseWorkId)
-
-    suspend fun getDateHouseWorkList(
-        fromDate: String,
-        toDate: String
-    ): Flow<Map<String, HouseWorks>> = remoteDataSource.getDateHouseWorkList(fromDate, toDate)
 
     suspend fun getPeriodHouseWorkListOfMember(
         teamMemberId: Int,
@@ -47,8 +34,20 @@ class MainRepository @Inject constructor(
         toDate: String
     ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getPeriodHouseWorkListOfMember(teamMemberId, fromDate, toDate)
 
+    suspend fun getDateHouseWorkList(
+        fromDate: String,
+        toDate: String
+    ): Flow<ApiResult<Map<String, HouseWorks>>> = remoteDataSource.getDateHouseWorkList(fromDate, toDate)
+
     suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
         remoteDataSource.getCompletedHouseWorkNumber(scheduledDate)
+
+    suspend fun editHouseWork(editChore: EditChore):  Flow<ApiResult<Unit>> =
+        remoteDataSource.editHouseWork(editChore)
+
+    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> =
+        remoteDataSource.deleteHouseWork(houseWorkId)
+
 
     /**
      * presets

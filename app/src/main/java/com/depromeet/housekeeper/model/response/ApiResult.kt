@@ -15,7 +15,7 @@ fun <T> safeFlow(apiFunc: suspend () -> T): Flow<ApiResult<T>> = flow {
     try {
         emit(ApiResult.Success(apiFunc.invoke()))
     } catch (e: HttpException) {
-        emit(ApiResult.Error(code = e.code(), message = e.message))
+        emit(ApiResult.Error(code = e.code(), message = e.stackTraceToString()))
     } catch (e: Exception) {
         emit(ApiResult.Exception(e))
     } catch (e: Throwable) {

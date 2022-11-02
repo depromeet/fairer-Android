@@ -2,27 +2,34 @@ package com.depromeet.housekeeper.ui.addHousework.selectTime
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddHouseWorkBinding
 import com.depromeet.housekeeper.model.Assignee
+import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddHouseWorkChoreAdapter
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.DayRepeatAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.util.dp2px
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
+class AddHouseWorkFragment :
+    BaseFragment<FragmentAddHouseWorkBinding>(R.layout.fragment_add_house_work) {
     lateinit var dayRepeatAdapter: DayRepeatAdapter
     lateinit var addHouseWorkChoreAdapter: AddHouseWorkChoreAdapter
     lateinit var addAssigneeAdapter: AddAssigneeAdapter
@@ -32,7 +39,6 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
     override fun createView(binding: FragmentAddHouseWorkBinding) {
         binding.vm = viewModel
         viewModel.addCalendarView(navArgs.selectDate.date)
-        binding.currentDate = viewModel.bindingDate()
     }
 
     override fun viewCreated() {
@@ -42,8 +48,11 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         initView()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+        binding.currentDate = viewModel.bindingDate()
+        binding.doRepeatMontly = false
+        setRepeatTextView()
     }
 
     private fun bindingVm() {
@@ -60,10 +69,19 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         }
 
         lifecycleScope.launchWhenCreated {
+            viewModel.createdSucess.collect{
+                if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
                 if (it) {
-                    fragmentManager?.popBackStack(R.id.SelectSpaceFragment, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    fragmentManager?.popBackStack(
+                        R.id.SelectSpaceFragment,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                 }
             }
         }
@@ -120,13 +138,6 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         }
 
-        binding.switchRepeatEveryMonth.apply {
-            setOnCheckedChangeListener { button, isChecked ->
-                binding.isMonthRepeatChecked = isChecked
-                binding.tvEveryMonth.isSelected = isChecked
-            }
-        }
-
         binding.addHouseWorkDateTv.setOnClickListener {
             createDatePickerDialog()
         }
@@ -134,6 +145,28 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         binding.addAssigneeLayout.setOnClickListener {
             createBottomSheet()
         }
+
+        binding.clRepeatCycle.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
+
+        binding.btnSpinnerDropdown.setOnClickListener {
+            binding.spinnerRepeat.performClick()
+        }
+
+        binding.spinnerRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
+                binding.doRepeatMontly = pos == 1
+                setRepeatTextView()
+                if (pos == 1) {
+                    viewModel.updateRepeatInform(RepeatCycle.MONTHLY)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
     }
 
     private fun setAdapter() {
@@ -177,11 +210,53 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             }
         })
 
+
+        setRepeatAdapter()
+
+    }
+
+    private fun setRepeatAdapter() {
+        // 반복주기
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.repeat_cycle_array,
+            R.layout.item_spinner
+        ).also {
+            it.setDropDownViewResource(R.layout.item_spinner_dropdown)
+            binding.spinnerRepeat.dropDownVerticalOffset = dp2px(requireContext(), 30f).toInt()
+            binding.spinnerRepeat.dropDownHorizontalOffset = -dp2px(requireContext(), 26f).toInt()
+            binding.spinnerRepeat.adapter = it
+        }
+
         // 요일 반복 adapter
         val days: Array<String> = resources.getStringArray(R.array.day_array)
         dayRepeatAdapter = DayRepeatAdapter(days)
         binding.rvAddHouseWorkRepeat.layoutManager = GridLayoutManager(context, 7)
         binding.rvAddHouseWorkRepeat.adapter = dayRepeatAdapter
+        dayRepeatAdapter.setDayItemClickListener(object :
+            DayRepeatAdapter.DayItemClickListener {
+            override fun onItemClick(selectedDays: Array<Boolean>) {
+                val repeatDays = viewModel.getRepeatDays(selectedDays)
+                binding.repeatDaySelected = repeatDays.isNotEmpty()
+
+                var repeatDaysString = viewModel.getRepeatDaysString("eng")
+                viewModel.updateRepeatInform(repeatDaysString)
+
+                repeatDaysString = viewModel.getRepeatDaysString("kor")
+                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
+            }
+        })
+    }
+
+    private fun setRepeatTextView() {
+        binding.repeatDay = " " + viewModel.getCurDay("일")
+
+        if (binding.doRepeatMontly == true) {
+            binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
+        } else {
+            binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
+            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+        }
     }
 
     private fun updateTime() {
@@ -191,8 +266,9 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
 
     private fun updateChore(position: Int) {
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChore(viewModel.curTime.value, position)
-            else -> viewModel.updateChore(null, position)
+            binding.switchHouseworkTime.isChecked ->
+                viewModel.updateChoreTime(viewModel.curTime.value, position)
+            else -> viewModel.updateChoreTime(null, position)
         }
     }
 
@@ -251,6 +327,7 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
             this.requireContext(),
             { _, year, month, dayOfMonth ->
                 viewModel.updateCalendarView(year, month, dayOfMonth)
+                if (binding.doRepeatMontly == true) binding.repeatDay = " ${dayOfMonth}일"
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) - 1,
@@ -265,7 +342,6 @@ class AddHouseWorkFragment : BaseFragment<FragmentAddHouseWorkBinding>(R.layout.
         val min = temp[1].toInt()
         return Pair(hour, min)
     }
-
 
 
 }

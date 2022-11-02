@@ -29,7 +29,7 @@
             type="boolean" />
 
         <variable
-            name="timeSwitch"
+            name="isTimeChecked"
             type="boolean" />
 
         <variable
@@ -37,8 +37,20 @@
             type="boolean" />
 
         <variable
-            name="isMonthRepeatChecked"
-            type="boolean" />
+            name="repeatCycle"
+            type="String" />
+
+        <variable
+            name="repeatDay"
+            type="String" />
+
+        <variable
+            name="doRepeatMontly"
+            type="Boolean" />
+
+        <variable
+            name="repeatDaySelected"
+            type="Boolean" />
 
     </data>
 
@@ -222,10 +234,11 @@
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="24dp"
-                        android:checked="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        tools:ignore="UseSwitchCompatOrMaterialXml"
+                        android:checked="@{isTimeChecked}"
+                        />
 
                     <com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
                         android:id="@+id/todo_time_picker"
@@ -237,7 +250,7 @@
                         android:nestedScrollingEnabled="false"
                         android:theme="@style/FairerTimePicker"
                         android:timePickerMode="spinner"
-                        android:visibility="@{timeSwitch ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{isTimeChecked ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -245,6 +258,7 @@
                     android:id="@+id/cl_repeat_setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     app:layout_constraintTop_toBottomOf="@id/cl_time_setting">
 
                     <TextView
@@ -252,7 +266,6 @@
                         style="@style/Title.T1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         android:text="@string/add_direct_todo_repeat"
                         android:textStyle="bold"
@@ -263,64 +276,115 @@
                         android:id="@+id/switch_housework_repeat"
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
                         android:checked="@{isRepeatChecked ? true : false, default = false}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_add_direct_todo_repeat"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_marginHorizontal="22dp"
-                        android:layout_marginTop="12dp"
-                        android:choiceMode="multipleChoice"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="horizontal"
-                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintTop_toBottomOf="@id/switch_housework_repeat"
-                        tools:listitem="@layout/item_todo_repeat_day_btn" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_add_direct_todo_repeat_cycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="16dp"
+                    android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layout_constraintTop_toBottomOf="@id/cl_repeat_setting">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_add_direct_todo_repeat_cycle_selector"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="24dp"
-                        android:paddingTop="26dp"
-                        android:paddingBottom="10dp"
-                        android:visibility="@{isRepeatChecked ? View.VISIBLE : View.GONE, default = gone}"
-                        app:layout_constraintTop_toBottomOf="@id/rv_add_direct_todo_repeat">
+                        android:layout_height="38dp"
+                        android:background="@drawable/bg_rect_r4"
+                        android:paddingHorizontal="16dp"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_every_month"
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_repeat_one"
-                            android:drawablePadding="2dp"
-                            android:drawableTint="@color/text_fairer_color_selector_300"
-                            android:text="@string/add_direct_todo_repeat_every_month"
-                            android:textColor="@color/text_fairer_color_selector_300"
+                            android:text="@string/add_house_repeat_cycle"
+                            android:textColor="@color/gray_600"
                             android:textFontWeight="600"
                             android:textSize="14sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <Switch
-                            android:id="@+id/switch_repeat_every_month"
-                            style="@style/FairerSwitch"
-                            android:checked="false"
+                        <Spinner
+                            android:id="@+id/spinner_repeat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:dropDownWidth="98dp"
+                            android:spinnerMode="dropdown"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/btn_spinner_dropdown"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/btn_spinner_dropdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:padding="4dp"
+                            android:src="@drawable/ic_expand_more"
+                            app:layout_constraintBottom_toBottomOf="@id/spinner_repeat"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                            app:layout_constraintTop_toTopOf="@id/spinner_repeat" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_add_direct_todo_repeat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:choiceMode="multipleChoice"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        android:visibility="@{isRepeatChecked &amp;&amp; !doRepeatMontly ? View.VISIBLE : View.GONE, default = gone}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/cl_add_direct_todo_repeat_cycle_selector"
+                        tools:listitem="@layout/item_todo_repeat_day_btn" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_add_direct_todo_repeat_texts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMontly || repeatDaySelected) ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    app:layout_constraintTop_toBottomOf="@id/cl_add_direct_todo_repeat_cycle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{repeatCycle}"
+                        android:textColor="@color/gray_400"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{repeatDay}"
+                        android:textColor="@color/positive_20"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_house_describe_repeat"
+                        android:textColor="@color/gray_400"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
         <include

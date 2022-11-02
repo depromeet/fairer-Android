@@ -4,6 +4,7 @@ import android.content.*
 import android.content.Intent.ACTION_SEND
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,22 @@ class HouseKeeperActivity : AppCompatActivity() {
     private val viewModel: HouseKeeperViewModel by viewModels()
     lateinit var binding: ActivityHousekeeperBinding
 
+    private lateinit var mService: InternetService
+    private var mBound = false
+
+    private val conn = object : ServiceConnection {
+        override fun onServiceConnected(p0: ComponentName?, service: IBinder?) {
+            val binder = service as InternetService.InternetBinder
+            mService = binder.service
+            mBound = true
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            mBound = false
+        }
+
+    }
+
     private val internetReceiver = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, mIntent: Intent?) {
             if (mIntent != null && mIntent.action == ACTION_SEND) {
@@ -41,22 +58,36 @@ class HouseKeeperActivity : AppCompatActivity() {
             setKeepOnScreenCondition { viewModel.isLoading.value }
         }
         super.onCreate(savedInstanceState)
-        val filter = IntentFilter(FILTER_INTERNET_CONNECTED).apply {
-            addAction(Intent.ACTION_SEND)
-        }
-        registerReceiver(internetReceiver, filter)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_housekeeper)
         binding.lifecycleOwner = this
         bindingVm()
         getDynamicLink()
     }
 
+    override fun onStart() {
+        super.onStart()
+        bindService(Intent(this, InternetService::class.java), conn, Context.BIND_AUTO_CREATE)
+        val filter = IntentFilter(FILTER_INTERNET_CONNECTED).apply {
+            addAction(Intent.ACTION_SEND)
+        }
+        registerReceiver(internetReceiver, filter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (mBound) {
+            unbindService(conn)
+            mBound = false
+        }
+    }
+
     private fun bindingVm() {
         lifecycleScope.launchWhenStarted {
-            viewModel.isInternetDisconnected.collect{
+            viewModel.isInternetDisconnected.collect {
                 Timber.d(">>> bindingVm : isInternetDisconnected = $it")
                 binding.layoutInternetDisconnected.root.bringToFront()
-                binding.layoutInternetDisconnected.root.visibility = if (it) View.VISIBLE else View.GONE
+                binding.layoutInternetDisconnected.root.visibility =
+                    if (it) View.VISIBLE else View.GONE
             }
         }
     }

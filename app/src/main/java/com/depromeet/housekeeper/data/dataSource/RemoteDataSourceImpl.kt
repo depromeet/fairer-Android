@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.data.dataSource
 
 import com.depromeet.housekeeper.data.ApiService
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,18 +17,9 @@ class RemoteDataSourceImpl @Inject constructor(
     /**
      * houseWorks
      */
-    override suspend fun createHouseWorks(houseWorks: Chores): Flow<ApiResult<HouseWorkCreateResponse>> =
+    override suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>> =
         safeFlow {
             apiService.createHouseWorks(houseWorks)
-        }.flowOn(ioDispatcher)
-
-    override suspend fun editHouseWork(id: Int, chore: Chore): Flow<HouseWork> = flow {
-        emit(apiService.editHouseWork(id, chore))
-    }.flowOn(ioDispatcher)
-
-    override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
-        flow {
-            emit(apiService.deleteHouseWork(id))
         }.flowOn(ioDispatcher)
 
     override suspend fun updateChoreState(
@@ -40,16 +30,17 @@ class RemoteDataSourceImpl @Inject constructor(
             emit(apiService.updateChoreState(houseWorkId, updateChoreBody))
         }.flowOn(ioDispatcher)
 
-    override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<HouseWork> = flow {
-        emit(apiService.getDetailHouseWork(houseWorkId))
-    }.flowOn(ioDispatcher)
+    override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
+        safeFlow {
+            apiService.getDetailHouseWork(houseWorkId)
+        }.flowOn(ioDispatcher)
 
     override suspend fun getDateHouseWorkList(
         fromDate: String,
         toDate: String
-    ): Flow<Map<String, HouseWorks>> {
-        return flow {
-            emit(apiService.getDateHouseWorkList(fromDate, toDate))
+    ): Flow<ApiResult<Map<String, HouseWorks>>> {
+        return safeFlow {
+            apiService.getDateHouseWorkList(fromDate, toDate)
         }.flowOn(ioDispatcher)
     }
 
@@ -66,6 +57,15 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun getCompletedHouseWorkNumber(scheduledDate: String): Flow<ApiResult<CompleteHouseWork>> =
         safeFlow {
             apiService.getCompletedHouseWorkNumber(scheduledDate)
+        }.flowOn(ioDispatcher)
+
+    override suspend fun editHouseWork(editChore: EditChore): Flow<ApiResult<Unit>> = safeFlow {
+        apiService.editHouseWork(editChore)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun deleteHouseWork(id: Int): Flow<Unit> =
+        flow {
+            emit(apiService.deleteHouseWork(id))
         }.flowOn(ioDispatcher)
 
     /**

@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
-import com.depromeet.housekeeper.model.HouseWork
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.model.request.RepeatCycle
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectSpace.adapter.SelectSpaceChoreAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
@@ -183,7 +184,19 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
                 SelectSpaceFragmentDirections.actionSelectSpaceFragmentToAddDirectTodoFragment(
                     viewType = ViewType.ADD,
                     selectDate = viewModel.selectCalendar.value,
-                    houseWork = HouseWork(arrayListOf(), -1, "", "", null, "", false, null, 0)
+                    houseWork = HouseWork(
+                        assignees = arrayListOf(),
+                        houseWorkCompleteId = -1,
+                        houseWorkId = -1,
+                        houseWorkName = "",
+                        repeatCycle = RepeatCycle.ONCE.value,
+                        repeatEndDate = "",
+                        repeatPattern = "",
+                        scheduledDate = "",
+                        scheduledTime = null,
+                        space = "",
+                        success = false,
+                        successDateTime = null)
                 )
             )
     }
