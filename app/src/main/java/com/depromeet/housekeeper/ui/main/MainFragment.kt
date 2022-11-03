@@ -3,12 +3,8 @@ package com.depromeet.housekeeper.ui.main
 import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Color
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -30,7 +26,7 @@ import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -40,45 +36,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        if(savedInstanceState != null){
-            savedInstanceState.getString("Date")
-                ?.let { DayOfWeek(it) }?.let { mainViewModel.updateSelectDate(it) }
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        lifecycleScope.launchWhenCreated {
-            mainViewModel.dayOfWeek.collect{
-                outState.putString("Date",it.date)
-            }
-        }
-
-
-        super.onSaveInstanceState(outState)
-    }
-
     override fun createView(binding: FragmentMainBinding) {
         binding.vm = mainViewModel
     }
 
     override fun viewCreated() {
+        setAdapter()
         mainViewModel.apply {
             getRules()
             getGroupName()
-            updateSelectDate(DateUtil.getTodayFull())
-            updateStartDateOfWeek(DateUtil.getCurrentStartDate())
+            if(this.dayOfWeek.value== DayOfWeek(date = "")){
+                Timber.d("asd date today")
+                updateSelectDate(DateUtil.getTodayFull())
+                updateStartDateOfWeek(DateUtil.getCurrentStartDate())
+            }
+            else{
+                dayOfAdapter.updateDate(getSelectWeek())
+                updateSelectDate(dayOfWeek.value)
+            }
         }
-
         initView()
-        setAdapter()
         bindingVm()
         setListener()
+
     }
 
 
@@ -188,7 +168,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWorks.collect {
+            mainViewModel.selectHouseWorks.collectLatest{
                 Timber.d("$MAIN_TAG collect \n$it")
                 if (it != null) {
                     if (it.countLeft == 0) {

@@ -23,14 +23,16 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     private val navArgs by navArgs<SettingProfileFragmentArgs>()
 
     override fun createView(binding: FragmentSettingProfileBinding) {
+        binding.vm = viewModel
     }
 
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         initView()
+        bindingVm()
         setListener()
         validateName()
-        bindingVm()
+
     }
 
     private fun bindingVm() {
@@ -39,9 +41,9 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
                 Timber.d("myData : $it")
 
                 if (it != null) {
-                    binding.etName.fairerEt.setText(it.memberName)
-                    binding.etStatusMessage.fairerEt.setText(it.statusMessage)
-
+                    viewModel.getNameData(it.memberName)
+                    Timber.d("asdasdasd $it.memberName")
+                    viewModel.getMassageData(it.statusMessage)
                     val url: String = when {
                         !navArgs.profilePath.isNullOrEmpty() -> {
                             navArgs.profilePath!!
@@ -69,6 +71,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         lifecycleScope.launchWhenCreated {
             viewModel.nameData.collectLatest {
                 binding.etName.fairerEt.setText(it)
+                Timber.d("asds $it")
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -96,6 +99,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             }
             binding.nameIsTextChanged = value != ""
         }
+
         binding.etStatusMessage.fairerEt.addTextChangedListener {
             val value: String = binding.etStatusMessage.fairerEt.text.toString()
             viewModel.getMassageData(value)
@@ -109,7 +113,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
                 binding.stateIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled = true
             }
-            binding.nameIsTextChanged = value != ""
+            binding.stateIsTextChanged = value != ""
         }
     }
 
@@ -130,6 +134,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
 
         binding.lvProfileImageview.setOnClickListener {
+            Timber.d("asd ${viewModel.nameData.value}")
             it.findNavController()
                 .navigate(
                     SettingProfileFragmentDirections.actionSettingProfileFragmentToSignProfileFragment(
@@ -182,6 +187,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         binding.profileBtn.mainFooterButton.isEnabled = true
         binding.etStatusMessage.fairerEt.hint = getString(R.string.setting_profile_status_hint)
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+
 
         viewModel.getProfile()
     }

@@ -6,6 +6,9 @@
 
     <data>
         <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.settings.SettingProfileViewModel" />
 
         <variable
             name="profilePath"
@@ -127,6 +130,7 @@
         android:layout_marginTop="16dp"
         bind:isError="@{nameIsError}"
         bind:isTextChanged="@{nameIsTextChanged}" />
+
     <TextView
         android:id="@+id/sign_name_error"
         style="@style/Body"
