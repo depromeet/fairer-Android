@@ -1,10 +1,8 @@
 package com.depromeet.housekeeper.ui.addDirectTodo
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
@@ -14,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import coil.size.ViewSizeResolver
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding

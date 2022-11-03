@@ -333,7 +333,6 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
             mainRepository.createHouseWorks(_chores.value)
