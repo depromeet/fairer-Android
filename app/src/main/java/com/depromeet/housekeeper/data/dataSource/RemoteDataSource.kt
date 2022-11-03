@@ -12,8 +12,9 @@ interface RemoteDataSource {
     suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>>
     suspend fun updateChoreState(
         houseWorkId: Int,
-        updateChoreBody: UpdateChoreBody,
+        scheduledDate: String,
     ): Flow<UpdateChoreResponse>
+    suspend fun updateChoreComplete(houseWorkId: Int): Flow<ApiResult<Unit>>
 
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>>
     suspend fun getDateHouseWorkList(
