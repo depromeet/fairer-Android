@@ -4,10 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
-import com.depromeet.housekeeper.model.*
-import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.AssigneeSelect
-import com.depromeet.housekeeper.model.request.UpdateChoreBody
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
@@ -249,7 +247,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             mainRepository.updateChoreState(
                 houseWorkId = houseWork.houseWorkId,
-                updateChoreBody = UpdateChoreBody(toBeStatus)
+                scheduledDate = houseWork.scheduledDate
             ).runCatching {
                 collect {
                     getHouseWorks()
