@@ -54,12 +54,20 @@ data class EditChore(
     var updateStandardDate: String,
 ): Parcelable
 
+@Parcelize
+data class DeleteChoreRequest(
+    val deleteStandardDate: String,
+    val houseWorkId: Int,
+    val type: String = EditType.NONE.value
+): Parcelable
+
 enum class EditType(val value: String){
     ONLY("O"),
     FORWARD("H"),
     ALL("A"),
     NONE("N")
 }
+
 
 @Serializable
 data class ChoreList(

@@ -3,8 +3,13 @@ package com.depromeet.housekeeper.ui.main
 import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -38,6 +43,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     override fun createView(binding: FragmentMainBinding) {
         binding.vm = mainViewModel
+        Timber.d("createView")
     }
 
     override fun viewCreated() {

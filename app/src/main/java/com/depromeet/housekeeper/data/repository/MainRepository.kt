@@ -45,8 +45,8 @@ class MainRepository @Inject constructor(
     suspend fun editHouseWork(editChore: EditChore):  Flow<ApiResult<Unit>> =
         remoteDataSource.editHouseWork(editChore)
 
-    suspend fun deleteHouseWork(houseWorkId: Int): Flow<Unit> =
-        remoteDataSource.deleteHouseWork(houseWorkId)
+    suspend fun deleteHouseWork(deleteChore: DeleteChoreRequest): Flow<ApiResult<Unit>> =
+        remoteDataSource.deleteHouseWork(deleteChore)
 
 
     /**
