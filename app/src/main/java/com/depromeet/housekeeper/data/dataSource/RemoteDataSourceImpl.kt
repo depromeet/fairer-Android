@@ -175,8 +175,12 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.saveToken(token = token)
     }.flowOn(ioDispatcher)
 
-    override suspend fun sendMessage(message: Message): Flow<ApiResult<Message>> = safeFlow {
-        apiService.sendMessage(message = message)
+    override suspend fun getAlarmStatus(): Flow<ApiResult<AlarmStatusResponse>> = safeFlow {
+        apiService.alarmStatus()
+    }.flowOn(ioDispatcher)
+
+    override suspend fun setAlarmStatus(alarmStatus: AlarmStatus): Flow<ApiResult<AlarmStatusResponse>> = safeFlow {
+        apiService.setAlarmStatus(alarmStatus)
     }.flowOn(ioDispatcher)
 
 }

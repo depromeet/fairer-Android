@@ -73,6 +73,7 @@ interface RemoteDataSource {
     fcm
      */
     suspend fun saveToken(token: Token): Flow<ApiResult<Unit>>
-    suspend fun sendMessage(message: Message): Flow<ApiResult<Message>>
+    suspend fun getAlarmStatus(): Flow<ApiResult<AlarmStatusResponse>>
+    suspend fun setAlarmStatus(alarmStatus: AlarmStatus): Flow<ApiResult<AlarmStatusResponse>>
 
 }
