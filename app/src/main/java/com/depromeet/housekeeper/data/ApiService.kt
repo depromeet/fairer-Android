@@ -19,6 +19,11 @@ interface ApiService {
         @Query("scheduledDate") scheduledDate: String,
     ): UpdateChoreResponse
 
+    @DELETE("/api/houseworks/complete/{houseWorkCompleteId}")
+    suspend fun updateChoreComplete(
+        @Path("houseWorkCompleteId") houseWorkId:Int
+    )
+
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 

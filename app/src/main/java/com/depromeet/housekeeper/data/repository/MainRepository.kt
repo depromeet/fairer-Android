@@ -25,6 +25,10 @@ class MainRepository @Inject constructor(
         scheduledDate: String,
     ): Flow<UpdateChoreResponse> = remoteDataSource.updateChoreState(houseWorkId,scheduledDate)
 
+    suspend fun updateChoreComplete(
+        houseWorkId: Int
+    )=remoteDataSource.updateChoreComplete(houseWorkId)
+
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
         remoteDataSource.getDetailHouseWorks(houseWorkId)
 
