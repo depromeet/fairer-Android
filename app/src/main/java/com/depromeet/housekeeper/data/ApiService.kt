@@ -42,9 +42,8 @@ interface ApiService {
     @PUT("/api/houseworks/v2")
     suspend fun editHouseWork(@Body editChore: EditChore)
 
-    //todo v2 수정
-    @DELETE("/api/houseworks/{houseWorkId}")
-    suspend fun deleteHouseWork(@Path("houseWorkId") houseWorkId: Int)
+    @HTTP(method = "DELETE", path="/api/houseworks/v2", hasBody = true)
+    suspend fun deleteHouseWork(@Body deleteChore: DeleteChoreRequest)
 
 
     /**

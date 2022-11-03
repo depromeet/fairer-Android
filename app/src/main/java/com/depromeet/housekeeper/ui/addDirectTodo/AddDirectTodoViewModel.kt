@@ -195,13 +195,13 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    fun updateRepeatInform(repeatCycle: RepeatCycle){
+    fun updateRepeatInform(repeatCycle: RepeatCycle) {
         if (repeatCycle != RepeatCycle.MONTHLY) return
 
         if (nEditChore.value != null) {
             _nEditChore.value!!.repeatCycle = repeatCycle.value
             _nEditChore.value!!.repeatPattern = getCurDay("")
-        }else {
+        } else {
             _chores.value[0].repeatCycle = repeatCycle.value
             _chores.value[0].repeatPattern = getCurDay("")
         }
@@ -323,7 +323,6 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    //todo
     // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
@@ -340,17 +339,17 @@ class AddDirectTodoViewModel @Inject constructor(
     }
 
 
-    // todo api 변경후 작업
-    fun deleteHouseWork() {
+    fun deleteHouseWork(editType: EditType) {
         viewModelScope.launch {
-            mainRepository.deleteHouseWork(houseWorkId.value)
-                .runCatching {
-                    collect {
-
-                    }
-                }.onFailure {
-                    setNetworkError(true)
-                }
+            mainRepository.deleteHouseWork(
+                DeleteChoreRequest(
+                    deleteStandardDate = curDate.value,
+                    houseWorkId = houseWorkId.value,
+                    type = editType.value
+                )
+            ).collectLatest {
+                receiveApiResult(it)
+            }
         }
     }
 
