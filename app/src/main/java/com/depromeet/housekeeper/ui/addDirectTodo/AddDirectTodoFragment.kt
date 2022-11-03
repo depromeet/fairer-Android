@@ -14,11 +14,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.size.ViewSizeResolver
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.EditChore
+import com.depromeet.housekeeper.model.request.EditType
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
@@ -90,7 +92,14 @@ class AddDirectTodoFragment :
 
         lifecycleScope.launchWhenCreated {
             viewModel.createdSucess.collect {
-                if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+                if (it) {
+                    if (viewModel.curViewType.value == ViewType.ADD) {
+                        findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+                    } else if (viewModel.curViewType.value == ViewType.EDIT){
+                        findNavController()
+                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                    }
+                }
             }
         }
 
@@ -178,7 +187,7 @@ class AddDirectTodoFragment :
                     text = resources.getString(R.string.add_todo_done_btn_txt)
                     // 집안일 생성 api
                     setOnClickListener {
-                        updateChore()
+                        updateChore(ViewType.ADD)
                         viewModel.createHouseWorks()
                     }
                 }
@@ -187,10 +196,8 @@ class AddDirectTodoFragment :
                     text = resources.getString(R.string.edit_todo_btn_tv)
                     // 집안일 수정 api
                     setOnClickListener {
-                        updateChore()
-                        viewModel.editHouseWork()
-                        it.findNavController()
-                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        updateChore(ViewType.EDIT)
+                        showModifyDialog()
                     }
                 }
             }
@@ -298,20 +305,24 @@ class AddDirectTodoFragment :
         }
     }
 
-    private fun updateChore() {
+    private fun updateChore(viewType: ViewType) {
         // name set
-        viewModel.updateChoreName(binding.addDirectTodoTitleEt.fairerEt.text.toString())
+        viewModel.updateChoreName(viewType, binding.addDirectTodoTitleEt.fairerEt.text.toString())
 
         // time set
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewModel.curTime.value!!)
-            else -> viewModel.updateChoreTime(null)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewType, viewModel.curTime.value!!)
+            else -> viewModel.updateChoreTime(viewType, null)
         }
 
         //date set
-        viewModel.updateChoreDate()
+        viewModel.updateChoreDate(viewType)
 
-        Timber.d(viewModel.chores.value.toString())
+        if (viewModel.curViewType.value == ViewType.ADD) {
+            Timber.d(viewModel.chores.value.toString())
+        } else if (viewModel.curViewType.value == ViewType.EDIT){
+            Timber.d(viewModel.editChore.value.toString())
+        }
     }
 
     private fun setAdapter() {
@@ -436,6 +447,17 @@ class AddDirectTodoFragment :
         dialog.showRepeatDialog { type ->
             viewModel.deleteHouseWork(type)
             findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+        }
+    }
+
+    private fun showModifyDialog(){
+        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value){
+            viewModel.editHouseWork(EditType.ONLY)
+        } else {
+            val dialog = FairerDialog(requireContext(), DialogType.EDIT)
+            dialog.showRepeatDialog { type ->
+                viewModel.editHouseWork(type)
+            }
         }
     }
 
