@@ -128,4 +128,10 @@ interface ApiService {
     @POST("/api/fcm/message")
     suspend fun sendMessage(@Body message: Message): Message
 
+    @GET("/api/alarm/status")
+    suspend fun alarmStatus():AlarmStatusResponse
+
+    @PUT("/api/alarm/status")
+    suspend fun setAlarmStatus(@Body alarmStatus: AlarmStatus):AlarmStatusResponse
+
 }

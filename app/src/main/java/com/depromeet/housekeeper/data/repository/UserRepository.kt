@@ -55,7 +55,10 @@ class UserRepository @Inject constructor(
     suspend fun saveToken(token: Token): Flow<ApiResult<Unit>> =
         remoteDataSource.saveToken(token)
 
-    suspend fun sendMessage(message: Message): Flow<ApiResult<Message>> =
-        remoteDataSource.sendMessage(message)
+    suspend fun getAlarmStatus(): Flow<ApiResult<AlarmStatusResponse>> =
+        remoteDataSource.getAlarmStatus()
+
+    suspend fun setAlarmStatus(alarmStatus: AlarmStatus): Flow<ApiResult<AlarmStatusResponse>> =
+        remoteDataSource.setAlarmStatus(alarmStatus)
 
 }
