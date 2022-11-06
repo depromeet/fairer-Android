@@ -72,10 +72,3 @@ data class UpdateMemberResponse(
     val message: String
 ) : Parcelable
 
-@Parcelize
-data class AlarmStatusResponse(
-    val memberId: Int,
-    val notCompleteStatus: Boolean,
-    val scheduledTimeStatus: Boolean
-) : Parcelable
-

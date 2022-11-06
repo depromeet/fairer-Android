@@ -13,16 +13,11 @@ interface ApiService {
     suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
     //todo v2 삭제 -> houseWorkComplete로 변경
-    @POST("/api/houseworks/complete/{houseWorkId}")
+    @PATCH("/api/houseworks/{houseWorkId}")
     suspend fun updateChoreState(
         @Path("houseWorkId") houseWorkId: Int,
-        @Query("scheduledDate") scheduledDate: String,
+        @Body updateChoreBody: UpdateChoreBody,
     ): UpdateChoreResponse
-
-    @DELETE("/api/houseworks/complete/{houseWorkCompleteId}")
-    suspend fun updateChoreComplete(
-        @Path("houseWorkCompleteId") houseWorkId:Int
-    )
 
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
@@ -127,11 +122,5 @@ interface ApiService {
 
     @POST("/api/fcm/message")
     suspend fun sendMessage(@Body message: Message): Message
-
-    @GET("/api/alarm/status")
-    suspend fun alarmStatus():AlarmStatusResponse
-
-    @PUT("/api/alarm/status")
-    suspend fun setAlarmStatus(@Body alarmStatus: AlarmStatus):AlarmStatusResponse
 
 }
