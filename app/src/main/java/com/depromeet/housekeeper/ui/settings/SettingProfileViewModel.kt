@@ -19,9 +19,9 @@ class SettingProfileViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    private val _myData: MutableStateFlow<ProfileData?> = MutableStateFlow(null)
-    val myData: StateFlow<ProfileData?>
-        get() = _myData
+    init {
+        getMe()
+    }
 
     private val _nameData:MutableStateFlow<String> = MutableStateFlow("")
     val nameData: StateFlow<String>
@@ -31,37 +31,33 @@ class SettingProfileViewModel @Inject constructor(
     val massageData: StateFlow<String>
         get() = _massageData
 
-    fun getNameData(name:String){
+    private val _profileData:MutableStateFlow<String> = MutableStateFlow("")
+    val profileData: StateFlow<String>
+        get() = _profileData
+
+    fun setNameData(name:String){
         _nameData.value = name
     }
 
-    fun getMassageData(massage:String){
+    fun setMassageData(massage:String){
         _massageData.value = massage
     }
 
-    fun getProfile() {
-        if (PrefsManager.getUserProfile().memberName == "" || PrefsManager.getUserProfile().profilePath == "") {
-            getMe()
-        } else {
-            Timber.d("getProfile")
-            _myData.value = PrefsManager.getUserProfile()
-        }
-    }
-
     fun setProfile(memberName: String, profilePath: String, statusMessage: String) {
-        Timber.d("setProfile : $memberName, $profilePath, $statusMessage")
         PrefsManager.setUserProfile(ProfileData(memberName, profilePath, statusMessage))
     }
 
     /**
      * Network Communication
      */
-    private fun getMe() {
+    fun getMe() {
         viewModelScope.launch {
             userRepository.getMe().collectLatest {
                 val result = receiveApiResult(it)
                 if (result != null) {
-                    _myData.value = result
+                    _nameData.value = result.memberName
+                    _massageData.value = result.statusMessage
+                    _profileData.value = result.profilePath
                 }
             }
         }

@@ -23,7 +23,6 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     private val navArgs by navArgs<SettingProfileFragmentArgs>()
 
     override fun createView(binding: FragmentSettingProfileBinding) {
-        binding.vm = viewModel
     }
 
     override fun viewCreated() {
@@ -33,35 +32,47 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         setListener()
         validateName()
 
+        val url: String = when {
+            !navArgs.profilePath.isNullOrEmpty() -> {
+                navArgs.profilePath!!
+            }
+            else -> viewModel.profileData.value
+        }
+        Glide.with(requireContext())
+            .load(url)
+            .placeholder(requireContext().getDrawable(R.drawable.bg_profile_imageview_inactive))
+            .into(binding.ivImageview)
+
+        binding.nameIsTextChanged = false
+        binding.stateIsTextChanged = false
+    }
+
+    private fun initView() {
+        binding.profileBtn.mainFooterButton.text = "입력 완료"
+        binding.profileBtn.mainFooterButton.isEnabled = true
+        binding.etStatus.hint = getString(R.string.setting_profile_status_hint)
+        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+
     }
 
     private fun bindingVm() {
         lifecycleScope.launchWhenCreated {
-            viewModel.myData.collect {
-                Timber.d("myData : $it")
-
-                if (it != null) {
-                    viewModel.getNameData(it.memberName)
-                    Timber.d("asdasdasd $it.memberName")
-                    viewModel.getMassageData(it.statusMessage)
-                    val url: String = when {
-                        !navArgs.profilePath.isNullOrEmpty() -> {
-                            navArgs.profilePath!!
-                        }
-                        else -> {
-                            it.profilePath
-                        }
+            viewModel.profileData.collect {
+                val url: String = when {
+                    !navArgs.profilePath.isNullOrEmpty() -> {
+                        navArgs.profilePath!!
                     }
-                    Glide.with(requireContext())
-                        .load(url)
-                        .placeholder(requireContext().getDrawable(R.drawable.bg_profile_imageview_inactive))
-                        .into(binding.ivImageview)
+                    else -> viewModel.profileData.value
+                }
+                Glide.with(requireContext())
+                    .load(url)
+                    .placeholder(requireContext().getDrawable(R.drawable.bg_profile_imageview_inactive))
+                    .into(binding.ivImageview)
 
-                    binding.nameIsTextChanged = false
-                    binding.stateIsTextChanged = false
+                binding.nameIsTextChanged = false
+                binding.stateIsTextChanged = false
                 }
             }
-        }
 
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
@@ -70,39 +81,39 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
         lifecycleScope.launchWhenCreated {
             viewModel.nameData.collectLatest {
-                binding.etName.fairerEt.setText(it)
-                Timber.d("asds $it")
+                binding.etName.setText(it)
+                Timber.d("name data : $it")
             }
         }
         lifecycleScope.launchWhenCreated {
             viewModel.massageData.collectLatest {
-                binding.etStatusMessage.fairerEt.setText(it)
+                binding.etStatus.setText(it)
             }
         }
     }
 
     private fun validateName() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-        binding.etName.fairerEt.addTextChangedListener {
-            val value: String = binding.etName.fairerEt.text.toString()
-            viewModel.getNameData(value)
-            if (!value.matches(pattern.toRegex())) {
+        binding.etName.addTextChangedListener {
+            val nameValue: String = binding.etName.text.toString()
+            viewModel.setNameData(nameValue)
+            if (!nameValue.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else if(value.length>16) {
+            } else if(nameValue.length>16) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
             }else {
                 binding.nameIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled =
-                    value.isNotEmpty()
+                    nameValue.isNotEmpty()
             }
-            binding.nameIsTextChanged = value != ""
+            binding.nameIsTextChanged = nameValue != ""
         }
 
-        binding.etStatusMessage.fairerEt.addTextChangedListener {
-            val value: String = binding.etStatusMessage.fairerEt.text.toString()
-            viewModel.getMassageData(value)
+        binding.etStatus.addTextChangedListener {
+            val value: String = binding.etStatus.text.toString()
+            viewModel.setMassageData(value)
             if (!value.matches(pattern.toRegex())) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
@@ -119,18 +130,18 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
     private fun setListener() {
         binding.settingProfileBackground.setOnClickListener {
-            binding.etName.isTextChanged = false
-            binding.etStatusMessage.isTextChanged = false
-            binding.etName.fairerEt.isEnabled = false
-            binding.etStatusMessage.fairerEt.isEnabled = false
-            binding.etName.fairerEt.isEnabled = true
-            binding.etStatusMessage.fairerEt.isEnabled = true
+            binding.nameIsTextChanged = false
+            binding.stateIsTextChanged = false
+            binding.etName.isEnabled = false
+            binding.etStatus.isEnabled = false
+            binding.etName.isEnabled = true
+            binding.etStatus.isEnabled = true
         }
-        binding.etName.signNameClear.setOnClickListener {
-            binding.etName.fairerEt.setText(R.string.sign_name_blank)
+        binding.signNameClear.setOnClickListener {
+            binding.etName.setText(R.string.sign_name_blank)
         }
-        binding.etStatusMessage.signNameClear.setOnClickListener {
-            binding.etStatusMessage.fairerEt.setText(R.string.sign_name_blank)
+        binding.etStatus.setOnClickListener {
+            binding.etStatus.setText(R.string.sign_name_blank)
         }
 
         binding.lvProfileImageview.setOnClickListener {
@@ -150,13 +161,13 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
 
         binding.profileBtn.mainFooterButton.setOnClickListener {
-            val newMemberName = binding.etName.fairerEt.text.toString()
+            val newMemberName = binding.etName.text.toString()
             val newProfilePath = if (navArgs.profilePath != null) {
                 navArgs.profilePath
             } else {
-                viewModel.myData.value!!.profilePath
+                viewModel.profileData.value
             }
-            val newStatusMessage = binding.etStatusMessage.fairerEt.text.toString()
+            val newStatusMessage = binding.etStatus.text.toString()
 
             viewModel.setProfile(newMemberName, newProfilePath!!, newStatusMessage)
             viewModel.updateMe(newMemberName, newProfilePath, newStatusMessage)
@@ -164,17 +175,17 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             it.findNavController().navigateUp()
         }
 
-        binding.etStatusMessage.fairerEt.setOnTouchListener { status, _ ->
+        binding.etStatus.setOnTouchListener { status, _ ->
             status.requestFocus()
-            if (binding.etStatusMessage.fairerEt.text.isNotEmpty()) {
+            if (binding.etStatus.text.isNotEmpty()) {
                 binding.stateIsTextChanged = true
             }
             false
         }
 
-        binding.etName.fairerEt.setOnTouchListener { name, _ ->
+        binding.etName.setOnTouchListener { name, _ ->
             name.requestFocus()
-            if (binding.etName.fairerEt.text.isNotEmpty()) {
+            if (binding.etName.text.isNotEmpty()) {
                 binding.nameIsTextChanged = true
             }
             false
@@ -182,15 +193,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
     }
 
-    private fun initView() {
-        binding.profileBtn.mainFooterButton.text = "입력 완료"
-        binding.profileBtn.mainFooterButton.isEnabled = true
-        binding.etStatusMessage.fairerEt.hint = getString(R.string.setting_profile_status_hint)
-        binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
 
-
-        viewModel.getProfile()
-    }
 
     private fun ImageView.setImg(url: String?) {
         binding.ivImageview.load(url) {
