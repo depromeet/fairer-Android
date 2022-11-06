@@ -22,6 +22,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
+import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.response.HouseWorks
@@ -30,6 +31,7 @@ import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -45,17 +47,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     override fun viewCreated() {
+        setAdapter()
         mainViewModel.apply {
             getRules()
             getGroupName()
-            updateSelectDate(DateUtil.getTodayFull())
-            updateStartDateOfWeek(DateUtil.getCurrentStartDate())
+            if(this.dayOfWeek.value== DayOfWeek(date = "")){
+                Timber.d("asd date today")
+                updateSelectDate(DateUtil.getTodayFull())
+                updateStartDateOfWeek(DateUtil.getCurrentStartDate())
+            }
+            else{
+                dayOfAdapter.updateDate(getSelectWeek())
+                updateSelectDate(dayOfWeek.value)
+            }
         }
-
         initView()
-        setAdapter()
         bindingVm()
         setListener()
+
     }
 
 
@@ -111,8 +120,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list,
             onClick = { mainViewModel.getDetailHouseWork(it.houseWorkId) },
-            onDone = { if(it.houseWorkCompleteId==0)mainViewModel.updateChoreState(it)
-            else mainViewModel.updateChoreComplete(it)}
+            onDone = { mainViewModel.updateChoreState(it) }
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
         binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
@@ -166,7 +174,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWorks.collect {
+            mainViewModel.selectHouseWorks.collectLatest{
                 Timber.d("$MAIN_TAG collect \n$it")
                 if (it != null) {
                     if (it.countLeft == 0) {

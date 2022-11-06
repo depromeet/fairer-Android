@@ -6,6 +6,9 @@
 
     <data>
         <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="com.depromeet.housekeeper.ui.settings.SettingProfileViewModel" />
 
         <variable
             name="profilePath"
@@ -118,15 +121,48 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tv_name">
-    <include
-        android:id="@+id/et_name"
-        layout="@layout/layout_fairer_edit_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{nameIsError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        bind:isError="@{nameIsError}"
-        bind:isTextChanged="@{nameIsTextChanged}" />
+        android:paddingStart="16dp"
+        android:paddingEnd="7dp">
+
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/Title.T1"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="2dp"
+            android:background="@null"
+            android:inputType="text"
+            android:longClickable="false"
+            android:maxLength="17"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColorHint="@color/gray_400"
+            android:textCursorDrawable="@drawable/ic_cursor_drawable"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sign_name_clear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/sign_name_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_clear"
+            android:visibility="@{nameIsTextChanged ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/et_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/sign_name_error"
         style="@style/Body"
@@ -156,6 +192,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_name_layout"
             tools:text="@string/setting_profile_sub_title" />
+
 <androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -163,15 +200,47 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tv_rule">
-    <include
-        android:id="@+id/et_status_message"
-        layout="@layout/layout_fairer_edit_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{stateIsError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        bind:isError="@{stateIsError}"
-        bind:isTextChanged="@{stateIsTextChanged}" />
+        android:paddingStart="16dp"
+        android:paddingEnd="7dp">
+
+        <EditText
+            android:id="@+id/et_status"
+            style="@style/Title.T1"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="2dp"
+            android:background="@null"
+            android:inputType="text"
+            android:longClickable="false"
+            android:maxLength="17"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColorHint="@color/gray_400"
+            android:textCursorDrawable="@drawable/ic_cursor_drawable"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/status_clear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/status_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_clear"
+            android:visibility="@{stateIsTextChanged ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/et_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/sign_state_error"

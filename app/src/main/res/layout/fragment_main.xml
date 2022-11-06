@@ -222,14 +222,14 @@
                             layout="@layout/layout_home_empty_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{houseworkState == HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{houseworkState == HouseWorkState.EMPTY ? View.VISIBLE : View.GONE,default = gone}" />
 
                         <include
                             android:id="@+id/layoutDoneScreen"
                             layout="@layout/layout_home_done_screen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{houseworkState == HouseWorkState.DONE ? View.VISIBLE : View.GONE,default = gone}" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_houseWork"

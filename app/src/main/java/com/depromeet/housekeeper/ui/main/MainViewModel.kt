@@ -6,6 +6,7 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.request.UpdateChoreBody
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
@@ -137,7 +138,6 @@ class MainViewModel @Inject constructor(
         Timber.d("startDate : $date")
         if (startDateOfWeek.value != date) {
             _startDateOfWeek.value = date
-
         }
     }
 
@@ -147,6 +147,19 @@ class MainViewModel @Inject constructor(
         Timber.d("$DATE_UTIL_TAG getNextWeek : ${localDate}")
         updateStartDateOfWeek(localDate.toString())
         return getWeek()
+    }
+    fun getSelectWeek():MutableList<DayOfWeek>{
+        var localDate = LocalDate.parse(startDateOfWeek.value)
+        updateStartDateOfWeek(localDate.toString())
+        val days = mutableListOf<String>()
+        val date = dateFormat.parse(startDateOfWeek.value)
+        calendar.time = date
+        repeat(7) {
+            days.add(fullDateFormat.format(calendar.time))
+            calendar.add(Calendar.DATE, 1)
+        }
+        return days.map { DayOfWeek(date = it, isSelect = it == dayOfWeek.value.date) }
+            .toMutableList()
     }
 
     fun getLastWeek(): MutableList<DayOfWeek> {
@@ -244,27 +257,20 @@ class MainViewModel @Inject constructor(
 
     //todo
     fun updateChoreState(houseWork: HouseWork) {
+        val toBeStatus = when (houseWork.success) {
+            false -> 1
+            else -> 0
+        }
         viewModelScope.launch {
             mainRepository.updateChoreState(
                 houseWorkId = houseWork.houseWorkId,
-                scheduledDate = houseWork.scheduledDate
+                updateChoreBody = UpdateChoreBody(toBeStatus)
             ).runCatching {
                 collect {
                     getHouseWorks()
                 }
             }.onFailure {
                 setNetworkError(true)
-            }
-        }
-    }
-    fun updateChoreComplete(houseWork: HouseWork){
-        viewModelScope.launch {
-            mainRepository.updateChoreComplete(houseWork.houseWorkCompleteId!!).runCatching {
-                collect{
-                    getHouseWorks()
-                }
-                }.onFailure {
-                    setNetworkError(true)
             }
         }
     }
