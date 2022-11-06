@@ -23,6 +23,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     private val navArgs by navArgs<SettingProfileFragmentArgs>()
 
     override fun createView(binding: FragmentSettingProfileBinding) {
+
     }
 
     override fun viewCreated() {
