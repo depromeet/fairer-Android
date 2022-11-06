@@ -64,8 +64,12 @@ class AddDirectTodoFragment :
         viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
-            ViewType.ADD -> { viewModel.initDirectChore() }
-            ViewType.EDIT -> { onEditView() }
+            ViewType.ADD -> {
+                viewModel.initDirectChore()
+            }
+            ViewType.EDIT -> {
+                onEditView()
+            }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -90,12 +94,7 @@ class AddDirectTodoFragment :
         lifecycleScope.launchWhenCreated {
             viewModel.createdSucess.collect {
                 if (it) {
-                    if (viewModel.curViewType.value == ViewType.ADD) {
-                        findNavController().popBackStack(R.id.SelectSpaceFragment, true)
-                    } else if (viewModel.curViewType.value == ViewType.EDIT){
-                        findNavController()
-                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
-                    }
+                    findNavController().popBackStack(R.id.SelectSpaceFragment, true)
                 }
             }
         }
@@ -308,7 +307,10 @@ class AddDirectTodoFragment :
 
         // time set
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewType, viewModel.curTime.value!!)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(
+                viewType,
+                viewModel.curTime.value!!
+            )
             else -> viewModel.updateChoreTime(viewType, null)
         }
 
@@ -317,7 +319,7 @@ class AddDirectTodoFragment :
 
         if (viewModel.curViewType.value == ViewType.ADD) {
             Timber.d(viewModel.chores.value.toString())
-        } else if (viewModel.curViewType.value == ViewType.EDIT){
+        } else if (viewModel.curViewType.value == ViewType.EDIT) {
             Timber.d(viewModel.editChore.value.toString())
         }
     }
@@ -411,7 +413,7 @@ class AddDirectTodoFragment :
             override fun onOkBtnClick() {
                 viewModel.setCurAssignees(bottomSheet.selectedAssignees)
                 addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
-                viewModel.updateAssigneeId()
+                viewModel.updateAssigneeId(viewModel.curViewType.value)
                 Timber.d(viewModel.chores.value.toString())
             }
         })
@@ -447,13 +449,17 @@ class AddDirectTodoFragment :
         }
     }
 
-    private fun showModifyDialog(){
-        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value){
+    private fun showModifyDialog() {
+        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value) {
             viewModel.editHouseWork(EditType.ONLY)
+            findNavController()
+                .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
         } else {
             val dialog = FairerDialog(requireContext(), DialogType.EDIT)
             dialog.showRepeatDialog { type ->
                 viewModel.editHouseWork(type)
+                findNavController()
+                    .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
             }
         }
     }

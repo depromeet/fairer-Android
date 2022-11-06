@@ -101,6 +101,7 @@ class AddDirectTodoViewModel @Inject constructor(
     }
 
     fun initEditChore(houseWork: HouseWork) {
+        Timber.d("curDate: ${curDate.value}")
         val assignList: ArrayList<Int> = arrayListOf()
         houseWork.assignees.forEach {
             assignList.add(it.memberId)
@@ -117,15 +118,15 @@ class AddDirectTodoViewModel @Inject constructor(
                 scheduledTime = scheduledTime,
                 space = space,
                 type = EditType.NONE.value,
-                updateStandardDate = scheduledDate
+                updateStandardDate = curDate.value
             )
             _editChore.value = nEditChore
         }
-        _curDate.value = houseWork.scheduledDate
+
         _curTime.value = houseWork.scheduledTime
         setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
 
-        Timber.d("assignList = ${assignList}")
+        Timber.d("editChore = ${editChore.value}")
     }
 
     fun setSelectedDayList(repeatPattern: String) {
@@ -248,7 +249,7 @@ class AddDirectTodoViewModel @Inject constructor(
         }
         else if (viewType == ViewType.EDIT){
             _editChore.value!!.scheduledDate = curDate.value
-            _editChore.value!!.repeatPattern =curDate.value
+            _editChore.value!!.scheduledDate = curDate.value
         }
     }
 
@@ -272,12 +273,16 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    fun updateAssigneeId() {
+    fun updateAssigneeId(viewType: ViewType) {
         val assigneeIds: ArrayList<Int> = arrayListOf()
         _curAssignees.value.map {
             assigneeIds.add(it.memberId)
         }
-        _chores.value[0].assignees = assigneeIds
+        if (viewType == ViewType.ADD) {
+            _chores.value[0].assignees = assigneeIds
+        } else if (viewType == ViewType.EDIT){
+            _editChore.value!!.assignees = assigneeIds
+        }
     }
 
     fun setViewType(viewType: ViewType) {
@@ -366,6 +371,9 @@ class AddDirectTodoViewModel @Inject constructor(
         viewModelScope.launch {
             if (editChore.value == null) return@launch
             _editChore.value!!.type = type.value
+            if (type.value == EditType.ONLY.value) {
+                _editChore.value!!.repeatPattern = editChore.value!!.scheduledDate
+            }
             mainRepository.editHouseWork(editChore.value!!)
                 .collectLatest {
                     receiveApiResult(it)
