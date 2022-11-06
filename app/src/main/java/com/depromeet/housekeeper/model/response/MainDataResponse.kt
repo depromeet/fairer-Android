@@ -60,6 +60,5 @@ data class RuleResponses(
 )
 
 data class UpdateChoreResponse(
-    val houseWorkId: Int,
-    val success: Boolean
+    val houseWorkCompleteId: Int
 )
