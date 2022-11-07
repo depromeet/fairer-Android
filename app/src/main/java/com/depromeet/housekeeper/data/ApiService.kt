@@ -13,11 +13,16 @@ interface ApiService {
     suspend fun createHouseWorks(@Body houseWorks: List<Chore>): List<HouseWork>
 
     //todo v2 삭제 -> houseWorkComplete로 변경
-    @PATCH("/api/houseworks/{houseWorkId}")
+    @POST("/api/houseworks/complete/{houseWorkId}")
     suspend fun updateChoreState(
         @Path("houseWorkId") houseWorkId: Int,
-        @Body updateChoreBody: UpdateChoreBody,
+        @Query("scheduledDate") scheduledDate: String,
     ): UpdateChoreResponse
+
+    @DELETE("/api/houseworks/complete/{houseWorkCompleteId}")
+    suspend fun updateChoreComplete(
+        @Path("houseWorkCompleteId") houseWorkId:Int
+    )
 
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork

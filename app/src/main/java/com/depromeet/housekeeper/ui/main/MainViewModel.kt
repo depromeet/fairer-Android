@@ -253,20 +253,27 @@ class MainViewModel @Inject constructor(
 
     //todo
     fun updateChoreState(houseWork: HouseWork) {
-        val toBeStatus = when (houseWork.success) {
-            false -> 1
-            else -> 0
-        }
         viewModelScope.launch {
             mainRepository.updateChoreState(
                 houseWorkId = houseWork.houseWorkId,
-                updateChoreBody = UpdateChoreBody(toBeStatus)
+                scheduledDate = houseWork.scheduledDate
             ).runCatching {
                 collect {
                     getHouseWorks()
                 }
             }.onFailure {
                 setNetworkError(true)
+            }
+        }
+    }
+    fun updateChoreComplete(houseWork: HouseWork){
+        viewModelScope.launch {
+            mainRepository.updateChoreComplete(houseWork.houseWorkCompleteId!!).runCatching {
+                collect{
+                    getHouseWorks()
+                }
+                }.onFailure {
+                    setNetworkError(true)
             }
         }
     }
