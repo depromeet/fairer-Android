@@ -240,7 +240,6 @@ class MainViewModel @Inject constructor(
     }
 
 
-    //todo
     //이번주에 끝낸 집안일
     private fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -255,29 +254,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    //todo
+
     fun updateChoreState(houseWork: HouseWork) {
         viewModelScope.launch {
             mainRepository.updateChoreState(
                 houseWorkId = houseWork.houseWorkId,
                 scheduledDate = houseWork.scheduledDate
-            ).runCatching {
-                collect {
+            ).collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
                     getHouseWorks()
                 }
-            }.onFailure {
-                setNetworkError(true)
             }
         }
     }
-    fun updateChoreComplete(houseWork: HouseWork){
+
+    fun cancelChoreComplete(houseWork: HouseWork){
         viewModelScope.launch {
-            mainRepository.updateChoreComplete(houseWork.houseWorkCompleteId!!).runCatching {
-                collect{
+            mainRepository.cancelChoreComplete(houseWork.houseWorkCompleteId!!).collectLatest{
+                val result = receiveApiResult(it)
+                if (result != null) {
                     getHouseWorks()
                 }
-                }.onFailure {
-                    setNetworkError(true)
             }
         }
     }

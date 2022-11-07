@@ -23,11 +23,11 @@ class MainRepository @Inject constructor(
     suspend fun updateChoreState(
         houseWorkId: Int,
         scheduledDate: String,
-    ): Flow<UpdateChoreResponse> = remoteDataSource.updateChoreState(houseWorkId,scheduledDate)
+    ): Flow<ApiResult<UpdateChoreResponse>> = remoteDataSource.updateChoreState(houseWorkId,scheduledDate)
 
-    suspend fun updateChoreComplete(
+    suspend fun cancelChoreComplete(
         houseWorkId: Int
-    )=remoteDataSource.updateChoreComplete(houseWorkId)
+    ):Flow<ApiResult<Unit>> = remoteDataSource.deleteChoreComplete(houseWorkId)
 
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
         remoteDataSource.getDetailHouseWorks(houseWorkId)

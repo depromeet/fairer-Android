@@ -7,15 +7,18 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteDataSource {
 
     /**
-     * houseWorks
+     * houseWorks Complete
      */
-    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>>
     suspend fun updateChoreState(
         houseWorkId: Int,
         scheduledDate: String,
-    ): Flow<UpdateChoreResponse>
-    suspend fun updateChoreComplete(houseWorkId: Int): Flow<ApiResult<Unit>>
+    ): Flow<ApiResult<UpdateChoreResponse>>
+    suspend fun deleteChoreComplete(houseWorkId: Int): Flow<ApiResult<Unit>>
 
+    /**
+     * houseWorks
+     */
+    suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>>
     suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>>
     suspend fun getDateHouseWorkList(
         fromDate: String,
