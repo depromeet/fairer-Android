@@ -116,7 +116,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         houseWorkAdapter = HouseWorkAdapter(list,
             onClick = { mainViewModel.getDetailHouseWork(it.houseWorkId) },
             onDone = { if(it.houseWorkCompleteId==0)mainViewModel.updateChoreState(it)
-            else mainViewModel.updateChoreComplete(it)
+            else mainViewModel.cancelChoreComplete(it)
             mainViewModel.getCompleteHouseWorkNumber()}
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
