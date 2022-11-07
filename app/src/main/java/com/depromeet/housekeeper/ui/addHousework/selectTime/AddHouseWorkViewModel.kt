@@ -161,8 +161,7 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun updateRepeatInform(dayList: List<String>) {
         val pos = getPosition(PositionType.CUR)
-        _chores.value[pos].repeatCycle =
-            if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        _chores.value[pos].repeatCycle = RepeatCycle.WEEKLY.value
         _chores.value[pos].repeatPattern = dayList.joinToString(",")
     }
 

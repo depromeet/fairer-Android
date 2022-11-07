@@ -180,7 +180,7 @@ class AddDirectTodoViewModel @Inject constructor(
     }
 
     fun updateRepeatInform(dayList: List<String>) {
-        val cycle = if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        val cycle = RepeatCycle.WEEKLY.value
         val pattern = dayList.joinToString(",")
         if (editChore.value != null) {
             _editChore.value!!.repeatCycle = cycle
