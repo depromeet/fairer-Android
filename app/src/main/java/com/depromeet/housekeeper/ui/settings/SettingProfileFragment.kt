@@ -82,13 +82,12 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
         lifecycleScope.launchWhenCreated {
             viewModel.nameData.collectLatest {
-                binding.etName.setText(it)
-                Timber.d("name data : $it")
+                binding.name = it
             }
         }
         lifecycleScope.launchWhenCreated {
             viewModel.massageData.collectLatest {
-                binding.etStatus.setText(it)
+                binding.status = it
             }
         }
     }
@@ -141,7 +140,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         binding.signNameClear.setOnClickListener {
             binding.etName.setText(R.string.sign_name_blank)
         }
-        binding.etStatus.setOnClickListener {
+        binding.statusClear.setOnClickListener {
             binding.etStatus.setText(R.string.sign_name_blank)
         }
 

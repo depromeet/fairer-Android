@@ -13,6 +13,12 @@
         <variable
             name="profilePath"
             type="String" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="status"
+            type="String" />
 
         <variable
             name="nameIsError"
@@ -141,6 +147,7 @@
             android:longClickable="false"
             android:maxLength="17"
             android:maxLines="1"
+            android:text="@{name}"
             android:singleLine="true"
             android:textColorHint="@color/gray_400"
             android:textCursorDrawable="@drawable/ic_cursor_drawable"
@@ -221,13 +228,16 @@
             android:maxLength="17"
             android:maxLines="1"
             android:singleLine="true"
+            android:text="@{status}"
             android:textColorHint="@color/gray_400"
             android:textCursorDrawable="@drawable/ic_cursor_drawable"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/status_clear"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/status_clear"
