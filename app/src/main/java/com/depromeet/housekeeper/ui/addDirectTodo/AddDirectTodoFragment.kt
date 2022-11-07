@@ -1,10 +1,8 @@
 package com.depromeet.housekeeper.ui.addDirectTodo
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
@@ -19,6 +17,7 @@ import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentAddDirectTodoBinding
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.EditChore
+import com.depromeet.housekeeper.model.request.EditType
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
@@ -65,8 +64,12 @@ class AddDirectTodoFragment :
         viewModel.setCurrentDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
-            ViewType.ADD -> { viewModel.initDirectChore() }
-            ViewType.EDIT -> { onEditView() }
+            ViewType.ADD -> {
+                viewModel.initDirectChore()
+            }
+            ViewType.EDIT -> {
+                onEditView()
+            }
         }
 
         lifecycleScope.launchWhenCreated {
@@ -90,7 +93,9 @@ class AddDirectTodoFragment :
 
         lifecycleScope.launchWhenCreated {
             viewModel.createdSucess.collect {
-                if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+                if (it) {
+                    findNavController().popBackStack(R.id.SelectSpaceFragment, true)
+                }
             }
         }
 
@@ -178,7 +183,7 @@ class AddDirectTodoFragment :
                     text = resources.getString(R.string.add_todo_done_btn_txt)
                     // 집안일 생성 api
                     setOnClickListener {
-                        updateChore()
+                        updateChore(ViewType.ADD)
                         viewModel.createHouseWorks()
                     }
                 }
@@ -187,10 +192,8 @@ class AddDirectTodoFragment :
                     text = resources.getString(R.string.edit_todo_btn_tv)
                     // 집안일 수정 api
                     setOnClickListener {
-                        updateChore()
-                        viewModel.editHouseWork()
-                        it.findNavController()
-                            .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+                        updateChore(ViewType.EDIT)
+                        showModifyDialog()
                     }
                 }
             }
@@ -298,20 +301,27 @@ class AddDirectTodoFragment :
         }
     }
 
-    private fun updateChore() {
+    private fun updateChore(viewType: ViewType) {
         // name set
-        viewModel.updateChoreName(binding.addDirectTodoTitleEt.fairerEt.text.toString())
+        viewModel.updateChoreName(viewType, binding.addDirectTodoTitleEt.fairerEt.text.toString())
 
         // time set
         when {
-            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(viewModel.curTime.value!!)
-            else -> viewModel.updateChoreTime(null)
+            binding.switchHouseworkTime.isChecked -> viewModel.updateChoreTime(
+                viewType,
+                viewModel.curTime.value!!
+            )
+            else -> viewModel.updateChoreTime(viewType, null)
         }
 
         //date set
-        viewModel.updateChoreDate()
+        viewModel.updateChoreDate(viewType)
 
-        Timber.d(viewModel.chores.value.toString())
+        if (viewModel.curViewType.value == ViewType.ADD) {
+            Timber.d(viewModel.chores.value.toString())
+        } else if (viewModel.curViewType.value == ViewType.EDIT) {
+            Timber.d(viewModel.editChore.value.toString())
+        }
     }
 
     private fun setAdapter() {
@@ -403,7 +413,7 @@ class AddDirectTodoFragment :
             override fun onOkBtnClick() {
                 viewModel.setCurAssignees(bottomSheet.selectedAssignees)
                 addAssigneeAdapter.updateAssignees(viewModel.getCurAssignees())
-                viewModel.updateAssigneeId()
+                viewModel.updateAssigneeId(viewModel.curViewType.value)
                 Timber.d(viewModel.chores.value.toString())
             }
         })
@@ -436,6 +446,21 @@ class AddDirectTodoFragment :
         dialog.showRepeatDialog { type ->
             viewModel.deleteHouseWork(type)
             findNavController().navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+        }
+    }
+
+    private fun showModifyDialog() {
+        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value) {
+            viewModel.editHouseWork(EditType.ONLY)
+            findNavController()
+                .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+        } else {
+            val dialog = FairerDialog(requireContext(), DialogType.EDIT)
+            dialog.showRepeatDialog { type ->
+                viewModel.editHouseWork(type)
+                findNavController()
+                    .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
+            }
         }
     }
 

@@ -83,6 +83,10 @@ class MainViewModel @Inject constructor(
     private var _selectedHouseWorkItem: MutableStateFlow<HouseWork?> = MutableStateFlow(null)
     val selectedHouseWorkItem get() = _selectedHouseWorkItem
 
+    /**
+     * User 관련
+     */
+
     private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
     val selectUserId: StateFlow<Int>
         get() = _selectUserId

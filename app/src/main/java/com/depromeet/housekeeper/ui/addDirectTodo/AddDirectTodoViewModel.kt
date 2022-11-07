@@ -30,11 +30,9 @@ class AddDirectTodoViewModel @Inject constructor(
     val curViewType: StateFlow<ViewType>
         get() = _curViewType
 
-
     private val _houseWorkId: MutableStateFlow<Int> = MutableStateFlow(-1)
     val houseWorkId: StateFlow<Int>
         get() = _houseWorkId
-
 
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
@@ -75,9 +73,6 @@ class AddDirectTodoViewModel @Inject constructor(
     private var _editChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
     val editChore: StateFlow<EditChore?> get() = _editChore
 
-    private var _nEditChore: MutableStateFlow<EditChore?> = MutableStateFlow(null)
-    val nEditChore: StateFlow<EditChore?> get() = _nEditChore
-
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
     val selectedDayList get() = _selectedDayList
 
@@ -106,9 +101,10 @@ class AddDirectTodoViewModel @Inject constructor(
     }
 
     fun initEditChore(houseWork: HouseWork) {
+        Timber.d("curDate: ${curDate.value}")
         val assignList: ArrayList<Int> = arrayListOf()
-        houseWork.assignees.map {
-            assignList.plus(it.memberId)
+        houseWork.assignees.forEach {
+            assignList.add(it.memberId)
         }
         houseWork.apply {
             val nEditChore = EditChore(
@@ -122,15 +118,15 @@ class AddDirectTodoViewModel @Inject constructor(
                 scheduledTime = scheduledTime,
                 space = space,
                 type = EditType.NONE.value,
-                updateStandardDate = scheduledDate
+                updateStandardDate = curDate.value
             )
             _editChore.value = nEditChore
         }
-        _curDate.value = houseWork.scheduledDate
+
         _curTime.value = houseWork.scheduledTime
         setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
 
-        _nEditChore.value = editChore.value
+        Timber.d("editChore = ${editChore.value}")
     }
 
     fun setSelectedDayList(repeatPattern: String) {
@@ -184,11 +180,11 @@ class AddDirectTodoViewModel @Inject constructor(
     }
 
     fun updateRepeatInform(dayList: List<String>) {
-        val cycle = if (dayList.size == 7) RepeatCycle.DAYILY.value else RepeatCycle.WEEKLY.value
+        val cycle = RepeatCycle.WEEKLY.value
         val pattern = dayList.joinToString(",")
-        if (nEditChore.value != null) {
-            _nEditChore.value!!.repeatCycle = cycle
-            _nEditChore.value!!.repeatPattern = pattern
+        if (editChore.value != null) {
+            _editChore.value!!.repeatCycle = cycle
+            _editChore.value!!.repeatPattern = pattern
         } else {
             _chores.value[0].repeatCycle = cycle
             _chores.value[0].repeatPattern = pattern
@@ -198,9 +194,9 @@ class AddDirectTodoViewModel @Inject constructor(
     fun updateRepeatInform(repeatCycle: RepeatCycle) {
         if (repeatCycle != RepeatCycle.MONTHLY) return
 
-        if (nEditChore.value != null) {
-            _nEditChore.value!!.repeatCycle = repeatCycle.value
-            _nEditChore.value!!.repeatPattern = getCurDay("")
+        if (editChore.value != null) {
+            _editChore.value!!.repeatCycle = repeatCycle.value
+            _editChore.value!!.repeatPattern = getCurDay("")
         } else {
             _chores.value[0].repeatCycle = repeatCycle.value
             _chores.value[0].repeatPattern = getCurDay("")
@@ -246,28 +242,47 @@ class AddDirectTodoViewModel @Inject constructor(
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
 
-    fun updateChoreDate() {
-        chores.value[0].scheduledDate = curDate.value
+    fun updateChoreDate(viewType: ViewType) {
+        if (viewType == ViewType.ADD) {
+            _chores.value[0].scheduledDate = curDate.value
+            _chores.value[0].repeatPattern = curDate.value
+        }
+        else if (viewType == ViewType.EDIT){
+            _editChore.value!!.scheduledDate = curDate.value
+            _editChore.value!!.scheduledDate = curDate.value
+        }
     }
 
-    fun updateChoreName(name: String) {
-        _chores.value[0].houseWorkName = name
+    fun updateChoreName(viewType: ViewType, name: String) {
+        if (viewType == ViewType.ADD) {
+            _chores.value[0].houseWorkName = name
+        } else if (viewType == ViewType.EDIT){
+            _editChore.value!!.houseWorkName = name
+        }
     }
 
     fun updateTime(hour: Int, min: Int) {
         _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
     }
 
-    fun updateChoreTime(time: String?) {
-        _chores.value[0].scheduledTime = time
+    fun updateChoreTime(viewType: ViewType, time: String?) {
+        if (viewType == ViewType.ADD) {
+            _chores.value[0].scheduledTime = time
+        } else if (viewType == ViewType.EDIT){
+            _editChore.value!!.scheduledTime = time
+        }
     }
 
-    fun updateAssigneeId() {
+    fun updateAssigneeId(viewType: ViewType) {
         val assigneeIds: ArrayList<Int> = arrayListOf()
         _curAssignees.value.map {
             assigneeIds.add(it.memberId)
         }
-        _chores.value[0].assignees = assigneeIds
+        if (viewType == ViewType.ADD) {
+            _chores.value[0].assignees = assigneeIds
+        } else if (viewType == ViewType.EDIT){
+            _editChore.value!!.assignees = assigneeIds
+        }
     }
 
     fun setViewType(viewType: ViewType) {
@@ -323,7 +338,6 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    // 집안일 직접 추가 api
     fun createHouseWorks() {
         viewModelScope.launch {
             mainRepository.createHouseWorks(_chores.value)
@@ -353,10 +367,14 @@ class AddDirectTodoViewModel @Inject constructor(
         }
     }
 
-    fun editHouseWork() {
+    fun editHouseWork(type: EditType) {
         viewModelScope.launch {
-            if (nEditChore.value == null) return@launch
-            mainRepository.editHouseWork(nEditChore.value!!)
+            if (editChore.value == null) return@launch
+            _editChore.value!!.type = type.value
+            if (type.value == EditType.ONLY.value) {
+                _editChore.value!!.repeatPattern = editChore.value!!.scheduledDate
+            }
+            mainRepository.editHouseWork(editChore.value!!)
                 .collectLatest {
                     receiveApiResult(it)
                 }
