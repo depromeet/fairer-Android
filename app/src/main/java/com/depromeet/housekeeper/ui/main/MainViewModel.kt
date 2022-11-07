@@ -6,7 +6,6 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
-import com.depromeet.housekeeper.model.request.UpdateChoreBody
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
@@ -242,7 +241,7 @@ class MainViewModel @Inject constructor(
 
     //todo
     //이번주에 끝낸 집안일
-    private fun getCompleteHouseWorkNumber() {
+    fun getCompleteHouseWorkNumber() {
         val requestFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         viewModelScope.launch {
             mainRepository.getCompletedHouseWorkNumber(requestFormat.format(Calendar.getInstance().time))
