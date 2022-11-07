@@ -15,27 +15,29 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
 
     /**
+     * houseWorks Complete
+     */
+    override suspend fun updateChoreState(
+        houseWorkId: Int,
+        scheduledDate: String,
+    ): Flow<ApiResult<UpdateChoreResponse>> =
+        safeFlow {
+            apiService.updateChoreState(houseWorkId, scheduledDate)
+        }.flowOn(ioDispatcher)
+
+
+    override suspend fun deleteChoreComplete(houseWorkId: Int): Flow<ApiResult<Unit>> =
+        safeFlow {
+            apiService.deleteChoreComplete(houseWorkId)
+        }.flowOn(ioDispatcher)
+
+    /**
      * houseWorks
      */
     override suspend fun createHouseWorks(houseWorks: List<Chore>): Flow<ApiResult<List<HouseWork>>> =
         safeFlow {
             apiService.createHouseWorks(houseWorks)
         }.flowOn(ioDispatcher)
-
-
-
-    override suspend fun updateChoreState(
-        houseWorkId: Int,
-        scheduledDate: String,
-    ): Flow<UpdateChoreResponse> =
-        flow {
-            emit(apiService.updateChoreState(houseWorkId, scheduledDate))
-        }.flowOn(ioDispatcher)
-
-    override suspend fun updateChoreComplete(houseWorkId: Int): Flow<ApiResult<Unit>> =
-        safeFlow {
-        apiService.updateChoreComplete(houseWorkId)
-    }.flowOn(ioDispatcher)
 
     override suspend fun getDetailHouseWorks(houseWorkId: Int): Flow<ApiResult<HouseWork>> =
         safeFlow {
