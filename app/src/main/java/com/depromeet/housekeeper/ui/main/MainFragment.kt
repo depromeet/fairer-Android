@@ -186,7 +186,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
                     updateHouseWorkData(it)
                 } else {
-                    binding.houseworkState = HouseWorkState.EMPTY
+                    binding.houseworkState = HouseWorkState.LEFT
                 }
             }
         }
@@ -336,7 +336,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 when (direction) {
-                    ItemTouchHelper.LEFT -> dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+                    ItemTouchHelper.LEFT -> {
+                        dayOfAdapter.updateDate(mainViewModel.getNextWeek())
+
+                    }
                     ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
                 }
             }
