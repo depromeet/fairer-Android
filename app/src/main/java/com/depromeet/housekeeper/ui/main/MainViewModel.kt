@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
     /**
      * 캘린더 관련
      */
-    private var calendar: Calendar = Calendar.getInstance().apply {
+    private val calendar: Calendar = Calendar.getInstance().apply {
         set(Calendar.MONTH, this.get(Calendar.MONTH))
         firstDayOfWeek = Calendar.SUNDAY
         set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
@@ -51,8 +51,10 @@ class MainViewModel @Inject constructor(
     val dayOfWeek: StateFlow<DayOfWeek>
         get() = _dayOfWeek
 
-    private var _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("") // 2022-08-14
-    val startDateOfWeek get() = _startDateOfWeek
+    private val _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("") // 2022-08-14
+    val startDateOfWeek
+    get() = _startDateOfWeek
+
 
 
     /**
