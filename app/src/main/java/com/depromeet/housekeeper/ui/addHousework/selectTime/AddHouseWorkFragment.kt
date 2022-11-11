@@ -51,7 +51,7 @@ class AddHouseWorkFragment :
     private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
         binding.currentDate = viewModel.bindingDate()
-        binding.doRepeatMontly = false
+        binding.doRepeatMonthly = false
         setRepeatTextView()
     }
 
@@ -156,7 +156,7 @@ class AddHouseWorkFragment :
 
         binding.spinnerRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
-                binding.doRepeatMontly = pos == 1
+                binding.doRepeatMonthly = pos == 1
                 setRepeatTextView()
                 if (pos == 1) {
                     viewModel.updateRepeatInform(RepeatCycle.MONTHLY)
@@ -251,7 +251,7 @@ class AddHouseWorkFragment :
     private fun setRepeatTextView() {
         binding.repeatDay = " " + viewModel.getCurDay("일")
 
-        if (binding.doRepeatMontly == true) {
+        if (binding.doRepeatMonthly == true) {
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
@@ -274,6 +274,7 @@ class AddHouseWorkFragment :
 
     private fun updateView(position: Int) {
         val chore = viewModel.getChore(position)
+
         if (chore.scheduledTime == null) {
             binding.todoTimePicker.initDisPlayedValue()
             binding.switchHouseworkTime.isChecked = false
@@ -282,6 +283,29 @@ class AddHouseWorkFragment :
             binding.todoTimePicker.setDisPlayedValue(time.first, time.second)
             binding.switchHouseworkTime.isChecked = true
         }
+
+        when (chore.repeatCycle) {
+            RepeatCycle.ONCE.value -> {
+                binding.isRepeatChecked = false
+                binding.doRepeatMonthly = false
+                binding.repeatDaySelected = false
+                binding.spinnerRepeat.setSelection(0)
+                dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY, false)
+            }
+            RepeatCycle.WEEKLY.value -> {
+                binding.isRepeatChecked = true
+                binding.doRepeatMonthly = false
+                binding.repeatDaySelected = true
+                binding.spinnerRepeat.setSelection(0)
+                dayRepeatAdapter.updateSelectedDays(chore.repeatPattern)
+            }
+            RepeatCycle.MONTHLY.value -> {
+                binding.isRepeatChecked = true
+                binding.doRepeatMonthly = true
+                binding.spinnerRepeat.setSelection(1)
+            }
+        }
+        setRepeatTextView()
 
         val curAssignees = arrayListOf<Assignee>()
         viewModel.allGroupInfo.value.map { assignee ->
@@ -327,7 +351,7 @@ class AddHouseWorkFragment :
             this.requireContext(),
             { _, year, month, dayOfMonth ->
                 viewModel.updateCalendarView(year, month, dayOfMonth)
-                if (binding.doRepeatMontly == true) binding.repeatDay = " ${dayOfMonth}일"
+                if (binding.doRepeatMonthly == true) binding.repeatDay = " ${dayOfMonth}일"
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) - 1,

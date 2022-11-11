@@ -45,7 +45,7 @@
             type="String" />
 
         <variable
-            name="doRepeatMontly"
+            name="doRepeatMonthly"
             type="Boolean" />
 
         <variable
@@ -357,7 +357,7 @@
                         android:choiceMode="multipleChoice"
                         android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
-                        android:visibility="@{isRepeatChecked &amp;&amp; !doRepeatMontly ? View.VISIBLE : View.GONE, default = gone}"
+                        android:visibility="@{isRepeatChecked &amp;&amp; !doRepeatMonthly ? View.VISIBLE : View.GONE, default = gone}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintTop_toBottomOf="@id/cl_add_direct_todo_repeat_cycle_selector"
                         tools:listitem="@layout/item_todo_repeat_day_btn" />
@@ -370,7 +370,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMontly || repeatDaySelected) ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    android:visibility="@{isRepeatChecked &amp;&amp; (doRepeatMonthly || repeatDaySelected) ? View.VISIBLE : View.INVISIBLE, default = gone}"
                     app:layout_constraintTop_toBottomOf="@id/cl_add_direct_todo_repeat_cycle">
 
                     <TextView
