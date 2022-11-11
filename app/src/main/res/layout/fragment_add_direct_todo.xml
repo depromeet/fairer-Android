@@ -59,13 +59,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_white_background"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         tools:context=".ui.addDirectTodo.AddDirectTodoFragment">
 
         <include
             android:id="@+id/add_direct_todo_header"
             layout="@layout/layout_default_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusableInTouchMode="true"/>
 
         <include
             android:id="@+id/layoutNetwork"
@@ -84,11 +88,15 @@
             app:layout_constraintBottom_toTopOf="@id/add_direct_todo_done_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintTop_toBottomOf="@id/add_direct_todo_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusableInTouchMode="true">
 
                 <TextView
                     android:id="@+id/add_direct_todo_date_tv"
@@ -188,6 +196,8 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="12dp"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintTop_toBottomOf="@id/add_direct_todo_assignee_tv">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -250,6 +260,7 @@
                         android:nestedScrollingEnabled="false"
                         android:theme="@style/FairerTimePicker"
                         android:timePickerMode="spinner"
+                        android:focusableInTouchMode="true"
                         android:visibility="@{isTimeChecked ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -277,6 +288,7 @@
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
                         android:checked="@{isRepeatChecked ? true : false, default = false}"
+                        android:focusableInTouchMode="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />

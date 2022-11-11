@@ -144,7 +144,6 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
                 }
             }
         }
+
     }
-
-
 }

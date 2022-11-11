@@ -26,6 +26,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
+import com.depromeet.housekeeper.util.EditTextUtil
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.dp2px
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -368,24 +369,36 @@ class AddDirectTodoFragment :
 
     private fun initEditTextListener() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
-        binding.addDirectTodoTitleEt.fairerEt.addTextChangedListener {
-            val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
-            binding.isTextChanged = true
-            if (!value.matches(pattern.toRegex())) {
-                binding.isError = true
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
-                binding.tvError.setText(R.string.sign_name_error)
-            } else if (value.length > 16) {
-                binding.isError = true
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
-                binding.tvError.setText(R.string.sign_name_text_over_error)
-            } else {
-                binding.isError = false
-                binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
-                    value.isNotEmpty()
+        binding.addDirectTodoTitleEt.fairerEt.apply{
+            addTextChangedListener {
+                val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
+                binding.isTextChanged = true
+                if (!value.matches(pattern.toRegex())) {
+                    binding.isError = true
+                    binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                    binding.tvError.setText(R.string.sign_name_error)
+                } else if (value.length > 16) {
+                    binding.isError = true
+                    binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
+                    binding.tvError.setText(R.string.sign_name_text_over_error)
+                } else {
+                    binding.isError = false
+                    binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled =
+                        value.isNotEmpty()
+                }
+                if (value == "") {
+                    binding.isTextChanged = false
+                }
             }
-            if (value == "") {
-                binding.isTextChanged = false
+            setOnFocusChangeListener { view, hasFocus ->
+                if(!hasFocus){
+                    binding.isTextChanged=false
+                    hideKeyboard(requireContext(), this)
+                }
+                else{
+                    if (binding.addDirectTodoTitleEt.fairerEt.text.toString() != "") binding.isTextChanged = true
+                    EditTextUtil.showKeyboard(requireContext(), this)
+                }
             }
         }
     }
