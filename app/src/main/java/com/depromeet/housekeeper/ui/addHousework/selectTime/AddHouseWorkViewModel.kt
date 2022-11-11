@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -163,6 +164,7 @@ class AddHouseWorkViewModel @Inject constructor(
         val pos = getPosition(PositionType.CUR)
         _chores.value[pos].repeatCycle = RepeatCycle.WEEKLY.value
         _chores.value[pos].repeatPattern = dayList.joinToString(",")
+        Timber.d("chores pos = $pos, ${dayList}")
     }
 
     fun updateRepeatInform(repeatCycle: RepeatCycle) {

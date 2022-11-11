@@ -50,10 +50,13 @@ class DayRepeatAdapter(private val days: Array<String>) :
         }
     }
 
-    fun updateSelectedDays(repeatCycle: RepeatCycle) {
+    fun updateSelectedDays(repeatCycle: RepeatCycle, value: Boolean? = true) {
         if (repeatCycle == RepeatCycle.DAYILY) {
-            for (i in 0..7) { selectedDays[i] = true }
+            for (i in 0..6) {
+                selectedDays[i] = value!!
+            }
         }
+        notifyDataSetChanged()
     }
 
     fun updateSelectedDays(repeatPattern: List<WeekDays>) {
@@ -70,6 +73,24 @@ class DayRepeatAdapter(private val days: Array<String>) :
             }
             if (idx != -1) selectedDays[idx] = true
         }
+        notifyDataSetChanged()
+    }
+
+    fun updateSelectedDays(repeatPattern: String) {
+        repeatPattern.split(",").forEach {
+            var idx = -1
+            when (it){
+                WeekDays.MON.eng -> idx = 0
+                WeekDays.TUE.eng -> idx = 1
+                WeekDays.WED.eng -> idx = 2
+                WeekDays.THR.eng -> idx = 3
+                WeekDays.FRI.eng -> idx = 4
+                WeekDays.SAT.eng -> idx = 5
+                WeekDays.SUN.eng -> idx = 6
+            }
+            if (idx != -1) selectedDays[idx] = true
+        }
+        notifyDataSetChanged()
     }
 
 }
