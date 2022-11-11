@@ -213,7 +213,7 @@ class AddDirectTodoFragment :
 
         binding.spinnerRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, p3: Long) {
-                binding.doRepeatMontly = pos == 1
+                binding.doRepeatMonthly = pos == 1
                 setRepeatTextView()
                 if (pos == 1) {
                     viewModel.updateRepeatInform(RepeatCycle.MONTHLY)
@@ -228,7 +228,7 @@ class AddDirectTodoFragment :
     private fun setRepeatTextView() {
         binding.repeatDay = " " + viewModel.getCurDay("일")
 
-        if (binding.doRepeatMontly == true) {
+        if (binding.doRepeatMonthly == true) {
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
@@ -273,13 +273,13 @@ class AddDirectTodoFragment :
             RepeatCycle.MONTHLY.value -> {
                 binding.isRepeatChecked = true
                 binding.spinnerRepeat.setSelection(1)
-                binding.doRepeatMontly = true
+                binding.doRepeatMonthly = true
                 binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
                 binding.repeatDay = viewModel.getCurDay("일")
             }
             RepeatCycle.WEEKLY.value -> {
                 binding.isRepeatChecked = true
-                binding.doRepeatMontly = false
+                binding.doRepeatMonthly = false
                 binding.repeatDaySelected = true
                 dayRepeatAdapter.updateSelectedDays(viewModel.selectedDayList)
                 dayRepeatAdapter.notifyDataSetChanged()
@@ -288,7 +288,7 @@ class AddDirectTodoFragment :
             }
             RepeatCycle.DAYILY.value -> {
                 binding.isRepeatChecked = true
-                binding.doRepeatMontly = false
+                binding.doRepeatMonthly = false
                 binding.repeatDaySelected = true
                 dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY)
                 dayRepeatAdapter.notifyDataSetChanged()
