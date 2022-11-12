@@ -27,7 +27,6 @@ class AddHouseWorkViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _curDate: MutableStateFlow<String> = MutableStateFlow("")
-    val curDate get() = _curDate
 
     private val _curSpace: MutableStateFlow<String> = MutableStateFlow("방")
 
@@ -43,7 +42,9 @@ class AddHouseWorkViewModel @Inject constructor(
     val curTime: StateFlow<String?> get() = _curTime
 
     private val _positions: MutableStateFlow<ArrayList<Int>> = MutableStateFlow(arrayListOf(0))
-    val positions: StateFlow<ArrayList<Int>> get() = _positions
+    val position : StateFlow<ArrayList<Int>>
+        get() = _positions
+
 
     private val _chores: MutableStateFlow<ArrayList<Chore>> = MutableStateFlow(arrayListOf())
     val chores: StateFlow<ArrayList<Chore>> get() = _chores
@@ -58,10 +59,9 @@ class AddHouseWorkViewModel @Inject constructor(
     val selectCalendar: StateFlow<String> get() = _selectCalendar
 
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
-    val selectedDayList get() = _selectedDayList
 
     private var _createdSuccess = MutableStateFlow(false)
-    val createdSucess get() = _createdSuccess
+    val createdSuccess get() = _createdSuccess
 
     init {
         setGroupInfo()
@@ -116,6 +116,10 @@ class AddHouseWorkViewModel @Inject constructor(
         _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
     }
 
+    fun setTimeNull(){
+        _curTime.value = null
+    }
+
 
     fun updatePositions(position: Int) {
         _positions.value.add(position)
@@ -123,8 +127,8 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun getPosition(type: PositionType): Int {
         return when (type) {
-            PositionType.CUR -> positions.value[positions.value.size - 1]
-            PositionType.PRE -> positions.value[positions.value.size - 2]
+            PositionType.CUR -> _positions.value[_positions.value.size - 1]
+            PositionType.PRE -> _positions.value[_positions.value.size - 2]
         }
     }
 
@@ -153,9 +157,9 @@ class AddHouseWorkViewModel @Inject constructor(
     fun getRepeatDaysString(type: String): MutableList<String> {
         val repeatDaysString = mutableListOf<String>()
         if (type == "kor") {
-            selectedDayList.forEach { repeatDaysString.add(it.kor) }
+            _selectedDayList.forEach { repeatDaysString.add(it.kor) }
         } else if (type == "eng") {
-            selectedDayList.forEach { repeatDaysString.add(it.eng) }
+            _selectedDayList.forEach { repeatDaysString.add(it.eng) }
         }
         return repeatDaysString
     }
@@ -180,11 +184,11 @@ class AddHouseWorkViewModel @Inject constructor(
         choreName.map { name ->
             val chore = Chore()
             chore.apply {
-                scheduledDate = curDate.value
+                scheduledDate = _curDate.value
                 this.space = space.uppercase()
                 houseWorkName = name
                 repeatCycle = RepeatCycle.ONCE.value
-                repeatPattern = curDate.value
+                repeatPattern = _curDate.value
                 assignees = arrayListOf(PrefsManager.memberId)
             }
             temp.add(chore)
@@ -202,7 +206,7 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun updateChoreDate() {
         _chores.value.map { chore ->
-            chore.scheduledDate = curDate.value
+            chore.scheduledDate = _curDate.value
         }
     }
 
@@ -233,7 +237,7 @@ class AddHouseWorkViewModel @Inject constructor(
     }
 
     fun getCurDay(lastWord: String): String {
-        val str = curDate.value.split("-")
+        val str = _curDate.value.split("-")
         return "${str[2]}$lastWord"
     }
 

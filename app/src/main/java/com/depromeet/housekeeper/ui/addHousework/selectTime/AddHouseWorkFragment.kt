@@ -24,6 +24,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.dp2px
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.util.*
 
@@ -69,7 +70,7 @@ class AddHouseWorkFragment :
         }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.createdSucess.collect{
+            viewModel.createdSuccess.collect{
                 if (it) findNavController().popBackStack(R.id.SelectSpaceFragment, true)
             }
         }
@@ -83,6 +84,11 @@ class AddHouseWorkFragment :
                         FragmentManager.POP_BACK_STACK_INCLUSIVE
                     )
                 }
+            }
+        }
+        lifecycleScope.launchWhenCreated {
+            viewModel.curTime.collectLatest {
+                addHouseWorkChoreAdapter.updateTime(it,viewModel.getPosition(PositionType.CUR))
             }
         }
     }
@@ -126,9 +132,16 @@ class AddHouseWorkFragment :
 
         binding.switchHouseworkTime.apply {
             setOnCheckedChangeListener { _, isChecked ->
-                val time = binding.todoTimePicker.getDisPlayedTime()
-                viewModel.updateTime(time.first, time.second)
-                binding.timeSwitch = isChecked
+                if(isChecked){
+                    val time = binding.todoTimePicker.getDisPlayedTime()
+                    viewModel.updateTime(time.first, time.second)
+                    binding.timeSwitch = isChecked
+                }
+                else{
+                    viewModel.setTimeNull()
+                    binding.timeSwitch = isChecked
+                }
+
             }
         }
 

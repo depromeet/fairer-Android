@@ -15,6 +15,8 @@ class AddHouseWorkChoreAdapter(private val chores: ArrayList<Chore>) :
     private lateinit var mItemClickListener: MyItemClickListener
     private lateinit var mRemoveClickListener: MyRemoveClickListener
 
+
+
     interface MyItemClickListener {
         fun onItemClick(position: Int)
     }
@@ -103,17 +105,21 @@ class AddHouseWorkChoreAdapter(private val chores: ArrayList<Chore>) :
             }
             binding.itemAddTodoNameTv.text = chore.houseWorkName
         }
+    }
 
-        private fun parseTime(time: String): String {
-            val temp = time.split(":")
-            val hour = temp[0].toInt()
-            val min = temp[1].toInt()
+    fun parseTime(time: String): String {
+        val temp = time.split(":")
+        val hour = temp[0].toInt()
+        val min = temp[1].toInt()
 
-            return if (hour <= 12) {
-                "오전\n${String.format("%02d", hour)}:${String.format("%02d", min)}"
-            } else {
-                "오후\n${String.format("%02d", hour - 12)}:${String.format("%02d", min)}"
-            }
+        return if (hour <= 12) {
+            "오전\n${String.format("%02d", hour)}:${String.format("%02d", min)}"
+        } else {
+            "오후\n${String.format("%02d", hour - 12)}:${String.format("%02d", min)}"
         }
+    }
+    fun updateTime(time : String?,position: Int){
+        chores[position].scheduledTime = time
+        notifyItemChanged(position)
     }
 }
