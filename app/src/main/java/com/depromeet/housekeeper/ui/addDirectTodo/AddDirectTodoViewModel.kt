@@ -49,11 +49,6 @@ class AddDirectTodoViewModel @Inject constructor(
     val curTime: StateFlow<String?>
         get() = _curTime
 
-    private val _curSpace: MutableStateFlow<String> =
-        MutableStateFlow(Chore.ETC_SPACE) // ETC
-    val curSpace: StateFlow<String>
-        get() = _curSpace
-
     val _allGroupInfo: MutableStateFlow<ArrayList<Assignee>> =
         MutableStateFlow(arrayListOf())
     val allGroupInfo: StateFlow<ArrayList<Assignee>>

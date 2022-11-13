@@ -60,6 +60,7 @@ class DayRepeatAdapter(private val days: Array<String>) :
     }
 
     fun updateSelectedDays(repeatPattern: List<WeekDays>) {
+        updateSelectedDays(RepeatCycle.DAYILY, false)
         repeatPattern.forEach {
             var idx = -1
             when (it){
@@ -77,6 +78,7 @@ class DayRepeatAdapter(private val days: Array<String>) :
     }
 
     fun updateSelectedDays(repeatPattern: String) {
+        updateSelectedDays(RepeatCycle.DAYILY, false)
         repeatPattern.split(",").forEach {
             var idx = -1
             when (it){
@@ -91,6 +93,10 @@ class DayRepeatAdapter(private val days: Array<String>) :
             if (idx != -1) selectedDays[idx] = true
         }
         notifyDataSetChanged()
+    }
+
+    fun getSelectedDays(): Array<Boolean> {
+        return selectedDays
     }
 
 }
