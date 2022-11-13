@@ -28,6 +28,7 @@ import com.depromeet.housekeeper.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
+import java.util.*
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -349,13 +350,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun createDatePickerDialog() {
         val currentDate = mainViewModel.dayOfWeek.value
-
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.MONTH, this.get(Calendar.MONTH))
+            firstDayOfWeek = Calendar.SUNDAY
+            set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        }
         val datePickerDialog = DatePickerDialog(
             this.requireContext(),
             { _, year, month, dayOfMonth ->
                 //TODO("DayOfWeek Adapter 변경")
                 val list = mainViewModel.getDatePickerWeek(year, month, dayOfMonth)
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val selectDate = DateUtil.fullDateFormat.format(calendar.time)
                 dayOfAdapter.updateDate(list)
+                mainViewModel.updateSelectDate(DayOfWeek(selectDate,true))
+                mainViewModel.updateStartDateOfWeek(DateUtil.getStartDate(selectDate))
             },
             currentDate.date.split("-")[0].toInt(),
             currentDate.date.split("-")[1].toInt() - 1,
