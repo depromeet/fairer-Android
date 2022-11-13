@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/item_add_todo_time_tv"
                 android:layout_width="57dp"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="left"
                 android:text="@string/add_todo_default_time"
