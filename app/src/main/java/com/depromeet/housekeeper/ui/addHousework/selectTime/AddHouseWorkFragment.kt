@@ -304,6 +304,7 @@ class AddHouseWorkFragment :
                 binding.repeatDaySelected = false
                 binding.spinnerRepeat.setSelection(0)
                 dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY, false)
+                viewModel.getRepeatDays(dayRepeatAdapter.getSelectedDays())
             }
             RepeatCycle.WEEKLY.value -> {
                 binding.isRepeatChecked = true
@@ -311,6 +312,7 @@ class AddHouseWorkFragment :
                 binding.repeatDaySelected = true
                 binding.spinnerRepeat.setSelection(0)
                 dayRepeatAdapter.updateSelectedDays(chore.repeatPattern)
+                viewModel.getRepeatDays(dayRepeatAdapter.getSelectedDays())
             }
             RepeatCycle.MONTHLY.value -> {
                 binding.isRepeatChecked = true
