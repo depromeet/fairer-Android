@@ -111,6 +111,7 @@ class InviteFragment : BaseFragment<FragmentInviteBinding>(R.layout.fragment_inv
                 binding.inviteSkipBtn.visibility = View.GONE
                 binding.viewType = InviteViewType.SETTING
             }
+            else -> {}
         }
         binding.inviteHeader.apply {
             defaultHeaderTitleTv.text = ""

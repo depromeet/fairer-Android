@@ -17,7 +17,6 @@ import com.depromeet.housekeeper.databinding.DialogFairerBinding
 import com.depromeet.housekeeper.databinding.DialogLogoutBinding
 import com.depromeet.housekeeper.databinding.DialogRepeatBinding
 import com.depromeet.housekeeper.model.request.EditType
-import timber.log.Timber
 
 class FairerDialog(private val context: Context, private val type: DialogType) {
     lateinit var onItemClickListener: OnItemClickListener
@@ -91,6 +90,7 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
                 btnDialogOk.setText(R.string.fairer_dialog_exit_btn_text)
                 btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
             }
+            else -> {}
         }
 
         outsideDialog.setOnClickListener {
