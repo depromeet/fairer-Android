@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.di
 
+import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.util.NETWORK_ERROR
@@ -22,7 +23,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-    private val BASE_URL = "http://ec2-3-39-60-64.ap-northeast-2.compute.amazonaws.com:8080"
+    private val DEBUG_URL =
+        "http://ec2-3-39-60-64.ap-northeast-2.compute.amazonaws.com:8080"
+    private val RELEASE_URL =
+        "https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com"
+    private val BASE_URL: String = if(BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
 
     private val networkInterceptor: Interceptor = Interceptor { chain ->
         val request = chain.request()
@@ -51,12 +56,21 @@ class NetworkModule {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        return OkHttpClient.Builder()
-            .addInterceptor(networkInterceptor)
-            .addNetworkInterceptor(httpLoggingInterceptor)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
+        return if(BuildConfig.DEBUG){
+            OkHttpClient.Builder()
+                .addInterceptor(networkInterceptor)
+                .addNetworkInterceptor(httpLoggingInterceptor)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+        } else{
+            OkHttpClient.Builder()
+                .addInterceptor(networkInterceptor)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+        }
+
     }
 
     @Singleton
@@ -65,6 +79,7 @@ class NetworkModule {
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
+
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClientBuilder.build())
