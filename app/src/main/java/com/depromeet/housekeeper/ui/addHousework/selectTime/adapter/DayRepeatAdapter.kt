@@ -71,6 +71,7 @@ class DayRepeatAdapter(private val days: Array<String>) :
                 WeekDays.FRI -> idx = 4
                 WeekDays.SAT -> idx = 5
                 WeekDays.SUN -> idx = 6
+                else -> {}
             }
             if (idx != -1) selectedDays[idx] = true
         }
