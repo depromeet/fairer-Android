@@ -12,7 +12,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LifecycleService
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.request.Token
@@ -23,8 +22,6 @@ import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -40,7 +37,7 @@ class FairerFirebaseMessagingService : FirebaseMessagingService()
         super.onNewToken(token)
         Timber.tag(TAG_FCM).d("New FCM device token : $token")
         PrefsManager.setDeviceToken(deviceToken = token)
-        sendRegisterationToServer(token)
+        sendRegistrationToServer(token)
     }
 
     @Override
@@ -92,7 +89,7 @@ class FairerFirebaseMessagingService : FirebaseMessagingService()
         notificationManager.createNotificationChannel(channel)
     }
 
-    private fun sendRegisterationToServer(token: String) {
+    private fun sendRegistrationToServer(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
             userRepository.saveToken(Token(token))
         }
