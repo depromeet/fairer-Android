@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "940546044137-t8l1aib3ni7t8auqhpf1mqn1f8qhbqqp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.depromeet.housekeeper",
+            "certificate_hash": "611c9ae53a20ca55c7aa70cd3cd27a9ecf101830"
+          }
+        },
+        {
           "client_id": "940546044137-u481k2bgop3vkm173ufufdscgntvgd1f.apps.googleusercontent.com",
           "client_type": 3
         }

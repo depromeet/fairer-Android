@@ -11,16 +11,16 @@
 > 집안일 분담 서비스
 
 - 개발 기간 : 2022.03.19 ~ ing 
-- Team
-  - Android 개발자 <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=Android&logoColor=white"> <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white">
+- Android 개발자 : <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=Android&logoColor=white"> <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white">
 
-|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176230637-57e8041f-4a38-4ea3-a6f4-970f7bbf02c2.jpeg"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229713-86711288-ac57-4dd5-bf5d-f2ffc4889303.png"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229740-b23830e0-7bba-4966-bca4-c570a971d4d7.jpg"/>|
-|:------:|:---:|:---:|
-|[김수연](https://github.com/onemask)|[임수진](https://github.com/sujin-kk)|[박정준](https://github.com/wjdwns) |
+|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176230637-57e8041f-4a38-4ea3-a6f4-970f7bbf02c2.jpeg"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229713-86711288-ac57-4dd5-bf5d-f2ffc4889303.png"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/85485290/176229740-b23830e0-7bba-4966-bca4-c570a971d4d7.jpg"/>|<img width="200" height="200" src="https://user-images.githubusercontent.com/50831854/210321806-8ea1cf79-c758-44c4-900c-7138d1407c78.jpg"/>|
+|:------:|:---:|:---:|:---:|
+|[김수연](https://github.com/onemask)|[임수진](https://github.com/sujin-kk)|[박정준](https://github.com/wjdwns) | [김민주](https://github.com/kimchuu) |
+
 
 # About
 
-**Features**
+### Features
 - 0. 구글 로그인 
 - 1. 집안일 생성 
 - 2. 집안일 조회
@@ -28,10 +28,11 @@
 - 4. 그룹 생성 , 카카오톡 초대 , 딥링크  
 - 5. 프로필 수정 
 - 6. 집안일 규칙 추가
+- 7. 푸쉬 알림
+- 8. 네트워크 연결 감지
 
-
-**Technology Stack**
-- Tools : Android Studio Bublebee
+### Technology Stack
+- Tools : Android Studio Dolphin
 - Language : Kotlin
 - Architecture Pattern : MVVM Pattern
 - Android Architecture Components(AAC)
@@ -39,7 +40,9 @@
   - ViewModel
   - Coroutine
   - Data Binding
+  - Hilt
 - Naivgation Conponponent
+- FirebaseMessagingService
 - OKHTTP
 - RETROFIT
 - MOSHI
@@ -49,32 +52,37 @@
 - FIREBASK_BOM
 - TIMBER 
 
-**Foldering**
+### Foldering
 ```
 .
-├── adapter
-├── local
+├── base
+├── data
+│   ├── dataSource
+│   ├── repository
+│   └── ApiService
+├── di
+│   ├── NetworkModule
+│   └── RepositoryModule
 ├── model
-│   └── enums
-├── network
-│   └── remote
-│       ├── api
-│       ├── model
-│       └── repository
-├── ui
-│   └── custom
-│       ├── dialog
-│       └── timepicker
+│   ├── enums
+│   ├── request
+│   └── response
+├── service
+│   ├── FairerFirebaseMessagingService
+│   └── InternetService
+├── ui (for features)
 └── util
 ```
-
-# ToDo
-- 메인 화면 개편
-- 네트워크 상태 개선 
 
 # WireFrame
 <img width="400" alt="스크린샷 2022-06-29 오전 12 58 34" src="https://user-images.githubusercontent.com/27774564/176225988-3c2a3b19-53a0-4627-89c8-1e808e2ec43b.png">
 <img width="400" alt="스크린샷 2022-06-29 오전 12 58 42" src="https://user-images.githubusercontent.com/27774564/176226010-fd300d9c-30dd-4da1-b278-7354ecffb6e4.png">
 <img width="400" alt="스크린샷 2022-06-29 오전 12 59 24" src="https://user-images.githubusercontent.com/27774564/176226122-5eb5603a-cfec-40e4-bed2-cd2d0c2167a4.png">
 <img width="400" alt="스크린샷 2022-06-29 오전 12 59 38" src="https://user-images.githubusercontent.com/27774564/176226168-12852d78-4506-4f09-9ef2-830a3ade38c4.png">
+
+
+# ToDo
+- 메인 화면 개편
+- 룰렛 기능
+- 통계 기능
 
