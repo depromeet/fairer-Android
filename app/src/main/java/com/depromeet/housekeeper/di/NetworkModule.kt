@@ -24,6 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     private val DEBUG_URL =
+        //"https://62a2-219-255-158-173.ngrok-free.app/"
         "http://ec2-3-39-60-64.ap-northeast-2.compute.amazonaws.com:8080"
     private val RELEASE_URL =
         "https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com"

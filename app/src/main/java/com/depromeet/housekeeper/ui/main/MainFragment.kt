@@ -1,10 +1,17 @@
 package com.depromeet.housekeeper.ui.main
 
 import android.app.DatePickerDialog
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +23,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentMainBinding
+import com.depromeet.housekeeper.databinding.PopupFeedbackMenuBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
@@ -25,6 +33,8 @@ import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -36,6 +46,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     private var houseWorkAdapter: HouseWorkAdapter? = null
     private lateinit var groupProfileAdapter: GroupProfileAdapter
     private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var popupWindow: PopupWindow
+
 
     override fun createView(binding: FragmentMainBinding) {
         binding.vm = mainViewModel
@@ -47,12 +59,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         mainViewModel.apply {
             getRules()
             getGroupName()
-            if(this.dayOfWeek.value== DayOfWeek(date = "")){
+            if (this.dayOfWeek.value == DayOfWeek(date = "")) {
                 Timber.d("asd date today")
                 updateSelectDate(DateUtil.getTodayFull())
                 updateStartDateOfWeek(DateUtil.getCurrentStartDate())
-            }
-            else{
+            } else {
                 dayOfAdapter.updateDate(getSelectWeek())
                 updateSelectDate(dayOfWeek.value)
             }
@@ -60,7 +71,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         initView()
         bindingVm()
         setListener()
-
+        setPopupMenu()
     }
 
 
@@ -116,9 +127,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.selectHouseWorks.value?.houseWorks?.toMutableList() ?: mutableListOf()
         houseWorkAdapter = HouseWorkAdapter(list,
             onClick = { mainViewModel.getDetailHouseWork(it.houseWorkId) },
-            onDone = { if(it.houseWorkCompleteId==0)mainViewModel.updateChoreState(it)
-            else mainViewModel.cancelChoreComplete(it)
-            mainViewModel.getCompleteHouseWorkNumber()}
+            onDone = {
+                if (it.houseWorkCompleteId == 0) mainViewModel.updateChoreState(it)
+                else mainViewModel.cancelChoreComplete(it)
+                mainViewModel.getCompleteHouseWorkNumber()
+            },
+            onLongClick = {
+                /*UrgeBottomDialog(
+                    onUrgeClick = {},
+                ).show(requireActivity().supportFragmentManager,"tag")*/
+                popupWindow.showAsDropDown(it)
+            }
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
         binding.rvHouseWork.addItemDecoration(VerticalItemDecorator(20))
@@ -172,7 +191,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectHouseWorks.collectLatest{
+            mainViewModel.selectHouseWorks.collectLatest {
                 Timber.d("$MAIN_TAG collect \n$it")
                 if (it != null) {
                     if (it.countLeft == 0) {
@@ -193,7 +212,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenCreated {
-            mainViewModel.selectedHouseWorkItem.collect{
+            mainViewModel.selectedHouseWorkItem.collect {
                 if (it != null) {
                     mainViewModel.setSelectedHouseWorkItem(null)
                     findNavController().navigate(
@@ -365,7 +384,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 val selectDate = DateUtil.fullDateFormat.format(calendar.time)
                 dayOfAdapter.updateDate(list)
-                mainViewModel.updateSelectDate(DayOfWeek(selectDate,true))
+                mainViewModel.updateSelectDate(DayOfWeek(selectDate, true))
                 mainViewModel.updateStartDateOfWeek(DateUtil.getStartDate(selectDate))
             },
             currentDate.date.split("-")[0].toInt(),
@@ -373,6 +392,43 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             currentDate.date.split("-")[2].toInt(),
         )
         datePickerDialog.show()
+    }
+
+    private fun setPopupMenu() {
+        val binding = PopupFeedbackMenuBinding.inflate(layoutInflater)
+        val popupView = binding.root
+        popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val width = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            272f,
+            requireContext().resources.displayMetrics
+        )
+        popupWindow.width = width.toInt()
+        popupWindow.isFocusable = true
+        popupWindow.setBackgroundDrawable(requireContext().getDrawable(R.drawable.popup_background))
+        popupWindow.elevation = 10.0F
+        binding.clDialogFeedbackUrgeTop.setOnClickListener {
+            showEditTextBottomSheet()
+        }
+    }
+
+    // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
+    private fun showEditTextBottomSheet() {
+        val textBottomSheet = BottomSheetDialog(requireContext())
+        var bottomSheetBehavior : BottomSheetBehavior<View>
+        val bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_text,null)
+        textBottomSheet.setContentView(bottomSheetView)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        val layout = textBottomSheet.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+        layout!!.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
+
+        textBottomSheet.show()
+
     }
 
 

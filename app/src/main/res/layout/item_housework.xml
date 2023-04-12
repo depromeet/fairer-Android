@@ -142,5 +142,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
+
+        <include
+            android:id="@+id/include_feedback"
+            layout="@layout/item_housework_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
     </LinearLayout>
 </layout>

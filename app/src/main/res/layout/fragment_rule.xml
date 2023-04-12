@@ -112,6 +112,7 @@
                         android:inputType="text"
                         android:maxLength="17"
                         android:text="@{textRule}"
+                        android:textCursorDrawable="@drawable/ic_cursor_drawable"
                         android:textColorHint="@color/gray_400"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toStartOf="@id/btn_et_clear"

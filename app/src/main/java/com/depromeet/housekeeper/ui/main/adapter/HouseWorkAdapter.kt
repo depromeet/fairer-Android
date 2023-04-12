@@ -14,6 +14,7 @@ class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
     private val onDone: (HouseWork) -> Unit,
+    private val onLongClick:(View) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
 
@@ -86,6 +87,11 @@ class HouseWorkAdapter(
 
             binding.root.setOnClickListener {
                 onClick.invoke(houseWork)
+            }
+
+            binding.root.setOnLongClickListener {
+                onLongClick.invoke(binding.root)
+                return@setOnLongClickListener true
             }
             val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
             binding.rvProfileAdapter.adapter = adapter
