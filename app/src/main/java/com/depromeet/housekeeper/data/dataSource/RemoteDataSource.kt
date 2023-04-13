@@ -64,7 +64,7 @@ interface RemoteDataSource {
     suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>>
 
     /**
-     * statistics 집안일 통계 API
+     * statistics
      */
     suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>>
     suspend fun getHouseWorkStats(houseWorkName: String, month: String): Flow<ApiResult<HouseWorkStatsResponse>>
