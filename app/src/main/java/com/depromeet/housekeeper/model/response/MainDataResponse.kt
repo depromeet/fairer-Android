@@ -62,3 +62,15 @@ data class RuleResponses(
 data class UpdateChoreResponse(
     val houseWorkCompleteId: Int
 )
+
+data class FeedbackListModel (
+    val feedbackCount: Long,
+    val feedbackFindOneResponseDtoList: List<FeedbackFindOneResponseDtoList>
+)
+
+data class FeedbackFindOneResponseDtoList (
+    val comment: String,
+    val emoji: Long,
+    val memberName: String,
+    val profilePath: String
+)

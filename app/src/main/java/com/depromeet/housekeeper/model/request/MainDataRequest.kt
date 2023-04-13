@@ -103,3 +103,10 @@ data class EditProfileModel(
     val statusMessage: String
 ): Parcelable
 
+@Parcelize
+data class CreateFeedbackModel(
+    val comment: String,
+    val emoji : Int,
+    val houseCompleteId: Int
+):Parcelable
+

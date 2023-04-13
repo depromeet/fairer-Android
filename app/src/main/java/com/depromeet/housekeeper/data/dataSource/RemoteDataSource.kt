@@ -3,6 +3,8 @@ package com.depromeet.housekeeper.data.dataSource
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Body
+import retrofit2.http.Path
 
 interface RemoteDataSource {
 
@@ -77,5 +79,19 @@ interface RemoteDataSource {
      */
     suspend fun saveToken(token: Token): Flow<ApiResult<Unit>>
     suspend fun sendMessage(message: Message): Flow<ApiResult<Message>>
+
+    /**
+    feedback
+     */
+
+    suspend fun createFeedback(feedbackModel : CreateFeedbackModel):Flow<ApiResult<Unit>>
+
+    suspend fun getHouseWorkFeedback(feedbackId:Int):Flow<ApiResult<CreateFeedbackModel>>
+
+    suspend fun deleteFeedback(feedbackId:Int):Flow<ApiResult<Unit>>
+
+    suspend fun updateFeedback(feedbackId:Int):Flow<ApiResult<Unit>>
+
+    suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>>
 
 }

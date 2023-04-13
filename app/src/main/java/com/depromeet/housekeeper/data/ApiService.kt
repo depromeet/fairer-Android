@@ -31,14 +31,14 @@ interface ApiService {
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
-    @GET("/api/houseworks/list/member/{teamMemberId}/query")
+    @GET("/api/houseworks/list/member/{teamMemberId}/query/v2")
     suspend fun getPeriodHouseWorkListOfMember(
         @Path("teamMemberId") teamMemberId: Int,
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String,
     ): Map<String, HouseWorks> // ex) key: 2022-08-14
 
-    @GET("/api/houseworks/list/query")
+    @GET("/api/houseworks/list/query/v2")
     suspend fun getDateHouseWorkList(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
@@ -131,4 +131,23 @@ interface ApiService {
     @POST("/api/fcm/message")
     suspend fun sendMessage(@Body message: Message): Message
 
+
+    /**
+    feedback
+     */
+
+    @POST("/api/feedback")
+    suspend fun createFeedback(@Body feedbackModel : CreateFeedbackModel)
+
+    @GET("/api/feedback/{feedbackId}")
+    suspend fun getHouseWorkFeedback(@Path("feedbackId") feedbackId:Int):CreateFeedbackModel
+
+    @DELETE("/api/feedback/{feedbackId}")
+    suspend fun deleteFeedback(@Path("feedbackId") feedbackId:Int)
+
+    @PATCH("/api/feedback/{feedbackId}")
+    suspend fun updateFeedback(@Path("feedbackId") feedbackId:Int)
+
+    @GET("/api/feedback/houseworks/{houseWorkCompleteId}")
+    suspend fun getFeedbackList(@Path("houseWorkCompleteId") houseWorkCompleteId:Int): FeedbackListModel
 }

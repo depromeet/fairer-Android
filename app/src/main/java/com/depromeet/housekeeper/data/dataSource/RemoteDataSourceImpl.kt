@@ -181,4 +181,26 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.sendMessage(message = message)
     }.flowOn(ioDispatcher)
 
+    /**
+    feedback
+     */
+    override suspend fun createFeedback(feedbackModel: CreateFeedbackModel): Flow<ApiResult<Unit>> =safeFlow {
+        apiService.createFeedback(feedbackModel =  feedbackModel)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun getHouseWorkFeedback(feedbackId: Int): Flow<ApiResult<CreateFeedbackModel>> = safeFlow{
+        apiService.getHouseWorkFeedback(feedbackId = feedbackId)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun deleteFeedback(feedbackId: Int): Flow<ApiResult<Unit>> = safeFlow {
+        apiService.deleteFeedback(feedbackId = feedbackId)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun updateFeedback(feedbackId: Int): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.updateFeedback(feedbackId = feedbackId)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun getFeedbackList(houseWorkCompleteId: Int): Flow<ApiResult<FeedbackListModel>> = safeFlow{
+        apiService.getFeedbackList(houseWorkCompleteId = houseWorkCompleteId)
+    }.flowOn(ioDispatcher)
 }

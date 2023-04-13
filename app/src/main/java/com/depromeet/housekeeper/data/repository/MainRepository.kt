@@ -69,4 +69,21 @@ class MainRepository @Inject constructor(
     suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>> =
         remoteDataSource.deleteRule(ruleId)
 
+    /**
+     * feedback
+     */
+    suspend fun createFeedback(feedbackModel : CreateFeedbackModel):Flow<ApiResult<Unit>> =
+        remoteDataSource.createFeedback(feedbackModel)
+
+    suspend fun getHouseWorkFeedback(feedbackId:Int):Flow<ApiResult<CreateFeedbackModel>> =
+        remoteDataSource.getHouseWorkFeedback(feedbackId)
+
+    suspend fun deleteFeedback(feedbackId:Int):Flow<ApiResult<Unit>> =
+        remoteDataSource.deleteFeedback(feedbackId)
+
+    suspend fun updateFeedback(feedbackId:Int):Flow<ApiResult<Unit>> =
+        remoteDataSource.updateFeedback(feedbackId)
+
+    suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>> =
+        remoteDataSource.getFeedbackList(houseWorkCompleteId)
 }
