@@ -11,9 +11,9 @@ data class StatsStatus(
 )
 
 data class HouseWorkStatsResponse(
-    @Json(name = "houseWorkStatics") val houseWorkStatisticsList: List<HouseWorkStatsStatus>
+    @Json(name = "houseWorkStatics") val houseWorkStatisticsList: List<HouseWorkStatsMember>
 )
-data class HouseWorkStatsStatus(
+data class HouseWorkStatsMember(
     val houseWorkCount: Int,
     val member: Member,
 )
