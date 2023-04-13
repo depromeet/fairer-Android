@@ -14,7 +14,7 @@ class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
     private val onDone: (HouseWork) -> Unit,
-    private val onLongClick:(View,Boolean) -> Unit
+    private val onLongClick: (View, Boolean) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
 
@@ -85,12 +85,20 @@ class HouseWorkAdapter(
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
 
+            if (!houseWork.success) {
+                binding.includeFeedback.root.visibility = View.GONE
+            } else {
+                binding.includeFeedback.root.visibility = View.VISIBLE
+            }
+
             binding.flHouseWork.setOnClickListener {
                 onClick.invoke(houseWork)
             }
 
             binding.flHouseWork.setOnLongClickListener {
-                onLongClick.invoke(binding.root,getTimeOver(houseWork))
+                if (houseWork.success) {
+                    onLongClick.invoke(binding.root, getTimeOver(houseWork))
+                }
                 return@setOnLongClickListener true
             }
             val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
