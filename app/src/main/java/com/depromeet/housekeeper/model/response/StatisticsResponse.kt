@@ -2,18 +2,18 @@ package com.depromeet.housekeeper.model.response
 
 import com.squareup.moshi.Json
 
-data class StatisticsListResponse(
-    @Json(name = "statisticsResponse") val statisticsList: List<StatisticsStatus>
+data class StatsListResponse(
+    @Json(name = "statisticsResponse") val statisticsList: List<StatsStatus>
 )
-data class StatisticsStatus(
+data class StatsStatus(
     val houseWorkCount: Int,
     val houseWorkName: String,
 )
 
-data class HouseWorkStatisticsResponse(
-    @Json(name = "houseWorkStatics") val houseWorkStatisticsList: List<HouseWorkStatisticsStatus>
+data class HouseWorkStatsResponse(
+    @Json(name = "houseWorkStatics") val houseWorkStatisticsList: List<HouseWorkStatsStatus>
 )
-data class HouseWorkStatisticsStatus(
+data class HouseWorkStatsStatus(
     val houseWorkCount: Int,
     val member: Member,
 )

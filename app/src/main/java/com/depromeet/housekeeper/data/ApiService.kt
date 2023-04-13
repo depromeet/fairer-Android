@@ -103,10 +103,10 @@ interface ApiService {
      * statistics 집안일 통계 API
      */
     @GET("/api/statistics") // yearMonth: yyyy-MM
-    suspend fun getStatisticsList(@Query("yearMonth") yearMonth: String): StatisticsListResponse
+    suspend fun getStatisticsList(@Query("yearMonth") yearMonth: String): StatsListResponse
 
     @GET("/api/statistics/team-member")
-    suspend fun getHouseWorkStatistics(@Query("houseWorkName") houseWorkName: String, @Query("month") month: String): HouseWorkStatisticsResponse
+    suspend fun getHouseWorkStatistics(@Query("houseWorkName") houseWorkName: String, @Query("month") month: String): HouseWorkStatsResponse
 
     /**
      * teams

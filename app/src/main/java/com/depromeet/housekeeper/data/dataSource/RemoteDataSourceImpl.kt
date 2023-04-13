@@ -139,6 +139,21 @@ class RemoteDataSourceImpl @Inject constructor(
 
 
     /**
+     * statistics
+     */
+    override suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>> = safeFlow{
+        apiService.getStatisticsList(yearMonth)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun getHouseWorkStats(
+        houseWorkName: String,
+        month: String
+    ): Flow<ApiResult<HouseWorkStatsResponse>> = safeFlow{
+        apiService.getHouseWorkStatistics(houseWorkName, month)
+    }.flowOn(ioDispatcher)
+
+
+    /**
      * teams
      */
     override suspend fun buildTeam(
