@@ -32,6 +32,7 @@ import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
+import com.depromeet.housekeeper.ui.main.dialog.UrgeBottomDialog
 import com.depromeet.housekeeper.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -132,11 +133,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 else mainViewModel.cancelChoreComplete(it)
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = {
-                /*UrgeBottomDialog(
+            onLongClick = {view,isTimeOver->
+                if(isTimeOver){
+                    UrgeBottomDialog(
                     onUrgeClick = {},
-                ).show(requireActivity().supportFragmentManager,"tag")*/
-                popupWindow.showAsDropDown(it)
+                ).show(requireActivity().supportFragmentManager,"tag")
+                }else{
+                    popupWindow.showAsDropDown(view)
+                }
             }
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
