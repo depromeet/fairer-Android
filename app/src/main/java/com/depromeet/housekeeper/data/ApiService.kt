@@ -105,6 +105,9 @@ interface ApiService {
     @GET("/api/statistics") // yearMonth: yyyy-MM
     suspend fun getStatisticsList(@Query("yearMonth") yearMonth: String): StatsListResponse
 
+    @GET("/api/statistics/ranking")
+    suspend fun getStatisticsLanking(@Query("month") yearMonth: String): HouseWorkStatsResponse
+
     @GET("/api/statistics/team-member")
     suspend fun getHouseWorkStatistics(@Query("houseWorkName") houseWorkName: String, @Query("month") month: String): HouseWorkStatsResponse
 

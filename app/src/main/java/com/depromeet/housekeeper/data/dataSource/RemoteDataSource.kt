@@ -67,6 +67,7 @@ interface RemoteDataSource {
      * statistics
      */
     suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>>
+    suspend fun getStatsRanking(yearMonth: String): Flow<ApiResult<HouseWorkStatsResponse>>
     suspend fun getHouseWorkStats(houseWorkName: String, month: String): Flow<ApiResult<HouseWorkStatsResponse>>
 
     /**
