@@ -5,6 +5,8 @@ import androidx.lifecycle.lifecycleScope
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
+import com.depromeet.housekeeper.ui.statistics.adapter.MonthlyStatsAdapter
+import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -15,6 +17,8 @@ import java.util.*
 class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.fragment_statistics) {
 
     private val viewModel: StatisticsViewModel by viewModels()
+    private lateinit var rankAdapter: RankAdapter
+    private lateinit var statsAdapter: MonthlyStatsAdapter
 
     override fun createView(binding: FragmentStatisticsBinding) {
     }
@@ -26,7 +30,9 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     fun initView() {
         val yearMonthFormat = SimpleDateFormat("yyyy-MM")
-        viewModel.getStatistics(yearMonthFormat.format(Date()))
+        val yearMonth = yearMonthFormat.format(Date())
+        viewModel.getStatistics(yearMonth)
+        viewModel.getRanking(yearMonth)
 
         val monthFormat = SimpleDateFormat("MM")
         val currentMonth: String = monthFormat.format(Date())
@@ -35,18 +41,25 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.tvTitle.text =
             String.format(getString(R.string.statistics_title, "김민주")) //todo 이름 넣기
         binding.tvTotalChores.text = String.format(getString(R.string.statistics_total_chores, 16))
+
+        setAdapter()
+    }
+
+    fun setAdapter(){
+        rankAdapter = RankAdapter()
     }
 
     fun bindingVm(){
+
         lifecycleScope.launchWhenStarted {
             viewModel.statsList.collect{
-                // todo adapter list로 넣기
+                statsAdapter.submitList(it)
             }
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.rank.collectLatest {
-                //todo rank adapter list에 넣기
+                rankAdapter.submitList(it)
             }
         }
 
