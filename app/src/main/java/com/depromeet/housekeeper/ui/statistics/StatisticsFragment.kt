@@ -24,8 +24,14 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     }
 
     override fun viewCreated() {
+        setAdapter()
         initView()
         bindingVm()
+    }
+
+    fun setAdapter(){
+        rankAdapter = RankAdapter()
+        statsAdapter = MonthlyStatsAdapter()
     }
 
     fun initView() {
@@ -42,11 +48,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
             String.format(getString(R.string.statistics_title, "김민주")) //todo 이름 넣기
         binding.tvTotalChores.text = String.format(getString(R.string.statistics_total_chores, 16))
 
-        setAdapter()
-    }
-
-    fun setAdapter(){
-        rankAdapter = RankAdapter()
+        binding.rvRanking.adapter = rankAdapter
+        binding.rvMonthlyStats.adapter = statsAdapter
     }
 
     fun bindingVm(){
@@ -61,10 +64,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
             viewModel.rank.collectLatest {
                 rankAdapter.submitList(it)
             }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.statsHouseWork.collectLatest {  }
         }
     }
 }

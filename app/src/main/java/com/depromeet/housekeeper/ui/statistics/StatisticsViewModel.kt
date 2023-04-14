@@ -25,10 +25,6 @@ class StatisticsViewModel @Inject constructor(
     private val _rank: MutableStateFlow<List<HouseWorkStatsMember>> = MutableStateFlow(listOf())
     val rank: StateFlow<List<HouseWorkStatsMember>> get() = _rank
 
-    private val _statsHouseWork: MutableStateFlow<MutableMap<String, List<HouseWorkStatsMember>>> =
-        MutableStateFlow(mutableMapOf())
-    val statsHouseWork: StateFlow<Map<String, List<HouseWorkStatsMember>>> get() = _statsHouseWork
-
     /**
      * Network Communication
      */
