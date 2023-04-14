@@ -45,6 +45,12 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         }
 
         lifecycleScope.launchWhenStarted {
+            viewModel.rank.collectLatest {
+                //todo rank adapter list에 넣기
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
             viewModel.statsHouseWork.collectLatest {  }
         }
     }
