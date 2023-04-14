@@ -23,7 +23,7 @@ data class Groups(
 @Parcelize
 data class HouseWork(
     val assignees: List<Assignee>,
-    val feedbackCountResponseDto: FeedbackCount,
+    val feedbackCountResponseDto: FeedbackCount?,
     val houseWorkCompleteId: Int? = 0,
     val houseWorkId: Int,
     val houseWorkName: String,

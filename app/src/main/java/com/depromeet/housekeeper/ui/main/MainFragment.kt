@@ -10,6 +10,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.EditText
 import android.widget.PopupWindow
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.viewModels
@@ -133,12 +135,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 else mainViewModel.cancelChoreComplete(it)
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = {view,isTimeOver->
-                if(isTimeOver){
+            onLongClick = { view, isTimeOver ->
+                if (isTimeOver) {
                     UrgeBottomDialog(
-                    onUrgeClick = {},
-                ).show(requireActivity().supportFragmentManager,"tag")
-                }else{
+                        onUrgeClick = {},
+                    ).show(requireActivity().supportFragmentManager, "tag")
+                } else {
                     popupWindow.showAsDropDown(view)
                 }
             }
@@ -423,14 +425,36 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
     private fun showEditTextBottomSheet() {
         val textBottomSheet = BottomSheetDialog(requireContext())
-        var bottomSheetBehavior : BottomSheetBehavior<View>
-        val bottomSheetView = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_text,null)
+        var bottomSheetBehavior: BottomSheetBehavior<View>
+        val bottomSheetView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_edit_text, null)
         textBottomSheet.setContentView(bottomSheetView)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView.parent as View)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         val layout = textBottomSheet.findViewById<CoordinatorLayout>(R.id.coordinator_layout)
+        val etFeedback = textBottomSheet.findViewById<EditText>(R.id.et_feedback)
         layout!!.minimumHeight = Resources.getSystem().displayMetrics.heightPixels
+        bottomSheetBehavior.peekHeight = 180
+        textBottomSheet.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                // 상태 변화 감지
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    // BottomSheet가 축소되어 있을 때 필요한 작업 수행
+                    bottomSheetBehavior.peekHeight = 180 // BottomSheet 원래 크기로 설정
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    // BottomSheet가 확장되어 있을 때 필요한 작업 수행
+                    bottomSheetBehavior.peekHeight =
+                        180 // BottomSheet가 확장되어 있을 때는 peek height를 0으로 설정
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // BottomSheet가 슬라이드되는 동안 실행되는 작업 수행
+            }
+        })
         textBottomSheet.show()
 
     }
