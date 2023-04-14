@@ -96,6 +96,9 @@
     <string name="statistics_check_info">이번달 집안일 현황을 확인해보세요</string>
     <string name="statistics_total_chores">전체 집안일 수행 <font color='#0C6DFF'>%d회</font></string>
 
+    <!-- ItemStatistics -->
+    <string name="statistics_total_complete">총 %d회 완료</string>
+
     <!-- dummy chores -->
 
     <!--loginFragment-->

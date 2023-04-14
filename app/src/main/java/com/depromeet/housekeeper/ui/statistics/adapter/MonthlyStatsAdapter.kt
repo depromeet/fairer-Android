@@ -3,6 +3,7 @@ package com.depromeet.housekeeper.ui.statistics.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemStatisticsBinding
 import com.depromeet.housekeeper.model.ui.Stats
 
@@ -14,7 +15,12 @@ class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Stats) {
-            //todo
+            binding.apply {
+                houseWorkName = item.houseWorkName
+                val totalCnt = binding.root.context.getString(R.string.statistics_total_complete, item.totalCount)
+                tvTotalChores.text = String.format(totalCnt)
+                rvMemberList.adapter = StatsMemberAdapter(item.members)
+            }
         }
 
     }
