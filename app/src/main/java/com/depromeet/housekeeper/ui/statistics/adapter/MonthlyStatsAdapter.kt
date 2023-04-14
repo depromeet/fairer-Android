@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemStatisticsBinding
-import com.depromeet.housekeeper.model.response.StatsStatus
+import com.depromeet.housekeeper.model.ui.Stats
+
 
 class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>() {
-    private var list: List<StatsStatus> = listOf()
+    private var list: List<Stats> = listOf()
 
     inner class ViewHolder(val binding: ItemStatisticsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: StatsStatus) {
+        fun bind(item: Stats) {
             //todo
         }
 
@@ -33,7 +34,7 @@ class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>
         return list.size
     }
 
-    fun submitList(statsList: List<StatsStatus>) {
+    fun submitList(statsList: List<Stats>) {
         this.list = statsList
     }
 }
