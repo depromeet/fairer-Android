@@ -3,6 +3,13 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.depromeet.housekeeper.model.FeedbackCount" />
+
+        <variable
+            name="houseworkFeedback"
+            type="FeedbackCount" />
     </data>
 
     <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +29,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.comment==0?View.GONE:View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.comment)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -49,7 +57,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_1==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -60,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_1)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -74,7 +83,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_2==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -85,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_2)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -99,7 +109,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_3==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -110,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_3)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -124,7 +135,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_4==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -135,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_4)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -149,7 +161,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_5==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -160,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_5)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -174,7 +187,8 @@
             android:background="@drawable/feedback_button_selector"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback.emoji_6==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -185,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="1"
+                android:text="@{String.valueOf(houseworkFeedback.emoji_6)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
+
+        <import type="com.depromeet.housekeeper.model.FeedbackCount"/>
+
 
         <variable
             name="isOver"
@@ -14,6 +18,10 @@
         <variable
             name="success"
             type="boolean" />
+
+        <variable
+            name="houseworkFeedback"
+            type="FeedbackCount" />
 
     </data>
 
@@ -147,6 +155,7 @@
         <include
             android:id="@+id/include_feedback"
             layout="@layout/item_housework_feedback"
+            bind:houseworkFeedback="@{houseworkFeedback}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>

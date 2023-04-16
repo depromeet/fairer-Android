@@ -84,6 +84,7 @@ class HouseWorkAdapter(
             binding.tvMainTitle.text = houseWork.houseWorkName
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
+            binding.houseworkFeedback = houseWork.feedbackCountResponseDto
 
             if (!houseWork.success) {
                 binding.includeFeedback.root.visibility = View.GONE
