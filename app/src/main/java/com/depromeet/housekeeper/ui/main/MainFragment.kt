@@ -25,6 +25,7 @@ import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.GroupProfileAdapter
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.util.*
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -96,6 +97,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
+        binding.btnStatistics.setOnClickListener {
+            findNavController().navigateSafe(R.id.action_mainFragment_to_statisticsFragment)
+        }
     }
 
     private fun setAdapter() {
