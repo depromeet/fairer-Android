@@ -91,7 +91,7 @@
     <string name="main_back_chore">되돌리기</string>
 
     <!-- StatisticsFragment -->
-    <string name="statistics_month_title">%d월 통계</string>
+    <string name="statistics_month_title">%s월 통계</string>
     <string name="statistics_title">이번달 <font color='#0C6DFF'>%s</font>님이 \n가장 많은 집안일을 완료했어요!</string>
     <string name="statistics_check_info">이번달 집안일 현황을 확인해보세요</string>
     <string name="statistics_total_chores">전체 집안일 수행 <font color='#0C6DFF'>%d회</font></string>

@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.data.dataSource
 
+import androidx.work.impl.model.WorkName
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.flow.Flow
@@ -61,6 +62,13 @@ interface RemoteDataSource {
     suspend fun createRule(rule: Rule): Flow<ApiResult<RuleResponses>>
     suspend fun getRules(): Flow<ApiResult<RuleResponses>>
     suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>>
+
+    /**
+     * statistics
+     */
+    suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>>
+    suspend fun getStatsRanking(yearMonth: String): Flow<ApiResult<HouseWorkStatsResponse>>
+    suspend fun getHouseWorkStats(houseWorkName: String, month: String): Flow<ApiResult<HouseWorkStatsResponse>>
 
     /**
      * teams
