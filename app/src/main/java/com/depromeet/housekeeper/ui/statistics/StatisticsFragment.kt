@@ -1,5 +1,7 @@
 package com.depromeet.housekeeper.ui.statistics
 
+import android.text.Html
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.depromeet.housekeeper.R
@@ -45,8 +47,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.tvMonthTitle.text =
             String.format(getString(R.string.statistics_month_title, currentMonth))
         binding.tvTitle.text =
-            String.format(getString(R.string.statistics_title, "김민주")) //todo 이름 넣기
-        binding.tvTotalChores.text = String.format(getString(R.string.statistics_total_chores, 16))
+            HtmlCompat.fromHtml(getString(R.string.statistics_title, "김민주"), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
+        binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, 16), HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         binding.rvRanking.adapter = rankAdapter
         binding.rvMonthlyStats.adapter = statsAdapter
