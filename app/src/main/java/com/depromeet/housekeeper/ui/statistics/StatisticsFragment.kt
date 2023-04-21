@@ -4,16 +4,20 @@ import android.text.Html
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
 import com.depromeet.housekeeper.ui.statistics.adapter.MonthlyStatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
+import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.fragment_statistics) {
@@ -33,7 +37,12 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     fun setAdapter(){
         rankAdapter = RankAdapter()
-        statsAdapter = MonthlyStatsAdapter()
+        statsAdapter = MonthlyStatsAdapter(mutableListOf())
+
+        binding.rvRanking.adapter = rankAdapter
+        //binding.rvRanking.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvMonthlyStats.adapter = statsAdapter
+        binding.rvMonthlyStats.layoutManager = LinearLayoutManager(requireContext())
     }
 
     fun initView() {
@@ -47,25 +56,37 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.tvMonthTitle.text =
             String.format(getString(R.string.statistics_month_title, currentMonth))
         binding.tvTitle.text =
-            HtmlCompat.fromHtml(getString(R.string.statistics_title, "김민주"), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
-        binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, 16), HtmlCompat.FROM_HTML_MODE_LEGACY)
+            HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
 
-        binding.rvRanking.adapter = rankAdapter
-        binding.rvMonthlyStats.adapter = statsAdapter
+
     }
 
     fun bindingVm(){
 
         lifecycleScope.launchWhenStarted {
-            viewModel.statsList.collect{
-                statsAdapter.submitList(it)
+            viewModel.statsFlow.collect{
+                Timber.d("statsList: ${it.size}, ${statsAdapter.itemCount}")
+                statsAdapter.submitList(ArrayList(it))
+                statsAdapter.notifyDataSetChanged()
             }
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.rank.collectLatest {
-                rankAdapter.submitList(it)
+                rankAdapter.submitList(ArrayList(it))
+                rankAdapter.notifyDataSetChanged()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.totalChoreCnt.collectLatest {
+                setChoreCntTv(it)
             }
         }
     }
+
+    private fun setChoreCntTv(cnt: Int){
+        binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, cnt), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
 }

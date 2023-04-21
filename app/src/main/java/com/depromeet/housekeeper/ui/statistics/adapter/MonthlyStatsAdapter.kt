@@ -6,15 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemStatisticsBinding
 import com.depromeet.housekeeper.model.ui.Stats
+import timber.log.Timber
 
 
-class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>() {
-    private var list: List<Stats> = listOf()
+class MonthlyStatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ItemStatisticsBinding) :
+    inner class ViewHolder(private val binding: ItemStatisticsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Stats) {
+            Timber.d("stats: ${item}")
             binding.apply {
                 houseWorkName = item.houseWorkName
                 val totalCnt = binding.root.context.getString(R.string.statistics_total_complete, item.totalCount)
@@ -22,18 +23,17 @@ class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>
                 rvMemberList.adapter = StatsMemberAdapter(item.members)
             }
         }
-
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MonthlyStatsAdapter.ViewHolder {
+    ): ViewHolder {
         return ViewHolder(ItemStatisticsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: MonthlyStatsAdapter.ViewHolder, position: Int) {
-        return holder.bind(list[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(list[position])
     }
 
     override fun getItemCount(): Int {
@@ -41,6 +41,7 @@ class MonthlyStatsAdapter : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>
     }
 
     fun submitList(statsList: List<Stats>) {
-        this.list = statsList
+        list = statsList.toMutableList()
+        notifyDataSetChanged()
     }
 }
