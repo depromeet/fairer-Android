@@ -9,7 +9,7 @@ import com.depromeet.housekeeper.model.ui.Stats
 import timber.log.Timber
 
 
-class MonthlyStatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter<MonthlyStatsAdapter.ViewHolder>() {
+class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter<StatsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemStatisticsBinding) :
         RecyclerView.ViewHolder(binding.root) {

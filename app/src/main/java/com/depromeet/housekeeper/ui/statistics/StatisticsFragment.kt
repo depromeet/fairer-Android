@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.statistics
 
-import android.text.Html
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -8,11 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
-import com.depromeet.housekeeper.ui.statistics.adapter.MonthlyStatsAdapter
+import com.depromeet.housekeeper.ui.statistics.adapter.StatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -24,7 +22,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     private val viewModel: StatisticsViewModel by viewModels()
     private lateinit var rankAdapter: RankAdapter
-    private lateinit var statsAdapter: MonthlyStatsAdapter
+    private lateinit var statsAdapter: StatsAdapter
 
     override fun createView(binding: FragmentStatisticsBinding) {
     }
@@ -37,7 +35,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     fun setAdapter(){
         rankAdapter = RankAdapter()
-        statsAdapter = MonthlyStatsAdapter(mutableListOf())
+        statsAdapter = StatsAdapter(mutableListOf())
 
         binding.rvRanking.adapter = rankAdapter
         //binding.rvRanking.layoutManager = LinearLayoutManager(requireContext())
