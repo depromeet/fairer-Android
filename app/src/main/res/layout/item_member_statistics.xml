@@ -4,9 +4,6 @@
 
     <data>
         <variable
-            name="imgUrl"
-            type="String" />
-        <variable
             name="name"
             type="String" />
         <variable
@@ -19,9 +16,11 @@
         android:layout_height="wrap_content"
         android:paddingVertical="6dp"
         android:paddingStart="3dp"
-        android:paddingEnd="9dp"
+        android:paddingEnd="8dp"
         android:background="@drawable/bg_solid_5"
-        android:minWidth="88dp">
+        android:minWidth="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp">
         <ImageView
             android:id="@+id/iv_member"
             android:layout_width="20dp"
@@ -30,10 +29,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:includeFontPadding="false"
-            android:src="@{imgUrl}"
             />
         <TextView
-            android:id="@+id/tv_cnt"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,18 +44,19 @@
             android:layout_marginStart="2dp"
             />
         <TextView
+            android:id="@+id/tv_cnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_cnt"
+            app:layout_constraintStart_toEndOf="@id/tv_name"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@{String.valueOf(cnt)}"
             android:textSize="14sp"
             android:textFontWeight="400"
             android:textColor="@color/gray_700"
             android:layout_marginStart="6dp"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_border_8"
-        android:padding="16dp"
+        android:paddingTop="16dp"
         android:elevation="4dp"
         android:layout_marginVertical="8dp">
 
@@ -29,7 +29,8 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:layout_marginStart="16dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_total_chores"
@@ -46,18 +47,22 @@
                 android:text="@string/statistics_total_complete"
                 android:textColor="@color/gray_800"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:includeFontPadding="false"
+                android:layout_marginStart="16dp"
                 />
 
             <ImageView
-                android:layout_width="14dp"
-                android:layout_height="12dp"
+                android:id="@+id/btn_drop"
+                android:layout_width="30dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_drop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_total_chores"
-                app:layout_constraintBottom_toBottomOf="@id/tv_total_chores"
+                app:layout_constraintTop_toTopOf="parent"
+                android:clickable="true"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,7 +76,8 @@
             android:layout_marginTop="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            android:visibility="@{isDropped ? View.VISIBLE: View.GONE, default = gone}"/>
+            android:visibility="@{isDropped ? View.VISIBLE: View.GONE, default = gone}"
+            android:paddingHorizontal="16dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
