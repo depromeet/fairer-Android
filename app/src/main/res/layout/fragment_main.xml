@@ -146,6 +146,7 @@
                                 android:background="@drawable/home_positive_backgorund_8"
                                 android:backgroundTint="@color/normal"
                                 android:clickable="true"
+                                android:contentDescription="@string/label_statistics_btn"
                                 >
                                 <ImageView
                                     android:layout_width="24dp"

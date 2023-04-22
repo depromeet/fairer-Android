@@ -89,6 +89,7 @@
     <string name="main_today">오늘</string>
     <string name="main_complete">완료</string>
     <string name="main_back_chore">되돌리기</string>
+    <string name="label_statistics_btn">통계화면으로 이동</string>
 
     <!-- StatisticsFragment -->
     <string name="statistics_month_title">%s월 통계</string>
