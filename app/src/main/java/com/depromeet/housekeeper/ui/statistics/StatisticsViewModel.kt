@@ -18,11 +18,8 @@ class StatisticsViewModel @Inject constructor(
     private val statsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    private val _statsFlow: MutableSharedFlow<List<Stats>> = MutableSharedFlow()
+    private val _statsFlow: MutableSharedFlow<Stats> = MutableSharedFlow()
     val statsFlow get() = _statsFlow
-
-    private val _statsList: MutableList<Stats> = mutableListOf()
-    val statsList: List<Stats> get() = _statsList
 
     private val _rank: MutableStateFlow<List<HouseWorkStatsMember>> = MutableStateFlow(listOf())
     val rank: StateFlow<List<HouseWorkStatsMember>> get() = _rank
@@ -48,8 +45,7 @@ class StatisticsViewModel @Inject constructor(
                             houseWorkName = status.houseWorkName,
                             totalCount = status.houseWorkCount,
                             members = result.houseWorkStatisticsList,)
-                        _statsList.add(stats)
-                        _statsFlow.emit(statsList)
+                        _statsFlow.emit(stats)
                     }
                 }
             }

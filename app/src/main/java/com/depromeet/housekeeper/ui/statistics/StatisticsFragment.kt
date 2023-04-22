@@ -65,9 +65,8 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
         lifecycleScope.launchWhenStarted {
             viewModel.statsFlow.collect{
-                Timber.d("statsList: ${it.size}, ${statsAdapter.itemCount}")
-                statsAdapter.submitList(ArrayList(it))
-                statsAdapter.notifyDataSetChanged()
+                Timber.d("stats: ${it}, ${statsAdapter.itemCount}")
+                statsAdapter.submitItem(it)
             }
         }
 

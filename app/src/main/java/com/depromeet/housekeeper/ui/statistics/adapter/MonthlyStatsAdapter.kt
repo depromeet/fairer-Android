@@ -21,6 +21,13 @@ class MonthlyStatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.
                 val totalCnt = binding.root.context.getString(R.string.statistics_total_complete, item.totalCount)
                 tvTotalChores.text = String.format(totalCnt)
                 rvMemberList.adapter = StatsMemberAdapter(item.members)
+                var isDroppedVar = false
+                isDropped = isDroppedVar
+
+                btnDrop.setOnClickListener {
+                    isDroppedVar = !isDroppedVar
+                    isDropped = isDroppedVar
+                }
             }
         }
     }
@@ -40,9 +47,8 @@ class MonthlyStatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.
         return list.size
     }
 
-    fun submitList(statsList: List<Stats>) {
-        list.clear()
-        list = statsList.toMutableList()
-        notifyDataSetChanged()
+    fun submitItem(stats: Stats){
+        list.add( stats)
+        notifyItemInserted(list.size-1)
     }
 }
