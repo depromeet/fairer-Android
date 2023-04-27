@@ -12,10 +12,16 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@{isRanker ? @dimen/item_rank_horizontal_padding_ranker : @dimen/item_rank_horizontal_padding_default, default = @dimen/item_rank_horizontal_padding_default}"
-        android:paddingBottom="14dp">
+        android:layout_width="74dp"
+        android:layout_height="147dp"
+        android:layout_marginEnd="8dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_highlight_box"
+            android:backgroundTint="@color/positive_10"
+            />
 
         <TextView
             android:id="@+id/tv_rank"
@@ -26,23 +32,26 @@
             android:textColor="@color/fairer_blue"
             android:textFontWeight="600"
             android:textSize="16sp"
-            android:visibility="@{isRanker ? View.VISIBLE : View.GONE, default = gone}"
+            android:visibility="@{isRanker ? View.VISIBLE : View.INVISIBLE, default = invisible}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@id/ll_profile"
+            android:layout_marginBottom="7dp"
+            android:maxLines="1"/>
         <!-- todo 코드 margin dimens에서 가져와 처리 -->
 
         <LinearLayout
+            android:id="@+id/ll_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <!-- todo 코드 margin dimens에서 가져와 처리 -->
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="41dp">
 
             <ImageView
+                android:id="@+id/iv_member"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="4dp"
@@ -56,19 +65,26 @@
                 android:text="신동빈"
                 android:textAlignment="center"
                 android:textColor="@color/gray_800"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_cnt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:text="3개"
-                android:textAlignment="center"
-                android:textColor="@color/gray_600"
-                android:textSize="14sp" />
-
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_cnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3개"
+            android:textAlignment="center"
+            android:textColor="@color/gray_600"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/ll_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="14dp"
+            android:layout_marginTop="2dp"
+            android:maxLines="1"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         statsAdapter = StatsAdapter(mutableListOf())
 
         binding.rvRanking.adapter = rankAdapter
-        //binding.rvRanking.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvRanking.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvMonthlyStats.adapter = statsAdapter
         binding.rvMonthlyStats.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -71,6 +71,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         lifecycleScope.launchWhenStarted {
             viewModel.rank.collectLatest {
                 rankAdapter.submitList(ArrayList(it))
+                Timber.d("rank: ${it}")
                 rankAdapter.notifyDataSetChanged()
             }
         }
