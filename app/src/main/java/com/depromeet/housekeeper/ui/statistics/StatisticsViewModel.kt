@@ -6,11 +6,11 @@ import com.depromeet.housekeeper.data.repository.StatisticsRepository
 import com.depromeet.housekeeper.model.response.HouseWorkStatsMember
 import com.depromeet.housekeeper.model.response.HouseWorkStatsResponse
 import com.depromeet.housekeeper.model.response.StatsStatus
+import com.depromeet.housekeeper.model.ui.Stats
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,15 +18,14 @@ class StatisticsViewModel @Inject constructor(
     private val statsRepository: StatisticsRepository
 ) : BaseViewModel() {
 
-    private val _statsList: MutableStateFlow<List<StatsStatus>> = MutableStateFlow(listOf())
-    val statsList: StateFlow<List<StatsStatus>> get() = _statsList
+    private val _statsFlow: MutableSharedFlow<Stats> = MutableSharedFlow()
+    val statsFlow get() = _statsFlow
 
     private val _rank: MutableStateFlow<List<HouseWorkStatsMember>> = MutableStateFlow(listOf())
     val rank: StateFlow<List<HouseWorkStatsMember>> get() = _rank
 
-    private val _statsHouseWork: MutableStateFlow<MutableMap<String, List<HouseWorkStatsMember>>> =
-        MutableStateFlow(mutableMapOf())
-    val statsHouseWork: StateFlow<Map<String, List<HouseWorkStatsMember>>> get() = _statsHouseWork
+    private val _totalChoreCnt: MutableStateFlow<Int> = MutableStateFlow(0)
+    val totalChoreCnt: StateFlow<Int> get() = _totalChoreCnt
 
     /**
      * Network Communication
@@ -36,7 +35,19 @@ class StatisticsViewModel @Inject constructor(
             statsRepository.getStatistics(yearMonth).collectLatest {
                 val result = receiveApiResult(it) ?: return@collectLatest
 
-                _statsList.value = result.statisticsList
+                _totalChoreCnt.value = result.statisticsList.size
+                Timber.d("totalChoreCnt: ${_totalChoreCnt.value}")
+
+                result.statisticsList.forEach {  status ->
+                    statsRepository.getHoseWorkStatistics(status.houseWorkName, yearMonth).collectLatest {
+                        val result = receiveApiResult(it) ?: return@collectLatest
+                        val stats = Stats(
+                            houseWorkName = status.houseWorkName,
+                            totalCount = status.houseWorkCount,
+                            members = result.houseWorkStatisticsList,)
+                        _statsFlow.emit(stats)
+                    }
+                }
             }
         }
     }
@@ -51,13 +62,4 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    fun getHouseWorkStatistics(houseWorkName: String, yearMonth: String) {
-        viewModelScope.launch {
-            statsRepository.getHoseWorkStatistics(houseWorkName, yearMonth).collectLatest {
-                val result = receiveApiResult(it) ?: return@collectLatest
-
-                _statsHouseWork.value[houseWorkName] = result.houseWorkStatisticsList.sortedByDescending { it.houseWorkCount }
-            }
-        }
-    }
 }

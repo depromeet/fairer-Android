@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemRankBinding
+import com.depromeet.housekeeper.model.response.HouseWorkStatsMember
 
-class RankAdapter(
-    private val list: Array<Int> //todo list 입력 뭐 받을지
-): RecyclerView.Adapter<RankAdapter.ViewHolder>() {
+class RankAdapter(): RecyclerView.Adapter<RankAdapter.ViewHolder>() {
+    private var list: List<HouseWorkStatsMember> = listOf()//todo list 입력 뭐 받을지
 
     inner class ViewHolder(private val binding: ItemRankBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(rank: Int){
+        fun bind(rank: HouseWorkStatsMember){
 
         }
 
@@ -32,6 +32,10 @@ class RankAdapter(
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun submitList(rankList: List<HouseWorkStatsMember>){
+        this.list = rankList
     }
 
 }
