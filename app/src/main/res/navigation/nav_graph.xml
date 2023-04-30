@@ -52,6 +52,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -455,6 +458,12 @@
         android:name="com.depromeet.housekeeper.ui.houseRule.RuleFragment"
         android:label="RuleFragment"
         tools:layout="@layout/fragment_rule" />
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.depromeet.housekeeper.ui.statistics.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_statistics"/>
 
     <fragment
         android:id="@+id/settingProfileFragment"

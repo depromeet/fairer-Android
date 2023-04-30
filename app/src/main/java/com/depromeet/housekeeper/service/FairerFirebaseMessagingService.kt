@@ -13,20 +13,31 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.data.repository.UserRepository
+import com.depromeet.housekeeper.model.request.Token
 import com.depromeet.housekeeper.ui.HouseKeeperActivity
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-
-class FairerFirebaseMessagingService : FirebaseMessagingService() {
+@AndroidEntryPoint
+class FairerFirebaseMessagingService : FirebaseMessagingService()
+{
+    @Inject
+    lateinit var userRepository: UserRepository
 
     @Override
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Timber.tag(TAG_FCM).d("New FCM device token : $token")
         PrefsManager.setDeviceToken(deviceToken = token)
+        sendRegistrationToServer(token)
     }
 
     @Override
@@ -76,6 +87,12 @@ class FairerFirebaseMessagingService : FirebaseMessagingService() {
             lightColor = getColor(R.color.highlight)
         }
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun sendRegistrationToServer(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            userRepository.saveToken(Token(token))
+        }
     }
 
     companion object {

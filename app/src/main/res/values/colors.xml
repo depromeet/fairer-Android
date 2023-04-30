@@ -28,6 +28,7 @@
     <color name="negative_0">#FFF8F9</color>
     <color name="negative_10">#FFD2DD</color>
     <color name="negative_20">#E93B65</color>
+    <color name="fairer_blue">#0C6DFF</color>
 
     <!--selection-->
     <color name="light_blue">#EEF5FF</color>

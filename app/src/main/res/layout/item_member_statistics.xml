@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="cnt"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="6dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="8dp"
+        android:background="@drawable/bg_solid_5"
+        android:minWidth="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp">
+        <ImageView
+            android:id="@+id/iv_member"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:includeFontPadding="false"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_member"
+            android:text="@{name}"
+            android:textColor="@color/gray_800"
+            android:textSize="12sp"
+            android:textFontWeight="400"
+            android:layout_marginStart="2dp"
+            />
+        <TextView
+            android:id="@+id/tv_cnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{String.valueOf(cnt)}"
+            android:textSize="14sp"
+            android:textFontWeight="400"
+            android:textColor="@color/gray_700"
+            android:layout_marginStart="6dp"
+            android:includeFontPadding="false" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
