@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="emojiNum"
+            type="int" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_bottom_sheet_assignee_cl"
         android:layout_width="match_parent"
         android:layout_height="37dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bottom_sheet_item_assignee_selector"
-        android:paddingHorizontal="15dp">
+        android:layout_marginBottom="8dp">
 
         <ImageView
             android:id="@+id/item_bottom_sheet_assignee_profile_iv"
@@ -39,19 +46,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:orientation="horizontal" >
             <TextView
+                android:id="@+id/tv_feedback_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="@{emojiNum==0?View.VISIBLE:View.GONE}"
                 android:textSize="14sp"
                 android:textColor="@color/black"
-                android:text="창문 틈새 어쩌구~!"
+                tool:text="창문 틈새 어쩌구~!"
                 />
             <ImageView
                 android:id="@+id/iv_bottom_sheet_icon"
+                app:setFeedbackIcon="@{emojiNum}"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_smile"
+                tool:src="@drawable/ic_smile"
                 />
 
         </LinearLayout>

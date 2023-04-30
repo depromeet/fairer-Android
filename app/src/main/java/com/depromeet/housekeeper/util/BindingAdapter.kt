@@ -3,6 +3,7 @@ package com.depromeet.housekeeper.util
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -75,6 +76,38 @@ object BindingAdapter {
     @JvmStatic
     fun setSelected(imageButton: ImageButton, selected: Boolean) {
         imageButton.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:setFeedbackIcon")
+    @JvmStatic
+    fun setFeedbackIcon(imageView:ImageView,emojiNum : Int) {
+        when(emojiNum){
+            1 -> imageView.visibility = View.GONE
+            2 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_angry)
+            }
+            3 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_sad)
+            }
+            4 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_smile)
+            }
+            5 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_super_smile)
+            }
+            6 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_heart)
+            }
+            else ->{
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_100)
+            }
+        }
     }
 
 }

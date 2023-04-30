@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.DialogFeedbackReturnBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ReturnFeedbackDialog(
-    private val onUrgeClick: () -> Unit,
+    private val onReturnClick: () -> Unit,
 ) : BottomSheetDialogFragment() {
     private lateinit var binding: DialogFeedbackReturnBinding
 
@@ -39,7 +40,12 @@ class ReturnFeedbackDialog(
                 val layoutParams = it.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.setMargins(24.dpToPx, 0, 24.dpToPx, 0)
                 it.layoutParams = layoutParams
+
+                // 배경 설정
+                val background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_bottom_sheet)
+                it.background = background
             }
+
 
         }
         return dialog
@@ -49,7 +55,7 @@ class ReturnFeedbackDialog(
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnDialogFeedbackUrge.setOnClickListener {
-            onUrgeClick.invoke()
+            onReturnClick.invoke()
             dismiss()
         }
 

@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_dialog_feedback"
-            android:paddingBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -44,13 +43,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/v_dialog_feedback_urge_view"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/feedback_urge_button"
+                android:text="@string/feedback_return_botton"
                 android:textColor="@color/negative_20"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout

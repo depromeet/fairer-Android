@@ -67,12 +67,13 @@ data class UpdateChoreResponse(
 
 data class FeedbackListModel (
     val feedbackCount: Long,
-    val feedbackFindOneResponseDtoList: List<FeedbackFindOneResponseDtoList>
+    val feedbackFindOneResponseDtoList: List<FeedbackFindOneResponseDto>
 )
 
-data class FeedbackFindOneResponseDtoList (
+data class FeedbackFindOneResponseDto (
     val comment: String,
-    val emoji: Long,
+    val emoji: Int,
     val memberName: String,
     val profilePath: String
 )
+

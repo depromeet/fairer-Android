@@ -226,6 +226,10 @@
     <string name="feedback_return_botton">되돌리기</string>
     <string name="feedback_return_button_cancel">취소</string>
     <string name="feedback_text_feedback_title">텍스트 피드백 작성</string>
+    <string name="feedback_modify_text_feedback_title">텍스트 피드백 수정</string>
+    <string name="feedback_delete_text_feedback_title">텍스트 피드백 삭제</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name='text_feedback_button'>텍스트 피드백</string>
