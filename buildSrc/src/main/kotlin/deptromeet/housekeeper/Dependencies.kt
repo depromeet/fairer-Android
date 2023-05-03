@@ -111,4 +111,7 @@ object Dependencies {
   const val hilt = "com.google.dagger:hilt-android:$HILT"
   const val hiltCompiler = "com.google.dagger:hilt-compiler:$HILT"
   const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:$HILT"
+
+  private const val FLEXBOX = "3.0.0"
+  const val flexbox = "com.google.android.flexbox:flexbox:$FLEXBOX"
 }

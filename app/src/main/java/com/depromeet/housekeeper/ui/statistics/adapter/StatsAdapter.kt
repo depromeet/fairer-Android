@@ -20,6 +20,7 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
                 houseWorkName = item.houseWorkName.ifBlank { "기타" }
                 val totalCnt = binding.root.context.getString(R.string.statistics_total_complete, item.totalCount)
                 tvTotalChores.text = String.format(totalCnt)
+
                 rvMemberList.adapter = StatsMemberAdapter(item.members)
                 var isDroppedVar = false
                 isDropped = isDroppedVar
