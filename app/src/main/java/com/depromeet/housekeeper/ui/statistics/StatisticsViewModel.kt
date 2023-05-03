@@ -6,6 +6,7 @@ import com.depromeet.housekeeper.data.repository.StatisticsRepository
 import com.depromeet.housekeeper.model.response.HouseWorkStatsMember
 import com.depromeet.housekeeper.model.response.HouseWorkStatsResponse
 import com.depromeet.housekeeper.model.response.StatsStatus
+import com.depromeet.housekeeper.model.ui.Ranker
 import com.depromeet.housekeeper.model.ui.Stats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -21,8 +22,8 @@ class StatisticsViewModel @Inject constructor(
     private val _statsFlow: MutableSharedFlow<Stats> = MutableSharedFlow()
     val statsFlow get() = _statsFlow
 
-    private val _rank: MutableStateFlow<List<HouseWorkStatsMember>> = MutableStateFlow(listOf())
-    val rank: StateFlow<List<HouseWorkStatsMember>> get() = _rank
+    private val _rankFlow: MutableStateFlow<MutableList<Ranker>> = MutableStateFlow(mutableListOf())
+    val rankFlow: StateFlow<List<Ranker>> get() = _rankFlow
 
     private val _totalChoreCnt: MutableStateFlow<Int> = MutableStateFlow(0)
     val totalChoreCnt: StateFlow<Int> get() = _totalChoreCnt
@@ -57,7 +58,18 @@ class StatisticsViewModel @Inject constructor(
             statsRepository.getStatisticsRanking(yearMonth).collectLatest {
                 val result = receiveApiResult(it) ?: return@collectLatest
 
-                _rank.value = result.houseWorkStatisticsList
+                var size = result.houseWorkStatisticsList.size
+                val list = mutableListOf<Ranker>()
+                for (i: Int in 1..size) {
+                    val cur = result.houseWorkStatisticsList[i-1]
+                    val ranker = Ranker(
+                        rank = i,
+                        member = cur.member,
+                        houseWorkCnt = cur.houseWorkCount
+                    )
+                    list.add(ranker)
+                }
+                _rankFlow.emit(list)
             }
         }
     }

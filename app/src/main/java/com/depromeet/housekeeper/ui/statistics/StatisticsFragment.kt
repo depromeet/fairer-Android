@@ -69,7 +69,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.rank.collectLatest {
+            viewModel.rankFlow.collectLatest {
                 rankAdapter.submitList(ArrayList(it))
                 Timber.d("rank: ${it}")
                 rankAdapter.notifyDataSetChanged()

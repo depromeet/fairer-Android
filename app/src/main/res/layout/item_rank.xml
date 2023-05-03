@@ -9,6 +9,7 @@
         <variable
             name="isRanker"
             type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,10 +18,12 @@
         android:layout_marginEnd="8dp">
 
         <View
+            android:id="@+id/bg_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_highlight_box"
             android:backgroundTint="@color/positive_10"
+            android:visibility="@{isRanker ? View.VISIBLE : View.INVISIBLE, default = invisible}"
             />
 
         <TextView
@@ -31,14 +34,13 @@
             android:text="2"
             android:textColor="@color/fairer_blue"
             android:textFontWeight="600"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:visibility="@{isRanker ? View.VISIBLE : View.INVISIBLE, default = invisible}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/ll_profile"
-            android:layout_marginBottom="7dp"
             android:maxLines="1"/>
-        <!-- todo 코드 margin dimens에서 가져와 처리 -->
 
         <LinearLayout
             android:id="@+id/ll_profile"
