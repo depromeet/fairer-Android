@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemStatisticsBinding
 import com.depromeet.housekeeper.model.ui.Stats
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import timber.log.Timber
 
 
@@ -20,7 +23,11 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
                 houseWorkName = item.houseWorkName.ifBlank { "기타" }
                 val totalCnt = binding.root.context.getString(R.string.statistics_total_complete, item.totalCount)
                 tvTotalChores.text = String.format(totalCnt)
-
+                val flexboxLayoutManager = FlexboxLayoutManager(binding.root.context).apply {
+                    flexDirection = FlexDirection.ROW
+                    justifyContent = JustifyContent.SPACE_BETWEEN
+                }
+                rvMemberList.layoutManager = flexboxLayoutManager
                 rvMemberList.adapter = StatsMemberAdapter(item.members)
                 var isDroppedVar = false
                 isDropped = isDroppedVar
