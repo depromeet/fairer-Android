@@ -1,6 +1,11 @@
 package com.depromeet.housekeeper.ui.statistics.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -8,12 +13,12 @@ import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemRankBinding
 import com.depromeet.housekeeper.model.ui.Ranker
-import com.depromeet.housekeeper.util.dp2px
 
 class RankAdapter : RecyclerView.Adapter<RankAdapter.ViewHolder>() {
     private var list: List<Ranker> = listOf()
 
     inner class ViewHolder(private val binding: ItemRankBinding): RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(rank: Ranker){
             val context = binding.root.context
             binding.apply {
@@ -26,32 +31,41 @@ class RankAdapter : RecyclerView.Adapter<RankAdapter.ViewHolder>() {
                 tvCnt.text = String.format(context.getString(R.string.statistics_count, rank.houseWorkCnt))
                 if (rank.rank <= 3){
                     isRanker = true
+                    tvCnt.setTypeface(null, Typeface.BOLD)
                 }
-                tvRank.text = rank.rank.toString()
+
                 when (rank.rank) {
                     1 -> {
-                        bgView.setBackgroundColor(context.getColor(R.color.highlight))
-                        val params = tvRank.layoutParams as ConstraintLayout.LayoutParams
-                        params.bottomMargin = context.resources.getDimensionPixelSize(R.dimen.item_rank_bottom_margin_1)
-                        tvRank.layoutParams = params
+                        ivRank.setImageDrawable(context.getDrawable(R.drawable.ic_crown))
+                        bgView.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.highlight))
+                        setRankerMargin(ivRank, context, R.dimen.item_rank_bottom_margin_1)
+                        tvName.setTextColor(context.getColor(R.color.white))
+                        tvCnt.setTextColor(context.getColor(R.color.white))
                     }
                     2 -> {
-                        bgView.setBackgroundColor(context.getColor(R.color.positive_10))
-                        val params = tvRank.layoutParams as ConstraintLayout.LayoutParams
-                        params.bottomMargin = context.resources.getDimensionPixelSize(R.dimen.item_rank_bottom_margin_2)
-                        tvRank.layoutParams = params
+                        ivRank.setImageDrawable(context.getDrawable(R.drawable.ic_2))
+                        bgView.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.positive_10))
+                        setRankerMargin(ivRank, context, R.dimen.item_rank_bottom_margin_2)
+                        tvCnt.setTextColor(context.getColor(R.color.gray_800))
                     }
                     3 -> {
-                        bgView.setBackgroundColor(context.getColor(R.color.positive_0))
-                        val params = tvRank.layoutParams as ConstraintLayout.LayoutParams
-                        params.bottomMargin = context.resources.getDimensionPixelSize(R.dimen.item_rank_bottom_margin_3)
-                        tvRank.layoutParams = params
+                        ivRank.setImageDrawable(context.getDrawable(R.drawable.ic_3))
+                        bgView.backgroundTintList = ColorStateList.valueOf(context.getColor(R.color.positive_0))
+                        setRankerMargin(ivRank, context, R.dimen.item_rank_bottom_margin_3)
+                        tvCnt.setTextColor(context.getColor(R.color.gray_800))
                     }
                 }
             }
         }
 
+        private fun setRankerMargin(target: View, context: Context, dimen: Int){
+            val params = target.layoutParams as ConstraintLayout.LayoutParams
+            params.bottomMargin = context.resources.getDimensionPixelSize(dimen)
+            target.layoutParams = params
+        }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankAdapter.ViewHolder {
         return ViewHolder(ItemRankBinding.inflate(LayoutInflater.from(parent.context), parent, false))
