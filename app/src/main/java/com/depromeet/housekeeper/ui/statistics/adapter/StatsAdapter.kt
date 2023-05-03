@@ -32,6 +32,10 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
                 var isDroppedVar = false
                 isDropped = isDroppedVar
 
+                clTotalChores.setOnClickListener {
+                    isDroppedVar = !isDroppedVar
+                    isDropped = isDroppedVar
+                }
                 btnDrop.setOnClickListener {
                     isDroppedVar = !isDroppedVar
                     isDropped = isDroppedVar
