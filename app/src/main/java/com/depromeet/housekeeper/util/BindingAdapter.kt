@@ -1,11 +1,14 @@
 package com.depromeet.housekeeper.util
 
+import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -75,6 +78,18 @@ object BindingAdapter {
     @JvmStatic
     fun setSelected(imageButton: ImageButton, selected: Boolean) {
         imageButton.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:rankBottomMargin")
+    @JvmStatic
+    fun setBottomMargin(target: ImageView, rank: Int){
+        val params = target.layoutParams as ConstraintLayout.LayoutParams
+        when(rank){
+            1-> params.bottomMargin = R.dimen.item_rank_bottom_margin_1
+            2-> params.bottomMargin = R.dimen.item_rank_bottom_margin_2
+            3-> params.bottomMargin = R.dimen.item_rank_bottom_margin_3
+        }
+        target.layoutParams = params
     }
 
 }

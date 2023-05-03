@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="item_rank_box_top_margin_1">41dp</dimen>
-    <dimen name="item_rank_box_top_margin_2">33dp</dimen>
-    <dimen name="item_rank_box_top_margin_default">26dp</dimen>
-    <dimen name="item_rank_tv_top_margin_1">21dp</dimen>
-    <dimen name="item_rank_tv_top_margin_2">11dp</dimen>
-    <dimen name="item_rank_tv_top_margin_3">6dp</dimen>
-    <dimen name="item_rank_horizontal_padding_ranker">13dp</dimen>
-    <dimen name="item_rank_horizontal_padding_default">5dp</dimen>
     <dimen name="item_rank_bottom_margin_1">7dp</dimen>
     <dimen name="item_rank_bottom_margin_2">3dp</dimen>
     <dimen name="item_rank_bottom_margin_3">-1dp</dimen>
+    <dimen name="item_rank_top_margin_2">8dp</dimen>
+    <dimen name="item_rank_top_margin_3">16dp</dimen>
 </resources>

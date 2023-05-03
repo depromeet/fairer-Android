@@ -9,7 +9,9 @@
         <variable
             name="isRanker"
             type="Boolean" />
-
+        <variable
+            name="rankNum"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +31,7 @@
             android:id="@+id/iv_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{isRanker ? View.VISIBLE : View.INVISIBLE, default = invisible}"
+            android:visibility="@{rankNum &lt; 4 ? View.VISIBLE : View.INVISIBLE, default = invisible}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/ll_profile" />
