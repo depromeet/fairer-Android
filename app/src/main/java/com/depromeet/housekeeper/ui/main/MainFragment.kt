@@ -32,7 +32,6 @@ import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
-import com.depromeet.housekeeper.model.response.FeedbackFindOneResponseDto
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.FeedbackAdapter
@@ -498,14 +497,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     private fun showFeedbackBottomSheet() {
         feedbackAdapter = FeedbackAdapter(
-            mutableListOf(
-                FeedbackFindOneResponseDto(
-                    "잘했어",
-                    1,
-                    "wjdwns",
-                    "https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg"
-                )
-            )
+            mutableListOf()
         )
         val feedbackBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
