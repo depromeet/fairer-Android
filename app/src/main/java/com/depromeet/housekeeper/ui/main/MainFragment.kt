@@ -40,8 +40,7 @@ import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.ui.main.dialog.ReturnFeedbackDialog
 import com.depromeet.housekeeper.ui.main.dialog.UrgeBottomDialog
 import com.depromeet.housekeeper.util.*
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -116,6 +115,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             mainViewModel.updateStartDateOfWeek(DateUtil.getCurrentStartDate())
         }
 
+        binding.btnStatistics.setOnClickListener {
+            findNavController().navigateSafe(R.id.action_mainFragment_to_statisticsFragment)
+        }
     }
 
     private fun setAdapter() {
