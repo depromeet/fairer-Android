@@ -94,11 +94,7 @@ interface RemoteDataSource {
 
     suspend fun createFeedback(feedbackModel : CreateFeedbackModel):Flow<ApiResult<Unit>>
 
-    suspend fun getHouseWorkFeedback(feedbackId:Int):Flow<ApiResult<CreateFeedbackModel>>
-
-    suspend fun deleteFeedback(feedbackId:Int):Flow<ApiResult<Unit>>
-
-    suspend fun updateFeedback(feedbackId:Int):Flow<ApiResult<Unit>>
+    suspend fun updateFeedback(houseworkCompleteId:Int):Flow<ApiResult<Unit>>
 
     suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>>
 

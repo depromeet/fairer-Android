@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.main
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -32,6 +33,7 @@ import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
+import com.depromeet.housekeeper.model.response.FeedbackFindOneResponseDto
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.FeedbackAdapter
@@ -40,11 +42,13 @@ import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 import com.depromeet.housekeeper.ui.main.dialog.ReturnFeedbackDialog
 import com.depromeet.housekeeper.ui.main.dialog.UrgeBottomDialog
 import com.depromeet.housekeeper.util.*
+import com.depromeet.housekeeper.util.EditTextUtil.listenEditorDoneAction
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -123,6 +127,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     private fun setAdapter() {
+        feedbackAdapter = FeedbackAdapter(emptyList<FeedbackFindOneResponseDto>().toMutableList())
         dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
             onClick = {
                 mainViewModel.updateSelectDate(it)
@@ -155,13 +160,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = { view, success, isTimeOver, isEmojiEmpty ->
+            onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWorkCompleteId ->
                 if (success) {
                     if (isEmojiEmpty) {
-                        setFeedbackPopupMenu(true)
+                        setFeedbackPopupMenu(true, houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-204).dpToPx)
                     } else {
-                        setFeedbackPopupMenu(false)
+                        setFeedbackPopupMenu(false, houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-280).dpToPx)
                     }
                 } else {
@@ -172,8 +177,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     }
                 }
             },
-            feedbackClick = {
-                showFeedbackBottomSheet()
+            feedbackClick = { houseWorkCompleteId ->
+                if (houseWorkCompleteId != null) {
+                    lifecycleScope.launch {
+                        mainViewModel.getFeedbackList(houseWorkCompleteId = houseWorkCompleteId)
+                        mainViewModel.feedbackList.collectLatest { feedbackList ->
+                            if (feedbackList != null) {
+                                feedbackAdapter.updateFeedbackList(feedbackList.feedbackFindOneResponseDtoList)
+                            }
+                        }
+                    }
+                    showFeedbackBottomSheet()
+                }
             }
         )
         binding.rvHouseWork.adapter = houseWorkAdapter
@@ -200,6 +215,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                     0 -> {
                         binding.tvCompleteHouseChore.text = getString(R.string.complete_chore_yet)
                     }
+
                     else -> {
                         val completeFormat =
                             String.format(resources.getString(R.string.complete_chore), it)
@@ -397,6 +413,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                         dayOfAdapter.updateDate(mainViewModel.getNextWeek())
 
                     }
+
                     ItemTouchHelper.RIGHT -> dayOfAdapter.updateDate(mainViewModel.getLastWeek())
                 }
             }
@@ -431,7 +448,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         datePickerDialog.show()
     }
 
-    private fun setFeedbackPopupMenu(isEmojiEmpty: Boolean) {
+    private fun setFeedbackPopupMenu(isEmojiEmpty: Boolean, houseWorkCompleteId: Int?) {
         val binding =
             if (isEmojiEmpty) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
                 layoutInflater
@@ -453,18 +470,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         popupWindow.elevation = 10.0F
         if (isEmojiEmpty) {
             (binding as PopupFeedbackMenuBinding).clDialogFeedbackUrgeTop.setOnClickListener {
-                showEditTextBottomSheet()
+                showEditTextBottomSheet(houseWorkCompleteId)
             }
         } else {
             (binding as PopupFeedbackMenuHasFeedbackBinding).clPopupFeedbackModify.setOnClickListener {
-                showEditTextBottomSheet()
+                showEditTextBottomSheet(houseWorkCompleteId)
             }
         }
 
     }
 
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
-    private fun showEditTextBottomSheet() {
+    private fun showEditTextBottomSheet(houseWorkCompleteId: Int?) {
         val textBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
         val bottomSheetView =
@@ -496,13 +513,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 // BottomSheet가 슬라이드되는 동안 실행되는 작업 수행
             }
         })
-        textBottomSheet.show()
+
+        etFeedback?.apply {
+            listenEditorDoneAction {
+                if (it.length <= 16) {
+                    EditTextUtil.hideKeyboard(requireContext(), this)
+                    if (houseWorkCompleteId != null) {
+                        mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                    }
+                    textBottomSheet.dismiss()
+                    popupWindow.dismiss()
+                }
+            }
+            textBottomSheet.show()
+        }
     }
 
+    @SuppressLint("InflateParams")
     private fun showFeedbackBottomSheet() {
-        feedbackAdapter = FeedbackAdapter(
-            mutableListOf()
-        )
         val feedbackBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
         val bottomSheetView =

@@ -34,7 +34,14 @@ class FeedbackAdapter(
                 .load(item.profilePath)
                 .into(binding.itemBottomSheetAssigneeProfileIv)
             binding.itemBottomSheetAssigneeNameTv.text = item.memberName
-            binding.emojiNum = 1
+            binding.emojiNum = item.emoji
+            binding.tvFeedbackText.text = item.comment
         }
+    }
+
+    fun updateFeedbackList(newList: List<FeedbackFindOneResponseDto>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
     }
 }

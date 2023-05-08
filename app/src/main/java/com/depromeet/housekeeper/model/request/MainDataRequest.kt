@@ -105,7 +105,7 @@ data class EditProfileModel(
 
 @Parcelize
 data class CreateFeedbackModel(
-    val comment: String,
+    val comment: String?,
     val emoji : Int,
     val houseCompleteId: Int
 ):Parcelable

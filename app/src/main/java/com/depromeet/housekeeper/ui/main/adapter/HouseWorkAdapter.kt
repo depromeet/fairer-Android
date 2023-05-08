@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
 import com.depromeet.housekeeper.model.FeedbackCount
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,8 +16,8 @@ class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
     private val onDone: (HouseWork, Boolean) -> Unit,
-    private val onLongClick: (View, Boolean, Boolean, Boolean) -> Unit,
-    private val feedbackClick: () -> Unit
+    private val onLongClick: (View, Boolean, Boolean, Boolean, Int?) -> Unit,
+    private val feedbackClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
 
@@ -107,14 +108,16 @@ class HouseWorkAdapter(
                         binding.root,
                         houseWork.success,
                         getTimeOver(houseWork),
-                        houseWork.feedbackCountResponseDto!!.comment==0)
+                        houseWork.feedbackCountResponseDto!!.comment==0,
+                houseWork.houseWorkCompleteId)
                 return@setOnLongClickListener true
             }
             val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
             binding.rvProfileAdapter.adapter = adapter
 
             binding.includeFeedback.root.setOnClickListener {
-                feedbackClick.invoke()
+                Timber.d("housework Id : ${houseWork.houseWorkCompleteId}")
+                feedbackClick.invoke(houseWork.houseWorkCompleteId)
             }
 
 

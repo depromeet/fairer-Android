@@ -150,14 +150,8 @@ interface ApiService {
     @POST("/api/feedback")
     suspend fun createFeedback(@Body feedbackModel : CreateFeedbackModel)
 
-    @GET("/api/feedback/{feedbackId}")
-    suspend fun getHouseWorkFeedback(@Path("feedbackId") feedbackId:Int):CreateFeedbackModel
-
-    @DELETE("/api/feedback/{feedbackId}")
-    suspend fun deleteFeedback(@Path("feedbackId") feedbackId:Int)
-
-    @PATCH("/api/feedback/{feedbackId}")
-    suspend fun updateFeedback(@Path("feedbackId") feedbackId:Int)
+    @PATCH("/api/feedback/{houseworkCompleteId}")
+    suspend fun updateFeedback(@Path("houseworkCompleteId") houseworkCompleteId:Int)
 
     @GET("/api/feedback/houseworks/{houseWorkCompleteId}")
     suspend fun getFeedbackList(@Path("houseWorkCompleteId") houseWorkCompleteId:Int): FeedbackListModel

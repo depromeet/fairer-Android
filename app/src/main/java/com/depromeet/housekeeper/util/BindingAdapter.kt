@@ -82,30 +82,31 @@ object BindingAdapter {
     @JvmStatic
     fun setFeedbackIcon(imageView:ImageView,emojiNum : Int) {
         when(emojiNum){
-            1 -> imageView.visibility = View.GONE
-            2 -> {
+            1 -> {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_angry)
             }
-            3 -> {
+            2 -> {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_sad)
             }
-            4 -> {
+            3 -> {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_smile)
             }
-            5 -> {
+            4 -> {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_super_smile)
             }
-            6 -> {
+            5 -> {
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_heart)
             }
-            else ->{
+            6 ->{
                 imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_100)
+            }else->{
+            imageView.visibility = View.GONE
             }
         }
     }
