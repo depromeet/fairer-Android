@@ -98,4 +98,6 @@ interface RemoteDataSource {
 
     suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>>
 
+    suspend fun urgeHousework(urgeModel: UrgeModel): Flow<ApiResult<Unit>>
+
 }

@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.model.request
 
 import android.os.Parcelable
-import com.depromeet.housekeeper.model.Assignee
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -14,14 +13,14 @@ data class Chore(
     var scheduledDate: String = "yyyy-MM-dd",
     var scheduledTime: String? = null, // ex) "10:00"
     var space: String = ""
-): Parcelable {
+) : Parcelable {
     companion object {
         const val DEFAULT_TIME = "하루 종일"
         const val ETC_SPACE = "ETC"
     }
 }
 
-enum class RepeatCycle(val value: String){
+enum class RepeatCycle(val value: String) {
     ONCE("O"),
     DAYILY("D"),
     WEEKLY("W"),
@@ -34,9 +33,9 @@ enum class WeekDays(val eng: String, val kor: String) {
     WED("WEDNESDAY", "수"),
     THR("THURSDAY", "목"),
     FRI("FRIDAY", "금"),
-    SAT("SATURDAY","토"),
-    SUN("SUNDAY","일"),
-    NONE("NONE","")
+    SAT("SATURDAY", "토"),
+    SUN("SUNDAY", "일"),
+    NONE("NONE", "")
 }
 
 @Parcelize
@@ -52,16 +51,16 @@ data class EditChore(
     var space: String = "",
     var type: String = EditType.ONLY.value,
     var updateStandardDate: String,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class DeleteChoreRequest(
     val deleteStandardDate: String,
     val houseWorkId: Int,
     val type: String = EditType.NONE.value
-): Parcelable
+) : Parcelable
 
-enum class EditType(val value: String){
+enum class EditType(val value: String) {
     ONLY("O"),
     FORWARD("H"),
     ALL("A"),
@@ -78,7 +77,7 @@ data class ChoreList(
 @Parcelize
 data class Chores(
     val houseWorks: List<Chore>
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class Rule(
@@ -94,19 +93,25 @@ data class UpdateChoreBody(
 data class UpdateMember(
     val memberName: String,
     val profilePath: String
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class EditProfileModel(
     val memberName: String,
     val profilePath: String,
     val statusMessage: String
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class CreateFeedbackModel(
     val comment: String?,
-    val emoji : Int,
+    val emoji: Int,
     val houseCompleteId: Int
-):Parcelable
+) : Parcelable
+
+@Parcelize
+data class UrgeModel(
+    val houseworkId: Int,
+    val scheduledDate: String = "yyyy-MM-dd"
+) : Parcelable
 

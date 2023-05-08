@@ -5,7 +5,6 @@ import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -215,5 +214,9 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getFeedbackList(houseWorkCompleteId: Int): Flow<ApiResult<FeedbackListModel>> = safeFlow{
         apiService.getFeedbackList(houseWorkCompleteId = houseWorkCompleteId)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun urgeHousework(urgeModel: UrgeModel): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.urgeHousework(urgeModel)
     }.flowOn(ioDispatcher)
 }

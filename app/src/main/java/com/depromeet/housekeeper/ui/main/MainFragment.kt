@@ -160,19 +160,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWorkCompleteId ->
+            onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWork ->
                 if (success) {
                     if (isEmojiEmpty) {
-                        setFeedbackPopupMenu(true, houseWorkCompleteId)
+                        setFeedbackPopupMenu(true, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-204).dpToPx)
                     } else {
-                        setFeedbackPopupMenu(false, houseWorkCompleteId)
+                        setFeedbackPopupMenu(false, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-280).dpToPx)
                     }
                 } else {
                     if (isTimeOver) {
                         UrgeBottomDialog(
-                            onUrgeClick = {},
+                            onUrgeClick = {mainViewModel.urgeHousework(houseWork.houseWorkId,houseWork.scheduledDate)},
                         ).show(requireActivity().supportFragmentManager, "tag")
                     }
                 }

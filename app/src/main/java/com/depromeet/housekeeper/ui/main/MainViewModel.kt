@@ -7,6 +7,7 @@ import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.request.CreateFeedbackModel
+import com.depromeet.housekeeper.model.request.UrgeModel
 import com.depromeet.housekeeper.model.response.FeedbackListModel
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
@@ -383,6 +384,16 @@ class MainViewModel @Inject constructor(
                     if (result != null) {
                         _feedbackList.value = result
                     }
+                }
+        }
+    }
+
+    fun urgeHousework(houseWorkId: Int, scheduledDate : String) {
+        viewModelScope.launch {
+            mainRepository.urgeHousework(UrgeModel(houseWorkId,scheduledDate))
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    Timber.d("$result")
                 }
         }
     }

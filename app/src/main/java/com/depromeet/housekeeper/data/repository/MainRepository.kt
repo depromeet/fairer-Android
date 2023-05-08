@@ -80,4 +80,7 @@ class MainRepository @Inject constructor(
 
     suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>> =
         remoteDataSource.getFeedbackList(houseWorkCompleteId)
+
+    suspend fun urgeHousework(urgeModel: UrgeModel):Flow<ApiResult<Unit>> =
+        remoteDataSource.urgeHousework(urgeModel)
 }

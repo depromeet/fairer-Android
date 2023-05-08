@@ -155,4 +155,7 @@ interface ApiService {
 
     @GET("/api/feedback/houseworks/{houseWorkCompleteId}")
     suspend fun getFeedbackList(@Path("houseWorkCompleteId") houseWorkCompleteId:Int): FeedbackListModel
+
+    @POST("/api/fcm/hurry")
+    suspend fun urgeHousework(@Body urgeModel: UrgeModel)
 }
