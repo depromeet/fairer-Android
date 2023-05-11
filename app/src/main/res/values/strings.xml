@@ -228,4 +228,22 @@
     <string name="default_notification_channel_id">fairer-def59</string>
     <string name="fcm_add_member_title">%s님이 %s에 참여</string>
 
+    <!-- feedback string -->
+    <string name="feedback_urge_title">\'재촉하기\'를 누르면 상대방에게 \n해당 집안일을 재촉하는 알림이 갑니다.</string>
+    <string name="feedback_urge_button">재촉하기</string>
+    <string name="feedback_urge_button_cancel">취소</string>
+    <string name="feedback_return_title">피드백이 모두 삭제됩니다. 그래도 되돌리시겠습니까?</string>
+    <string name="feedback_return_botton">되돌리기</string>
+    <string name="feedback_return_button_cancel">취소</string>
+    <string name="feedback_text_feedback_title">텍스트 피드백 작성</string>
+    <string name="feedback_modify_text_feedback_title">텍스트 피드백 수정</string>
+    <string name="feedback_delete_text_feedback_title">텍스트 피드백 삭제</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name='text_feedback_button'>텍스트 피드백</string>
+    <string name="feedback_bottom_sheet_hint">피드백을 입력하세요</string>
+
+
 </resources>
