@@ -82,9 +82,10 @@
                     android:id="@+id/rv_ranking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="22dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:paddingHorizontal="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -137,6 +138,7 @@
                     android:clipToPadding="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:paddingBottom="60dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
