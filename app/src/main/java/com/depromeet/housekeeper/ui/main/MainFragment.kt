@@ -469,12 +469,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         popupWindow.setBackgroundDrawable(requireContext().getDrawable(R.drawable.popup_background))
         popupWindow.elevation = 10.0F
         if (isEmojiEmpty) {
-            (binding as PopupFeedbackMenuBinding).clDialogFeedbackUrgeTop.setOnClickListener {
+            (binding as PopupFeedbackMenuBinding).apply {
+                clDialogFeedbackUrgeTop.setOnClickListener {
                 showEditTextBottomSheet(houseWorkCompleteId)
             }
+                listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
+                    view.setOnClickListener {
+                        // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
+                        mainViewModel.createFeedback(null,index,houseWorkCompleteId!!)
+                    }
+                }
+            }
         } else {
-            (binding as PopupFeedbackMenuHasFeedbackBinding).clPopupFeedbackModify.setOnClickListener {
-                showEditTextBottomSheet(houseWorkCompleteId)
+            (binding as PopupFeedbackMenuHasFeedbackBinding).apply {
+                clPopupFeedbackModify.setOnClickListener {
+                    showEditTextBottomSheet(houseWorkCompleteId)
+                }
             }
         }
 

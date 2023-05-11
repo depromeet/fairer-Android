@@ -73,6 +73,7 @@ data class FeedbackListModel (
 data class FeedbackFindOneResponseDto (
     val comment: String="",
     val emoji: Int=0,
+    val feedbackId:Int =0,
     val memberName: String="",
     val profilePath: String=""
 )
