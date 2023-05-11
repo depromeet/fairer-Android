@@ -6,6 +6,9 @@ import com.depromeet.housekeeper.data.repository.MainRepository
 import com.depromeet.housekeeper.data.repository.UserRepository
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.request.CreateFeedbackModel
+import com.depromeet.housekeeper.model.request.UrgeModel
+import com.depromeet.housekeeper.model.response.FeedbackListModel
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
@@ -23,7 +26,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,8 +57,7 @@ class MainViewModel @Inject constructor(
 
     private val _startDateOfWeek: MutableStateFlow<String> = MutableStateFlow("") // 2022-08-14
     val startDateOfWeek
-    get() = _startDateOfWeek
-
+        get() = _startDateOfWeek
 
 
     /**
@@ -104,6 +107,14 @@ class MainViewModel @Inject constructor(
     val groups: MutableStateFlow<List<AssigneeSelect>>
         get() = _groups
 
+    /**
+     * Feedback 관련
+     */
+
+    private val _feedbackList: MutableStateFlow<FeedbackListModel?> = MutableStateFlow(null)
+    val feedbackList: StateFlow<FeedbackListModel?>
+        get() = _feedbackList
+
 
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
         calendar.set(Calendar.YEAR, year)
@@ -149,7 +160,8 @@ class MainViewModel @Inject constructor(
         updateStartDateOfWeek(localDate.toString())
         return getWeek()
     }
-    fun getSelectWeek():MutableList<DayOfWeek>{
+
+    fun getSelectWeek(): MutableList<DayOfWeek> {
         var localDate = LocalDate.parse(startDateOfWeek.value)
         updateStartDateOfWeek(localDate.toString())
         val days = mutableListOf<String>()
@@ -204,7 +216,7 @@ class MainViewModel @Inject constructor(
         _groups.value = newGroups
     }
 
-    fun setSelectedHouseWorkItem(houseWork: HouseWork?){
+    fun setSelectedHouseWorkItem(houseWork: HouseWork?) {
         _selectedHouseWorkItem.value = houseWork
     }
 
@@ -232,7 +244,14 @@ class MainViewModel @Inject constructor(
                         }
                         weekendChoresLeft.update { choreLeftMap }
                         _selectHouseWorks.value = result[dayOfWeek.value.date.substring(0, 10)]
-                        Timber.d("AddDirect ${dayOfWeek.value.date.substring(0, 10)} : ${selectHouseWorks.value}")
+                        Timber.d(
+                            "AddDirect ${
+                                dayOfWeek.value.date.substring(
+                                    0,
+                                    10
+                                )
+                            } : ${selectHouseWorks.value}"
+                        )
 
                     }
                 }
@@ -270,9 +289,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun cancelChoreComplete(houseWork: HouseWork){
+    fun cancelChoreComplete(houseWork: HouseWork) {
         viewModelScope.launch {
-            mainRepository.cancelChoreComplete(houseWork.houseWorkCompleteId!!).collectLatest{
+            mainRepository.cancelChoreComplete(houseWork.houseWorkCompleteId!!).collectLatest {
                 val result = receiveApiResult(it)
                 if (result != null) {
                     getHouseWorks()
@@ -285,7 +304,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             mainRepository.getDetailHouseWorks(houseWorkId).collectLatest {
                 val result = receiveApiResult(it)
-                if (result != null){
+                if (result != null) {
                     _selectedHouseWorkItem.value = result
                 }
             }
@@ -330,6 +349,52 @@ class MainViewModel @Inject constructor(
                 }
 
             }
+        }
+    }
+
+    fun createFeedback(comment: String?, emoji: Int, houseCompleteId: Int) {
+        viewModelScope.launch {
+            mainRepository.createFeedback(CreateFeedbackModel(comment, emoji, houseCompleteId))
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        getHouseWorks()
+                    }
+                }
+        }
+    }
+
+    fun updateFeedback(houseWorkId: Int, comment: String) {
+        viewModelScope.launch {
+            mainRepository.updateFeedback(houseWorkId, comment)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        getHouseWorks()
+                    }
+                }
+        }
+    }
+
+    fun getFeedbackList(houseWorkCompleteId: Int) {
+        viewModelScope.launch {
+            mainRepository.getFeedbackList(houseWorkCompleteId)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        _feedbackList.value = result
+                    }
+                }
+        }
+    }
+
+    fun urgeHousework(houseWorkId: Int, scheduledDate : String) {
+        viewModelScope.launch {
+            mainRepository.urgeHousework(UrgeModel(houseWorkId,scheduledDate))
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    Timber.d("$result")
+                }
         }
     }
 }

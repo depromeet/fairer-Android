@@ -80,16 +80,37 @@ object BindingAdapter {
         imageButton.isSelected = selected
     }
 
-    @androidx.databinding.BindingAdapter("app:rankBottomMargin")
+    @androidx.databinding.BindingAdapter("app:setFeedbackIcon")
     @JvmStatic
-    fun setBottomMargin(target: ImageView, rank: Int){
-        val params = target.layoutParams as ConstraintLayout.LayoutParams
-        when(rank){
-            1-> params.bottomMargin = R.dimen.item_rank_bottom_margin_1
-            2-> params.bottomMargin = R.dimen.item_rank_bottom_margin_2
-            3-> params.bottomMargin = R.dimen.item_rank_bottom_margin_3
+    fun setFeedbackIcon(imageView:ImageView,emojiNum : Int) {
+        when(emojiNum){
+            1 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_angry)
+            }
+            2 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_sad)
+            }
+            3 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_smile)
+            }
+            4 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_super_smile)
+            }
+            5 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_heart)
+            }
+            6 ->{
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_100)
+            }else->{
+            imageView.visibility = View.GONE
+            }
         }
-        target.layoutParams = params
     }
 
 }

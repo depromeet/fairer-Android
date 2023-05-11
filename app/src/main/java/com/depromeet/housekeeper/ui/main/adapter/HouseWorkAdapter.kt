@@ -5,15 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
+import com.depromeet.housekeeper.model.FeedbackCount
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
-    private val onDone: (HouseWork) -> Unit,
+    private val onDone: (HouseWork, Boolean) -> Unit,
+    private val onLongClick: (View, Boolean, Boolean, Boolean, HouseWork) -> Unit,
+    private val feedbackClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
 
@@ -38,7 +42,11 @@ class HouseWorkAdapter(
     }
 
     fun callDone(layoutPosition: Int) {
-        onDone.invoke(list[layoutPosition])
+        onDone.invoke(
+            list[layoutPosition],
+            isEmojiEmpty(list[layoutPosition].feedbackCountResponseDto!!)
+        )
+        notifyItemChanged(layoutPosition)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -83,12 +91,34 @@ class HouseWorkAdapter(
             binding.tvMainTitle.text = houseWork.houseWorkName
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
+            binding.houseworkFeedback = houseWork.feedbackCountResponseDto
 
-            binding.root.setOnClickListener {
+            if (!houseWork.success) {
+                binding.includeFeedback.root.visibility = View.GONE
+            } else {
+                binding.includeFeedback.root.visibility = View.VISIBLE
+            }
+
+            binding.flHouseWork.setOnClickListener {
                 onClick.invoke(houseWork)
+            }
+
+            binding.flHouseWork.setOnLongClickListener {
+                    onLongClick.invoke(
+                        binding.root,
+                        houseWork.success,
+                        getTimeOver(houseWork),
+                        houseWork.feedbackCountResponseDto!!.comment==0,
+                houseWork)
+                return@setOnLongClickListener true
             }
             val adapter = SmallProfileAdapter(houseWork.assignees.toMutableList())
             binding.rvProfileAdapter.adapter = adapter
+
+            binding.includeFeedback.root.setOnClickListener {
+                Timber.d("housework Id : ${houseWork.houseWorkCompleteId}")
+                feedbackClick.invoke(houseWork.houseWorkCompleteId)
+            }
 
 
         }
@@ -103,5 +133,13 @@ class HouseWorkAdapter(
                     format.format(Calendar.getInstance().time) > houseWork.scheduledTime
                 } else remoteFormat.format(Calendar.getInstance().time) > houseWork.scheduledDate
         }
+    }
+
+    private fun isEmojiEmpty(feedbackCount: FeedbackCount): Boolean {
+        var count: Int
+        feedbackCount.apply {
+            count = comment + emoji_1 + emoji_2 + emoji_3 + emoji_4 + emoji_5 + emoji_6
+        }
+        return count == 0
     }
 }
