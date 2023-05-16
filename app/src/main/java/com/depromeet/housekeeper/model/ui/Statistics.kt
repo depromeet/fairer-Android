@@ -14,7 +14,3 @@ data class Ranker(
     val member: Member,
     val houseWorkCnt: Int,
 )
-
-enum class Picker {
-    DATE_PICKER, MONTH_PICKER
-}
