@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.statistics
 
+import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
+import com.depromeet.housekeeper.ui.custom.dialog.MonthPickerDialog
 import com.depromeet.housekeeper.ui.statistics.adapter.StatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
 import com.depromeet.housekeeper.util.PrefsManager
@@ -33,7 +35,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         bindingVm()
     }
 
-    fun setAdapter(){
+    private fun setAdapter(){
         rankAdapter = RankAdapter()
         statsAdapter = StatsAdapter(mutableListOf())
 
@@ -43,7 +45,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.rvMonthlyStats.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    fun initView() {
+    private fun initView() {
         val yearMonthFormat = SimpleDateFormat("yyyy-MM")
         val yearMonth = yearMonthFormat.format(Date())
         viewModel.getStatistics(yearMonth)
@@ -56,10 +58,12 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.tvTitle.text =
             HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
 
-
+        binding.tvMonthTitle.setOnClickListener {
+            createMonthPickerDialog()
+        }
     }
 
-    fun bindingVm(){
+    private fun bindingVm(){
 
         lifecycleScope.launchWhenStarted {
             viewModel.statsFlow.collect{
@@ -85,6 +89,13 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     private fun setChoreCntTv(cnt: Int){
         binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, cnt), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun createMonthPickerDialog(){
+        val dialog = MonthPickerDialog{
+            Toast.makeText(requireContext(), "Happy Day~ :)", Toast.LENGTH_SHORT).show()
+        }
+        dialog.show(childFragmentManager, dialog.tag)
     }
 
 }
