@@ -32,10 +32,11 @@ class MonthPickerDialog(val onClickOk: ()-> Unit) : DialogFragment(){
         binding.monthPicker.setDisplayedValue(start, now)
 
         binding.btnCancel.setOnClickListener {
-            dialog?.dismiss()
+            dialog!!.dismiss()
         }
 
-        binding.btnCancel.setOnClickListener {
+        binding.btnOk.setOnClickListener {
+            dialog!!.dismiss()
             onClickOk()
         }
     }
