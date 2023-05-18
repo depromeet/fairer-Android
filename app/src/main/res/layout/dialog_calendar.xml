@@ -8,17 +8,19 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:orientation="vertical">
 
         <com.depromeet.housekeeper.ui.custom.timepicker.MonthPicker
             android:id="@+id/month_picker"
-            android:layout_width="match_parent"
+            android:layout_width="198dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="26dp"
+            android:theme="@style/MonthPickerTheme"
+            android:descendantFocusability="blocksDescendants"
             />
 
         <LinearLayout
@@ -32,12 +34,16 @@
                 android:layout_weight="1"
                 android:layout_height="36dp"
                 android:gravity="center"
-                android:background="@color/normal"
+                android:background="@drawable/bg_solid_5"
+                android:backgroundTint="@color/normal"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fairer_dialog_cancel_btn_text"
+                    android:textSize="11sp"
+                    android:textColor="@color/gray_800"
+                    android:textFontWeight="600"
                     />
             </LinearLayout>
             <View
@@ -50,12 +56,16 @@
                 android:layout_weight="1"
                 android:layout_height="36dp"
                 android:gravity="center"
-                android:background="@color/normal"
+                android:background="@drawable/bg_solid_5"
+                android:backgroundTint="@color/normal"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fairer_dialog_ok_btn_text"/>
+                    android:text="@string/fairer_dialog_ok_btn_text"
+                    android:textSize="11sp"
+                    android:textColor="@color/gray_800"
+                    android:textFontWeight="600"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -20,6 +20,7 @@ class MonthPickerDialog(val onClickOk: ()-> Unit) : DialogFragment(){
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.dialog_calendar, container, false)
+        dialog?.window?.setBackgroundDrawableResource(R.drawable.bg_dialog_r12)
         return binding.root
     }
 
