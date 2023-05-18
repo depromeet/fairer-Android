@@ -47,23 +47,22 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     }
 
     private fun initView() {
-        binding.tvMonthTitle.setOnClickListener {
-            createMonthPickerDialog()
-        }
+        setClickListener()
     }
 
     private fun bindingVm(){
         lifecycleScope.launchWhenStarted {
-            viewModel.currentDate.collectLatest {
+            viewModel.currentDate.collect {
                 val yearMonth = DateUtil.getHypenYearMonthString(it)
                 viewModel.getStatistics(yearMonth)
                 viewModel.getRanking(yearMonth)
+                Timber.d("yearMonth = ${yearMonth}")
 
                 val currentMonth = DateUtil.getMonthString(it)
                 binding.tvMonthTitle.text =
                     String.format(getString(R.string.statistics_month_title, currentMonth))
                 binding.tvTitle.text =
-                    HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
+                    HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY)
 
             }
         }
@@ -87,6 +86,22 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
             viewModel.totalChoreCnt.collectLatest {
                 setChoreCntTv(it)
             }
+        }
+    }
+
+    private fun setClickListener(){
+        binding.tvMonthTitle.setOnClickListener {
+            createMonthPickerDialog()
+        }
+
+        binding.btnMonthLeft.bringToFront()
+        binding.btnMonthLeft.setOnClickListener {
+            viewModel.setCurrentMonth(-1)
+        }
+
+        binding.btnMonthRight.bringToFront()
+        binding.btnMonthRight.setOnClickListener {
+            viewModel.setCurrentMonth(1)
         }
     }
 

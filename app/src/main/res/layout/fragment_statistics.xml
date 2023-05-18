@@ -34,6 +34,7 @@
                 />
 
             <ImageView
+                android:id="@+id/btn_month_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -41,9 +42,11 @@
                 android:src="@drawable/ic_left"
                 app:layout_constraintBottom_toBottomOf="@id/tv_month_title"
                 app:layout_constraintEnd_toStartOf="@id/tv_month_title"
-                app:layout_constraintTop_toTopOf="@id/tv_month_title" />
+                app:layout_constraintTop_toTopOf="@id/tv_month_title"
+                android:clickable="true"/>
 
             <ImageView
+                android:id="@+id/btn_month_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -51,7 +54,8 @@
                 android:src="@drawable/ic_right"
                 app:layout_constraintBottom_toBottomOf="@id/tv_month_title"
                 app:layout_constraintStart_toEndOf="@id/tv_month_title"
-                app:layout_constraintTop_toTopOf="@id/tv_month_title" />
+                app:layout_constraintTop_toTopOf="@id/tv_month_title"
+                android:clickable="true"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
