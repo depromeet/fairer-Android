@@ -11,6 +11,7 @@ import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
 import com.depromeet.housekeeper.ui.custom.dialog.MonthPickerDialog
 import com.depromeet.housekeeper.ui.statistics.adapter.StatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
+import com.depromeet.housekeeper.util.DateUtil
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -46,24 +47,26 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     }
 
     private fun initView() {
-        val yearMonthFormat = SimpleDateFormat("yyyy-MM")
-        val yearMonth = yearMonthFormat.format(Date())
-        viewModel.getStatistics(yearMonth)
-        viewModel.getRanking(yearMonth)
-
-        val monthFormat = SimpleDateFormat("MM")
-        val currentMonth: String = monthFormat.format(Date())
-        binding.tvMonthTitle.text =
-            String.format(getString(R.string.statistics_month_title, currentMonth))
-        binding.tvTitle.text =
-            HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
-
         binding.tvMonthTitle.setOnClickListener {
             createMonthPickerDialog()
         }
     }
 
     private fun bindingVm(){
+        lifecycleScope.launchWhenStarted {
+            viewModel.currentDate.collectLatest {
+                val yearMonth = DateUtil.getHypenYearMonthString(it)
+                viewModel.getStatistics(yearMonth)
+                viewModel.getRanking(yearMonth)
+
+                val currentMonth = DateUtil.getMonthString(it)
+                binding.tvMonthTitle.text =
+                    String.format(getString(R.string.statistics_month_title, currentMonth))
+                binding.tvTitle.text =
+                    HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
+
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.statsFlow.collect{

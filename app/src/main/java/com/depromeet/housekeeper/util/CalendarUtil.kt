@@ -4,10 +4,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object CalendarUtil {
-    val current: Calendar = Calendar.getInstance()
-    val yearMonthFormat = SimpleDateFormat("yyyy년 MM월")
+    private val yearMonthKorFormat = SimpleDateFormat("yyyy년 MM월")
 
-    fun getCalendarString(calendar: Calendar): String {
-        return yearMonthFormat.format(calendar.time)
+
+    fun getCalendarKorString(calendar: Calendar): String {
+        return yearMonthKorFormat.format(calendar.time)
     }
+
+
 }

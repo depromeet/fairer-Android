@@ -3,7 +3,7 @@ package com.depromeet.housekeeper.ui.custom.timepicker
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.NumberPicker
-import com.depromeet.housekeeper.util.CalendarUtil.getCalendarString
+import com.depromeet.housekeeper.util.CalendarUtil.getCalendarKorString
 import timber.log.Timber
 import java.util.Calendar
 
@@ -20,7 +20,7 @@ class MonthPicker(context: Context, attrs: AttributeSet) : NumberPicker(context,
         val monthList = mutableListOf<String>()
         val current: Calendar = start
         while (current <= end){
-            monthList.add(getCalendarString(current))
+            monthList.add(getCalendarKorString(current))
             current.add(Calendar.MONTH, 1)
         }
 

@@ -13,6 +13,8 @@ object DateUtil {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     val fullDateFormat = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
 
+    private val yearMonthHypenFormat = SimpleDateFormat("yyyy-MM")
+    private val monthFormat = SimpleDateFormat("MM")
 
     fun getCurrentStartDate(): String {
         val calendar: Calendar = Calendar.getInstance().apply {
@@ -80,6 +82,14 @@ object DateUtil {
             date = fullDateFormat.format(Date(System.currentTimeMillis())),
             isSelect = true
         )
+    }
+
+    fun getHypenYearMonthString(date: Date): String {
+        return yearMonthHypenFormat.format(date)
+    }
+
+    fun getMonthString(date: Date): String {
+        return monthFormat.format(date)
     }
 
 }
