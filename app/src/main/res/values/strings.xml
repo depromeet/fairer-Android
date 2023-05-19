@@ -246,5 +246,15 @@
     <string name='text_feedback_button'>텍스트 피드백</string>
     <string name="feedback_bottom_sheet_hint">피드백을 입력하세요</string>
 
+    <!-- roulette string -->
+    <string name="roulette_participant">참여자</string>
+    <string name="roulette_bottom_sheet_title">룰렛 참여자 선택</string>
+    <string name="roulette_result_title">오늘의 담당자</string>
+    <string name="roulette_result_content">님입니다</string>
+    <string name="roulette_dialog_title">뒤로 가면 룰렛이 취소 돼요.</string>
+    <string name="roulette_dialog_content">룰렛으로 담당자가 설정되지 않습니다.</string>
+    <string name="roulette_again_button">다시하기</string>
+    <string name="roulette_finish_button">끝내기</string>
+    <string name="roulette_cta_button">룰렛 돌리기</string>
 
 </resources>

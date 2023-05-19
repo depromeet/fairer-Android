@@ -117,4 +117,7 @@ object Dependencies {
 
     private const val FLEXBOX = "3.0.0"
     const val flexbox = "com.google.android.flexbox:flexbox:$FLEXBOX"
+
+    private const val ROULETTE = "0.3.0"
+    const val roulette =  "com.github.mmoamenn:LuckyWheel_Android:$ROULETTE"
 }
