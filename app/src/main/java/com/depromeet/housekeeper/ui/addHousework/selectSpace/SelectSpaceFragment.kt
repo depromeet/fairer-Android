@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
-import com.depromeet.housekeeper.model.FeedbackCount
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.RepeatCycle
@@ -188,7 +188,7 @@ class SelectSpaceFragment :
                     selectDate = viewModel.selectCalendar.value,
                     houseWork = HouseWork(
                         assignees = arrayListOf(),
-                        feedbackCountResponseDto = FeedbackCount(-1, -1, -1, -1, -1, -1, -1),
+                        feedbackHouseworkResponse = null,
                         houseWorkCompleteId = -1,
                         houseWorkId = -1,
                         houseWorkName = "",

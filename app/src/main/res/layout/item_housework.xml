@@ -7,8 +7,9 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="java.util.Map"/>
 
-        <import type="com.depromeet.housekeeper.model.FeedbackCount"/>
+        <import type="com.depromeet.housekeeper.model.FeedbackHouseworkResponse"/>
 
 
         <variable
@@ -21,7 +22,7 @@
 
         <variable
             name="houseworkFeedback"
-            type="FeedbackCount" />
+            type="Map&lt;String, FeedbackHouseworkResponse&gt;" />
 
     </data>
 

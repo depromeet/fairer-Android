@@ -4,12 +4,13 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="java.util.Map"/>
 
-        <import type="com.depromeet.housekeeper.model.FeedbackCount" />
+        <import type="com.depromeet.housekeeper.model.FeedbackHouseworkResponse" />
 
         <variable
             name="houseworkFeedback"
-            type="FeedbackCount" />
+            type="Map&lt;String, FeedbackHouseworkResponse&gt;"/>
     </data>
 
     <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,7 +31,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.comment==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['0'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.comment)}"
+                android:text="@{String.valueOf(houseworkFeedback['0'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -58,7 +59,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_1==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['1'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_1)}"
+                android:text="@{String.valueOf(houseworkFeedback['1'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -84,7 +85,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_2==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['2'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -95,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_2)}"
+                android:text="@{String.valueOf(houseworkFeedback['2'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -110,7 +111,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_3==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['3'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -121,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_3)}"
+                android:text="@{String.valueOf(houseworkFeedback['3'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -136,7 +137,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_4==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['4'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -147,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_4)}"
+                android:text="@{String.valueOf(houseworkFeedback['4'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -162,7 +163,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_5==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['5'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -173,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_5)}"
+                android:text="@{String.valueOf(houseworkFeedback['5'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -188,7 +189,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             android:paddingVertical="5dp"
-            android:visibility="@{houseworkFeedback.emoji_6==0?View.GONE:View.VISIBLE}">
+            android:visibility="@{houseworkFeedback['6'].feedbackNum==0?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:layout_width="20dp"
@@ -199,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{String.valueOf(houseworkFeedback.emoji_6)}"
+                android:text="@{String.valueOf(houseworkFeedback['6'].feedbackNum)}"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>

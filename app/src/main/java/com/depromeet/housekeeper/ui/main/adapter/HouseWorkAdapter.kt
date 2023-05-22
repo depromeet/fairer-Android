@@ -1,11 +1,11 @@
 package com.depromeet.housekeeper.ui.main.adapter
 
-import android.view.LayoutInflater
+import  android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
-import com.depromeet.housekeeper.model.FeedbackCount
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import timber.log.Timber
@@ -44,7 +44,7 @@ class HouseWorkAdapter(
     fun callDone(layoutPosition: Int) {
         onDone.invoke(
             list[layoutPosition],
-            isEmojiEmpty(list[layoutPosition].feedbackCountResponseDto!!)
+            isEmojiEmpty(list[layoutPosition].feedbackHouseworkResponse!!)
         )
         notifyItemChanged(layoutPosition)
     }
@@ -91,7 +91,7 @@ class HouseWorkAdapter(
             binding.tvMainTitle.text = houseWork.houseWorkName
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
-            binding.houseworkFeedback = houseWork.feedbackCountResponseDto
+            binding.houseworkFeedback = houseWork.feedbackHouseworkResponse!!
 
             if (!houseWork.success) {
                 binding.includeFeedback.root.visibility = View.GONE
@@ -108,7 +108,7 @@ class HouseWorkAdapter(
                         binding.root,
                         houseWork.success,
                         getTimeOver(houseWork),
-                        houseWork.feedbackCountResponseDto!!.comment==0,
+                        houseWork.feedbackHouseworkResponse!!["0"]?.myFeedback==false,
                 houseWork)
                 return@setOnLongClickListener true
             }
@@ -135,11 +135,9 @@ class HouseWorkAdapter(
         }
     }
 
-    private fun isEmojiEmpty(feedbackCount: FeedbackCount): Boolean {
-        var count: Int
-        feedbackCount.apply {
-            count = comment + emoji_1 + emoji_2 + emoji_3 + emoji_4 + emoji_5 + emoji_6
-        }
-        return count == 0
+    private fun isEmojiEmpty(feedbackHouseworkResponse: Map<String, FeedbackHouseworkResponse>): Boolean {
+        val totalFeedbackNum = feedbackHouseworkResponse.values.sumOf { it.feedbackNum }
+        Timber.d("${feedbackHouseworkResponse["0"]!!.feedbackNum}");
+        return totalFeedbackNum == 0
     }
 }
