@@ -13,8 +13,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AssigneeBottomSheetDialog(
     val allGroup: ArrayList<Assignee>,
-    private val curAssignees: ArrayList<Assignee>
-) : BottomSheetDialogFragment() {
+    private val curAssignees: ArrayList<Assignee>,
+    private val onClick: (() -> Unit)?
+    ) : BottomSheetDialogFragment() {
     lateinit var binding: FragmentAssigneeBottomSheetDialogBinding
     lateinit var bottomSheetAssigneeAdapter: BottomSheetAssigneeAdapter
     private lateinit var mOkBtnClickListener: MyOkBtnClickListener
@@ -52,6 +53,9 @@ class AssigneeBottomSheetDialog(
     private fun setAdapter() {
         bottomSheetAssigneeAdapter = BottomSheetAssigneeAdapter(allGroup, curAssignees)
         binding.bottomSheetAssigneeRv.adapter = bottomSheetAssigneeAdapter
+        if(onClick==null){
+            binding.clRoulette.visibility = View.GONE
+        }
     }
 
     private fun initClickListener() {
@@ -75,6 +79,10 @@ class AssigneeBottomSheetDialog(
                     ).show()
                 }
             }
+        }
+
+        binding.clRoulette.setOnClickListener {
+            onClick?.invoke()
         }
     }
 

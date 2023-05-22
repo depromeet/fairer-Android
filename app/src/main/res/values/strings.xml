@@ -256,5 +256,6 @@
     <string name="roulette_again_button">다시하기</string>
     <string name="roulette_finish_button">끝내기</string>
     <string name="roulette_cta_button">룰렛 돌리기</string>
+    <string name="bottom_sheet_roulette">룰렛으로 정하기</string>
 
 </resources>

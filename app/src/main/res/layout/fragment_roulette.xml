@@ -183,7 +183,6 @@
         <include
             android:id="@+id/cta_btn"
             layout="@layout/layout_main_footer_button"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -202,6 +201,7 @@
             android:text="@string/roulette_again_button"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/roulette_finish_button"
@@ -221,6 +221,7 @@
             android:text="@string/roulette_finish_button"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/roulette_again_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

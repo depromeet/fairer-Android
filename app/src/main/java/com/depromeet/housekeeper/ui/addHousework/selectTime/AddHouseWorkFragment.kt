@@ -337,7 +337,8 @@ class AddHouseWorkFragment :
     private fun createBottomSheet() {
         val bottomSheet = AssigneeBottomSheetDialog(
             allGroup = viewModel.allGroupInfo.value,
-            curAssignees = viewModel.curAssignees.value
+            curAssignees = viewModel.curAssignees.value,
+            onClick = { findNavController().navigate(R.id.action_addDirectTodoFragment_to_rouletteFragment) }
         )
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
         bottomSheet.setMyOkBtnClickListener(object :
