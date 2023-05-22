@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
         <View
             android:layout_width="match_parent"
             android:layout_height="400dp"
@@ -54,8 +55,9 @@
                     android:id="@+id/lwv"
                     android:layout_width="210dp"
                     android:layout_height="210dp"
-                    app:background_color="@color/fairer_blue"
                     app:arrow_image="@drawable/ic_roulette_marker"
+                    app:background_color="@android:color/transparent"
+                    app:circularflow_angles="90.0"
                     app:layout_constraintBottom_toBottomOf="@+id/v_white_circle"
                     app:layout_constraintEnd_toEndOf="@+id/v_white_circle"
                     app:layout_constraintStart_toStartOf="@+id/v_white_circle"
@@ -67,16 +69,16 @@
                 android:id="@+id/ll_participant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/add_house_work_assignee_tv"
-                    style="@style/Caption.C1"
+                    style="@style/Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="48dp"
                     android:text="@string/roulette_participant"
+                    android:textSize="16sp"
                     android:textColor="@color/gray_600"
                     android:textStyle="bold" />
 
@@ -114,6 +116,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical">
 
                 <ImageView
