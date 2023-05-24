@@ -11,7 +11,6 @@ import com.depromeet.housekeeper.ui.custom.dialog.MonthPickerDialog
 import com.depromeet.housekeeper.ui.statistics.adapter.StatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
 import com.depromeet.housekeeper.util.DateUtil
-import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -58,9 +57,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
                 val currentMonth = DateUtil.getMonthString(it)
                 binding.tvMonthTitle.text =
                     String.format(getString(R.string.statistics_month_title, currentMonth))
-                binding.tvTitle.text =
-                    HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY)
-
             }
         }
 
@@ -73,6 +69,15 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
         lifecycleScope.launchWhenStarted {
             viewModel.rankFlow.collectLatest {
+                if (it.isEmpty()){
+                    setTitleTv(null)
+                } else {
+                    val names: List<String> = it.filter { ranker ->  ranker.rank == 1}.map {
+                        it.member.memberName
+                    }
+                    Timber.d("names : $names")
+                    setTitleTv(names.toString().substring(1, names.toString().length-1))
+                }
                 rankAdapter.submitList(ArrayList(it))
                 Timber.d("rank: ${it}")
             }
@@ -105,6 +110,12 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     private fun setChoreCntTv(cnt: Int){
         binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, cnt), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun setTitleTv(name: String?){
+        binding.tvTitle.text =
+            if (name.isNullOrBlank()) getString(R.string.statistics_title_empty)
+            else HtmlCompat.fromHtml(getString(R.string.statistics_title, name), HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
     private fun createMonthPickerDialog(){

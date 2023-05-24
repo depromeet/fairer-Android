@@ -94,6 +94,7 @@
     <!-- StatisticsFragment -->
     <string name="statistics_month_title">%s월 통계</string>
     <string name="statistics_title">이번달 &lt;font color="#0C6DFF">%s&lt;/font>님이 &lt;br>가장 많은 집안일을 완료했어요!</string>
+    <string name="statistics_title_empty">이번달에 완료하신 집안일이 없습니다🥲</string>
     <string name="statistics_check_info">이번달 집안일 현황을 확인해보세요</string>
     <string name="statistics_total_chores">전체 집안일 수행 &lt;font color="#0C6DFF">%d회 &lt;/font></string>
     <string name="statistics_count">%d개</string>
