@@ -126,10 +126,10 @@
     <string name="join_group_main_text">안녕하세요. %s님!\n새로 하우스를 만들거나 참여해주세요.</string>
     <string name="join_group_make_space">집안일 하우스 생성</string>
     <string name="join_group_make_space_button">집안일 하우스 만들기</string>
-    <string name="join_group_make_space_info">개인 혹은 여러명이 집안일을 관리할 수 있는 하우스를 만들 수 있습니다.</string>
+    <string name="join_group_make_space_info">개인 혹은 여러명이 집안일을 관리할 수 있는\n하우스를 만들 수 있습니다.</string>
     <string name="join_group_join_space">하우스 참여</string>
     <string name="join_group_join_space_button">집안일 하우스 참여하기</string>
-    <string name="join_group_join_space_info">기존에 만들어진 하우스에 참여하고 싶다면 선택해주세요.</string>
+    <string name="join_group_join_space_info">기존에 만들어진 하우스에 참여하고 싶다면\n선택해주세요.</string>
 
     <!-- settingFragment -->
     <string name="setting_header_title">설정</string>

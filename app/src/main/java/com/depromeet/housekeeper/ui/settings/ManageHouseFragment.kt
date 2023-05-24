@@ -37,7 +37,7 @@ class ManageHouseFragment : BaseFragment<FragmentManageHouseBinding>(R.layout.fr
             viewModel.response.collect {
                 if (it) {
                     Timber.d("leave Team response : $it")
-                    findNavController().navigate(ManageHouseFragmentDirections.actionManageHouseFragmentToJoinGroupFragment())
+                    findNavController().navigate(R.id.action_manageHouseFragment_to_joinGroupFragment)
                 }
             }
         }
