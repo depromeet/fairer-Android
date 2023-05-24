@@ -208,8 +208,8 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.createFeedback(feedbackModel =  feedbackModel)
     }.flowOn(ioDispatcher)
 
-    override suspend fun updateFeedback(houseworkCompleteId: Int): Flow<ApiResult<Unit>> = safeFlow{
-        apiService.updateFeedback(houseworkCompleteId = houseworkCompleteId)
+    override suspend fun updateFeedback(houseworkCompleteId: Int,comment:String): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.updateFeedback(houseworkCompleteId = houseworkCompleteId,comment=Comment(comment))
     }.flowOn(ioDispatcher)
 
     override suspend fun getFeedbackList(houseWorkCompleteId: Int): Flow<ApiResult<FeedbackListModel>> = safeFlow{
@@ -218,5 +218,9 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun urgeHousework(urgeModel: UrgeModel): Flow<ApiResult<Unit>> = safeFlow{
         apiService.urgeHousework(urgeModel)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun deleteFeedback(feedbackId:Int): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.deleteFeedback(feedbackId)
     }.flowOn(ioDispatcher)
 }

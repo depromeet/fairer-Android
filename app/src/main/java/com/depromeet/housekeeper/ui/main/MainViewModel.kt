@@ -26,8 +26,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -371,6 +370,18 @@ class MainViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result != null) {
                         getHouseWorks()
+                    }
+                }
+        }
+    }
+    fun deleteFeedback(feedbackId:Int){
+        viewModelScope.launch {
+            mainRepository.deleteFeedback(feedbackId)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        getHouseWorks()
+                        Timber.d("삭제완료")
                     }
                 }
         }

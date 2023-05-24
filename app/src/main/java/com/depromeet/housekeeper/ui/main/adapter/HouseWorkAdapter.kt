@@ -16,7 +16,7 @@ class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
     private val onDone: (HouseWork, Boolean) -> Unit,
-    private val onLongClick: (View, Boolean, Boolean, Boolean, HouseWork) -> Unit,
+    private val onLongClick: (View, Boolean, Boolean, HouseWork) -> Unit,
     private val feedbackClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
@@ -117,7 +117,6 @@ class HouseWorkAdapter(
                         binding.root,
                         houseWork.success,
                         getTimeOver(houseWork),
-                        isEmojiEmpty(houseWork.feedbackHouseworkResponse),
                 houseWork)
                 return@setOnLongClickListener true
             }

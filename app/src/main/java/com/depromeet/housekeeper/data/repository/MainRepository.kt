@@ -76,11 +76,14 @@ class MainRepository @Inject constructor(
         remoteDataSource.createFeedback(feedbackModel)
 
     suspend fun updateFeedback(houseworkCompleteId:Int,comment:String):Flow<ApiResult<Unit>> =
-        remoteDataSource.updateFeedback(houseworkCompleteId)
+        remoteDataSource.updateFeedback(houseworkCompleteId,comment)
 
     suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>> =
         remoteDataSource.getFeedbackList(houseWorkCompleteId)
 
     suspend fun urgeHousework(urgeModel: UrgeModel):Flow<ApiResult<Unit>> =
         remoteDataSource.urgeHousework(urgeModel)
+
+    suspend fun deleteFeedback(feedbackId:Int):Flow<ApiResult<Unit>> =
+        remoteDataSource.deleteFeedback(feedbackId)
 }

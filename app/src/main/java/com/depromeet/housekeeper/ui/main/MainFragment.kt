@@ -31,6 +31,7 @@ import com.depromeet.housekeeper.databinding.PopupFeedbackMenuBinding
 import com.depromeet.housekeeper.databinding.PopupFeedbackMenuHasFeedbackBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.response.FeedbackFindOneResponseDto
@@ -161,14 +162,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWork ->
+            onLongClick = { view, success, isTimeOver, houseWork ->
                 if (success) {
                     if (houseWork.feedbackHouseworkResponse?.get("0")?.myFeedback != true) {
-                        setFeedbackPopupMenu(0, houseWork.houseWorkCompleteId)
+                        setFeedbackPopupMenu(houseWork, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-204).dpToPx)
                     } else {
-                        setFeedbackPopupMenu(0, houseWork.houseWorkCompleteId)
-                        popupWindow.showAsDropDown(view, 0, (-280).dpToPx)
+                        setFeedbackPopupMenu(houseWork, houseWork.houseWorkCompleteId)
+                        popupWindow.showAsDropDown(view, 0, (-290).dpToPx)
                     }
                 } else {
                     if (isTimeOver) {
@@ -449,15 +450,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         datePickerDialog.show()
     }
 
-    private fun setFeedbackPopupMenu(feedbackNum:Int?, houseWorkCompleteId: Int?) {
+    private fun setFeedbackPopupMenu(houseWork: HouseWork, houseWorkCompleteId: Int?) {
         val binding =
-            if (feedbackNum!=0) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
+            if (houseWork.feedbackHouseworkResponse?.get("0")?.myFeedback == false
+            ) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
                 layoutInflater
             )
-        if (feedbackNum == null) {
+        if (findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!) == null) {
             (binding as PopupFeedbackMenuBinding).selectedNum = -1
-        } else if (feedbackNum != 0) {
-            (binding as PopupFeedbackMenuBinding).selectedNum = feedbackNum
+        } else if (findTrueMyFeedback(houseWork.feedbackHouseworkResponse) != 0) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = findTrueMyFeedback(houseWork.feedbackHouseworkResponse)!!
         }
 
 
@@ -476,10 +478,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         popupWindow.isFocusable = true
         popupWindow.setBackgroundDrawable(requireContext().getDrawable(R.drawable.popup_background))
         popupWindow.elevation = 10.0F
-        if (feedbackNum!=0) {
+        if (houseWork.feedbackHouseworkResponse["0"]?.myFeedback == false) {
             (binding as PopupFeedbackMenuBinding).apply {
                 clDialogFeedbackUrgeTop.setOnClickListener {
-                showEditTextBottomSheet(houseWorkCompleteId)
+                showEditTextBottomSheet(false,houseWorkCompleteId)
             }
                 listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
                     view.setOnClickListener {
@@ -492,7 +494,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         } else {
             (binding as PopupFeedbackMenuHasFeedbackBinding).apply {
                 clPopupFeedbackModify.setOnClickListener {
-                    showEditTextBottomSheet(houseWorkCompleteId)
+                    showEditTextBottomSheet(true,houseWorkCompleteId)
+                }
+
+                clDialogFeedbackDelete.setOnClickListener {
+                    mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse["0"]!!.feedbackId)
+                    popupWindow.dismiss()
                 }
                 listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
                     view.setOnClickListener {
@@ -506,7 +513,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
-    private fun showEditTextBottomSheet(houseWorkCompleteId: Int?) {
+    private fun showEditTextBottomSheet(hasTextFeedback : Boolean,houseWorkCompleteId: Int?) {
         val textBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
         val bottomSheetView =
@@ -544,7 +551,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 if (it.length <= 16) {
                     EditTextUtil.hideKeyboard(requireContext(), this)
                     if (houseWorkCompleteId != null) {
-                        mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                        if(hasTextFeedback){
+                            mainViewModel.updateFeedback(houseWorkCompleteId,it)
+                        }
+                        else{
+                            mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                        }
                     }
                     textBottomSheet.dismiss()
                     popupWindow.dismiss()
@@ -593,6 +605,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         })
         feedbackBottomSheet.show()
     }
+    private fun findTrueMyFeedback(map: Map<String, FeedbackHouseworkResponse>): Int? {
+        for (i in 0..6) {
+            val key = i.toString()
+            val response = map[key]
+            if (response != null && response.myFeedback) {
+                return i
+            }
+        }
+        return null
+    }
+
 
 
 }
