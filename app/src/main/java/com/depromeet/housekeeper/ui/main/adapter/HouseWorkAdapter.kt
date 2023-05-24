@@ -91,7 +91,16 @@ class HouseWorkAdapter(
             binding.tvMainTitle.text = houseWork.houseWorkName
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
-            binding.houseworkFeedback = houseWork.feedbackHouseworkResponse!!
+            if(houseWork.feedbackHouseworkResponse!=null){
+                binding.includeFeedback.houseworkFeedback0 = houseWork.feedbackHouseworkResponse["0"]
+                binding.includeFeedback.houseworkFeedback1 = houseWork.feedbackHouseworkResponse["1"]
+                binding.includeFeedback.houseworkFeedback2 = houseWork.feedbackHouseworkResponse["2"]
+                binding.includeFeedback.houseworkFeedback3 = houseWork.feedbackHouseworkResponse["3"]
+                binding.includeFeedback.houseworkFeedback4 = houseWork.feedbackHouseworkResponse["4"]
+                binding.includeFeedback.houseworkFeedback5 = houseWork.feedbackHouseworkResponse["5"]
+                binding.includeFeedback.houseworkFeedback6 = houseWork.feedbackHouseworkResponse["6"]
+            }
+
 
             if (!houseWork.success) {
                 binding.includeFeedback.root.visibility = View.GONE

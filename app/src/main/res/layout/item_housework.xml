@@ -9,8 +9,6 @@
         <import type="android.view.View" />
         <import type="java.util.Map"/>
 
-        <import type="com.depromeet.housekeeper.model.FeedbackHouseworkResponse"/>
-
 
         <variable
             name="isOver"
@@ -20,9 +18,6 @@
             name="success"
             type="boolean" />
 
-        <variable
-            name="houseworkFeedback"
-            type="Map&lt;String, FeedbackHouseworkResponse&gt;" />
 
     </data>
 
@@ -147,7 +142,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:itemCount="6"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_small_profile" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -156,7 +151,6 @@
         <include
             android:id="@+id/include_feedback"
             layout="@layout/item_housework_feedback"
-            bind:houseworkFeedback="@{houseworkFeedback}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>

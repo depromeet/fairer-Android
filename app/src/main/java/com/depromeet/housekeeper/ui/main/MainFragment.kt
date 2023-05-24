@@ -476,7 +476,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
                     view.setOnClickListener {
                         // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
-                        mainViewModel.createFeedback(null,index,houseWorkCompleteId!!)
+                        mainViewModel.createFeedback(null,index+1,houseWorkCompleteId!!)
+                        popupWindow.dismiss()
                     }
                 }
             }
