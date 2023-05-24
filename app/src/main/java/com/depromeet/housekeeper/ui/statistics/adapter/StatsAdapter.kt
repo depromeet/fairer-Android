@@ -1,14 +1,18 @@
 package com.depromeet.housekeeper.ui.statistics.adapter
 
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.ItemStatisticsBinding
 import com.depromeet.housekeeper.model.ui.Stats
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.android.gms.common.internal.ResourceUtils
 import timber.log.Timber
 
 
@@ -25,7 +29,7 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
                 tvTotalChores.text = String.format(totalCnt)
                 val flexboxLayoutManager = FlexboxLayoutManager(binding.root.context).apply {
                     flexDirection = FlexDirection.ROW
-                    justifyContent = JustifyContent.SPACE_BETWEEN
+                    justifyContent = JustifyContent.FLEX_START
                 }
                 rvMemberList.layoutManager = flexboxLayoutManager
                 rvMemberList.adapter = StatsMemberAdapter(item.members)

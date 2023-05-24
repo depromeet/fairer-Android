@@ -26,7 +26,7 @@ class StatsMemberAdapter(val list: List<HouseWorkStatsMember>) :
                 name = item.member.memberName
                 cnt = item.houseWorkCount
 
-                if (list[0] == item){ // 백엔드에서 sort해서 제공해줌
+                if (list[0].houseWorkCount == item.houseWorkCount){ // 백엔드에서 sort해서 제공해줌
                     tvCnt.setTextColor(ContextCompat.getColor(binding.root.context, R.color.highlight))
                     tvCnt.setTypeface(tvCnt.typeface, Typeface.BOLD)
                 }
@@ -45,6 +45,5 @@ class StatsMemberAdapter(val list: List<HouseWorkStatsMember>) :
     override fun getItemCount(): Int {
         return list.size
     }
-
 
 }
