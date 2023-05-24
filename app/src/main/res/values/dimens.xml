@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="item_rank_bottom_margin_0">0dp</dimen>
     <dimen name="item_rank_bottom_margin_1">7dp</dimen>
     <dimen name="item_rank_bottom_margin_2">3dp</dimen>
     <dimen name="item_rank_bottom_margin_3">-1dp</dimen>
+    <dimen name="item_rank_top_margin_0">0dp</dimen>
     <dimen name="item_rank_top_margin_2">8dp</dimen>
     <dimen name="item_rank_top_margin_3">16dp</dimen>
 </resources>

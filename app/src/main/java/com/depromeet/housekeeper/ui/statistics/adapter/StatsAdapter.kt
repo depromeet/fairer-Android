@@ -71,6 +71,5 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
     fun clearList(){
         list.clear()
         notifyDataSetChanged()
-        Timber.d("list : $list")
     }
 }

@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.statistics
 
-import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -76,7 +75,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
             viewModel.rankFlow.collectLatest {
                 rankAdapter.submitList(ArrayList(it))
                 Timber.d("rank: ${it}")
-                rankAdapter.notifyDataSetChanged()
             }
         }
 
@@ -113,7 +111,6 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         val dialog = MonthPickerDialog{
             viewModel.setCurrentDate(it)
             statsAdapter.clearList()
-            Toast.makeText(requireContext(), "Happy Day~ :)", Toast.LENGTH_SHORT).show()
         }
         dialog.show(childFragmentManager, dialog.tag)
     }

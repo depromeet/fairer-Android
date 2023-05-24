@@ -1,7 +1,5 @@
 package com.depromeet.housekeeper.ui.statistics
 
-import android.icu.util.Calendar
-import android.text.format.DateUtils
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.StatisticsRepository
@@ -31,14 +29,15 @@ class StatisticsViewModel @Inject constructor(
     private var _currentDate: MutableStateFlow<Date> = MutableStateFlow(Date())
     val currentDate: StateFlow<Date> get() = _currentDate
 
-    fun setCurrentDate(mm: Int){
-        val nDate = Date(currentDate.value.time) //그냥 객체에서 mm 바꾸면 객체 주소는 그대로라 stateFlow update 안되어서 새로운 Date 객체 만듦
+    fun setCurrentDate(mm: Int) {
+        val nDate =
+            Date(currentDate.value.time) //그냥 객체에서 mm 바꾸면 객체 주소는 그대로라 stateFlow update 안되어서 새로운 Date 객체 만듦
         nDate.month += mm
         _currentDate.value = nDate
         Timber.d("${currentDate.value.month}")
     }
 
-    fun setCurrentDate(date: Date){
+    fun setCurrentDate(date: Date) {
         _currentDate.value = date
     }
 
@@ -53,15 +52,17 @@ class StatisticsViewModel @Inject constructor(
                 _totalChoreCnt.value = result.statisticsList.size
                 Timber.d("totalChoreCnt: ${_totalChoreCnt.value}")
 
-                result.statisticsList.forEach {  status ->
-                    statsRepository.getHoseWorkStatistics(status.houseWorkName, yearMonth).collectLatest {
-                        val result = receiveApiResult(it) ?: return@collectLatest
-                        val stats = Stats(
-                            houseWorkName = status.houseWorkName,
-                            totalCount = status.houseWorkCount,
-                            members = result.houseWorkStatisticsList,)
-                        _statsFlow.emit(stats)
-                    }
+                result.statisticsList.forEach { status ->
+                    statsRepository.getHoseWorkStatistics(status.houseWorkName, yearMonth)
+                        .collectLatest {
+                            val result = receiveApiResult(it) ?: return@collectLatest
+                            val stats = Stats(
+                                houseWorkName = status.houseWorkName,
+                                totalCount = status.houseWorkCount,
+                                members = result.houseWorkStatisticsList,
+                            )
+                            _statsFlow.emit(stats)
+                        }
                 }
             }
         }
@@ -74,16 +75,45 @@ class StatisticsViewModel @Inject constructor(
 
                 val size = result.houseWorkStatisticsList.size
                 val list = mutableListOf<Ranker>()
-                //todo rank (houseWorkCount 같을 때 처리)
-                for (i: Int in 1..size) {
-                    val cur = result.houseWorkStatisticsList[i-1]
+                val topList = result.houseWorkStatisticsList.map {
+                    it.houseWorkCount
+                }.distinct().take(3)
+                Timber.d("ranking topList: $topList")
+
+                var st = 0
+                for (i: Int in topList.indices) {
+                    var j: Int = st
+                    while (j < size) {
+                        if (result.houseWorkStatisticsList[j].houseWorkCount == topList[i]) {
+                            list.add(
+                                Ranker(
+                                    i + 1,
+                                    result.houseWorkStatisticsList[j].member,
+                                    result.houseWorkStatisticsList[j].houseWorkCount
+                                )
+                            )
+                        } else {
+                            st = j
+                            break
+                        }
+                        j++
+                    }
+                    if (j == size) st = size
+                }
+
+                Timber.d("ranking: ${list.size}, ${st}")
+
+                for (i: Int in st until size) {
+                    val cur = result.houseWorkStatisticsList[i]
                     val ranker = Ranker(
-                        rank = i,
+                        rank = 0,
                         member = cur.member,
                         houseWorkCnt = cur.houseWorkCount
                     )
                     list.add(ranker)
                 }
+
+
                 _rankFlow.emit(list)
             }
         }
