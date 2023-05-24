@@ -8,9 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.databinding.DialogCalendarBinding
-import java.util.Calendar
+import timber.log.Timber
+import java.util.*
 
-class MonthPickerDialog(val onClickOk: ()-> Unit) : DialogFragment(){
+class MonthPickerDialog(val onClickOk: (date: Date)-> Unit) : DialogFragment(){
     private var _binding: DialogCalendarBinding? = null
     val binding get() = _binding!!
 
@@ -30,7 +31,7 @@ class MonthPickerDialog(val onClickOk: ()-> Unit) : DialogFragment(){
         val start = Calendar.getInstance() // todo 임시
         start.add(Calendar.YEAR, -1) // 임시
         val now = Calendar.getInstance()
-        binding.monthPicker.setDisplayedValue(start, now)
+        //binding.monthPicker.setDisplayedValue(start, now)
 
         binding.btnCancel.setOnClickListener {
             dialog!!.dismiss()
@@ -38,7 +39,14 @@ class MonthPickerDialog(val onClickOk: ()-> Unit) : DialogFragment(){
 
         binding.btnOk.setOnClickListener {
             dialog!!.dismiss()
-            onClickOk()
+            val yearMonth: String = binding.monthPicker.getValueString()
+
+            val date = Date()
+            date.year = yearMonth.substring(0,4).toInt() - 1900
+            Timber.d("yearMonth : ${yearMonth.substring(6, yearMonth.length-1)}")
+            date.month = yearMonth.substring(6, yearMonth.length-1).toInt() -1
+
+            onClickOk(date)
         }
     }
 

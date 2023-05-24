@@ -16,8 +16,6 @@ import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -96,12 +94,12 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
         binding.btnMonthLeft.bringToFront()
         binding.btnMonthLeft.setOnClickListener {
-            viewModel.setCurrentMonth(-1)
+            viewModel.setCurrentDate(-1)
         }
 
         binding.btnMonthRight.bringToFront()
         binding.btnMonthRight.setOnClickListener {
-            viewModel.setCurrentMonth(1)
+            viewModel.setCurrentDate(1)
         }
     }
 
@@ -111,6 +109,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
     private fun createMonthPickerDialog(){
         val dialog = MonthPickerDialog{
+            viewModel.setCurrentDate(it)
             Toast.makeText(requireContext(), "Happy Day~ :)", Toast.LENGTH_SHORT).show()
         }
         dialog.show(childFragmentManager, dialog.tag)
