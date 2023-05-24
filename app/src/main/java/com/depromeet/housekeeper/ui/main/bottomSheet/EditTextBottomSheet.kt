@@ -43,8 +43,4 @@ class EditTextBottomSheet(): BottomSheetDialogFragment() {
         })
         return view
     }
-
-    companion object {
-        const val TAG = "ModalBottomSheet"
-    }
 }

@@ -7,6 +7,7 @@ import android.text.util.Linkify
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
@@ -78,6 +79,12 @@ object BindingAdapter {
     @JvmStatic
     fun setSelected(imageButton: ImageButton, selected: Boolean) {
         imageButton.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:setLinearLayoutSelected")
+    @JvmStatic
+    fun setLinearLayoutSelected(layout: LinearLayout, selected: Boolean) {
+        layout.isSelected = selected
     }
 
     @androidx.databinding.BindingAdapter("app:setFeedbackIcon")
