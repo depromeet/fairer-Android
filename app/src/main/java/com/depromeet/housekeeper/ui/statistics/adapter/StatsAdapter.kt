@@ -64,7 +64,13 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
     }
 
     fun submitItem(stats: Stats){
-        list.add( stats)
+        list.add(stats)
         notifyItemInserted(list.size-1)
+    }
+
+    fun clearList(){
+        list.clear()
+        notifyDataSetChanged()
+        Timber.d("list : $list")
     }
 }

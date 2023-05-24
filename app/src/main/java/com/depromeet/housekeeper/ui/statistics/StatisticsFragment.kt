@@ -94,11 +94,13 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
         binding.btnMonthLeft.bringToFront()
         binding.btnMonthLeft.setOnClickListener {
+            statsAdapter.clearList()
             viewModel.setCurrentDate(-1)
         }
 
         binding.btnMonthRight.bringToFront()
         binding.btnMonthRight.setOnClickListener {
+            statsAdapter.clearList()
             viewModel.setCurrentDate(1)
         }
     }
@@ -110,6 +112,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     private fun createMonthPickerDialog(){
         val dialog = MonthPickerDialog{
             viewModel.setCurrentDate(it)
+            statsAdapter.clearList()
             Toast.makeText(requireContext(), "Happy Day~ :)", Toast.LENGTH_SHORT).show()
         }
         dialog.show(childFragmentManager, dialog.tag)
