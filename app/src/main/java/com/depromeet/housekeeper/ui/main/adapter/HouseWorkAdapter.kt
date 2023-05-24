@@ -117,7 +117,7 @@ class HouseWorkAdapter(
                         binding.root,
                         houseWork.success,
                         getTimeOver(houseWork),
-                        houseWork.feedbackHouseworkResponse!!["0"]?.myFeedback==false,
+                        isEmojiEmpty(houseWork.feedbackHouseworkResponse),
                 houseWork)
                 return@setOnLongClickListener true
             }
@@ -144,9 +144,9 @@ class HouseWorkAdapter(
         }
     }
 
-    private fun isEmojiEmpty(feedbackHouseworkResponse: Map<String, FeedbackHouseworkResponse>): Boolean {
+    private fun isEmojiEmpty(feedbackHouseworkResponse: Map<String, FeedbackHouseworkResponse>?): Boolean {
+        if(feedbackHouseworkResponse==null)return true
         val totalFeedbackNum = feedbackHouseworkResponse.values.sumOf { it.feedbackNum }
-        Timber.d("${feedbackHouseworkResponse["0"]!!.feedbackNum}");
         return totalFeedbackNum == 0
     }
 }

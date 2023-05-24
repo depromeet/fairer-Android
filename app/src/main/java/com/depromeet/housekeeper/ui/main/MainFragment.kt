@@ -34,6 +34,7 @@ import com.depromeet.housekeeper.model.DayOfWeek
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.response.FeedbackFindOneResponseDto
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.FeedbackAdapter
@@ -162,11 +163,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             },
             onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWork ->
                 if (success) {
-                    if (isEmojiEmpty) {
-                        setFeedbackPopupMenu(true, houseWork.houseWorkCompleteId)
+                    if (houseWork.feedbackHouseworkResponse?.get("0")?.myFeedback != true) {
+                        setFeedbackPopupMenu(0, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-204).dpToPx)
                     } else {
-                        setFeedbackPopupMenu(false, houseWork.houseWorkCompleteId)
+                        setFeedbackPopupMenu(0, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-280).dpToPx)
                     }
                 } else {
@@ -448,11 +449,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         datePickerDialog.show()
     }
 
-    private fun setFeedbackPopupMenu(isEmojiEmpty: Boolean, houseWorkCompleteId: Int?) {
+    private fun setFeedbackPopupMenu(feedbackNum:Int?, houseWorkCompleteId: Int?) {
         val binding =
-            if (isEmojiEmpty) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
+            if (feedbackNum!=0) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
                 layoutInflater
             )
+        if (feedbackNum == null) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = -1
+        } else if (feedbackNum != 0) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = feedbackNum
+        }
+
+
         val popupView = binding.root
         popupWindow = PopupWindow(
             popupView,
@@ -468,7 +476,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         popupWindow.isFocusable = true
         popupWindow.setBackgroundDrawable(requireContext().getDrawable(R.drawable.popup_background))
         popupWindow.elevation = 10.0F
-        if (isEmojiEmpty) {
+        if (feedbackNum!=0) {
             (binding as PopupFeedbackMenuBinding).apply {
                 clDialogFeedbackUrgeTop.setOnClickListener {
                 showEditTextBottomSheet(houseWorkCompleteId)
@@ -486,9 +494,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 clPopupFeedbackModify.setOnClickListener {
                     showEditTextBottomSheet(houseWorkCompleteId)
                 }
+                listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
+                    view.setOnClickListener {
+                        // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
+                        mainViewModel.createFeedback(null,index+1,houseWorkCompleteId!!)
+                        popupWindow.dismiss()
+                    }
+                }
             }
         }
-
     }
 
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수

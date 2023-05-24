@@ -87,6 +87,12 @@ object BindingAdapter {
         layout.isSelected = selected
     }
 
+    @androidx.databinding.BindingAdapter("app:setImageViewSelected")
+    @JvmStatic
+    fun setImageViewSelected(imageView: ImageView, selected: Boolean) {
+        imageView.isSelected = selected
+    }
+
     @androidx.databinding.BindingAdapter("app:setFeedbackIcon")
     @JvmStatic
     fun setFeedbackIcon(imageView:ImageView,emojiNum : Int) {
