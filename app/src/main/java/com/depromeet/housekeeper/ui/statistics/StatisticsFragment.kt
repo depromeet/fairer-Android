@@ -119,7 +119,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     }
 
     private fun createMonthPickerDialog(){
-        val dialog = MonthPickerDialog{
+        val dialog = MonthPickerDialog(viewModel.currentDate.value){
             viewModel.setCurrentDate(it)
             statsAdapter.clearList()
         }

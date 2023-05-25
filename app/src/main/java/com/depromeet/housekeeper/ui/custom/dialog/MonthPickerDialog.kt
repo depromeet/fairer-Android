@@ -11,7 +11,7 @@ import com.depromeet.housekeeper.databinding.DialogCalendarBinding
 import timber.log.Timber
 import java.util.*
 
-class MonthPickerDialog(val onClickOk: (date: Date)-> Unit) : DialogFragment(){
+class MonthPickerDialog(val currentDate: Date, val onClickOk: (date: Date)-> Unit) : DialogFragment(){
     private var _binding: DialogCalendarBinding? = null
     val binding get() = _binding!!
 
@@ -28,10 +28,10 @@ class MonthPickerDialog(val onClickOk: (date: Date)-> Unit) : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val start = Calendar.getInstance() // todo 임시
-        start.add(Calendar.YEAR, -1) // 임시
-        val now = Calendar.getInstance()
-        //binding.monthPicker.setDisplayedValue(start, now)
+        val calendar = Calendar.getInstance().apply {
+            this.time = currentDate
+        }
+        binding.monthPicker.setDisplayedValue(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH))
 
         binding.btnCancel.setOnClickListener {
             dialog!!.dismiss()
