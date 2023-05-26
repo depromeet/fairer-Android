@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
             <include
-                android:id="@+id/sign_name_header"
+                android:id="@+id/roulette_header"
                 layout="@layout/layout_default_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

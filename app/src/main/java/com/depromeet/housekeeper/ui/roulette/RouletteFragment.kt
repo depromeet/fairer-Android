@@ -6,18 +6,22 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.bluehomestudio.luckywheel.LuckyWheel
 import com.bluehomestudio.luckywheel.WheelItem
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentRouletteBinding
+import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.ui.addHousework.selectTime.adapter.AddAssigneeAdapter
 import com.depromeet.housekeeper.ui.custom.dialog.AssigneeBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -62,6 +66,9 @@ class RouletteFragment : BaseFragment<FragmentRouletteBinding>(R.layout.fragment
         binding.addAssigneeBtn.setOnClickListener {
             createBottomSheet()
         }
+        binding.rouletteHeader.defaultHeaderBackBtn.setOnClickListener {
+            it.findNavController().navigateUp()
+        }
     }
     /**
      * Dialog
@@ -78,6 +85,7 @@ class RouletteFragment : BaseFragment<FragmentRouletteBinding>(R.layout.fragment
             AssigneeBottomSheetDialog.MyOkBtnClickListener {
             override fun onOkBtnClick() {
                 viewModel.setCurAssignees(bottomSheet.selectedAssignees)
+                Timber.d("${bottomSheet.selectedAssignees}")
                 addAssigneeAdapter.updateAssignees(viewModel.curAssignees.value)
             }
         })
