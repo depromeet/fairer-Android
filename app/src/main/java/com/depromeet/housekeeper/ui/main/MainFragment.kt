@@ -456,10 +456,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             ) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
                 layoutInflater
             )
-        if (findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!) == null) {
+        val myFeedbackIndex = findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!)
+        if (myFeedbackIndex == null) {
             (binding as PopupFeedbackMenuBinding).selectedNum = -1
-        } else if (findTrueMyFeedback(houseWork.feedbackHouseworkResponse) != 0) {
-            (binding as PopupFeedbackMenuBinding).selectedNum = findTrueMyFeedback(houseWork.feedbackHouseworkResponse)!!
+        } else if (myFeedbackIndex != 0) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = myFeedbackIndex
         }
 
 
@@ -486,8 +487,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
                     view.setOnClickListener {
                         // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
-                        mainViewModel.createFeedback(null,index+1,houseWorkCompleteId!!)
-                        popupWindow.dismiss()
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                popupWindow.dismiss()
+                            }
+                            index + 1 -> {
+                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
+                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                popupWindow.dismiss()
+                            }
+                        }
+
                     }
                 }
             }
