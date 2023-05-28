@@ -19,6 +19,8 @@ const val IS_INTERNET_CONNECTED = "IS_INTERNET_CONNECTED"
 const val NAVIGATION_VIEW_TYPE = "viewType"
 const val NAVIGATION_CODE = "code"
 
+const val TAG = "ModalBottomSheet"
+
 /**
  * PREFSMANAGER
  */

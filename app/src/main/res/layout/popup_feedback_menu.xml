@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="selectedNum"
+            type="int"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,6 +59,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_angry"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==1}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ic_sad"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -67,6 +72,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_sad"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==2}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ic_smile"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -78,6 +85,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_smile"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==3}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ic_super_smile"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -89,6 +98,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_super_smile"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==4}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ic_heart"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -100,6 +111,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_heart"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==5}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/ic_100"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -111,6 +124,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_100"
+                android:background="@drawable/popup_menu_emoji_selector"
+                app:setImageViewSelected="@{selectedNum==6}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

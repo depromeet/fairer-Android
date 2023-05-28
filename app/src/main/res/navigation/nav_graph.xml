@@ -121,6 +121,9 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addDirectTodoFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
     </fragment>
 
     <fragment
@@ -143,6 +146,9 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addHouseWorkFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
 
     </fragment>
 
@@ -484,6 +490,18 @@
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/rouletteFragment"
+        android:name="com.depromeet.housekeeper.ui.roulette.RouletteFragment"
+        tools:layout="@layout/fragment_roulette"
+    android:label="RouletteFragment" >
+        <action
+            android:id="@+id/action_rouletteFragment_to_addDirectTodoFragment"
+            app:destination="@id/addDirectTodoFragment" />
+        <action
+            android:id="@+id/action_rouletteFragment_to_addHouseWorkFragment"
+            app:destination="@id/addHouseWorkFragment" />
     </fragment>
 
 </navigation>

@@ -2,7 +2,7 @@ package com.depromeet.housekeeper.model.response
 
 import android.os.Parcelable
 import com.depromeet.housekeeper.model.Assignee
-import com.depromeet.housekeeper.model.FeedbackCount
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import kotlinx.parcelize.Parcelize
 
 data class CompleteHouseWork(
@@ -23,7 +23,7 @@ data class Groups(
 @Parcelize
 data class HouseWork(
     val assignees: List<Assignee>,
-    val feedbackCountResponseDto: FeedbackCount?,
+    val feedbackHouseworkResponse: Map<String, FeedbackHouseworkResponse>?,
     val houseWorkCompleteId: Int? = 0,
     val houseWorkId: Int,
     val houseWorkName: String,

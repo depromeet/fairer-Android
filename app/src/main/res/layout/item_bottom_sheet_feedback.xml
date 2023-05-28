@@ -53,9 +53,12 @@
                 android:id="@+id/tv_feedback_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="240dp"
                 android:visibility="@{emojiNum==0?View.VISIBLE:View.GONE}"
                 android:textSize="14sp"
                 android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="none"
                 tool:text="창문 틈새 어쩌구~!"
                 />
             <ImageView

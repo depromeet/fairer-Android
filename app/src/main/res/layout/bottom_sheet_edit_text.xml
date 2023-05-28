@@ -41,6 +41,7 @@
                 android:hint="@string/feedback_bottom_sheet_hint"
                 android:imeOptions="actionDone"
                 android:inputType="text"
+                android:maxLength="26"
                 android:layout_marginHorizontal="24dp"
                 android:paddingHorizontal="16dp"
                 android:textColorHint="@color/gray_400"

@@ -115,3 +115,8 @@ data class UrgeModel(
     val scheduledDate: String = "yyyy-MM-dd"
 ) : Parcelable
 
+@Parcelize
+data class Comment(
+    val comment: String,
+) : Parcelable
+

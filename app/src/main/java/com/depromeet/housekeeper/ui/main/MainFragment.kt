@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.main
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -31,9 +30,11 @@ import com.depromeet.housekeeper.databinding.PopupFeedbackMenuBinding
 import com.depromeet.housekeeper.databinding.PopupFeedbackMenuHasFeedbackBinding
 import com.depromeet.housekeeper.model.AssigneeSelect
 import com.depromeet.housekeeper.model.DayOfWeek
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.enums.HouseWorkState
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.response.FeedbackFindOneResponseDto
+import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
 import com.depromeet.housekeeper.ui.main.adapter.DayOfWeekAdapter
 import com.depromeet.housekeeper.ui.main.adapter.FeedbackAdapter
@@ -160,19 +161,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 }
                 mainViewModel.getCompleteHouseWorkNumber()
             },
-            onLongClick = { view, success, isTimeOver, isEmojiEmpty, houseWork ->
+            onLongClick = { view, success, isTimeOver, houseWork ->
                 if (success) {
-                    if (isEmojiEmpty) {
-                        setFeedbackPopupMenu(true, houseWork.houseWorkCompleteId)
+                    if (houseWork.feedbackHouseworkResponse?.get("0")?.myFeedback != true) {
+                        setFeedbackPopupMenu(houseWork, houseWork.houseWorkCompleteId)
                         popupWindow.showAsDropDown(view, 0, (-204).dpToPx)
                     } else {
-                        setFeedbackPopupMenu(false, houseWork.houseWorkCompleteId)
-                        popupWindow.showAsDropDown(view, 0, (-280).dpToPx)
+                        setFeedbackPopupMenu(houseWork, houseWork.houseWorkCompleteId)
+                        popupWindow.showAsDropDown(view, 0, (-290).dpToPx)
                     }
                 } else {
                     if (isTimeOver) {
                         UrgeBottomDialog(
-                            onUrgeClick = {mainViewModel.urgeHousework(houseWork.houseWorkId,houseWork.scheduledDate)},
+                            onUrgeClick = {
+                                mainViewModel.urgeHousework(
+                                    houseWork.houseWorkId,
+                                    houseWork.scheduledDate
+                                )
+                            },
                         ).show(requireActivity().supportFragmentManager, "tag")
                     }
                 }
@@ -448,11 +454,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         datePickerDialog.show()
     }
 
-    private fun setFeedbackPopupMenu(isEmojiEmpty: Boolean, houseWorkCompleteId: Int?) {
+    private fun setFeedbackPopupMenu(houseWork: HouseWork, houseWorkCompleteId: Int?) {
         val binding =
-            if (isEmojiEmpty) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
+            if (houseWork.feedbackHouseworkResponse?.get("0")?.myFeedback == false
+            ) PopupFeedbackMenuBinding.inflate(layoutInflater) else PopupFeedbackMenuHasFeedbackBinding.inflate(
                 layoutInflater
             )
+        val myFeedbackIndex = findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!)
+        if (myFeedbackIndex == null) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = -1
+        } else if (myFeedbackIndex != 0) {
+            (binding as PopupFeedbackMenuBinding).selectedNum = myFeedbackIndex
+        }
+
+
         val popupView = binding.root
         popupWindow = PopupWindow(
             popupView,
@@ -468,30 +483,95 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         popupWindow.isFocusable = true
         popupWindow.setBackgroundDrawable(requireContext().getDrawable(R.drawable.popup_background))
         popupWindow.elevation = 10.0F
-        if (isEmojiEmpty) {
+        if (houseWork.feedbackHouseworkResponse["0"]?.myFeedback == false) {
             (binding as PopupFeedbackMenuBinding).apply {
                 clDialogFeedbackUrgeTop.setOnClickListener {
-                showEditTextBottomSheet(houseWorkCompleteId)
-            }
-                listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
+                    showEditTextBottomSheet(houseWork, false, houseWorkCompleteId)
+                }
+                listOf(
+                    icAngry,
+                    icSad,
+                    icSmile,
+                    icSuperSmile,
+                    icHeart,
+                    ic100
+                ).forEachIndexed { index, view ->
                     view.setOnClickListener {
                         // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
-                        mainViewModel.createFeedback(null,index,houseWorkCompleteId!!)
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                popupWindow.dismiss()
+                            }
+                            index + 1 -> {
+                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    index + 1,
+                                    houseWorkCompleteId!!
+                                )
+                                popupWindow.dismiss()
+                            }
+                        }
+
                     }
                 }
             }
         } else {
             (binding as PopupFeedbackMenuHasFeedbackBinding).apply {
                 clPopupFeedbackModify.setOnClickListener {
-                    showEditTextBottomSheet(houseWorkCompleteId)
+                    showEditTextBottomSheet(houseWork, true, houseWorkCompleteId)
+                }
+
+                clDialogFeedbackDelete.setOnClickListener {
+                    mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse["0"]!!.feedbackId)
+                    popupWindow.dismiss()
+                }
+                listOf(
+                    icAngry,
+                    icSad,
+                    icSmile,
+                    icSuperSmile,
+                    icHeart,
+                    ic100
+                ).forEachIndexed { index, view ->
+                    view.setOnClickListener {
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                popupWindow.dismiss()
+                            }
+                            index + 1 -> {
+                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    index + 1,
+                                    houseWorkCompleteId!!
+                                )
+                                popupWindow.dismiss()
+                            }
+                        }
+                    }
                 }
             }
         }
-
     }
 
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
-    private fun showEditTextBottomSheet(houseWorkCompleteId: Int?) {
+    private fun showEditTextBottomSheet(
+        houseWork: HouseWork,
+        hasTextFeedback: Boolean,
+        houseWorkCompleteId: Int?
+    ) {
+        val myFeedbackIndex = findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!)
         val textBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
         val bottomSheetView =
@@ -526,20 +606,38 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
         etFeedback?.apply {
             listenEditorDoneAction {
-                if (it.length <= 16) {
+                if (it.length <= 26) {
                     EditTextUtil.hideKeyboard(requireContext(), this)
                     if (houseWorkCompleteId != null) {
-                        mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
+                            0 -> {
+                                mainViewModel.updateFeedback(houseWorkCompleteId, it)
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    0,
+                                    houseWorkCompleteId
+                                )
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
+                        }
                     }
-                    textBottomSheet.dismiss()
-                    popupWindow.dismiss()
                 }
             }
             textBottomSheet.show()
         }
     }
 
-    @SuppressLint("InflateParams")
     private fun showFeedbackBottomSheet() {
         val feedbackBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -577,6 +675,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
             }
         })
         feedbackBottomSheet.show()
+    }
+
+    private fun findTrueMyFeedback(map: Map<String, FeedbackHouseworkResponse>): Int? {
+        for (i in 0..6) {
+            val key = i.toString()
+            val response = map[key]
+            if (response != null && response.myFeedback) {
+                return i
+            }
+        }
+        return null
     }
 
 

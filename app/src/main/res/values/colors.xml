@@ -28,12 +28,14 @@
     <color name="negative_10">#FFD2DD</color>
     <color name="negative_20">#E93B65</color>
     <color name="fairer_blue">#0C6DFF</color>
+    <color name="roulette_bg">#F6FAFF</color>
 
     <!--selection-->
     <color name="light_blue">#EEF5FF</color>
 
     <!-- social -->
     <color name="kakao_container">#FEE500</color>
+    <color name="roulette_border">#E7E7E7</color>
 </resources>
 
 

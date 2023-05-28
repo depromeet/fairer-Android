@@ -26,8 +26,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -375,6 +374,18 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+    fun deleteFeedback(feedbackId:Int){
+        viewModelScope.launch {
+            mainRepository.deleteFeedback(feedbackId)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        getHouseWorks()
+                        Timber.d("삭제완료")
+                    }
+                }
+        }
+    }
 
     fun getFeedbackList(houseWorkCompleteId: Int) {
         viewModelScope.launch {
@@ -394,6 +405,18 @@ class MainViewModel @Inject constructor(
                 .collectLatest {
                     val result = receiveApiResult(it)
                     Timber.d("$result")
+                }
+        }
+    }
+
+    fun createFeedbackAfterDelete(feedbackId:Int,comment: String?, emoji: Int, houseCompleteId: Int){
+        viewModelScope.launch {
+            mainRepository.deleteFeedback(feedbackId)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        createFeedback(comment,emoji, houseCompleteId)
+                    }
                 }
         }
     }

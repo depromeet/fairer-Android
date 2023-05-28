@@ -1,11 +1,11 @@
 package com.depromeet.housekeeper.ui.main.adapter
 
-import android.view.LayoutInflater
+import  android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemHouseworkBinding
-import com.depromeet.housekeeper.model.FeedbackCount
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.util.spaceNameMapper
 import timber.log.Timber
@@ -16,7 +16,7 @@ class HouseWorkAdapter(
     private val list: MutableList<HouseWork>,
     private val onClick: (HouseWork) -> Unit,
     private val onDone: (HouseWork, Boolean) -> Unit,
-    private val onLongClick: (View, Boolean, Boolean, Boolean, HouseWork) -> Unit,
+    private val onLongClick: (View, Boolean, Boolean, HouseWork) -> Unit,
     private val feedbackClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
@@ -44,7 +44,7 @@ class HouseWorkAdapter(
     fun callDone(layoutPosition: Int) {
         onDone.invoke(
             list[layoutPosition],
-            isEmojiEmpty(list[layoutPosition].feedbackCountResponseDto!!)
+            isEmojiEmpty(list[layoutPosition].feedbackHouseworkResponse!!)
         )
         notifyItemChanged(layoutPosition)
     }
@@ -91,7 +91,16 @@ class HouseWorkAdapter(
             binding.tvMainTitle.text = houseWork.houseWorkName
             binding.tvMainTime.text = getTime(houseWork)
             binding.tvMainArea.text = spaceNameMapper(houseWork.space)
-            binding.houseworkFeedback = houseWork.feedbackCountResponseDto
+            if(houseWork.feedbackHouseworkResponse!=null){
+                binding.includeFeedback.houseworkFeedback0 = houseWork.feedbackHouseworkResponse["0"]
+                binding.includeFeedback.houseworkFeedback1 = houseWork.feedbackHouseworkResponse["1"]
+                binding.includeFeedback.houseworkFeedback2 = houseWork.feedbackHouseworkResponse["2"]
+                binding.includeFeedback.houseworkFeedback3 = houseWork.feedbackHouseworkResponse["3"]
+                binding.includeFeedback.houseworkFeedback4 = houseWork.feedbackHouseworkResponse["4"]
+                binding.includeFeedback.houseworkFeedback5 = houseWork.feedbackHouseworkResponse["5"]
+                binding.includeFeedback.houseworkFeedback6 = houseWork.feedbackHouseworkResponse["6"]
+            }
+
 
             if (!houseWork.success) {
                 binding.includeFeedback.root.visibility = View.GONE
@@ -108,7 +117,6 @@ class HouseWorkAdapter(
                         binding.root,
                         houseWork.success,
                         getTimeOver(houseWork),
-                        houseWork.feedbackCountResponseDto!!.comment==0,
                 houseWork)
                 return@setOnLongClickListener true
             }
@@ -135,11 +143,9 @@ class HouseWorkAdapter(
         }
     }
 
-    private fun isEmojiEmpty(feedbackCount: FeedbackCount): Boolean {
-        var count: Int
-        feedbackCount.apply {
-            count = comment + emoji_1 + emoji_2 + emoji_3 + emoji_4 + emoji_5 + emoji_6
-        }
-        return count == 0
+    private fun isEmojiEmpty(feedbackHouseworkResponse: Map<String, FeedbackHouseworkResponse>?): Boolean {
+        if(feedbackHouseworkResponse==null)return true
+        val totalFeedbackNum = feedbackHouseworkResponse.values.sumOf { it.feedbackNum }
+        return totalFeedbackNum == 0
     }
 }

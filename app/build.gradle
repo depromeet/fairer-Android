@@ -138,4 +138,5 @@ dependencies {
     kapt Dependencies.hiltCompiler
 
     implementation Dependencies.flexbox
+    implementation Dependencies.roulette
 }
