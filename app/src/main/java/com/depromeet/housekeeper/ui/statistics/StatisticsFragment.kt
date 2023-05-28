@@ -7,14 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentStatisticsBinding
+import com.depromeet.housekeeper.ui.custom.dialog.MonthPickerDialog
 import com.depromeet.housekeeper.ui.statistics.adapter.StatsAdapter
 import com.depromeet.housekeeper.ui.statistics.adapter.RankAdapter
-import com.depromeet.housekeeper.util.PrefsManager
+import com.depromeet.housekeeper.util.DateUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -33,7 +32,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         bindingVm()
     }
 
-    fun setAdapter(){
+    private fun setAdapter(){
         rankAdapter = RankAdapter()
         statsAdapter = StatsAdapter(mutableListOf())
 
@@ -43,23 +42,23 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         binding.rvMonthlyStats.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    fun initView() {
-        val yearMonthFormat = SimpleDateFormat("yyyy-MM")
-        val yearMonth = yearMonthFormat.format(Date())
-        viewModel.getStatistics(yearMonth)
-        viewModel.getRanking(yearMonth)
-
-        val monthFormat = SimpleDateFormat("MM")
-        val currentMonth: String = monthFormat.format(Date())
-        binding.tvMonthTitle.text =
-            String.format(getString(R.string.statistics_month_title, currentMonth))
-        binding.tvTitle.text =
-            HtmlCompat.fromHtml(getString(R.string.statistics_title, PrefsManager.userName), HtmlCompat.FROM_HTML_MODE_LEGACY) //todo 이름 넣기
-
-
+    private fun initView() {
+        setClickListener()
     }
 
-    fun bindingVm(){
+    private fun bindingVm(){
+        lifecycleScope.launchWhenStarted {
+            viewModel.currentDate.collect {
+                val yearMonth = DateUtil.getHypenYearMonthString(it)
+                viewModel.getStatistics(yearMonth)
+                viewModel.getRanking(yearMonth)
+                Timber.d("yearMonth = ${yearMonth}")
+
+                val currentMonth = DateUtil.getMonthString(it)
+                binding.tvMonthTitle.text =
+                    String.format(getString(R.string.statistics_month_title, currentMonth))
+            }
+        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.statsFlow.collect{
@@ -70,9 +69,17 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
 
         lifecycleScope.launchWhenStarted {
             viewModel.rankFlow.collectLatest {
+                if (it.isEmpty()){
+                    setTitleTv(null)
+                } else {
+                    val names: List<String> = it.filter { ranker ->  ranker.rank == 1}.map {
+                        it.member.memberName
+                    }
+                    Timber.d("names : $names")
+                    setTitleTv(names.toString().substring(1, names.toString().length-1))
+                }
                 rankAdapter.submitList(ArrayList(it))
                 Timber.d("rank: ${it}")
-                rankAdapter.notifyDataSetChanged()
             }
         }
 
@@ -83,8 +90,40 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
         }
     }
 
+    private fun setClickListener(){
+        binding.tvMonthTitle.setOnClickListener {
+            createMonthPickerDialog()
+        }
+
+        binding.btnMonthLeft.bringToFront()
+        binding.btnMonthLeft.setOnClickListener {
+            statsAdapter.clearList()
+            viewModel.setCurrentDate(-1)
+        }
+
+        binding.btnMonthRight.bringToFront()
+        binding.btnMonthRight.setOnClickListener {
+            statsAdapter.clearList()
+            viewModel.setCurrentDate(1)
+        }
+    }
+
     private fun setChoreCntTv(cnt: Int){
         binding.tvTotalChores.text = HtmlCompat.fromHtml(getString(R.string.statistics_total_chores, cnt), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun setTitleTv(name: String?){
+        binding.tvTitle.text =
+            if (name.isNullOrBlank()) getString(R.string.statistics_title_empty)
+            else HtmlCompat.fromHtml(getString(R.string.statistics_title, name), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+
+    private fun createMonthPickerDialog(){
+        val dialog = MonthPickerDialog(viewModel.currentDate.value){
+            viewModel.setCurrentDate(it)
+            statsAdapter.clearList()
+        }
+        dialog.show(childFragmentManager, dialog.tag)
     }
 
 }
