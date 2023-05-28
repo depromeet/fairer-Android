@@ -408,4 +408,16 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
+    fun createFeedbackAfterDelete(feedbackId:Int,comment: String?, emoji: Int, houseCompleteId: Int){
+        viewModelScope.launch {
+            mainRepository.deleteFeedback(feedbackId)
+                .collectLatest {
+                    val result = receiveApiResult(it)
+                    if (result != null) {
+                        createFeedback(comment,emoji, houseCompleteId)
+                    }
+                }
+        }
+    }
 }

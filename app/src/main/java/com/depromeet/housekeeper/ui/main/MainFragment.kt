@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.main
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -174,7 +173,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 } else {
                     if (isTimeOver) {
                         UrgeBottomDialog(
-                            onUrgeClick = {mainViewModel.urgeHousework(houseWork.houseWorkId,houseWork.scheduledDate)},
+                            onUrgeClick = {
+                                mainViewModel.urgeHousework(
+                                    houseWork.houseWorkId,
+                                    houseWork.scheduledDate
+                                )
+                            },
                         ).show(requireActivity().supportFragmentManager, "tag")
                     }
                 }
@@ -482,9 +486,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         if (houseWork.feedbackHouseworkResponse["0"]?.myFeedback == false) {
             (binding as PopupFeedbackMenuBinding).apply {
                 clDialogFeedbackUrgeTop.setOnClickListener {
-                showEditTextBottomSheet(false,houseWorkCompleteId)
-            }
-                listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
+                    showEditTextBottomSheet(houseWork, false, houseWorkCompleteId)
+                }
+                listOf(
+                    icAngry,
+                    icSad,
+                    icSmile,
+                    icSuperSmile,
+                    icHeart,
+                    ic100
+                ).forEachIndexed { index, view ->
                     view.setOnClickListener {
                         // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
                         when (myFeedbackIndex) {
@@ -497,8 +508,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                                 popupWindow.dismiss()
                             }
                             else -> {
-                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
-                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    index + 1,
+                                    houseWorkCompleteId!!
+                                )
                                 popupWindow.dismiss()
                             }
                         }
@@ -509,18 +524,41 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         } else {
             (binding as PopupFeedbackMenuHasFeedbackBinding).apply {
                 clPopupFeedbackModify.setOnClickListener {
-                    showEditTextBottomSheet(true,houseWorkCompleteId)
+                    showEditTextBottomSheet(houseWork, true, houseWorkCompleteId)
                 }
 
                 clDialogFeedbackDelete.setOnClickListener {
                     mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse["0"]!!.feedbackId)
                     popupWindow.dismiss()
                 }
-                listOf(icAngry, icSad, icSmile, icSuperSmile, icHeart, ic100).forEachIndexed {index, view ->
+                listOf(
+                    icAngry,
+                    icSad,
+                    icSmile,
+                    icSuperSmile,
+                    icHeart,
+                    ic100
+                ).forEachIndexed { index, view ->
                     view.setOnClickListener {
-                        // 각 뷰에 대한 클릭 리스너에서 수행할 작업 구현
-                        mainViewModel.createFeedback(null,index+1,houseWorkCompleteId!!)
-                        popupWindow.dismiss()
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(null, index + 1, houseWorkCompleteId!!)
+                                popupWindow.dismiss()
+                            }
+                            index + 1 -> {
+                                mainViewModel.deleteFeedback(houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!)
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    index + 1,
+                                    houseWorkCompleteId!!
+                                )
+                                popupWindow.dismiss()
+                            }
+                        }
                     }
                 }
             }
@@ -528,7 +566,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
     }
 
     // 화면에서 바텀 시트를 띄우기 위해 사용하는 함수
-    private fun showEditTextBottomSheet(hasTextFeedback : Boolean,houseWorkCompleteId: Int?) {
+    private fun showEditTextBottomSheet(
+        houseWork: HouseWork,
+        hasTextFeedback: Boolean,
+        houseWorkCompleteId: Int?
+    ) {
+        val myFeedbackIndex = findTrueMyFeedback(houseWork.feedbackHouseworkResponse!!)
         val textBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
         val bottomSheetView =
@@ -566,22 +609,35 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
                 if (it.length <= 16) {
                     EditTextUtil.hideKeyboard(requireContext(), this)
                     if (houseWorkCompleteId != null) {
-                        if(hasTextFeedback){
-                            mainViewModel.updateFeedback(houseWorkCompleteId,it)
-                        }
-                        else{
-                            mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                        when (myFeedbackIndex) {
+                            null -> {
+                                mainViewModel.createFeedback(it, 0, houseWorkCompleteId)
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
+                            0 -> {
+                                mainViewModel.updateFeedback(houseWorkCompleteId, it)
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
+                            else -> {
+                                mainViewModel.createFeedbackAfterDelete(
+                                    houseWork.feedbackHouseworkResponse[myFeedbackIndex.toString()]?.feedbackId!!,
+                                    null,
+                                    0,
+                                    houseWorkCompleteId
+                                )
+                                textBottomSheet.dismiss()
+                                popupWindow.dismiss()
+                            }
                         }
                     }
-                    textBottomSheet.dismiss()
-                    popupWindow.dismiss()
                 }
             }
             textBottomSheet.show()
         }
     }
 
-    @SuppressLint("InflateParams")
     private fun showFeedbackBottomSheet() {
         val feedbackBottomSheet = BottomSheetDialog(requireContext())
         var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -620,6 +676,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         })
         feedbackBottomSheet.show()
     }
+
     private fun findTrueMyFeedback(map: Map<String, FeedbackHouseworkResponse>): Int? {
         for (i in 0..6) {
             val key = i.toString()
@@ -630,7 +687,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
         return null
     }
-
 
 
 }
