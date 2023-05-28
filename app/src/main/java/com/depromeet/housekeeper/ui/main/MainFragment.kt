@@ -606,7 +606,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
         etFeedback?.apply {
             listenEditorDoneAction {
-                if (it.length <= 16) {
+                if (it.length <= 26) {
                     EditTextUtil.hideKeyboard(requireContext(), this)
                     if (houseWorkCompleteId != null) {
                         when (myFeedbackIndex) {
