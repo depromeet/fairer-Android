@@ -17,6 +17,7 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -25,10 +26,10 @@ import javax.inject.Singleton
 class NetworkModule {
     private val DEBUG_URL =
         "http://fairer-dev-env.eba-yzy7enxi.ap-northeast-2.elasticbeanstalk.com"
-
-    private val RELEASE_URL =
-        "https://fairer-env.eba-synb99hd.ap-northeast-2.elasticbeanstalk.com"
-    private val BASE_URL: String = if(BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
+    private lateinit var RELEASE_URL: String
+    private val BASE_URL: String by lazy {
+        if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
+    }
 
     private val networkInterceptor: Interceptor = Interceptor { chain ->
         val request = chain.request()
@@ -76,7 +77,11 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClientBuilder: OkHttpClient.Builder): Retrofit {
+    fun provideRetrofit(okHttpClientBuilder: OkHttpClient.Builder, remoteConfigWrapper: RemoteConfigWrapper): Retrofit {
+        RELEASE_URL = remoteConfigWrapper.fetchAndActivateConfig()
+        Timber.d("RELEASE_URL = $RELEASE_URL")
+        Timber.d("BASE_URL = $BASE_URL")
+
         val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
