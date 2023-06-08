@@ -125,10 +125,11 @@ dependencies {
     implementation Dependencies.glidesvgloader
 
     implementation platform(Dependencies.firebaseBOM)
-    implementation Dependencies.firebasektx
+    implementation Dependencies.firebaseAnalytics
     implementation Dependencies.firebasedynamiclink
     implementation Dependencies.firebasemessaging
     implementation Dependencies.firebaseMessagingDirectboot
+    implementation Dependencies.firebaseConfig
 
     implementation Dependencies.workermanager
 
