@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.main.adapter
 
+import android.annotation.SuppressLint
 import  android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class HouseWorkAdapter(
     private val feedbackClick: (Int?) -> Unit
 ) : RecyclerView.Adapter<HouseWorkAdapter.ItemViewHolder>() {
     private var doneHouseWorks: MutableList<HouseWork> = mutableListOf()
+    var isMe : Boolean = true
 
 
     private fun getTime(houseWork: HouseWork): String {
@@ -33,6 +35,7 @@ class HouseWorkAdapter(
         } ?: return "하루 종일"
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateDate(remainHouseWork: MutableList<HouseWork>, doneHouseWork: MutableList<HouseWork>) {
         list.clear()
         list.addAll(remainHouseWork)
@@ -109,6 +112,7 @@ class HouseWorkAdapter(
             }
 
             binding.flHouseWork.setOnClickListener {
+                if(isMe)
                 onClick.invoke(houseWork)
             }
 
@@ -147,5 +151,9 @@ class HouseWorkAdapter(
         if(feedbackHouseworkResponse==null)return true
         val totalFeedbackNum = feedbackHouseworkResponse.values.sumOf { it.feedbackNum }
         return totalFeedbackNum == 0
+    }
+
+    fun updateIsMe(value : Boolean){
+        isMe = value
     }
 }

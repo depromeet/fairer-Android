@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.main
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -127,6 +128,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
         feedbackAdapter = FeedbackAdapter(emptyList<FeedbackFindOneResponseDto>().toMutableList())
         dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
@@ -214,6 +216,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.rvGroups.adapter = groupProfileAdapter
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun bindingVm() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.completeChoreNum.collect {
@@ -331,6 +334,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
                 mainViewModel.getHouseWorks()
+                if (it == PrefsManager.memberId) {
+                    houseWorkAdapter?.updateIsMe(true)
+                    Timber.d("memberId!")
+                } else {
+                    houseWorkAdapter?.updateIsMe(false)
+                    Timber.d("No My memberId!")
+                }
+
             }
         }
 
