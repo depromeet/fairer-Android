@@ -49,6 +49,7 @@ import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -326,8 +327,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenResumed {
-            mainViewModel.rule.collect {
-                binding.lvRule.rule = it
+            mainViewModel.rule.collectLatest { rules ->
+                var index = 0
+                while (true) {
+                    val rule = rules.getOrNull(index)
+                    if (rule != null) {
+                        binding.lvRule.rule = rule.ruleName
+                        index = (index + 1) % rules.size
+                    }
+                    delay(5000) // 5초 대기
+                }
             }
         }
 
