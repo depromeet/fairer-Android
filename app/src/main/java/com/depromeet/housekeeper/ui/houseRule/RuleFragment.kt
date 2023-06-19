@@ -126,10 +126,13 @@ class RuleFragment : BaseFragment<FragmentRuleBinding>(R.layout.fragment_rule) {
             }
 
             listenEditorDoneAction {
-                if (it.length<=16){
-                    viewModel.createRule(it)
-                    hideKeyboard(requireContext(), this)
+                if (adapter.itemCount < 10) {
+                    if (it.length <= 16) {
+                        viewModel.createRule(it)
+                        hideKeyboard(requireContext(), this)
+                    }
                 }
+
             }
 
             setOnFocusChangeListener { view, hasFocus ->
