@@ -3,9 +3,9 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
+import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.request.UpdateMember
 import com.depromeet.housekeeper.model.response.UpdateMemberResponse
-import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,6 +52,10 @@ class SignProfileViewModel @Inject constructor(
 
     fun setViewType(viewType: ProfileViewType) {
         _viewType.value = viewType
+        Timber.d("viewType : $viewType")
+        if (viewType == ProfileViewType.Modify) {
+            getMe()
+        }
     }
 
     fun setSelectedImage(imgUrl: String) {
@@ -97,6 +101,16 @@ class SignProfileViewModel @Inject constructor(
         }
     }
 
+    private fun getMe() {
+        viewModelScope.launch {
+            userRepository.getMe().collectLatest {
+                val result = receiveApiResult(it)
+                if (result != null) {
+                    _selectedImage.value = result.profilePath
+                }
+            }
+        }
+    }
 
     data class ProfileState(
         val url: String,
