@@ -9,7 +9,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.ui.main.adapter.HouseWorkAdapter
 
 class SwipeHelperCallback(private val recyclerViewAdapter: HouseWorkAdapter) :
-    ItemTouchHelper.Callback() {
+    Callback() {
 
     // swipe_view 를 swipe 했을 때 <삭제> 화면이 보이도록 고정하기 위한 변수들
     private var currentPosition: Int? = null    // 현재 선택된 recycler view의 position
@@ -25,7 +25,9 @@ class SwipeHelperCallback(private val recyclerViewAdapter: HouseWorkAdapter) :
         // 드래그 방향 : 위, 아래 인식
         // 스와이프 방향 : 왼쪽, 오른쪽 인식
         // 설정 안 하고 싶으면 0
-        return makeMovementFlags(0, LEFT or RIGHT)
+        return if(recyclerViewAdapter.isMe)
+            makeMovementFlags(0, LEFT or RIGHT)
+        else 0
     }
 
     // 드래그 일어날 때 동작 (롱터치 후 드래그)

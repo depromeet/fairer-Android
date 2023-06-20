@@ -228,13 +228,14 @@
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="76dp"
                         android:orientation="vertical">
 
                         <include
@@ -259,7 +260,6 @@
                             android:layout_marginTop="6dp"
                             android:orientation="vertical"
                             android:overScrollMode="never"
-                            android:paddingBottom="76dp"
                             android:visibility="@{houseworkState != HouseWorkState.EMPTY ? View.VISIBLE : View.GONE}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
