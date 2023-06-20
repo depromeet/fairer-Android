@@ -50,7 +50,7 @@ class SettingProfileViewModel @Inject constructor(
     /**
      * Network Communication
      */
-    fun getMe() {
+    private fun getMe() {
         viewModelScope.launch {
             userRepository.getMe().collectLatest {
                 val result = receiveApiResult(it)
