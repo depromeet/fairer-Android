@@ -89,6 +89,18 @@
     <string name="main_today">오늘</string>
     <string name="main_complete">완료</string>
     <string name="main_back_chore">되돌리기</string>
+    <string name="label_statistics_btn">통계화면으로 이동</string>
+
+    <!-- StatisticsFragment -->
+    <string name="statistics_month_title">%s월 통계</string>
+    <string name="statistics_title">이번달 &lt;font color="#0C6DFF">%s&lt;/font>님이 &lt;br>가장 많은 집안일을 완료했어요!</string>
+    <string name="statistics_title_empty">이번달에 완료하신 집안일이 없습니다🥲</string>
+    <string name="statistics_check_info">이번달 집안일 현황을 확인해보세요</string>
+    <string name="statistics_total_chores">전체 집안일 수행 &lt;font color="#0C6DFF">%d회 &lt;/font></string>
+    <string name="statistics_count">%d개</string>
+
+    <!-- ItemStatistics -->
+    <string name="statistics_total_complete">총 %d회 완료</string>
 
     <!-- dummy chores -->
 
@@ -115,10 +127,10 @@
     <string name="join_group_main_text">안녕하세요. %s님!\n새로 하우스를 만들거나 참여해주세요.</string>
     <string name="join_group_make_space">집안일 하우스 생성</string>
     <string name="join_group_make_space_button">집안일 하우스 만들기</string>
-    <string name="join_group_make_space_info">개인 혹은 여러명이 집안일을 관리할 수 있는 하우스를 만들 수 있습니다.</string>
+    <string name="join_group_make_space_info">개인 혹은 여러명이 집안일을 관리할 수 있는\n하우스를 만들 수 있습니다.</string>
     <string name="join_group_join_space">하우스 참여</string>
     <string name="join_group_join_space_button">집안일 하우스 참여하기</string>
-    <string name="join_group_join_space_info">기존에 만들어진 하우스에 참여하고 싶다면 선택해주세요.</string>
+    <string name="join_group_join_space_info">기존에 만들어진 하우스에 참여하고 싶다면\n선택해주세요.</string>
 
     <!-- settingFragment -->
     <string name="setting_header_title">설정</string>
@@ -217,5 +229,34 @@
     <!-- fcm string -->
     <string name="default_notification_channel_id">fairer-def59</string>
     <string name="fcm_add_member_title">%s님이 %s에 참여</string>
+
+    <!-- feedback string -->
+    <string name="feedback_urge_title">\'재촉하기\'를 누르면 상대방에게 \n해당 집안일을 재촉하는 알림이 갑니다.</string>
+    <string name="feedback_urge_button">재촉하기</string>
+    <string name="feedback_urge_button_cancel">취소</string>
+    <string name="feedback_return_title">피드백이 모두 삭제됩니다. 그래도 되돌리시겠습니까?</string>
+    <string name="feedback_return_botton">되돌리기</string>
+    <string name="feedback_return_button_cancel">취소</string>
+    <string name="feedback_text_feedback_title">텍스트 피드백 작성</string>
+    <string name="feedback_modify_text_feedback_title">텍스트 피드백 수정</string>
+    <string name="feedback_delete_text_feedback_title">텍스트 피드백 삭제</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name='text_feedback_button'>텍스트 피드백</string>
+    <string name="feedback_bottom_sheet_hint">피드백을 입력하세요</string>
+
+    <!-- roulette string -->
+    <string name="roulette_participant">참여자</string>
+    <string name="roulette_bottom_sheet_title">룰렛 참여자 선택</string>
+    <string name="roulette_result_title">오늘의 담당자</string>
+    <string name="roulette_result_content">님입니다</string>
+    <string name="roulette_dialog_title">뒤로 가면 룰렛이 취소 돼요.</string>
+    <string name="roulette_dialog_content">룰렛으로 담당자가 설정되지 않습니다.</string>
+    <string name="roulette_again_button">다시하기</string>
+    <string name="roulette_finish_button">끝내기</string>
+    <string name="roulette_cta_button">룰렛 돌리기</string>
+    <string name="bottom_sheet_roulette">룰렛으로 정하기</string>
 
 </resources>

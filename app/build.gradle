@@ -58,6 +58,9 @@ android {
     dataBinding {
         enabled true
     }
+    buildFeatures{
+        dataBinding = true
+    }
     lintOptions {
         abortOnError false
     }
@@ -134,4 +137,6 @@ dependencies {
     implementation Dependencies.hilt
     kapt Dependencies.hiltCompiler
 
+    implementation Dependencies.flexbox
+    implementation Dependencies.roulette
 }

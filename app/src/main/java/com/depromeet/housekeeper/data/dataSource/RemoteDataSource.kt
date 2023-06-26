@@ -63,6 +63,13 @@ interface RemoteDataSource {
     suspend fun deleteRule(ruleId: Int): Flow<ApiResult<Response>>
 
     /**
+     * statistics
+     */
+    suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>>
+    suspend fun getStatsRanking(yearMonth: String): Flow<ApiResult<HouseWorkStatsResponse>>
+    suspend fun getHouseWorkStats(houseWorkName: String, month: String): Flow<ApiResult<HouseWorkStatsResponse>>
+
+    /**
      * teams
      */
     suspend fun buildTeam(buildTeam: BuildTeam): Flow<ApiResult<BuildTeamResponse>>
@@ -77,5 +84,19 @@ interface RemoteDataSource {
      */
     suspend fun saveToken(token: Token): Flow<ApiResult<Unit>>
     suspend fun sendMessage(message: Message): Flow<ApiResult<Message>>
+
+    /**
+    feedback
+     */
+
+    suspend fun createFeedback(feedbackModel : CreateFeedbackModel):Flow<ApiResult<Unit>>
+
+    suspend fun updateFeedback(houseworkCompleteId:Int,comment:String):Flow<ApiResult<Unit>>
+
+    suspend fun getFeedbackList(houseWorkCompleteId:Int): Flow<ApiResult<FeedbackListModel>>
+
+    suspend fun urgeHousework(urgeModel: UrgeModel): Flow<ApiResult<Unit>>
+
+    suspend fun deleteFeedback(feedbackId:Int): Flow<ApiResult<Unit>>
 
 }

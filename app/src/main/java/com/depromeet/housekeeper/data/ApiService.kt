@@ -31,14 +31,14 @@ interface ApiService {
     @GET("/api/houseworks/{houseWorkId}/detail")
     suspend fun getDetailHouseWork(@Path("houseWorkId") houseWorkId: Int): HouseWork
 
-    @GET("/api/houseworks/list/member/{teamMemberId}/query")
+    @GET("/api/houseworks/list/member/{teamMemberId}/query/v2")
     suspend fun getPeriodHouseWorkListOfMember(
         @Path("teamMemberId") teamMemberId: Int,
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String,
     ): Map<String, HouseWorks> // ex) key: 2022-08-14
 
-    @GET("/api/houseworks/list/query")
+    @GET("/api/houseworks/list/query/v2")
     suspend fun getDateHouseWorkList(
         @Query("fromDate") fromDate: String,
         @Query("toDate") toDate: String
@@ -99,6 +99,17 @@ interface ApiService {
     @DELETE("/api/rules/{ruleId}")
     suspend fun deleteRule(@Path("ruleId") ruleId: Int): Response
 
+    /**
+     * statistics 집안일 통계 API
+     */
+    @GET("/api/statistics") // yearMonth: yyyy-MM
+    suspend fun getStatisticsList(@Query("yearMonth") yearMonth: String): StatsListResponse
+
+    @GET("/api/statistics/ranking")
+    suspend fun getStatisticsLanking(@Query("month") yearMonth: String): HouseWorkStatsResponse
+
+    @GET("/api/statistics/team-member")
+    suspend fun getHouseWorkStatistics(@Query("houseWorkName") houseWorkName: String, @Query("month") month: String): HouseWorkStatsResponse
 
     /**
      * teams
@@ -131,4 +142,23 @@ interface ApiService {
     @POST("/api/fcm/message")
     suspend fun sendMessage(@Body message: Message): Message
 
+
+    /**
+    feedback
+     */
+
+    @POST("/api/feedback")
+    suspend fun createFeedback(@Body feedbackModel : CreateFeedbackModel)
+
+    @PATCH("/api/feedback/{houseworkCompleteId}")
+    suspend fun updateFeedback(@Path("houseworkCompleteId") houseworkCompleteId:Int, @Body comment: Comment)
+
+    @GET("/api/feedback/houseworks/{houseWorkCompleteId}")
+    suspend fun getFeedbackList(@Path("houseWorkCompleteId") houseWorkCompleteId:Int): FeedbackListModel
+
+    @POST("/api/fcm/hurry")
+    suspend fun urgeHousework(@Body urgeModel: UrgeModel)
+
+    @DELETE("/api/feedback/{feedbackId}")
+    suspend fun deleteFeedback(@Path("feedbackId") feedbackId:Int)
 }

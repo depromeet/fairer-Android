@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
+import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.RepeatCycle
@@ -24,7 +25,8 @@ import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
-class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fragment_select_space), View.OnClickListener {
+class SelectSpaceFragment :
+    BaseFragment<FragmentSelectSpaceBinding>(R.layout.fragment_select_space), View.OnClickListener {
     private lateinit var myAdapter: SelectSpaceChoreAdapter
     private val viewModel: SelectSpaceViewModel by viewModels()
     private val navArgs by navArgs<SelectSpaceFragmentArgs>()
@@ -134,7 +136,7 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
             }
         }
         lifecycleScope.launchWhenCreated {
-            viewModel.choreAdapter.collect{
+            viewModel.choreAdapter.collect {
                 binding.selectSpaceRecyclerview.adapter = it
                 viewModel.setIsSelectedChore(false)
             }
@@ -186,6 +188,7 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
                     selectDate = viewModel.selectCalendar.value,
                     houseWork = HouseWork(
                         assignees = arrayListOf(),
+                        feedbackHouseworkResponse = null,
                         houseWorkCompleteId = -1,
                         houseWorkId = -1,
                         houseWorkName = "",
@@ -196,7 +199,8 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
                         scheduledTime = null,
                         space = "",
                         success = false,
-                        successDateTime = null)
+                        successDateTime = null
+                    )
                 )
             )
     }
@@ -229,8 +233,8 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
     override fun onClick(space: View?) {
         if (viewModel.isSelectedSpace.value) {
             if (viewModel.isSelectedChore.value) {
-                if(viewModel.selectSpace.value==setSpaceNum(binding.selectedSpace))
-                setDialog(space)
+                if (viewModel.selectSpace.value == setSpaceNum(binding.selectedSpace))
+                    setDialog(space)
             } else {
                 setSelected()
                 onClick(space)
@@ -281,8 +285,8 @@ class SelectSpaceFragment : BaseFragment<FragmentSelectSpaceBinding>(R.layout.fr
         viewModel.setIsSelectedSpace(false)
     }
 
-    private fun setSpaceNum(num: Int):String{
-        return when(num) {
+    private fun setSpaceNum(num: Int): String {
+        return when (num) {
             1 -> "ENTRANCE"
             2 -> "LIVINGROOM"
             3 -> "BATHROOM"

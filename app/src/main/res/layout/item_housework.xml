@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
+        <import type="java.util.Map"/>
+
 
         <variable
             name="isOver"
@@ -14,6 +17,7 @@
         <variable
             name="success"
             type="boolean" />
+
 
     </data>
 
@@ -35,6 +39,7 @@
             android:visibility="gone" />
 
         <FrameLayout
+            android:id="@+id/fl_house_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -137,10 +142,18 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:itemCount="6"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_small_profile" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
+
+        <include
+            android:id="@+id/include_feedback"
+            layout="@layout/item_housework_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
+
     </LinearLayout>
 </layout>

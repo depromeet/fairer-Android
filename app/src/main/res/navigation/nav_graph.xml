@@ -52,6 +52,9 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_mainFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -118,6 +121,9 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addDirectTodoFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
     </fragment>
 
     <fragment
@@ -140,6 +146,9 @@
             app:popExitAnim="@android:anim/fade_out"
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addHouseWorkFragment_to_rouletteFragment"
+            app:destination="@id/rouletteFragment" />
 
     </fragment>
 
@@ -457,6 +466,12 @@
         tools:layout="@layout/fragment_rule" />
 
     <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.depromeet.housekeeper.ui.statistics.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_statistics"/>
+
+    <fragment
         android:id="@+id/settingProfileFragment"
         android:name="com.depromeet.housekeeper.ui.settings.SettingProfileFragment"
         android:label="SettingProfileFragment"
@@ -475,6 +490,18 @@
                 android:name="viewType"
                 app:argType="com.depromeet.housekeeper.model.enums.ProfileViewType" />
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/rouletteFragment"
+        android:name="com.depromeet.housekeeper.ui.roulette.RouletteFragment"
+        tools:layout="@layout/fragment_roulette"
+    android:label="RouletteFragment" >
+        <action
+            android:id="@+id/action_rouletteFragment_to_addDirectTodoFragment"
+            app:destination="@id/addDirectTodoFragment" />
+        <action
+            android:id="@+id/action_rouletteFragment_to_addHouseWorkFragment"
+            app:destination="@id/addHouseWorkFragment" />
     </fragment>
 
 </navigation>

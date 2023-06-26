@@ -137,6 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:maxWidth="300dp"
             android:text="@string/join_group_join_space_info"
             android:textColor="@color/gray_400"
             android:textSize="14sp"

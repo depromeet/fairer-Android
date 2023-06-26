@@ -1,11 +1,15 @@
 package com.depromeet.housekeeper.util
 
+import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
@@ -75,6 +79,51 @@ object BindingAdapter {
     @JvmStatic
     fun setSelected(imageButton: ImageButton, selected: Boolean) {
         imageButton.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:setLinearLayoutSelected")
+    @JvmStatic
+    fun setLinearLayoutSelected(layout: LinearLayout, selected: Boolean) {
+        layout.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:setImageViewSelected")
+    @JvmStatic
+    fun setImageViewSelected(imageView: ImageView, selected: Boolean) {
+        imageView.isSelected = selected
+    }
+
+    @androidx.databinding.BindingAdapter("app:setFeedbackIcon")
+    @JvmStatic
+    fun setFeedbackIcon(imageView:ImageView,emojiNum : Int) {
+        when(emojiNum){
+            1 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_angry)
+            }
+            2 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_sad)
+            }
+            3 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_smile)
+            }
+            4 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_super_smile)
+            }
+            5 -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_heart)
+            }
+            6 ->{
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_100)
+            }else->{
+            imageView.visibility = View.GONE
+            }
+        }
     }
 
 }

@@ -48,6 +48,13 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
+    <style name="Pretendard">
+        <item name="android:lineHeight">18dp</item>
+        <item name="android:fontWeight">700</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
     <style name="Body.B1">
         <item name="android:textSize">16sp</item>
     </style>
@@ -69,6 +76,21 @@
 
     <style name="Caption.C2">
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeColor">@color/gray_200</item>
+        <item name="boxBackgroundColor">@color/normal</item>
+
     </style>
 
 </resources>

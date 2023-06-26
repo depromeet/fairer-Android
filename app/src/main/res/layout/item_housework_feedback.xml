@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="java.util.Map"/>
+
+        <import type="com.depromeet.housekeeper.model.FeedbackHouseworkResponse" />
+
+        <variable
+            name="houseworkFeedback0"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback1"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback2"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback3"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback4"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback5"
+            type="FeedbackHouseworkResponse"/>
+        <variable
+            name="houseworkFeedback6"
+            type="FeedbackHouseworkResponse"/>
+    </data>
+
+    <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:alignContent="stretch"
+        app:alignItems="stretch"
+        app:flexWrap="wrap">
+
+
+        <LinearLayout
+            android:id="@+id/text_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback0.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback0.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_feedback_button"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback0.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_angry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback1.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback1.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_angry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback1.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_sad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback2.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback2.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_sad" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback2.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_smile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback3.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback3.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_smile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback3.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_super_smile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback4.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback4.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_super_smile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback4.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback5.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback5.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_heart" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback5.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_feedback_100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/feedback_button_selector"
+            app:setLinearLayoutSelected="@{houseworkFeedback6.myFeedback}"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:visibility="@{houseworkFeedback6.feedbackNum==0?View.GONE:View.VISIBLE}">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(houseworkFeedback6.feedbackNum)}"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</layout>

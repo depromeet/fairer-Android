@@ -5,7 +5,6 @@ import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -139,6 +138,27 @@ class RemoteDataSourceImpl @Inject constructor(
 
 
     /**
+     * statistics
+     */
+    override suspend fun getStatsList(yearMonth: String): Flow<ApiResult<StatsListResponse>> =
+        safeFlow {
+            apiService.getStatisticsList(yearMonth)
+        }.flowOn(ioDispatcher)
+
+    override suspend fun getStatsRanking(yearMonth: String): Flow<ApiResult<HouseWorkStatsResponse>> =
+        safeFlow {
+            apiService.getStatisticsLanking(yearMonth)
+        }.flowOn(ioDispatcher)
+
+    override suspend fun getHouseWorkStats(
+        houseWorkName: String,
+        month: String
+    ): Flow<ApiResult<HouseWorkStatsResponse>> = safeFlow {
+        apiService.getHouseWorkStatistics(houseWorkName, month)
+    }.flowOn(ioDispatcher)
+
+
+    /**
      * teams
      */
     override suspend fun buildTeam(
@@ -181,4 +201,26 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.sendMessage(message = message)
     }.flowOn(ioDispatcher)
 
+    /**
+    feedback
+     */
+    override suspend fun createFeedback(feedbackModel: CreateFeedbackModel): Flow<ApiResult<Unit>> =safeFlow {
+        apiService.createFeedback(feedbackModel =  feedbackModel)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun updateFeedback(houseworkCompleteId: Int,comment:String): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.updateFeedback(houseworkCompleteId = houseworkCompleteId,comment=Comment(comment))
+    }.flowOn(ioDispatcher)
+
+    override suspend fun getFeedbackList(houseWorkCompleteId: Int): Flow<ApiResult<FeedbackListModel>> = safeFlow{
+        apiService.getFeedbackList(houseWorkCompleteId = houseWorkCompleteId)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun urgeHousework(urgeModel: UrgeModel): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.urgeHousework(urgeModel)
+    }.flowOn(ioDispatcher)
+
+    override suspend fun deleteFeedback(feedbackId:Int): Flow<ApiResult<Unit>> = safeFlow{
+        apiService.deleteFeedback(feedbackId)
+    }.flowOn(ioDispatcher)
 }
