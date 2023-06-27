@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>server_url</key>
+        <value>http://fairer-env.eba-w7ubjjfy.ap-northeast-2.elasticbeanstalk.com</value>
+    </entry>
+</defaultsMap>

@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.main
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -48,6 +49,7 @@ import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -127,6 +129,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
         feedbackAdapter = FeedbackAdapter(emptyList<FeedbackFindOneResponseDto>().toMutableList())
         dayOfAdapter = DayOfWeekAdapter(DateUtil.getCurrentWeek(),
@@ -214,6 +217,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         binding.rvGroups.adapter = groupProfileAdapter
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun bindingVm() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.completeChoreNum.collect {
@@ -323,14 +327,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         }
 
         lifecycleScope.launchWhenResumed {
-            mainViewModel.rule.collect {
-                binding.lvRule.rule = it
+            mainViewModel.rule.collectLatest { rules ->
+                var index = 0
+                while (true) {
+                    val rule = rules.getOrNull(index)
+                    if (rule != null) {
+                        binding.lvRule.rule = rule.ruleName
+                        index = (index + 1) % rules.size
+                    }
+                    delay(5000) // 5초 대기
+                }
             }
         }
 
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
                 mainViewModel.getHouseWorks()
+                if (it == PrefsManager.memberId) {
+                    houseWorkAdapter?.updateIsMe(true)
+                    Timber.d("memberId!")
+                } else {
+                    houseWorkAdapter?.updateIsMe(false)
+                    Timber.d("No My memberId!")
+                }
+
             }
         }
 

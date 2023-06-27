@@ -11,6 +11,7 @@ import com.depromeet.housekeeper.model.request.UrgeModel
 import com.depromeet.housekeeper.model.response.FeedbackListModel
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.model.response.HouseWorks
+import com.depromeet.housekeeper.model.response.RuleResponse
 import com.depromeet.housekeeper.util.DATE_UTIL_TAG
 import com.depromeet.housekeeper.util.DateUtil.dateFormat
 import com.depromeet.housekeeper.util.DateUtil.fullDateFormat
@@ -94,8 +95,8 @@ class MainViewModel @Inject constructor(
     val selectUserId: StateFlow<Int>
         get() = _selectUserId
 
-    private val _rule: MutableStateFlow<String> = MutableStateFlow("")
-    val rule: StateFlow<String>
+    private val _rule: MutableStateFlow<List<RuleResponse>> = MutableStateFlow(listOf())
+    val rule: StateFlow<List<RuleResponse>>
         get() = _rule
 
     private val _groupName: MutableStateFlow<String> = MutableStateFlow("")
@@ -318,8 +319,8 @@ class MainViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result != null) {
                         _rule.value = when {
-                            result.ruleResponseDtos.isNotEmpty() -> result.ruleResponseDtos.random().ruleName
-                            else -> ""
+                            result.ruleResponseDtos.isNotEmpty() -> result.ruleResponseDtos
+                            else -> listOf()
                         }
                     }
                 }

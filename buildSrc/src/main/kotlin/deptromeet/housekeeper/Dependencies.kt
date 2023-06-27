@@ -92,11 +92,12 @@ object Dependencies {
     private const val FIREBASE_MESSAGING = "23.0.6"
     private const val FIREBASE_MESSAGING_DIRECTBOOT = "20.2.0"
     const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASE_BOM"
-    const val firebasektx = "com.google.firebase:firebase-analytics-ktx"
+    const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
     const val firebasedynamiclink = "com.google.firebase:firebase-dynamic-links-ktx"
     const val firebasemessaging = "com.google.firebase:firebase-messaging-ktx:$FIREBASE_MESSAGING"
     const val firebaseMessagingDirectboot =
         "com.google.firebase:firebase-messaging-directboot:$FIREBASE_MESSAGING_DIRECTBOOT"
+    const val firebaseConfig = "com.google.firebase:firebase-config-ktx"
 
     private const val GLIDE = "4.13.0"
     const val glide = "com.github.bumptech.glide:glide:$GLIDE"
