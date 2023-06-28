@@ -20,11 +20,18 @@ object PrefsManager {
     val deviceToken: String
         get() = prefs.getString(PREFS_DEVICE_TOKEN, "").toString()
 
-    fun setTokens(accessToken: String, refreshToken: String) {
-        prefs.edit()?.apply {
+    fun setAccessToken(accessToken: String, expiredTime: String){
+        prefs.edit().apply {
             putString(PREFS_ACCESS_TOKEN, accessToken)
+            putString(PREFS_ACCESS_TOKEN_EXPIRED_TIME, expiredTime)
+        }.apply()
+    }
+
+    fun setRefreshToken(refreshToken: String, expiredTime: String){
+        prefs.edit().apply {
             putString(PREFS_REFRESH_TOKEN, refreshToken)
-        }?.apply()
+            putString(PREFS_REFRESH_TOKEN_EXPIRED_TIME, expiredTime)
+        }.apply()
     }
 
     fun setDeviceToken(deviceToken: String) {
@@ -36,7 +43,9 @@ object PrefsManager {
     fun deleteTokens() {
         prefs.edit()?.apply {
             remove(PREFS_ACCESS_TOKEN)
+            remove(PREFS_ACCESS_TOKEN_EXPIRED_TIME)
             remove(PREFS_REFRESH_TOKEN)
+            remove(PREFS_REFRESH_TOKEN_EXPIRED_TIME)
         }?.apply()
     }
 

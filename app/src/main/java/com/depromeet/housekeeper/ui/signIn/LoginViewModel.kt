@@ -42,7 +42,8 @@ class LoginViewModel @Inject constructor(
                 val result = receiveApiResult(it) ?: return@collectLatest
                 _newMember.value = NewMember(result.hasTeam, result.isNewMember)
 
-                PrefsManager.setTokens(result.accessToken, result.refreshToken)
+                PrefsManager.setAccessToken(result.accessToken, result.accessTokenExpireTime)
+                PrefsManager.setRefreshToken(result.refreshToken, result.refreshTokenExpireTime)
                 result.memberName?.let { name -> PrefsManager.setUserName(name) }
                 PrefsManager.setMemberId(result.memberId)
                 PrefsManager.setHasTeam(result.hasTeam)
