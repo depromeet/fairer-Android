@@ -11,14 +11,14 @@ object PrefsManager {
         prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
     }
 
-    val accessToken: String
-        get() = prefs.getString(PREFS_ACCESS_TOKEN, "").toString()
+    val accessToken: String?
+        get() = prefs.getString(PREFS_ACCESS_TOKEN, null)
 
-    val refreshToken: String
-        get() = prefs.getString(PREFS_REFRESH_TOKEN, "").toString()
+    val refreshToken: String?
+        get() = prefs.getString(PREFS_REFRESH_TOKEN, null)
 
-    val deviceToken: String
-        get() = prefs.getString(PREFS_DEVICE_TOKEN, "").toString()
+    val deviceToken: String?
+        get() = prefs.getString(PREFS_DEVICE_TOKEN, null)
 
     fun setAccessToken(accessToken: String, expiredTime: String){
         prefs.edit().apply {

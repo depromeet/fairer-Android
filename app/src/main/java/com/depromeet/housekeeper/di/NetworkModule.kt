@@ -38,7 +38,7 @@ class NetworkModule {
                 request.newBuilder()
                     .addHeader(
                         "Authorization",
-                        PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
+                        PrefsManager.refreshToken ?: PrefsManager.authCode )
                     .build()
             )
         } catch (e: Exception) {

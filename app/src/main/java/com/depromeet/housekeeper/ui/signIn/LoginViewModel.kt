@@ -60,7 +60,11 @@ class LoginViewModel @Inject constructor(
 
     private fun saveToken() {
         viewModelScope.launch {
-            userRepository.saveToken(Token(token = PrefsManager.deviceToken))
+            if (PrefsManager.deviceToken.isNullOrEmpty()) {
+                Timber.e("fcm token is not set")
+                return@launch
+            }
+            userRepository.saveToken(Token(token = PrefsManager.deviceToken!!))
                 .collectLatest {
                     val result = receiveApiResult(it)
                     if (result != null) {
