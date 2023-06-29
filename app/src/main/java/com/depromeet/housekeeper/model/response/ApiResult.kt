@@ -2,8 +2,9 @@ package com.depromeet.housekeeper.model.response
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import timber.log.Timber
+import java.net.HttpURLConnection
 
 sealed class ApiResult<out T> {
     data class Success<out T>(val value: T) : ApiResult<T>()
@@ -14,8 +15,13 @@ sealed class ApiResult<out T> {
 fun <T> safeFlow(apiFunc: suspend () -> T): Flow<ApiResult<T>> = flow {
     try {
         emit(ApiResult.Success(apiFunc.invoke()))
-    } catch (e: HttpException) {
-        emit(ApiResult.Error(code = e.code(), message = e.stackTraceToString()))
+    }
+    catch (e: HttpException) {
+        if (e.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+            // todo 여기서 apiResult Loading return하고 BaseViewModel에서 로딩중 화면 보여주게?
+            Timber.e("HTTP_UNAUTHORIZED")
+        }
+        else emit(ApiResult.Error(code = e.code(), message = e.stackTraceToString()))
     } catch (e: Exception) {
         emit(ApiResult.Exception(e))
     } catch (e: Throwable) {
