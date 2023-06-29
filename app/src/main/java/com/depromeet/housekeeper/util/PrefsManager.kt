@@ -20,11 +20,16 @@ object PrefsManager {
     val deviceToken: String?
         get() = prefs.getString(PREFS_DEVICE_TOKEN, null)
 
+    //todo expiredTime 필요 없으면 지우자
     fun setAccessToken(accessToken: String, expiredTime: String){
         prefs.edit().apply {
             putString(PREFS_ACCESS_TOKEN, accessToken)
             putString(PREFS_ACCESS_TOKEN_EXPIRED_TIME, expiredTime)
         }.apply()
+    }
+
+    fun setAccessToken(accessToken: String){
+        prefs.edit().putString(PREFS_ACCESS_TOKEN, accessToken).apply()
     }
 
     fun setRefreshToken(refreshToken: String, expiredTime: String){
