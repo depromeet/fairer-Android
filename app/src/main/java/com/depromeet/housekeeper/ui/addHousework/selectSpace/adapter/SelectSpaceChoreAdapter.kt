@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.depromeet.housekeeper.databinding.ItemSelectSpaceTaskBinding
 
-class SelectSpaceChoreAdapter(private val chores: List<String>) :
+class SelectSpaceChoreAdapter(private val chores: List<String>,private val selectedPos : List<Int>) :
     RecyclerView.Adapter<SelectSpaceChoreAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -40,6 +40,9 @@ class SelectSpaceChoreAdapter(private val chores: List<String>) :
             binding.selectSpaceBtnTask.text = chore
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
+                if(selectedPos.contains(pos)){
+                    itemView.isSelected = true
+                }
                 binding.selectSpaceBtnTask.setOnClickListener {
                     itemClickListener.onClick(itemView, chore, pos)
                 }
