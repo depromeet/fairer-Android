@@ -42,7 +42,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
 
         lifecycleScope.launchWhenCreated {
             viewModel.version.collect{
-                binding.settingVersionTv.text = it
+                binding.version = it
             }
         }
     }
