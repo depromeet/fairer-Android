@@ -84,11 +84,11 @@ interface RemoteDataSource {
      */
     suspend fun saveToken(token: Token): Flow<ApiResult<Unit>>
     suspend fun sendMessage(message: Message): Flow<ApiResult<Message>>
-
+    suspend fun getAlarmInfo(): Flow<ApiResult<Alarm>>
+    suspend fun setAlarm(alarm: Alarm): Flow<ApiResult<Unit>>
     /**
     feedback
      */
-
     suspend fun createFeedback(feedbackModel : CreateFeedbackModel):Flow<ApiResult<Unit>>
 
     suspend fun updateFeedback(houseworkCompleteId:Int,comment:String):Flow<ApiResult<Unit>>

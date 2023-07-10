@@ -29,3 +29,9 @@ data class Message(
 data class Token(
     val token: String
 ): Parcelable
+
+@Parcelize
+data class Alarm(
+    val scheduledTimeStatus: Boolean,
+    val notCompleteStatus : Boolean
+): Parcelable
