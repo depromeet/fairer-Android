@@ -101,6 +101,4 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
             }
         }
     }
-
-
 }

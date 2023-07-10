@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.addHousework.selectSpace
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSelectSpaceBinding
-import com.depromeet.housekeeper.model.FeedbackHouseworkResponse
 import com.depromeet.housekeeper.model.SpaceChores
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.RepeatCycle
@@ -108,16 +108,21 @@ class SelectSpaceFragment :
         val gridLayoutManager = GridLayoutManager(context, 3)
         binding.selectSpaceRecyclerview.layoutManager = gridLayoutManager
         binding.selectSpaceRecyclerview.addItemDecoration(VerticalItemDecorator(12))
-        myAdapter = SelectSpaceChoreAdapter(emptyList<String>())
+        myAdapter = SelectSpaceChoreAdapter(emptyList(), emptyList())
         binding.selectSpaceRecyclerview.adapter = myAdapter
         viewModel.setChoreAdapter(myAdapter)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun bindingVm() {
-        viewModel.clearChore()
         lifecycleScope.launchWhenStarted {
             viewModel.choreList.collect {
-                myAdapter = SelectSpaceChoreAdapter(viewModel.choreList.value)
+                if(viewModel.selectedChorePos.value.isEmpty()){
+                    viewModel.setIsSelectedChore(false)
+                }else{
+                    viewModel.setIsSelectedChore(true)
+                }
+                myAdapter = SelectSpaceChoreAdapter(viewModel.choreList.value,viewModel.selectedChorePos.value)
                 myAdapter.notifyDataSetChanged()
                 binding.selectSpaceRecyclerview.adapter = myAdapter
 
@@ -125,11 +130,12 @@ class SelectSpaceFragment :
                     SelectSpaceChoreAdapter.OnItemClickListener {
                     override fun onClick(v: View, chore: String, position: Int) {
                         v.isSelected = !v.isSelected
-                        Timber.d("item click $position")
+                        viewModel.updateSelectedChorePos(position)
                         viewModel.updateChores(chore, v.isSelected)
-                        viewModel.setIsSelectedChore(true)
-                        if (viewModel.getChoreCount() == 0) {
+                        if(viewModel.selectedChorePos.value.isEmpty()){
                             viewModel.setIsSelectedChore(false)
+                        }else{
+                            viewModel.setIsSelectedChore(true)
                         }
                     }
                 })
@@ -222,10 +228,10 @@ class SelectSpaceFragment :
         dialog.showDialog()
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
-                setSelected()
-                onClick(space)
                 viewModel.setIsSelectedChore(false)
                 viewModel.clearChore()
+                setSelected()
+                onClick(space)
             }
         }
     }
