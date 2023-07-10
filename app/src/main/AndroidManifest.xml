@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_fairer_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HouseKeeper.SplashScreen"
+        android:theme="@style/Theme.HouseKeeper"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.HouseKeeperActivity"
