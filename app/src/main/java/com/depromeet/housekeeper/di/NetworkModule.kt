@@ -5,8 +5,6 @@ import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.data.local.SessionManager
-import com.depromeet.housekeeper.util.NETWORK_ERROR
-import com.depromeet.housekeeper.util.PrefsManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -34,28 +32,6 @@ class NetworkModule {
         if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
     }
 
-    private val networkInterceptor: Interceptor = Interceptor { chain ->
-        val request = chain.request()
-        try {
-            chain.proceed(
-                request.newBuilder()
-                    .addHeader(
-                        "Authorization",
-                        PrefsManager.refreshToken ?: PrefsManager.authCode
-                    )
-                    .build()
-            )
-        } catch (e: Exception) {
-            Response.Builder()
-                .request(request)
-                .protocol(Protocol.HTTP_1_1)
-                .code(NETWORK_ERROR)
-                .message(e.message ?: "")
-                .body(ResponseBody.create(null, e.message ?: ""))
-                .build()
-        }
-    }
-
     @Singleton
     @Provides
     fun provideSessionManager(@ApplicationContext context: Context): SessionManager = SessionManager(context)
@@ -80,7 +56,7 @@ class NetworkModule {
                 .writeTimeout(5, TimeUnit.SECONDS)
         } else {
             OkHttpClient.Builder()
-                .addInterceptor(networkInterceptor)
+                .addInterceptor(authInterceptor)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
