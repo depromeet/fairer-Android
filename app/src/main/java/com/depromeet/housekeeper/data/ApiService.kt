@@ -161,4 +161,10 @@ interface ApiService {
 
     @DELETE("/api/feedback/{feedbackId}")
     suspend fun deleteFeedback(@Path("feedbackId") feedbackId:Int)
+
+    @GET("api/alarm/status")
+    suspend fun getAlarmInfo(): Alarm
+
+    @PUT("api/alarm/status")
+    suspend fun setAlarm(@Body alarm: Alarm)
 }

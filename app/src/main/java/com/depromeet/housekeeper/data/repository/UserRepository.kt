@@ -2,8 +2,25 @@ package com.depromeet.housekeeper.data.repository
 
 
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.model.request.*
-import com.depromeet.housekeeper.model.response.*
+import com.depromeet.housekeeper.model.request.Alarm
+import com.depromeet.housekeeper.model.request.BuildTeam
+import com.depromeet.housekeeper.model.request.EditProfileModel
+import com.depromeet.housekeeper.model.request.JoinTeam
+import com.depromeet.housekeeper.model.request.Message
+import com.depromeet.housekeeper.model.request.SocialType
+import com.depromeet.housekeeper.model.request.Token
+import com.depromeet.housekeeper.model.request.UpdateMember
+import com.depromeet.housekeeper.model.response.ApiResult
+import com.depromeet.housekeeper.model.response.BuildTeamResponse
+import com.depromeet.housekeeper.model.response.EditResponseBody
+import com.depromeet.housekeeper.model.response.GetInviteCode
+import com.depromeet.housekeeper.model.response.Groups
+import com.depromeet.housekeeper.model.response.JoinTeamResponse
+import com.depromeet.housekeeper.model.response.LoginResponse
+import com.depromeet.housekeeper.model.response.ProfileData
+import com.depromeet.housekeeper.model.response.ProfileImages
+import com.depromeet.housekeeper.model.response.TeamUpdateResponse
+import com.depromeet.housekeeper.model.response.UpdateMemberResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -58,4 +75,6 @@ class UserRepository @Inject constructor(
     suspend fun sendMessage(message: Message): Flow<ApiResult<Message>> =
         remoteDataSource.sendMessage(message)
 
+    suspend fun getAlarmInfo(): Flow<ApiResult<Alarm>> = remoteDataSource.getAlarmInfo()
+    suspend fun setAlarm(alarm: Alarm): Flow<ApiResult<Unit>> = remoteDataSource.setAlarm(alarm)
 }

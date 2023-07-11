@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +25,7 @@ class SelectSpaceViewModel @Inject constructor(
         getChoreList()
     }
     private val _choreAdapter : MutableStateFlow<SelectSpaceChoreAdapter?> = MutableStateFlow(null)
-    val choreAdapter : StateFlow<SelectSpaceChoreAdapter?>
+    val choreAdapter: StateFlow<SelectSpaceChoreAdapter?>
         get() = _choreAdapter
 
     private val _chorePreset: MutableStateFlow<List<ChoreList>> = MutableStateFlow(listOf())
@@ -33,6 +35,10 @@ class SelectSpaceViewModel @Inject constructor(
     private val _choreList: MutableStateFlow<List<String>> = MutableStateFlow(listOf())
     val choreList: StateFlow<List<String>>
         get() = _choreList
+
+    private val _selectedChorePos: MutableStateFlow<List<Int>> = MutableStateFlow(listOf())
+    val selectedChorePos: StateFlow<List<Int>>
+        get() = _selectedChorePos
 
     private val _selectSpace: MutableStateFlow<String> = MutableStateFlow("")
     val selectSpace: StateFlow<String>
@@ -67,6 +73,7 @@ class SelectSpaceViewModel @Inject constructor(
     }
 
     fun clearChore() {
+        _selectedChorePos.value = emptyList()
         _chores.value = emptyList()
     }
 
@@ -86,12 +93,18 @@ class SelectSpaceViewModel @Inject constructor(
         _isSelectedSpace.value = boolean
     }
 
-    fun setSpace(space: String) {
-        _selectSpace.value = space
+    fun updateSelectedChorePos(pos: Int) {
+        if (_selectedChorePos.value.contains(pos)) {
+            _selectedChorePos.value = _selectedChorePos.value.minus(pos)
+            Timber.d("${_selectedChorePos.value}")
+        } else {
+            _selectedChorePos.value = _selectedChorePos.value.plus(pos)
+            Timber.d("${_selectedChorePos.value}")
+        }
     }
 
-    fun getChoreCount(): Int {
-        return _chores.value.size
+    fun setSpace(space: String) {
+        _selectSpace.value = space
     }
 
     fun updateChores(chores: String, isSelect: Boolean) {
@@ -103,10 +116,6 @@ class SelectSpaceViewModel @Inject constructor(
                 _chores.value = _chores.value.minus(chores)
             }
         }
-    }
-
-    fun updateSelectDate(date: String) {
-        _selectCalendar.value = DayOfWeek(date)
     }
 
     fun updateCalendarView(year: Int, month: Int, dayOfMonth: Int) {

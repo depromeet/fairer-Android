@@ -39,6 +39,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 binding.layoutNetwork.isNetworkError = it
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.version.collect{
+                binding.version = it
+            }
+        }
     }
 
     private fun initListener() {
@@ -95,6 +101,4 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
             }
         }
     }
-
-
 }
