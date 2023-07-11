@@ -3,11 +3,17 @@ package com.depromeet.housekeeper.util
 import android.content.Context
 import android.content.SharedPreferences
 import com.depromeet.housekeeper.model.response.ProfileData
+import timber.log.Timber
 
 object PrefsManager {
     private lateinit var prefs: SharedPreferences
 
+    fun clearPrefs(){
+        prefs.edit().clear().apply()
+    }
+
     fun init(context: Context) {
+        Timber.d("init prefs")
         prefs = context.getSharedPreferences("house_keeper", Context.MODE_PRIVATE)
     }
 
@@ -20,23 +26,21 @@ object PrefsManager {
     val deviceToken: String?
         get() = prefs.getString(PREFS_DEVICE_TOKEN, null)
 
-    //todo expiredTime 필요 없으면 지우자
-    fun setAccessToken(accessToken: String, expiredTime: String){
-        prefs.edit().apply {
-            putString(PREFS_ACCESS_TOKEN, accessToken)
-            putString(PREFS_ACCESS_TOKEN_EXPIRED_TIME, expiredTime)
-        }.apply()
+    val authCode: String?
+        get() = prefs.getString(PREFS_AUTH_CODE, null)
+
+    fun setAuthCode(authCode: String?) {
+        prefs.edit()?.apply {
+            putString(PREFS_AUTH_CODE, authCode)
+        }?.apply()
     }
 
     fun setAccessToken(accessToken: String){
         prefs.edit().putString(PREFS_ACCESS_TOKEN, accessToken).apply()
     }
 
-    fun setRefreshToken(refreshToken: String, expiredTime: String){
-        prefs.edit().apply {
-            putString(PREFS_REFRESH_TOKEN, refreshToken)
-            putString(PREFS_REFRESH_TOKEN_EXPIRED_TIME, expiredTime)
-        }.apply()
+    fun setRefreshToken(refreshToken: String){
+        prefs.edit().putString(PREFS_REFRESH_TOKEN, refreshToken).apply()
     }
 
     fun setDeviceToken(deviceToken: String) {
@@ -48,9 +52,7 @@ object PrefsManager {
     fun deleteTokens() {
         prefs.edit()?.apply {
             remove(PREFS_ACCESS_TOKEN)
-            remove(PREFS_ACCESS_TOKEN_EXPIRED_TIME)
             remove(PREFS_REFRESH_TOKEN)
-            remove(PREFS_REFRESH_TOKEN_EXPIRED_TIME)
         }?.apply()
     }
 
@@ -79,14 +81,6 @@ object PrefsManager {
         }?.apply()
     }
 
-    val authCode: String
-        get() = prefs.getString(PREFS_AUTH_CODE, "").toString()
-
-    fun setAuthCode(authCode: String) {
-        prefs.edit()?.apply {
-            putString(PREFS_AUTH_CODE, authCode)
-        }?.apply()
-    }
 
     val memberId: Int
         get() = prefs.getInt(PREFS_MEMBER_ID, -1)
