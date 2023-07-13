@@ -2,7 +2,6 @@ package com.depromeet.housekeeper.di
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.util.FIREBASE_SERVER_URL
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -32,9 +31,9 @@ class RemoteConfigWrapper @Inject constructor(
             remoteConfig.fetchAndActivate()
             return remoteConfig.getString(FIREBASE_SERVER_URL)
         } catch (e: FirebaseRemoteConfigClientException){
-            Log.e(e.message, "Firebase 가져오질 못했어요")
+            Timber.e(e.message, "Firebase 가져오질 못했어요")
         } catch (e: Exception){
-            Log.e(e.message, e.stackTraceToString())
+            Timber.e(e.message, e.stackTraceToString())
         }
 
         return context.getString(R.xml.remote_config_default)
