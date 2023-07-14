@@ -52,7 +52,7 @@ object Dependencies {
         "androidx.navigation:navigation-safe-args-gradle-plugin:$NAV_VERSION"
 
 
-    private const val OKHTTP = "4.3.1"
+    private const val OKHTTP = "5.0.0-alpha.11"
     const val okhttp = "com.squareup.okhttp3:okhttp:OKHTTP"
     const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:$OKHTTP"
 
