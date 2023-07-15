@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.request.WeekDays
+import com.depromeet.housekeeper.ui.add.RepeatDateImpl
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddHouseWorkViewModel @Inject constructor(
     private val mainRepository: MainRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val repeatDate: RepeatDateImpl
 ) : BaseViewModel() {
 
     private val _curDate: MutableStateFlow<String> = MutableStateFlow("")
@@ -42,7 +44,7 @@ class AddHouseWorkViewModel @Inject constructor(
     val curTime: StateFlow<String?> get() = _curTime
 
     private val _positions: MutableStateFlow<ArrayList<Int>> = MutableStateFlow(arrayListOf(0))
-    val position : StateFlow<ArrayList<Int>>
+    val position: StateFlow<ArrayList<Int>>
         get() = _positions
 
 
@@ -59,6 +61,7 @@ class AddHouseWorkViewModel @Inject constructor(
     val selectCalendar: StateFlow<String> get() = _selectCalendar
 
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
 
     private var _createdSuccess = MutableStateFlow(false)
     val createdSuccess get() = _createdSuccess
@@ -116,7 +119,7 @@ class AddHouseWorkViewModel @Inject constructor(
         _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
     }
 
-    fun setTimeNull(){
+    fun setTimeNull() {
         _curTime.value = null
     }
 
@@ -125,58 +128,41 @@ class AddHouseWorkViewModel @Inject constructor(
         _positions.value.add(position)
     }
 
-    fun getPosition(type: PositionType): Int {
-        return when (type) {
-            PositionType.CUR -> _positions.value[_positions.value.size - 1]
-            PositionType.PRE -> _positions.value[_positions.value.size - 2]
-        }
+    fun getPosition(type: PositionType): Int = when (type) {
+        PositionType.CUR -> _positions.value[_positions.value.size - 1]
+        PositionType.PRE -> _positions.value[_positions.value.size - 2]
     }
 
+
+    /**
+     * Repeat
+     */
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
-        val dayList = mutableListOf<WeekDays>()
-        for (i in selectedDays.indices) {
-            if (!selectedDays[i]) continue
-            val day: WeekDays = when (i) {
-                0 -> WeekDays.MON
-                1 -> WeekDays.TUE
-                2 -> WeekDays.WED
-                3 -> WeekDays.THR
-                4 -> WeekDays.FRI
-                5 -> WeekDays.SAT
-                6 -> WeekDays.SUN
-                else -> {
-                    WeekDays.NONE
-                }
-            }
-            dayList.add(day)
-        }
-        _selectedDayList = dayList
-        return dayList.toList()
+        val dayList = repeatDate.getRepeatDays(selectedDays)
+        _selectedDayList = dayList as MutableList<WeekDays>
+        return dayList
     }
 
-    fun getRepeatDaysString(type: String): MutableList<String> {
-        val repeatDaysString = mutableListOf<String>()
-        if (type == "kor") {
-            _selectedDayList.forEach { repeatDaysString.add(it.kor) }
-        } else if (type == "eng") {
-            _selectedDayList.forEach { repeatDaysString.add(it.eng) }
-        }
-        return repeatDaysString
-    }
+    fun getRepeatDaysString(type: String): List<String> =
+        repeatDate.getRepeatDaysString(type, selectedDayList)
 
-    fun updateRepeatInform(dayList: List<String>) {
+    fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
         val pos = getPosition(PositionType.CUR)
-        _chores.value[pos].repeatCycle = RepeatCycle.WEEKLY.value
-        _chores.value[pos].repeatPattern = dayList.joinToString(",")
-        Timber.d("chores pos = $pos, ${dayList}")
-    }
-
-    fun updateRepeatInform(repeatCycle: RepeatCycle) {
-        if (repeatCycle == RepeatCycle.MONTHLY) {
-            val pos = getPosition(PositionType.CUR)
-            _chores.value[pos].repeatCycle = repeatCycle.value
-            _chores.value[pos].repeatPattern = getCurDay("")
-        }
+        _chores.value[pos] =
+            if (repeatCycle == RepeatCycle.MONTHLY) {
+                repeatDate.updateRepeatInform(
+                    cycle = repeatCycle,
+                    chore = chores.value[pos],
+                    pattern = getCurDay("")
+                )
+            } else {
+                if (dayList == null) return
+                repeatDate.updateRepeatInform(
+                    cycle = repeatCycle,
+                    chore = chores.value[pos],
+                    pattern = dayList.joinToString(",")
+                )
+            }
     }
 
     fun initChores(space: String, choreName: List<String>) {

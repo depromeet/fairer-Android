@@ -253,7 +253,7 @@ class AddHouseWorkFragment :
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
 
                 var repeatDaysString = viewModel.getRepeatDaysString("eng")
-                viewModel.updateRepeatInform(repeatDaysString)
+                viewModel.updateRepeatInform(RepeatCycle.WEEKLY, repeatDaysString)
 
                 repeatDaysString = viewModel.getRepeatDaysString("kor")
                 binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
