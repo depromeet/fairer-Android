@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.HouseWork
+import com.depromeet.housekeeper.ui.add.RepeatDateImpl
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddDirectTodoViewModel @Inject constructor(
     private val mainRepository: MainRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val repeatDate: RepeatDateImpl
 ) : BaseViewModel() {
 
     private val _curViewType: MutableStateFlow<ViewType> =
@@ -38,11 +40,6 @@ class AddDirectTodoViewModel @Inject constructor(
         MutableStateFlow("")
     val curDate: StateFlow<String>
         get() = _curDate
-
-    private val _curChoreName: MutableStateFlow<String> =
-        MutableStateFlow("")
-    val curChoreName: StateFlow<String?>
-        get() = _curChoreName
 
     private val _curTime: MutableStateFlow<String?> =
         MutableStateFlow(null)
@@ -128,74 +125,53 @@ class AddDirectTodoViewModel @Inject constructor(
         val arr = repeatPattern.split(",")
         _selectedDayList.clear()
         arr.forEach {
-            val item = when (it) {
-                WeekDays.MON.eng -> WeekDays.MON
-                WeekDays.TUE.eng -> WeekDays.TUE
-                WeekDays.WED.eng -> WeekDays.WED
-                WeekDays.THR.eng -> WeekDays.THR
-                WeekDays.FRI.eng -> WeekDays.FRI
-                WeekDays.SAT.eng -> WeekDays.SAT
-                WeekDays.SUN.eng -> WeekDays.SUN
-                else -> WeekDays.NONE
+            WeekDays.values().find { value -> it == value.eng }?.let {
+                _selectedDayList.add(it)
             }
-            if (item != WeekDays.NONE) _selectedDayList.add(item)
         }
-    }
-
-    fun getRepeatDaysString(type: String): MutableList<String> {
-        val repeatDaysString = mutableListOf<String>()
-        if (type == "kor") {
-            selectedDayList.forEach { repeatDaysString.add(it.kor) }
-        } else if (type == "eng") {
-            selectedDayList.forEach { repeatDaysString.add(it.eng) }
-        }
-        return repeatDaysString
     }
 
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
-        val dayList = mutableListOf<WeekDays>()
-        for (i in selectedDays.indices) {
-            if (!selectedDays[i]) continue
-            val day: WeekDays = when (i) {
-                0 -> WeekDays.MON
-                1 -> WeekDays.TUE
-                2 -> WeekDays.WED
-                3 -> WeekDays.THR
-                4 -> WeekDays.FRI
-                5 -> WeekDays.SAT
-                6 -> WeekDays.SUN
-                else -> {
-                    WeekDays.NONE
-                }
-            }
-            dayList.add(day)
-        }
-        _selectedDayList = dayList
-        return dayList.toList()
+        val dayList = repeatDate.getRepeatDays(selectedDays)
+        _selectedDayList = dayList as MutableList<WeekDays>
+        return dayList
     }
 
-    fun updateRepeatInform(dayList: List<String>) {
-        val cycle = RepeatCycle.WEEKLY.value
-        val pattern = dayList.joinToString(",")
-        if (editChore.value != null) {
-            _editChore.value!!.repeatCycle = cycle
-            _editChore.value!!.repeatPattern = pattern
-        } else {
-            _chores.value[0].repeatCycle = cycle
-            _chores.value[0].repeatPattern = pattern
+    fun getRepeatDaysString(type: String): List<String> =
+        repeatDate.getRepeatDaysString(type, selectedDayList)
+
+    fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
+        if (editChore.value != null) { // 수정
+            repeatInform(editChore.value!!, repeatCycle, dayList)
+        } else { // 신규 (직접 입력)
+            repeatInform(chores.value[0], repeatCycle, dayList)
         }
+
     }
 
-    fun updateRepeatInform(repeatCycle: RepeatCycle) {
-        if (repeatCycle != RepeatCycle.MONTHLY) return
+    private fun repeatInform(
+        chore: Any,
+        repeatCycle: RepeatCycle,
+        dayList: List<String>? = null
+    ) {
+        val repeatPattern: String =
+            if (repeatCycle == RepeatCycle.MONTHLY) getCurDay("") else dayList?.joinToString(",")
+                ?: ""
 
-        if (editChore.value != null) {
-            _editChore.value!!.repeatCycle = repeatCycle.value
-            _editChore.value!!.repeatPattern = getCurDay("")
-        } else {
-            _chores.value[0].repeatCycle = repeatCycle.value
-            _chores.value[0].repeatPattern = getCurDay("")
+        if (chore is EditChore) {
+            _editChore.value = repeatDate.updateRepeatInform(
+                cycle = repeatCycle,
+                editChore = chore,
+                pattern = repeatPattern
+            )
+        } else if (chore is Chore) {
+            _chores.value[0] = repeatDate.updateRepeatInform(
+                cycle = repeatCycle,
+                chore = chore,
+                pattern = repeatPattern
+            )
         }
+
     }
 
     fun getCurDay(lastWord: String): String {
@@ -241,8 +217,7 @@ class AddDirectTodoViewModel @Inject constructor(
         if (viewType == ViewType.ADD) {
             _chores.value[0].scheduledDate = curDate.value
             _chores.value[0].repeatPattern = curDate.value
-        }
-        else if (viewType == ViewType.EDIT){
+        } else if (viewType == ViewType.EDIT) {
             _editChore.value!!.scheduledDate = curDate.value
             _editChore.value!!.scheduledDate = curDate.value
         }
@@ -251,7 +226,7 @@ class AddDirectTodoViewModel @Inject constructor(
     fun updateChoreName(viewType: ViewType, name: String) {
         if (viewType == ViewType.ADD) {
             _chores.value[0].houseWorkName = name
-        } else if (viewType == ViewType.EDIT){
+        } else if (viewType == ViewType.EDIT) {
             _editChore.value!!.houseWorkName = name
         }
     }
@@ -263,7 +238,7 @@ class AddDirectTodoViewModel @Inject constructor(
     fun updateChoreTime(viewType: ViewType, time: String?) {
         if (viewType == ViewType.ADD) {
             _chores.value[0].scheduledTime = time
-        } else if (viewType == ViewType.EDIT){
+        } else if (viewType == ViewType.EDIT) {
             _editChore.value!!.scheduledTime = time
         }
     }
@@ -275,7 +250,7 @@ class AddDirectTodoViewModel @Inject constructor(
         }
         if (viewType == ViewType.ADD) {
             _chores.value[0].assignees = assigneeIds
-        } else if (viewType == ViewType.EDIT){
+        } else if (viewType == ViewType.EDIT) {
             _editChore.value!!.assignees = assigneeIds
         }
     }
