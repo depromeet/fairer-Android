@@ -133,10 +133,6 @@ class AddHouseWorkViewModel @Inject constructor(
         PositionType.PRE -> _positions.value[_positions.value.size - 2]
     }
 
-
-    /**
-     * Repeat
-     */
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
         val dayList = repeatDate.getRepeatDays(selectedDays)
         _selectedDayList = dayList as MutableList<WeekDays>
@@ -148,21 +144,14 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
         val pos = getPosition(PositionType.CUR)
-        _chores.value[pos] =
-            if (repeatCycle == RepeatCycle.MONTHLY) {
-                repeatDate.updateRepeatInform(
-                    cycle = repeatCycle,
-                    chore = chores.value[pos],
-                    pattern = getCurDay("")
-                )
-            } else {
-                if (dayList == null) return
-                repeatDate.updateRepeatInform(
-                    cycle = repeatCycle,
-                    chore = chores.value[pos],
-                    pattern = dayList.joinToString(",")
-                )
-            }
+        val repeatPattern: String =
+            if (repeatCycle == RepeatCycle.MONTHLY) getCurDay("") else dayList?.joinToString(",")
+                ?: ""
+        _chores.value[pos] = repeatDate.updateRepeatInform(
+            cycle = repeatCycle,
+            chore = chores.value[pos],
+            pattern = repeatPattern
+        )
     }
 
     fun initChores(space: String, choreName: List<String>) {
