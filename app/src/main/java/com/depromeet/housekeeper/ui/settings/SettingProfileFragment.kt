@@ -100,9 +100,11 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             if (!nameValue.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else if(nameValue.length>16) {
+                binding.signNameError.setText(R.string.sign_name_error)
+            } else if(nameValue.length>5) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
+                binding.signNameError.setText(R.string.sign_name_text_over_error)
             }else {
                 binding.nameIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled =
@@ -111,16 +113,15 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             binding.nameIsTextChanged = nameValue != ""
         }
 
+
         binding.etStatus.addTextChangedListener {
             val value: String = binding.etStatus.text.toString()
             viewModel.setMassageData(value)
-            if (!value.matches(pattern.toRegex())) {
+             if(value.length>20) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else if(value.length>16) {
-                binding.stateIsError = true
-                binding.profileBtn.mainFooterButton.isEnabled = false
-            }else {
+                 binding.signNameError.setText(R.string.setting_profile_text_over_error)
+             }else {
                 binding.stateIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled = true
             }
@@ -192,7 +193,6 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
 
     }
-
 
 
     private fun ImageView.setImg(url: String?) {

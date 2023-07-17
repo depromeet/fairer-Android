@@ -114,7 +114,9 @@
     <string name="sign_name_hint">예) 홍길동</string>
     <string name="sign_name_next_btn_text">입력 완료</string>
     <string name="sign_name_error">&amp;,!,#,@,^와 같은 특수문자는 입력하실 수 없어요.</string>
-    <string name="sign_name_text_over_error">텍스트는 16글자를 초과하여 입력하실 수 없어요.</string>
+    <string name="sign_name_text_over_error">텍스트는 5글자를 초과하여 입력하실 수 없어요.</string>
+    <string name="sign_group_text_over_error">텍스트는 16글자를 초과하여 입력하실 수 없어요.</string>
+    <string name="sign_invite_text_over_error">텍스트는 12글자를 초과하여 입력하실 수 없어요.</string>
     <string name="sign_name_blank" />
 
     <!--SignProfileFragment-->
@@ -144,6 +146,7 @@
     <string name="setting_profile_name">이름</string>
     <string name="setting_profile_title">프로필을 설정해주세요.</string>
     <string name="setting_profile_sub_title">상태 메세지</string>
+    <string name="setting_profile_text_over_error">텍스트는 20글자를 초과하여 입력하실 수 없어요.</string>
 
     <!-- alarmFragment -->
     <string name="alarm_housework_text">설정 시간에 맞춰서 알림</string>

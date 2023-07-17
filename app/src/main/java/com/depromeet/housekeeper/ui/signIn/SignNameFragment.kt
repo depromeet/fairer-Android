@@ -31,7 +31,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
         initView()
         bindingVm()
         initListener()
-        validateName()
+        validateInput(viewModel.viewType.value)
     }
 
     private fun initView(){
@@ -49,7 +49,6 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                 SignViewType.UserName -> getString(R.string.sign_name_hint)
                 SignViewType.InviteCode -> getString(R.string.invite_code_hint)
                 else -> getString(R.string.group_name_hint)
-
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -174,31 +173,67 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             false
         }
     }
-
-    private fun validateName() {
+    private fun validateInput(signViewType: SignViewType) {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.signNameEt.addTextChangedListener {
             val value: String = binding.signNameEt.text.toString()
             viewModel.setInputText(binding.signNameEt.text.toString())
             binding.isTextChanged = true
-            if (!value.matches(pattern.toRegex())) {
-                binding.isError = true
-                binding.signNameNextBtn.mainFooterButton.isEnabled = false
-                binding.signNameError.setText(R.string.sign_name_error)
-            } else if(value.length>16) {
-                binding.isError = true
-                binding.signNameNextBtn.mainFooterButton.isEnabled = false
-                binding.signNameError.setText(R.string.sign_name_text_over_error)
-            } else{
-                binding.isError = false
-                binding.signNameNextBtn.mainFooterButton.isEnabled =
-                    viewModel.inputText.value != ""
+
+            when (signViewType) {
+                SignViewType.UserName -> {
+                    if (!value.matches(pattern.toRegex())) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_name_error)
+                    }
+                    else if (value.length > 5) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_name_text_over_error)
+                    } else {
+                        binding.isError = false
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                    }
+                }
+                SignViewType.InviteCode -> {
+                    if (!value.matches(pattern.toRegex())) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_name_error)
+                    }
+                    else if (value.length > 12) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_invite_text_over_error)
+                    } else {
+                        binding.isError = false
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                    }
+                }
+                SignViewType.GroupName, SignViewType.ModifyGroupName -> {
+                    if (!value.matches(pattern.toRegex())) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_name_error)
+                    }
+                    else if (value.length > 16) {
+                        binding.isError = true
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = false
+                        binding.signNameError.setText(R.string.sign_group_text_over_error)
+                    } else {
+                        binding.isError = false
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                    }
+                }
             }
-            if (value == "") {
+
+            if (value.isEmpty()) {
                 binding.isTextChanged = false
             }
         }
     }
+
 
 }
 

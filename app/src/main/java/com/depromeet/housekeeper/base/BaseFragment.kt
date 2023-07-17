@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import timber.log.Timber
 
 abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragment() {
 
@@ -25,7 +24,6 @@ abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragmen
         _binding = DataBindingUtil.inflate(inflater, resId, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         createView(binding)
-        Timber.d("asdasdasd")
         return binding.root
     }
 
@@ -36,7 +34,6 @@ abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragmen
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.d("asd Destroy")
         _binding = null
     }
 
