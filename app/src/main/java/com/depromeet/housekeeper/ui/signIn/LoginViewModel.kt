@@ -3,9 +3,9 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
-import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.request.SocialType
 import com.depromeet.housekeeper.model.request.Token
+import com.depromeet.housekeeper.model.ui.NewMember
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,9 +20,9 @@ class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    private val _response: MutableStateFlow<LoginResponse?> = MutableStateFlow(null)
-    val response: StateFlow<LoginResponse?>
-        get() = _response
+    private val _newMember: MutableStateFlow<NewMember?> = MutableStateFlow(null)
+    val newMember: StateFlow<NewMember?>
+        get() = _newMember
 
     private val _code: MutableStateFlow<String> = MutableStateFlow("")
     val code: StateFlow<String>
@@ -38,18 +38,34 @@ class LoginViewModel @Inject constructor(
             userRepository.getGoogleLogin(
                 SocialType("GOOGLE")
             ).collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    _response.value = result
-                    Timber.d("!@#${result.memberName.toString()}")
-                }
+                val result = receiveApiResult(it) ?: return@collectLatest
+                _newMember.value = NewMember(result.hasTeam, result.isNewMember)
+
+                PrefsManager.setAccessToken(result.accessToken)
+                PrefsManager.setRefreshToken(result.refreshToken)
+                PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
+
+                result.memberName?.let { name -> PrefsManager.setUserName(name) }
+                PrefsManager.setMemberId(result.memberId)
+                PrefsManager.setHasTeam(result.hasTeam)
+                PrefsManager.setMemberId(result.memberId)
+
+                // 로그인 후 set fcm token
+                saveToken()
+
+                Timber.d("Auth \naccessToken:${result.accessToken}\nrefreshToken:${result.refreshToken}")
+                Timber.d("isNewMember : ${result.isNewMember}, team: ${result.hasTeam}, MemberName: ${result.memberName}")
             }
         }
     }
 
-    fun saveToken() {
+    private fun saveToken() {
         viewModelScope.launch {
-            userRepository.saveToken(Token(token = PrefsManager.deviceToken))
+            if (PrefsManager.deviceToken.isNullOrEmpty()) {
+                Timber.e("fcm token is not set")
+                return@launch
+            }
+            userRepository.saveToken(Token(token = PrefsManager.deviceToken!!))
                 .collectLatest {
                     val result = receiveApiResult(it)
                     if (result != null) {

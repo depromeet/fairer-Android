@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.R
+import com.depromeet.housekeeper.data.local.SessionManager
 import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
 import com.depromeet.housekeeper.service.InternetService
 import com.depromeet.housekeeper.util.FILTER_INTERNET_CONNECTED
@@ -71,6 +72,9 @@ class HouseKeeperActivity : AppCompatActivity() {
             addAction(Intent.ACTION_SEND)
         }
         registerReceiver(internetReceiver, filter)
+
+        //todo refresh token 만료
+        //SessionManager.logoutFlag = true
     }
 
     override fun onStop() {

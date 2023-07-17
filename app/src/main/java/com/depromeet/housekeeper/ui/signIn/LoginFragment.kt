@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.signIn
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,8 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
-import com.depromeet.housekeeper.model.response.LoginResponse
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.model.ui.NewMember
 import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,7 +28,10 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val RC_SIGN_IN = 1
-    lateinit var mGoogleSignInClient: GoogleSignInClient
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mGoogleSignInClient: GoogleSignInClient
+    }
     private val viewModel: LoginViewModel by viewModels()
     private val navArgs by navArgs<LoginFragmentArgs>()
 
@@ -57,6 +61,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         if (navArgs.code != "null") {
             navigateDynamicLink()
         } else if (account != null) {
+            Timber.d("Account 존재")
             navigateOnStart()
         }
     }
@@ -102,25 +107,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun bindingVM() {
         viewModel.viewModelScope.launch {
-            viewModel.response.collect { response ->
-                Timber.d("accesstoken:${response?.accessToken}, refreshtoken:${response?.refreshToken}")
-                Timber.d("isNewMember : ${response?.isNewMember}, team: ${response?.hasTeam}, MemberName: ${response?.memberName}")
-                response?.run {
-                    PrefsManager.setTokens(response.accessToken, response.refreshToken)
-
-                    // set fcm token
-                    viewModel.saveToken()
-
-                    response.memberName?.let {
-                        PrefsManager.setUserName(it)
-                    }
-                    PrefsManager.setMemberId(this.memberId)
-                    // this.memberId
-
-                    PrefsManager.setHasTeam(response.hasTeam)
-                    PrefsManager.setMemberId(response.memberId)
-                    initNavigation(response)
-                }
+            viewModel.newMember.collect {
+                if (it != null) initNavigation(it)
             }
         }
 
@@ -131,24 +119,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         }
     }
 
-    private fun initNavigation(response: LoginResponse) {
-        when (response.hasTeam) {
-            true -> {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
-            }
-            false -> {
-                if (response.isNewMember) {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                            SignViewType.UserName,
-                            null
-                        )
+    private fun initNavigation(member: NewMember) {
+        if (member.hasTeam){
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+        } else {
+            if (member.isNewMember) {
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                        SignViewType.UserName,
+                        null
                     )
-                } else {
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinGroupFragment())
-                }
+                )
+            } else {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinGroupFragment())
             }
         }
+
     }
 
     private fun navigateDynamicLink() {
