@@ -1,7 +1,6 @@
 package com.depromeet.housekeeper.ui.signIn
 
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -14,6 +13,8 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
+import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
         if(viewModel.viewType.value==SignViewType.ModifyGroupName){
@@ -104,8 +106,30 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                 binding.layoutNetwork.isNetworkError = it
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.backgroundBox.collect {
+                when (it) {
+                    1 -> { // edit 중
+                        binding.clEt.background =
+                            resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
+                    }
+
+                    2 -> { // error
+                        binding.clEt.background =
+                            resources.getDrawable(R.drawable.edit_text_error_background)
+                    }
+
+                    else -> { // default
+                        binding.clEt.background =
+                            resources.getDrawable(R.drawable.sign_name_edit_text_background)
+                    }
+                }
+            }
+        }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initListener() {
         binding.signNameHeader.defaultHeaderTitleTv.text = ""
         binding.signNameHeader.defaultHeaderBackBtn.setOnClickListener {
@@ -123,6 +147,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         )
                     )
                 }
+
                 SignViewType.GroupName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
@@ -130,21 +155,17 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         )
                     )
                 }
+
                 SignViewType.InviteCode -> {
                     viewModel.joinTeam(viewModel.inputText.value)
                     viewModel.setIsNextBtnClickable(false)
                 }
+
                 SignViewType.ModifyGroupName -> {
                     viewModel.teamNameUpdate(viewModel.inputText.value)
                     viewModel.setIsNextBtnClickable(false)
                 }
             }
-        }
-        binding.signNameBackground.setOnClickListener {
-            binding.signNameEt.clearFocus()
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.signNameEt.windowToken, 0)
-            binding.isTextChanged = false
         }
         binding.signNameClear.setOnClickListener {
             binding.signNameEt.setText(R.string.sign_name_blank)
@@ -165,12 +186,18 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             findNavController().navigate(SignNameFragmentDirections.actionSignNameFragmentToMainFragment())
         }
 
-        binding.signNameEt.setOnTouchListener { status, _ ->
-            status.requestFocus()
-            if (viewModel.inputText.value.isNotEmpty()) {
-                binding.isTextChanged = true
+        binding.signNameEt.apply {
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    binding.isTextChanged = false
+                    viewModel.setBackgroundBox(0)
+                    hideKeyboard(requireContext(), this)
+                } else {
+                    if (viewModel.inputText.value.isNotEmpty()) binding.isTextChanged = true
+                    viewModel.setBackgroundBox(1)
+                    showKeyboard(requireContext(), this)
+                }
             }
-            false
         }
     }
     private fun validateInput(signViewType: SignViewType) {
@@ -186,14 +213,19 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
+                        viewModel.setBackgroundBox(2)
                     }
                     else if (value.length > 5) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_text_over_error)
+                        viewModel.setBackgroundBox(2)
                     } else {
                         binding.isError = false
-                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                        binding.signNameNextBtn.mainFooterButton.isEnabled =
+                            viewModel.inputText.value != ""
+                        viewModel.setBackgroundBox(0)
+
                     }
                 }
                 SignViewType.InviteCode -> {

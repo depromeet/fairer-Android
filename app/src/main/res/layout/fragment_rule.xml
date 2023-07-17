@@ -33,7 +33,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_rule_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/main_white_background"
             android:clickable="true"
             android:focusableInTouchMode="true"
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
-                    android:text="@string/sign_name_text_over_error"
+                    android:text="@string/sign_group_text_over_error"
                     android:textColor="@color/negative_20"
                     android:textSize="14sp"
                     android:visibility="@{isError ? View.VISIBLE : View.GONE}" />
