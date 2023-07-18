@@ -145,10 +145,13 @@ class AddHouseWorkViewModel @Inject constructor(
         start + repeatDate.getRepeatDaysString(getRepeatDaysList(type), end)
 
     fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
+        if (repeatCycle == RepeatCycle.ONCE) return
+
         val pos = getPosition(PositionType.CUR)
         val repeatPattern: String =
-            if (repeatCycle == RepeatCycle.MONTHLY) getCurDay("") else dayList?.joinToString(",")
-                ?: ""
+            if (repeatCycle == RepeatCycle.MONTHLY) getCurDay("")
+            else repeatDate.getRepeatDaysString(dayList!!)
+
         _chores.value[pos] = repeatDate.updateRepeatInform(
             cycle = repeatCycle,
             chore = chores.value[pos],
@@ -256,9 +259,11 @@ class AddHouseWorkViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result.isNullOrEmpty()) {
                         setNetworkError(true)
-                    } else {
-                        _createdSuccess.value = true
+                        return@collectLatest
                     }
+
+                    _createdSuccess.value = true
+
                 }
         }
     }

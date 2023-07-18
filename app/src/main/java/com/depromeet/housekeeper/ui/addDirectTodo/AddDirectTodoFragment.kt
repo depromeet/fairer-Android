@@ -319,8 +319,6 @@ class AddDirectTodoFragment :
             else -> viewModel.updateChoreTime(viewType, null)
         }
 
-        //date set
-        viewModel.updateChoreDate(viewType)
 
         if (viewModel.curViewType.value == ViewType.ADD) {
             Timber.d(viewModel.chores.value.toString())

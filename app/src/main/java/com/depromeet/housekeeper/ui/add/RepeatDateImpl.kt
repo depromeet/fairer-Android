@@ -28,7 +28,7 @@ class RepeatDateImpl : RepeatDate {
         return selectedDayList.map { if (type == "kor") it.kor else it.eng }.toList()
     }
 
-    override fun getRepeatDaysString(list: List<String>, end: String): String =
+    override fun getRepeatDaysString(list: List<String>, end: String?): String =
         list.joinToString(",") + end
 
 
