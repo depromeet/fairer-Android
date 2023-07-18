@@ -133,7 +133,7 @@ class AddDirectTodoViewModel @Inject constructor(
 
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
         val dayList = repeatDate.getRepeatDays(selectedDays)
-        _selectedDayList = dayList as MutableList<WeekDays>
+        if (dayList.isNotEmpty())_selectedDayList = dayList as MutableList<WeekDays>
         return dayList
     }
 

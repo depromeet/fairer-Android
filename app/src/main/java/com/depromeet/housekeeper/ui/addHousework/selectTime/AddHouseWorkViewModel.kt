@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -135,7 +134,7 @@ class AddHouseWorkViewModel @Inject constructor(
 
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
         val dayList = repeatDate.getRepeatDays(selectedDays)
-        _selectedDayList = dayList as MutableList<WeekDays>
+        if (dayList.isNotEmpty()) _selectedDayList = dayList as MutableList<WeekDays>
         return dayList
     }
 
