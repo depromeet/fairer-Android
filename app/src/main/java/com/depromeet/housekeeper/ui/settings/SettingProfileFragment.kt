@@ -13,6 +13,7 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.util.EditTextUtil.INPUT_PATTERN
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
@@ -93,11 +94,10 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     }
 
     private fun validateName() {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.etName.addTextChangedListener {
             val nameValue: String = binding.etName.text.toString()
             viewModel.setNameData(nameValue)
-            if (!nameValue.matches(pattern.toRegex())) {
+            if (!nameValue.matches(INPUT_PATTERN.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
             } else if(nameValue.length>16) {
@@ -114,7 +114,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         binding.etStatus.addTextChangedListener {
             val value: String = binding.etStatus.text.toString()
             viewModel.setMassageData(value)
-            if (!value.matches(pattern.toRegex())) {
+            if (!value.matches(INPUT_PATTERN.toRegex())) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
             } else if(value.length>16) {
@@ -174,7 +174,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
             it.findNavController().navigateUp()
         }
-
+        
         binding.etStatus.setOnTouchListener { status, _ ->
             status.requestFocus()
             if (binding.etStatus.text.isNotEmpty()) {

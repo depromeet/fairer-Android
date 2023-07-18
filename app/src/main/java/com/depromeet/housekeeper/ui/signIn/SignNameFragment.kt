@@ -14,6 +14,7 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.EditTextUtil.INPUT_PATTERN
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -176,12 +177,11 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
     }
 
     private fun validateName() {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.signNameEt.addTextChangedListener {
             val value: String = binding.signNameEt.text.toString()
             viewModel.setInputText(binding.signNameEt.text.toString())
             binding.isTextChanged = true
-            if (!value.matches(pattern.toRegex())) {
+            if (!value.matches(INPUT_PATTERN.toRegex())) {
                 binding.isError = true
                 binding.signNameNextBtn.mainFooterButton.isEnabled = false
                 binding.signNameError.setText(R.string.sign_name_error)

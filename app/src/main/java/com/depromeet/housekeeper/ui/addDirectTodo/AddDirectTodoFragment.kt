@@ -27,6 +27,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.EditTextUtil
+import com.depromeet.housekeeper.util.EditTextUtil.INPUT_PATTERN
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.dp2px
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -370,12 +371,11 @@ class AddDirectTodoFragment :
     }
 
     private fun initEditTextListener() {
-        val pattern = 결
         binding.addDirectTodoTitleEt.fairerEt.apply{
             addTextChangedListener {
                 val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
                 binding.isTextChanged = true
-                if (!value.matches(pattern.toRegex())) {
+                if (!value.matches(INPUT_PATTERN.toRegex())) {
                     binding.isError = true
                     binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
                     binding.tvError.setText(R.string.sign_name_error)
