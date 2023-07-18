@@ -233,7 +233,7 @@ class AddDirectTodoFragment :
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+            binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
         }
     }
 
@@ -276,7 +276,7 @@ class AddDirectTodoFragment :
                 binding.spinnerRepeat.setSelection(1)
                 binding.doRepeatMonthly = true
                 binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
-                binding.repeatDay = viewModel.getCurDay("일")
+                binding.repeatDay = " " +viewModel.getCurDay("일")
             }
             RepeatCycle.WEEKLY.value -> {
                 binding.isRepeatChecked = true
@@ -285,7 +285,7 @@ class AddDirectTodoFragment :
                 dayRepeatAdapter.updateSelectedDays(viewModel.selectedDayList)
                 dayRepeatAdapter.notifyDataSetChanged()
                 binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
             }
             RepeatCycle.DAYILY.value -> {
                 binding.isRepeatChecked = true
@@ -294,7 +294,7 @@ class AddDirectTodoFragment :
                 dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY)
                 dayRepeatAdapter.notifyDataSetChanged()
                 binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
             }
             else -> {
                 binding.isRepeatChecked = false
@@ -357,11 +357,10 @@ class AddDirectTodoFragment :
                 val repeatDays = viewModel.getRepeatDays(selectedDays)
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
 
-                var repeatDaysString = viewModel.getRepeatDaysString("eng")
+                val repeatDaysString = viewModel.getRepeatDaysList("eng")
                 viewModel.updateRepeatInform(RepeatCycle.WEEKLY, repeatDaysString)
 
-                repeatDaysString = viewModel.getRepeatDaysString("kor")
-                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
 
             }
         })

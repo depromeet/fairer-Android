@@ -139,8 +139,11 @@ class AddHouseWorkViewModel @Inject constructor(
         return dayList
     }
 
-    fun getRepeatDaysString(type: String): List<String> =
-        repeatDate.getRepeatDaysString(type, selectedDayList)
+    fun getRepeatDaysList(type: String): List<String> =
+        repeatDate.getRepeatDaysList(type, selectedDayList)
+
+    fun getRepeatDaysString(type: String, end: String, start: String? = ""): String =
+        start + repeatDate.getRepeatDaysString(getRepeatDaysList(type), end)
 
     fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
         val pos = getPosition(PositionType.CUR)

@@ -79,7 +79,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -261,7 +262,7 @@
                         android:theme="@style/FairerTimePicker"
                         android:timePickerMode="spinner"
                         android:focusableInTouchMode="true"
-                        android:visibility="@{isTimeChecked ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{isTimeChecked ? View.VISIBLE : View.GONE, default = gone}"
                         app:layout_constraintTop_toBottomOf="@id/tv_todo_time" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
