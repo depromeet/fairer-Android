@@ -145,11 +145,7 @@ class AddDirectTodoFragment :
 
         binding.switchHouseworkRepeat.apply {
             setOnCheckedChangeListener { compoundButton, isChecked ->
-                Timber.d("$compoundButton : $isChecked")
                 binding.isRepeatChecked = isChecked
-            }
-            setOnClickListener {
-                Timber.d("click!")
             }
         }
 
@@ -249,7 +245,7 @@ class AddDirectTodoFragment :
 
     private fun onEditView() {
         val houseWork: HouseWork = navArgs.houseWork
-        Timber.d("TAG $houseWork")
+        //Timber.d("TAG $houseWork")
         viewModel.initEditChore(houseWork)
         viewModel.setHouseWorkId(houseWork.houseWorkId)
         if (houseWork.repeatCycle == RepeatCycle.WEEKLY.value) {
@@ -319,6 +315,7 @@ class AddDirectTodoFragment :
             else -> viewModel.updateChoreTime(viewType, null)
         }
 
+        viewModel.updateChoreRepeat(binding.switchHouseworkRepeat.isChecked)
 
         if (viewModel.curViewType.value == ViewType.ADD) {
             Timber.d(viewModel.chores.value.toString())
@@ -464,7 +461,7 @@ class AddDirectTodoFragment :
     }
 
     private fun showModifyDialog() {
-        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value) {
+        if (!viewModel.isOriginEditChoreRepeat) {
             viewModel.editHouseWork(EditType.ONLY)
             findNavController()
                 .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)

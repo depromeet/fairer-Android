@@ -57,7 +57,6 @@ class AddDirectTodoViewModel @Inject constructor(
         get() = _curAssignees
 
     // 직접 추가 or 수정은 chore 개수 1
-    //todo weekly repeatpattern 안해놓음!!
     private val _chores: MutableStateFlow<ArrayList<Chore>> =
         MutableStateFlow(arrayListOf(Chore()))
     val chores: StateFlow<ArrayList<Chore>>
@@ -81,6 +80,9 @@ class AddDirectTodoViewModel @Inject constructor(
 
     private var _createdSuccess = MutableStateFlow(false)
     val createdSucess get() = _createdSuccess
+
+    private var _isOriginEditChoreRepeat : Boolean = false // 건들면 안됨
+    val isOriginEditChoreRepeat get() = _isOriginEditChoreRepeat
 
     init {
         setGroupInfo()
@@ -119,6 +121,8 @@ class AddDirectTodoViewModel @Inject constructor(
         _curTime.value = houseWork.scheduledTime
         setCurAssignees(houseWork.assignees as ArrayList<Assignee>)
 
+        _isOriginEditChoreRepeat = true
+
         Timber.d("editChore = ${editChore.value}")
     }
 
@@ -138,6 +142,7 @@ class AddDirectTodoViewModel @Inject constructor(
             _selectedDayList = dayList as MutableList<WeekDays>
             return dayList
         }
+        _selectedDayList = mutableListOf()
         return listOf()
     }
 
@@ -150,7 +155,7 @@ class AddDirectTodoViewModel @Inject constructor(
     fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
         if (curViewType.value == ViewType.EDIT && editChore.value != null) { // 수정
             repeatInform(editChore.value!!, repeatCycle, dayList)
-        } else if (curViewType.value == ViewType.ADD){ // 신규 (직접 입력)
+        } else if (curViewType.value == ViewType.ADD) { // 신규 (직접 입력)
             repeatInform(chores.value[0], repeatCycle, dayList)
         }
 
@@ -178,11 +183,8 @@ class AddDirectTodoViewModel @Inject constructor(
                 chore = chore,
                 pattern = repeatPattern
             )
-            Timber.d("smart cast directChore : ${repeatCycle}, ${repeatPattern} \n${chores.value[0]}")
-        }else {
-            Timber.d("else what?!")
+            Timber.d("smart cast directChore : ${repeatCycle}, ${repeatPattern}")
         }
-
     }
 
     fun getCurDay(lastWord: String): String {
@@ -241,6 +243,28 @@ class AddDirectTodoViewModel @Inject constructor(
             _chores.value[0].scheduledTime = time
         } else if (viewType == ViewType.EDIT) {
             _editChore.value!!.scheduledTime = time
+        }
+    }
+
+    fun updateChoreRepeat(isRepeatChecked: Boolean) {
+        if (curViewType.value == ViewType.ADD) {
+            if (!isRepeatChecked) {
+                _chores.value[0].apply {
+                    repeatCycle = RepeatCycle.ONCE.value
+                    repeatPattern = ""
+                }
+            }else if (chores.value[0].repeatCycle == RepeatCycle.WEEKLY.value && chores.value[0].repeatPattern.isEmpty()) {
+                _chores.value[0].repeatCycle = RepeatCycle.ONCE.value
+            }
+        } else if (curViewType.value == ViewType.EDIT && editChore.value != null) {
+            if (!isRepeatChecked) {
+                _editChore.value!!.apply {
+                    repeatCycle = RepeatCycle.ONCE.value
+                    repeatPattern = ""
+                }
+            } else if (editChore.value!!.repeatCycle == RepeatCycle.WEEKLY.value && editChore.value!!.repeatPattern.isNullOrEmpty()) {
+                _editChore.value!!.repeatCycle = RepeatCycle.ONCE.value
+            }
         }
     }
 

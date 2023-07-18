@@ -135,6 +135,7 @@ class AddHouseWorkViewModel @Inject constructor(
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
         val dayList = repeatDate.getRepeatDays(selectedDays)
         if (dayList.isNotEmpty()) _selectedDayList = dayList as MutableList<WeekDays>
+        else _selectedDayList = mutableListOf()
         return dayList
     }
 
