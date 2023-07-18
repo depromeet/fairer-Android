@@ -110,7 +110,6 @@ class AddDirectTodoFragment :
 
     private fun initListener() {
         binding.switchHouseworkTime.isChecked = false
-        binding.switchHouseworkRepeat.isChecked = false
         binding.addDirectTodoTitleEt.signNameClear.setOnClickListener {
             binding.addDirectTodoTitleEt.fairerEt.setText(R.string.sign_name_blank)
         }
@@ -145,7 +144,11 @@ class AddDirectTodoFragment :
 
         binding.switchHouseworkRepeat.apply {
             setOnCheckedChangeListener { compoundButton, isChecked ->
+                Timber.d("$compoundButton : $isChecked")
                 binding.isRepeatChecked = isChecked
+            }
+            setOnClickListener {
+                Timber.d("click!")
             }
         }
 
@@ -367,7 +370,7 @@ class AddDirectTodoFragment :
     }
 
     private fun initEditTextListener() {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+        val pattern = 결
         binding.addDirectTodoTitleEt.fairerEt.apply{
             addTextChangedListener {
                 val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()

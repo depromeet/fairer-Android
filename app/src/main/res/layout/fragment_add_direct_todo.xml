@@ -289,7 +289,6 @@
                         style="@style/FairerSwitch"
                         android:layout_marginTop="24dp"
                         android:checked="@{isRepeatChecked ? true : false, default = false}"
-                        android:focusableInTouchMode="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
