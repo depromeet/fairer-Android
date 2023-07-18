@@ -26,7 +26,7 @@ object EditTextUtil {
                     context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(editText, 0)
             }
-        }, 1000)
+        }, 400)
     }
 
     fun EditText.listenEditorDoneAction(onDone: (text: String) -> Unit) {

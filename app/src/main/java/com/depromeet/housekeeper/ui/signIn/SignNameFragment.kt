@@ -224,7 +224,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         binding.isError = false
                         binding.signNameNextBtn.mainFooterButton.isEnabled =
                             viewModel.inputText.value != ""
-                        viewModel.setBackgroundBox(0)
+                        viewModel.setBackgroundBox(1)
 
                     }
                 }
@@ -233,14 +233,17 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
+                        viewModel.setBackgroundBox(2)
                     }
                     else if (value.length > 12) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_invite_text_over_error)
+                        viewModel.setBackgroundBox(2)
                     } else {
                         binding.isError = false
                         binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                        viewModel.setBackgroundBox(1)
                     }
                 }
                 SignViewType.GroupName, SignViewType.ModifyGroupName -> {
@@ -248,14 +251,17 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
+                        viewModel.setBackgroundBox(2)
                     }
                     else if (value.length > 16) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_group_text_over_error)
+                        viewModel.setBackgroundBox(2)
                     } else {
                         binding.isError = false
                         binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                        viewModel.setBackgroundBox(1)
                     }
                 }
             }

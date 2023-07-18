@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -53,7 +52,8 @@
             android:id="@+id/setting_profile_header"
             layout="@layout/layout_default_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true" />
 
         <include
             android:id="@+id/layoutNetwork"
@@ -63,6 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -128,24 +129,26 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tv_name">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@{nameIsError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"
+        android:background="@drawable/sign_name_edit_text_background"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
         android:paddingStart="16dp"
-        android:paddingEnd="7dp">
+        android:paddingEnd="20dp"
+        android:paddingVertical="8dp"
+        android:layout_marginTop="16dp">
 
         <EditText
             android:id="@+id/et_name"
             style="@style/Title.T1"
             android:layout_width="0dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:background="@null"
             android:inputType="text"
             android:longClickable="false"
-            android:maxLength="17"
+            android:maxLength="6"
             android:maxLines="1"
             android:text="@{name}"
             android:singleLine="true"
@@ -208,19 +211,20 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tv_rule">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@{stateIsError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"
+        android:background="@drawable/sign_name_edit_text_background"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
         android:paddingStart="16dp"
-        android:paddingEnd="7dp">
-
+        android:paddingEnd="20dp"
+        android:paddingVertical="8dp">
         <EditText
             android:id="@+id/et_status"
             style="@style/Title.T1"
             android:layout_width="0dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:background="@null"
             android:inputType="text"
@@ -234,10 +238,8 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/status_clear"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/status_clear"
