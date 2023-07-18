@@ -1,16 +1,17 @@
 package com.depromeet.housekeeper.di
 
+import android.content.Context
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.util.NETWORK_ERROR
-import com.depromeet.housekeeper.util.PrefsManager
+import com.depromeet.housekeeper.data.local.SessionManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import okhttp3.*
@@ -31,43 +32,31 @@ class NetworkModule {
         if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
     }
 
-    private val networkInterceptor: Interceptor = Interceptor { chain ->
-        val request = chain.request()
-        try {
-            chain.proceed(
-                request.newBuilder()
-                    .addHeader(
-                        "Authorization",
-                        PrefsManager.refreshToken.ifEmpty { PrefsManager.authCode })
-                    .build()
-            )
-        } catch (e: Exception) {
-            Response.Builder()
-                .request(request)
-                .protocol(Protocol.HTTP_1_1)
-                .code(NETWORK_ERROR)
-                .message(e.message ?: "")
-                .body(ResponseBody.create(null, e.message ?: ""))
-                .build()
-        }
-    }
+    @Singleton
+    @Provides
+    fun provideSessionManager(@ApplicationContext context: Context): SessionManager = SessionManager(context)
 
     @Singleton
     @Provides
-    fun provideOkHttpBuilder(): OkHttpClient.Builder {
+    fun provideAuthInterceptor(sessionManager: SessionManager): AuthInterceptor =
+        AuthInterceptor(sessionManager = sessionManager)
+
+    @Singleton
+    @Provides
+    fun provideOkHttpBuilder(authInterceptor: AuthInterceptor): OkHttpClient.Builder {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        return if(BuildConfig.DEBUG){
+        return if (BuildConfig.DEBUG) {
             OkHttpClient.Builder()
-                .addInterceptor(networkInterceptor)
+                .addInterceptor(authInterceptor)
                 .addNetworkInterceptor(httpLoggingInterceptor)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
-        } else{
+        } else {
             OkHttpClient.Builder()
-                .addInterceptor(networkInterceptor)
+                .addInterceptor(authInterceptor)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
@@ -77,7 +66,10 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClientBuilder: OkHttpClient.Builder, remoteConfigWrapper: RemoteConfigWrapper): Retrofit {
+    fun provideRetrofit(
+        okHttpClientBuilder: OkHttpClient.Builder,
+        remoteConfigWrapper: RemoteConfigWrapper
+    ): Retrofit {
         RELEASE_URL = remoteConfigWrapper.fetchAndActivateConfig()
         Timber.d("RELEASE_URL = $RELEASE_URL")
         Timber.d("BASE_URL = $BASE_URL")
