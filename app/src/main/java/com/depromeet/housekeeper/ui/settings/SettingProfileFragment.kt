@@ -176,8 +176,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     private fun validateName() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.etName.addTextChangedListener {
-            val nameValue: String = binding.etName.text.toString()
-            viewModel.setNameData(nameValue)
+            val nameValue: String = it.toString()
             if (!nameValue.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
@@ -199,8 +198,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
 
         binding.etStatus.addTextChangedListener {
-            val value: String = binding.etStatus.text.toString()
-            viewModel.setMassageData(value)
+            val value: String = it.toString()
              if(value.length>20) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
