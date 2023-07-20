@@ -29,6 +29,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
     }
 
     override fun viewCreated() {
+        binding.etText = ""
         initView()
         bindingVm()
         initListener()
@@ -140,10 +141,10 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
             if (!viewModel.isNextBtnClickable) return@setOnClickListener
             when (viewModel.viewType.value) {
                 SignViewType.UserName -> {
-                    viewModel.setMemberName()
+                    viewModel.setMemberName(binding.etText!!)
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToSignProfileFragment(
-                            name = viewModel.inputText.value, viewType = ProfileViewType.Sign
+                            name = binding.etText, viewType = ProfileViewType.Sign
                         )
                     )
                 }
@@ -151,18 +152,18 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                 SignViewType.GroupName -> {
                     findNavController().navigate(
                         SignNameFragmentDirections.actionSignNameFragmentToInviteFragment(
-                            houseName = viewModel.inputText.value, viewType = InviteViewType.SIGN
+                            houseName = binding.etText, viewType = InviteViewType.SIGN
                         )
                     )
                 }
 
                 SignViewType.InviteCode -> {
-                    viewModel.joinTeam(viewModel.inputText.value)
+                    viewModel.joinTeam(binding.etText!!)
                     viewModel.setIsNextBtnClickable(false)
                 }
 
                 SignViewType.ModifyGroupName -> {
-                    viewModel.teamNameUpdate(viewModel.inputText.value)
+                    viewModel.teamNameUpdate(binding.etText!!)
                     viewModel.setIsNextBtnClickable(false)
                 }
             }
@@ -176,9 +177,9 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                 binding.hasTeamLayout.failedGroupNextBtn.mainFooterButton.isEnabled = true
 
             }
-            viewModel.setInputText(navArgs.code!!)
+            binding.etText = (navArgs.code!!)
             binding.signNameEt.setText(navArgs.code)
-            binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+            binding.signNameNextBtn.mainFooterButton.isEnabled = binding.etText != ""
             viewModel.setDynamicLink(true)
 
         }
@@ -193,7 +194,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     viewModel.setBackgroundBox(0)
                     hideKeyboard(requireContext(), this)
                 } else {
-                    if (viewModel.inputText.value.isNotEmpty()) binding.isTextChanged = true
+                    if (binding.etText!!.isNotEmpty()) binding.isTextChanged = true
                     viewModel.setBackgroundBox(1)
                     showKeyboard(requireContext(), this)
                 }
@@ -203,19 +204,18 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
     private fun validateInput(signViewType: SignViewType) {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.signNameEt.addTextChangedListener {
-            val value: String = binding.signNameEt.text.toString()
-            viewModel.setInputText(binding.signNameEt.text.toString())
+            binding.etText = it.toString()
             binding.isTextChanged = true
 
             when (signViewType) {
                 SignViewType.UserName -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!it.toString().matches(pattern.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
                         viewModel.setBackgroundBox(2)
                     }
-                    else if (value.length > 5) {
+                    else if (it.toString().length > 5) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_text_over_error)
@@ -223,50 +223,50 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     } else {
                         binding.isError = false
                         binding.signNameNextBtn.mainFooterButton.isEnabled =
-                            viewModel.inputText.value != ""
+                            binding.etText != ""
                         viewModel.setBackgroundBox(1)
 
                     }
                 }
                 SignViewType.InviteCode -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!it.toString().matches(pattern.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
                         viewModel.setBackgroundBox(2)
                     }
-                    else if (value.length > 12) {
+                    else if (it.toString().length > 12) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_invite_text_over_error)
                         viewModel.setBackgroundBox(2)
                     } else {
                         binding.isError = false
-                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = binding.etText != ""
                         viewModel.setBackgroundBox(1)
                     }
                 }
                 SignViewType.GroupName, SignViewType.ModifyGroupName -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!it.toString().matches(pattern.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
                         viewModel.setBackgroundBox(2)
                     }
-                    else if (value.length > 16) {
+                    else if (it.toString().length > 16) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_group_text_over_error)
                         viewModel.setBackgroundBox(2)
                     } else {
                         binding.isError = false
-                        binding.signNameNextBtn.mainFooterButton.isEnabled = viewModel.inputText.value != ""
+                        binding.signNameNextBtn.mainFooterButton.isEnabled = binding.etText != ""
                         viewModel.setBackgroundBox(1)
                     }
                 }
             }
 
-            if (value.isEmpty()) {
+            if (it.toString().isEmpty()) {
                 binding.isTextChanged = false
             }
         }
