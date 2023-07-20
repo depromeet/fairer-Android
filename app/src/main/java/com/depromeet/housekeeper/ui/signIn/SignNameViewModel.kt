@@ -42,6 +42,13 @@ class SignNameViewModel @Inject constructor(
     val isDynamicLink: StateFlow<Boolean>
         get() = _isDynamicLink
 
+    private val _backgroundBox = MutableStateFlow<Int>(0)
+    val backgroundBox get() = _backgroundBox
+
+    fun setBackgroundBox(type: Int) {
+        _backgroundBox.value = type
+    }
+
     fun setDynamicLink(boolean: Boolean) {
         _isDynamicLink.value = boolean
     }
