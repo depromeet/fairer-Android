@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:focusableInTouchMode="true"
         android:clickable="true">
 
         <include
@@ -63,12 +64,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
+            android:focusableInTouchMode="true"
             android:visibility="@{hasTeam ? View.GONE : View.VISIBLE}">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:focusableInTouchMode="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_weight="1">
@@ -77,6 +80,7 @@
                     android:id="@+id/sign_name_header"
                     layout="@layout/layout_default_header"
                     android:layout_width="match_parent"
+                    android:focusableInTouchMode="true"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewType==SignViewType.UserName ? View.INVISIBLE : View.VISIBLE}" />
 
@@ -105,11 +109,12 @@
                     android:visibility="@{viewType==SignViewType.UserName? View.GONE : View.VISIBLE}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
-                    android:background="@{isError ? @drawable/edit_text_error_background : @drawable/fairer_edit_text_selector}"
+                    android:background="@drawable/sign_name_edit_text_background"
                     android:focusable="true"
                     android:focusableInTouchMode="true">
 

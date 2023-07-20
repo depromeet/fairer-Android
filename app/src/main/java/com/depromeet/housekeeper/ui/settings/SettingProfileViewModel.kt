@@ -35,6 +35,20 @@ class SettingProfileViewModel @Inject constructor(
     val profileData: StateFlow<String>
         get() = _profileData
 
+    private val _nameBackgroundBox = MutableStateFlow<Int>(0)
+    val nameBackgroundBox get() = _nameBackgroundBox
+
+    private val _statusBackgroundBox = MutableStateFlow<Int>(0)
+    val statusBackgroundBox get() = _statusBackgroundBox
+
+    fun setNameBackgroundBox(type: Int) {
+        _nameBackgroundBox.value = type
+    }
+
+    fun setStatusBackgroundBox(type: Int) {
+        _statusBackgroundBox.value = type
+    }
+
     fun setNameData(name:String){
         _nameData.value = name
     }

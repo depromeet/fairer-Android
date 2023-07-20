@@ -1,5 +1,6 @@
 package com.depromeet.housekeeper.ui.settings
 
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
@@ -13,9 +14,9 @@ import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentSettingProfileBinding
 import com.depromeet.housekeeper.model.enums.ProfileViewType
+import com.depromeet.housekeeper.util.EditTextUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.layout.fragment_setting_profile) {
@@ -26,13 +27,16 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
     }
 
+    override fun onDestroyView() {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        super.onDestroyView()
+    }
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        validateName()
         initView()
         bindingVm()
         setListener()
-        validateName()
-
         val url: String = when {
             !navArgs.profilePath.isNullOrEmpty() -> {
                 navArgs.profilePath!!
@@ -53,7 +57,37 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         binding.profileBtn.mainFooterButton.isEnabled = true
         binding.etStatus.hint = getString(R.string.setting_profile_status_hint)
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
+        binding.settingProfileBackground.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus){
+                EditTextUtil.hideKeyboard(requireContext(), view)
+            }
+        }
 
+        binding.etName.apply {
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    binding.nameIsTextChanged = false
+                    viewModel.setNameBackgroundBox(0)
+                } else {
+                    if (viewModel.nameData.value.isNotEmpty()) binding.nameIsTextChanged = true
+                    viewModel.setNameBackgroundBox(1)
+                    EditTextUtil.showKeyboard(requireContext(), this)
+                }
+            }
+        }
+
+        binding.etStatus.apply {
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    binding.stateIsTextChanged = false
+                    viewModel.setStatusBackgroundBox(0)
+                } else {
+                    if (viewModel.massageData.value.isNotEmpty()) binding.stateIsTextChanged = true
+                    viewModel.setStatusBackgroundBox(1)
+                    EditTextUtil.showKeyboard(requireContext(), this)
+                }
+            }
+        }
     }
 
     private fun bindingVm() {
@@ -78,6 +112,11 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
+                if(it){
+                    binding.layoutNetwork.root.visibility = View.VISIBLE
+                }else{
+                    binding.layoutNetwork.root.visibility = View.GONE
+                }
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -90,7 +129,49 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
                 binding.status = it
             }
         }
+        lifecycleScope.launchWhenCreated {
+            viewModel.nameBackgroundBox.collect {
+                when (it) {
+                    1 -> { // edit 중
+                        binding.clName.background =
+                            resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
+                    }
+
+                    2 -> { // error
+                        binding.clName.background =
+                            resources.getDrawable(R.drawable.edit_text_error_background)
+                    }
+
+                    else -> { // default
+                        binding.clName.background =
+                            resources.getDrawable(R.drawable.sign_name_edit_text_background)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.statusBackgroundBox.collect {
+                when (it) {
+                    1 -> { // edit 중
+                        binding.clAbout.background =
+                            resources.getDrawable(R.drawable.fairer_edit_text_focus_background)
+                    }
+
+                    2 -> { // error
+                        binding.clAbout.background =
+                            resources.getDrawable(R.drawable.edit_text_error_background)
+                    }
+
+                    else -> { // default
+                        binding.clAbout.background =
+                            resources.getDrawable(R.drawable.sign_name_edit_text_background)
+                    }
+                }
+            }
+        }
     }
+
 
     private fun validateName() {
         val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
@@ -100,30 +181,36 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
             if (!nameValue.matches(pattern.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else if(nameValue.length>16) {
+                binding.signNameError.setText(R.string.sign_name_error)
+                viewModel.setNameBackgroundBox(2)
+            } else if(nameValue.length>5) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
+                binding.signNameError.setText(R.string.sign_name_text_over_error)
+                viewModel.setNameBackgroundBox(2)
             }else {
                 binding.nameIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled =
                     nameValue.isNotEmpty()
+                viewModel.setNameBackgroundBox(1)
             }
             binding.nameIsTextChanged = nameValue != ""
         }
 
+
         binding.etStatus.addTextChangedListener {
             val value: String = binding.etStatus.text.toString()
             viewModel.setMassageData(value)
-            if (!value.matches(pattern.toRegex())) {
+             if(value.length>20) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
-            } else if(value.length>16) {
-                binding.stateIsError = true
-                binding.profileBtn.mainFooterButton.isEnabled = false
-            }else {
+                 binding.signNameError.setText(R.string.setting_profile_text_over_error)
+                 viewModel.setStatusBackgroundBox(2)
+             }else {
                 binding.stateIsError = false
                 binding.profileBtn.mainFooterButton.isEnabled = true
-            }
+                 viewModel.setStatusBackgroundBox(1)
+             }
             binding.stateIsTextChanged = value != ""
         }
     }
@@ -145,7 +232,6 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         }
 
         binding.lvProfileImageview.setOnClickListener {
-            Timber.d("asd ${viewModel.nameData.value}")
             it.findNavController()
                 .navigate(
                     SettingProfileFragmentDirections.actionSettingProfileFragmentToSignProfileFragment(
@@ -174,25 +260,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
             it.findNavController().navigateUp()
         }
-
-        binding.etStatus.setOnTouchListener { status, _ ->
-            status.requestFocus()
-            if (binding.etStatus.text.isNotEmpty()) {
-                binding.stateIsTextChanged = true
-            }
-            false
-        }
-
-        binding.etName.setOnTouchListener { name, _ ->
-            name.requestFocus()
-            if (binding.etName.text.isNotEmpty()) {
-                binding.nameIsTextChanged = true
-            }
-            false
-        }
-
     }
-
 
 
     private fun ImageView.setImg(url: String?) {
