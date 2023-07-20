@@ -99,9 +99,12 @@ object DateUtil {
             return outputDate
         } catch (e: ParseException) {
             Timber.e("${this} inputDate 형식이 yyyy-MM-dd이 아닙니다.\n${e.printStackTrace()}")
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Timber.e("${e.printStackTrace()}")
         }
         return null
     }
+
+    fun Date.getFullDate(): String = fullDateFormat.format(this)
+
 }

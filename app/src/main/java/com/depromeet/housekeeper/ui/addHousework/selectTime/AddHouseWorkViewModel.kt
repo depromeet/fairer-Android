@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.request.WeekDays
 import com.depromeet.housekeeper.ui.add.RepeatDateImpl
+import com.depromeet.housekeeper.util.DateUtil.getFullDate
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -204,9 +204,7 @@ class AddHouseWorkViewModel @Inject constructor(
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        val datePattern = "yyyy-MM-dd-EEE"
-        _selectCalendar.value =
-            SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+        _selectCalendar.value = calendar.time.getFullDate()
     }
 
 

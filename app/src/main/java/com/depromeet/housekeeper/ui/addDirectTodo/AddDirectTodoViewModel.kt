@@ -10,6 +10,7 @@ import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.add.RepeatDateImpl
 import com.depromeet.housekeeper.util.DateUtil.fullDateParsingToDate
+import com.depromeet.housekeeper.util.DateUtil.getFullDate
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -202,9 +202,7 @@ class AddDirectTodoViewModel @Inject constructor(
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        val datePattern = "yyyy-MM-dd-EEE"
-        _selectCalendar.value =
-            SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+        _selectCalendar.value = calendar.time.getFullDate()
     }
 
     private fun sortAssignees(allAssignees: ArrayList<Assignee>): ArrayList<Assignee> {
@@ -222,8 +220,8 @@ class AddDirectTodoViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        setCurDate(_selectCalendar.value)
-        val str = _selectCalendar.value.split("-")
+        setCurDate(selectCalendar.value)
+        val str = selectCalendar.value.split("-")
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
 
