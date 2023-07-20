@@ -63,7 +63,7 @@ class AddDirectTodoFragment :
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
-        viewModel.setCurrentDate(navArgs.selectDate.date)
+        viewModel.setCurDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
             ViewType.ADD -> {

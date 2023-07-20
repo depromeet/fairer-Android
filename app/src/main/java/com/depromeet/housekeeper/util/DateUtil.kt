@@ -2,6 +2,7 @@ package com.depromeet.housekeeper.util
 
 import com.depromeet.housekeeper.model.DayOfWeek
 import timber.log.Timber
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -13,7 +14,7 @@ object DateUtil {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     val fullDateFormat = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
 
-    private val yearMonthHypenFormat = SimpleDateFormat("yyyy-MM")
+    private val yearMonthHyphenFormat = SimpleDateFormat("yyyy-MM")
     private val monthFormat = SimpleDateFormat("MM")
 
     fun getCurrentStartDate(): String {
@@ -47,25 +48,24 @@ object DateUtil {
     }
 
     fun getCurrentWeek(): MutableList<DayOfWeek> {
-        val format = SimpleDateFormat("yyyy-MM-dd-EEE", Locale.getDefault())
         val calendar: Calendar = Calendar.getInstance().apply {
             set(Calendar.MONTH, this.get(Calendar.MONTH))
             firstDayOfWeek = Calendar.SUNDAY
             set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
         }
         val days = mutableListOf<String>()
-        days.add(format.format(calendar.time))
+        days.add(fullDateFormat.format(calendar.time))
         Timber.d("$DATE_UTIL_TAG: getCurrentWeek : ${days}")
 
         repeat(6) {
             calendar.add(Calendar.DATE, 1)
-            days.add(format.format(calendar.time))
+            days.add(fullDateFormat.format(calendar.time))
         }
         Timber.d("$DATE_UTIL_TAG: getCurrentWeek : ${days}")
         return days.map {
             DayOfWeek(
                 date = it,
-                isSelect = it == format.format(Calendar.getInstance().time)
+                isSelect = it == fullDateFormat.format(Calendar.getInstance().time)
             )
         }.toMutableList()
     }
@@ -84,12 +84,24 @@ object DateUtil {
         )
     }
 
-    fun getHypenYearMonthString(date: Date): String {
-        return yearMonthHypenFormat.format(date)
+    fun getHyphenYearMonthString(date: Date): String {
+        return yearMonthHyphenFormat.format(date)
     }
 
     fun getMonthString(date: Date): String {
         return monthFormat.format(date)
     }
 
+    fun String.fullDateParsingToDate(): String? {
+        try {
+            val inputDate: Date = fullDateFormat.parse(this)
+            val outputDate: String = dateFormat.format(inputDate)
+            return outputDate
+        } catch (e: ParseException) {
+            Timber.e("${this} inputDate 형식이 yyyy-MM-dd이 아닙니다.\n${e.printStackTrace()}")
+        } catch (e: Exception){
+            Timber.e("${e.printStackTrace()}")
+        }
+        return null
+    }
 }

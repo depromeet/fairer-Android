@@ -9,6 +9,7 @@ import com.depromeet.housekeeper.model.enums.ViewType
 import com.depromeet.housekeeper.model.request.*
 import com.depromeet.housekeeper.model.response.HouseWork
 import com.depromeet.housekeeper.ui.add.RepeatDateImpl
+import com.depromeet.housekeeper.util.DateUtil.fullDateParsingToDate
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +39,7 @@ class AddDirectTodoViewModel @Inject constructor(
 
     private val _curDate: MutableStateFlow<String> =
         MutableStateFlow("")
-    val curDate: StateFlow<String>
+    private val curDate: StateFlow<String> // yyyy-MM-dd
         get() = _curDate
 
     private val _curTime: MutableStateFlow<String?> =
@@ -90,8 +91,8 @@ class AddDirectTodoViewModel @Inject constructor(
 
     fun initDirectChore() {
         _chores.value[0].assignees = arrayListOf(PrefsManager.memberId)
-        _chores.value[0].scheduledDate = _curDate.value
-        _chores.value[0].repeatPattern = _curDate.value
+        _chores.value[0].scheduledDate = curDate.value
+        _chores.value[0].repeatPattern = curDate.value
         _chores.value[0].space = Chore.ETC_SPACE
     }
 
@@ -221,7 +222,7 @@ class AddDirectTodoViewModel @Inject constructor(
 
     fun bindingDate(): String {
         // yyyy-mm-dd-eee
-        setCurrentDate(_selectCalendar.value)
+        setCurDate(_selectCalendar.value)
         val str = _selectCalendar.value.split("-")
         return "${str[0]}년 ${str[1]}월 ${str[2]}일"
     }
@@ -251,7 +252,7 @@ class AddDirectTodoViewModel @Inject constructor(
             if (!isRepeatChecked) {
                 _chores.value[0].apply {
                     repeatCycle = RepeatCycle.ONCE.value
-                    repeatPattern = ""
+                    repeatPattern = curDate.value
                 }
             }else if (chores.value[0].repeatCycle == RepeatCycle.WEEKLY.value && chores.value[0].repeatPattern.isEmpty()) {
                 _chores.value[0].repeatCycle = RepeatCycle.ONCE.value
@@ -260,7 +261,7 @@ class AddDirectTodoViewModel @Inject constructor(
             if (!isRepeatChecked) {
                 _editChore.value!!.apply {
                     repeatCycle = RepeatCycle.ONCE.value
-                    repeatPattern = ""
+                    repeatPattern = curDate.value
                 }
             } else if (editChore.value!!.repeatCycle == RepeatCycle.WEEKLY.value && editChore.value!!.repeatPattern.isNullOrEmpty()) {
                 _editChore.value!!.repeatCycle = RepeatCycle.ONCE.value
@@ -296,10 +297,9 @@ class AddDirectTodoViewModel @Inject constructor(
         _houseWorkId.value = id
     }
 
-    fun setCurrentDate(date: String) {
-        val lastIndex = date.indexOfLast { it == '-' }
-        val requestDate = date.dropLast(date.length - lastIndex)
-        _curDate.value = requestDate
+    fun setCurDate(date: String) {
+        if (date.fullDateParsingToDate() != null)
+            _curDate.value = date.fullDateParsingToDate()!!
     }
 
     private fun getMyInfo(): Assignee? {
