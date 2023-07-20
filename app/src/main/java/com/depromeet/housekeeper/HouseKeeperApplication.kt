@@ -14,7 +14,6 @@ class HouseKeeperApplication : Application() {
         super.onCreate()
         PrefsManager.init(applicationContext)
         KakaoSdk.init(this, resources.getString(R.string.KAKAO_NATIVE_APP_KEY))
-        FirebaseApp.initializeApp(this)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }

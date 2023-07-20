@@ -88,7 +88,7 @@ object Dependencies {
     private const val FIREBASE_SDK = "4.3.15"
     const val firebaseSdk = "com.google.gms:google-services:$FIREBASE_SDK"
 
-    private const val FIREBASE_BOM = "30.0.2"
+    private const val FIREBASE_BOM = "30.2.0"
     private const val FIREBASE_MESSAGING = "23.0.6"
     private const val FIREBASE_MESSAGING_DIRECTBOOT = "20.2.0"
     const val firebaseBOM = "com.google.firebase:firebase-bom:$FIREBASE_BOM"
