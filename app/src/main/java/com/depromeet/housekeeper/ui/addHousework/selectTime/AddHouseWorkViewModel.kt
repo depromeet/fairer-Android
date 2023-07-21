@@ -8,6 +8,8 @@ import com.depromeet.housekeeper.model.Assignee
 import com.depromeet.housekeeper.model.request.Chore
 import com.depromeet.housekeeper.model.request.RepeatCycle
 import com.depromeet.housekeeper.model.request.WeekDays
+import com.depromeet.housekeeper.ui.add.RepeatDateImpl
+import com.depromeet.housekeeper.util.DateUtil.getFullDate
 import com.depromeet.housekeeper.util.PrefsManager
 import com.depromeet.housekeeper.util.spaceNameMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,15 +17,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AddHouseWorkViewModel @Inject constructor(
     private val mainRepository: MainRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val repeatDate: RepeatDateImpl
 ) : BaseViewModel() {
 
     private val _curDate: MutableStateFlow<String> = MutableStateFlow("")
@@ -42,7 +43,7 @@ class AddHouseWorkViewModel @Inject constructor(
     val curTime: StateFlow<String?> get() = _curTime
 
     private val _positions: MutableStateFlow<ArrayList<Int>> = MutableStateFlow(arrayListOf(0))
-    val position : StateFlow<ArrayList<Int>>
+    val position: StateFlow<ArrayList<Int>>
         get() = _positions
 
 
@@ -59,6 +60,7 @@ class AddHouseWorkViewModel @Inject constructor(
     val selectCalendar: StateFlow<String> get() = _selectCalendar
 
     private var _selectedDayList: MutableList<WeekDays> = mutableListOf()
+    val selectedDayList get() = _selectedDayList
 
     private var _createdSuccess = MutableStateFlow(false)
     val createdSuccess get() = _createdSuccess
@@ -116,7 +118,7 @@ class AddHouseWorkViewModel @Inject constructor(
         _curTime.value = "${String.format("%02d", hour)}:${String.format("%02d", min)}"
     }
 
-    fun setTimeNull(){
+    fun setTimeNull() {
         _curTime.value = null
     }
 
@@ -125,58 +127,37 @@ class AddHouseWorkViewModel @Inject constructor(
         _positions.value.add(position)
     }
 
-    fun getPosition(type: PositionType): Int {
-        return when (type) {
-            PositionType.CUR -> _positions.value[_positions.value.size - 1]
-            PositionType.PRE -> _positions.value[_positions.value.size - 2]
-        }
+    fun getPosition(type: PositionType): Int = when (type) {
+        PositionType.CUR -> _positions.value[_positions.value.size - 1]
+        PositionType.PRE -> _positions.value[_positions.value.size - 2]
     }
 
     fun getRepeatDays(selectedDays: Array<Boolean>): List<WeekDays> {
-        val dayList = mutableListOf<WeekDays>()
-        for (i in selectedDays.indices) {
-            if (!selectedDays[i]) continue
-            val day: WeekDays = when (i) {
-                0 -> WeekDays.MON
-                1 -> WeekDays.TUE
-                2 -> WeekDays.WED
-                3 -> WeekDays.THR
-                4 -> WeekDays.FRI
-                5 -> WeekDays.SAT
-                6 -> WeekDays.SUN
-                else -> {
-                    WeekDays.NONE
-                }
-            }
-            dayList.add(day)
-        }
-        _selectedDayList = dayList
-        return dayList.toList()
+        val dayList = repeatDate.getRepeatDays(selectedDays)
+        if (dayList.isNotEmpty()) _selectedDayList = dayList as MutableList<WeekDays>
+        else _selectedDayList = mutableListOf()
+        return dayList
     }
 
-    fun getRepeatDaysString(type: String): MutableList<String> {
-        val repeatDaysString = mutableListOf<String>()
-        if (type == "kor") {
-            _selectedDayList.forEach { repeatDaysString.add(it.kor) }
-        } else if (type == "eng") {
-            _selectedDayList.forEach { repeatDaysString.add(it.eng) }
-        }
-        return repeatDaysString
-    }
+    fun getRepeatDaysList(type: String): List<String> =
+        repeatDate.getRepeatDaysList(type, selectedDayList)
 
-    fun updateRepeatInform(dayList: List<String>) {
+    fun getRepeatDaysString(type: String, end: String, start: String? = ""): String =
+        start + repeatDate.getRepeatDaysString(getRepeatDaysList(type), end)
+
+    fun updateRepeatInform(repeatCycle: RepeatCycle, dayList: List<String>? = null) {
+        if (repeatCycle == RepeatCycle.ONCE) return
+
         val pos = getPosition(PositionType.CUR)
-        _chores.value[pos].repeatCycle = RepeatCycle.WEEKLY.value
-        _chores.value[pos].repeatPattern = dayList.joinToString(",")
-        Timber.d("chores pos = $pos, ${dayList}")
-    }
+        val repeatPattern: String =
+            if (repeatCycle == RepeatCycle.MONTHLY) getCurDay("")
+            else repeatDate.getRepeatDaysString(dayList!!)
 
-    fun updateRepeatInform(repeatCycle: RepeatCycle) {
-        if (repeatCycle == RepeatCycle.MONTHLY) {
-            val pos = getPosition(PositionType.CUR)
-            _chores.value[pos].repeatCycle = repeatCycle.value
-            _chores.value[pos].repeatPattern = getCurDay("")
-        }
+        _chores.value[pos] = repeatDate.updateRepeatInform(
+            cycle = repeatCycle,
+            chore = chores.value[pos],
+            pattern = repeatPattern
+        )
     }
 
     fun initChores(space: String, choreName: List<String>) {
@@ -223,9 +204,7 @@ class AddHouseWorkViewModel @Inject constructor(
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        val datePattern = "yyyy-MM-dd-EEE"
-        _selectCalendar.value =
-            SimpleDateFormat(datePattern, Locale.getDefault()).format(calendar.time)
+        _selectCalendar.value = calendar.time.getFullDate()
     }
 
 
@@ -279,9 +258,11 @@ class AddHouseWorkViewModel @Inject constructor(
                     val result = receiveApiResult(it)
                     if (result.isNullOrEmpty()) {
                         setNetworkError(true)
-                    } else {
-                        _createdSuccess.value = true
+                        return@collectLatest
                     }
+
+                    _createdSuccess.value = true
+
                 }
         }
     }

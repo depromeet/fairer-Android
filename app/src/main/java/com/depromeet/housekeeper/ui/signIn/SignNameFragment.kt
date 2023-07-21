@@ -13,6 +13,7 @@ import com.depromeet.housekeeper.databinding.FragmentSignNameBinding
 import com.depromeet.housekeeper.model.enums.InviteViewType
 import com.depromeet.housekeeper.model.enums.ProfileViewType
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.util.EditTextUtil
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.EditTextUtil.showKeyboard
 import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
@@ -201,7 +202,6 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
         }
     }
     private fun validateInput(signViewType: SignViewType) {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.signNameEt.addTextChangedListener {
             val value: String = binding.signNameEt.text.toString()
             viewModel.setInputText(binding.signNameEt.text.toString())
@@ -209,7 +209,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
 
             when (signViewType) {
                 SignViewType.UserName -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!value.matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
@@ -229,7 +229,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     }
                 }
                 SignViewType.InviteCode -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!value.matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
@@ -247,7 +247,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     }
                 }
                 SignViewType.GroupName, SignViewType.ModifyGroupName -> {
-                    if (!value.matches(pattern.toRegex())) {
+                    if (!value.matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)

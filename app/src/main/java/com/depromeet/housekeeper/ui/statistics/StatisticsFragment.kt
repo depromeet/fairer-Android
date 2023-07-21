@@ -49,7 +49,7 @@ class StatisticsFragment : BaseFragment<FragmentStatisticsBinding>(R.layout.frag
     private fun bindingVm(){
         lifecycleScope.launchWhenStarted {
             viewModel.currentDate.collect {
-                val yearMonth = DateUtil.getHypenYearMonthString(it)
+                val yearMonth = DateUtil.getHyphenYearMonthString(it)
                 viewModel.getStatistics(yearMonth)
                 viewModel.getRanking(yearMonth)
                 Timber.d("yearMonth = ${yearMonth}")
