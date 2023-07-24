@@ -209,7 +209,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
 
             when (signViewType) {
                 SignViewType.UserName -> {
-                    if (!it.toString().matches(pattern.toRegex())) {
+                    if (!it.toString().matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
@@ -229,7 +229,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     }
                 }
                 SignViewType.InviteCode -> {
-                    if (!it.toString().matches(pattern.toRegex())) {
+                    if (!it.toString().matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
@@ -247,7 +247,7 @@ class SignNameFragment : BaseFragment<FragmentSignNameBinding>(R.layout.fragment
                     }
                 }
                 SignViewType.GroupName, SignViewType.ModifyGroupName -> {
-                    if (!it.toString().matches(pattern.toRegex())) {
+                    if (!it.toString().matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                         binding.isError = true
                         binding.signNameNextBtn.mainFooterButton.isEnabled = false
                         binding.signNameError.setText(R.string.sign_name_error)
