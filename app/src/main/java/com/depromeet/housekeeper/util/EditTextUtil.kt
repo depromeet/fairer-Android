@@ -12,7 +12,7 @@ import timber.log.Timber
 
 
 object EditTextUtil {
-    const val textPattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
+    const val INPUT_PATTERN = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
 
     fun hideKeyboard(context: Context, view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

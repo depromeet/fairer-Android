@@ -252,11 +252,10 @@ class AddHouseWorkFragment :
                 val repeatDays = viewModel.getRepeatDays(selectedDays)
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
 
-                var repeatDaysString = viewModel.getRepeatDaysString("eng")
-                viewModel.updateRepeatInform(repeatDaysString)
+                val repeatDaysString = viewModel.getRepeatDaysList("eng")
+                viewModel.updateRepeatInform(RepeatCycle.WEEKLY, repeatDaysString)
 
-                repeatDaysString = viewModel.getRepeatDaysString("kor")
-                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
             }
         })
     }
@@ -268,7 +267,7 @@ class AddHouseWorkFragment :
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+            binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
         }
     }
 

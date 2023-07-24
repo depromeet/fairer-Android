@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.ui.settings
 
-import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
@@ -31,12 +30,14 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         super.onDestroyView()
     }
+
     override fun viewCreated() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         validateName()
         initView()
         bindingVm()
         setListener()
+
         val url: String = when {
             !navArgs.profilePath.isNullOrEmpty() -> {
                 navArgs.profilePath!!
@@ -112,11 +113,6 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
         lifecycleScope.launchWhenCreated {
             viewModel.networkError.collect {
                 binding.layoutNetwork.isNetworkError = it
-                if(it){
-                    binding.layoutNetwork.root.visibility = View.VISIBLE
-                }else{
-                    binding.layoutNetwork.root.visibility = View.GONE
-                }
             }
         }
         lifecycleScope.launchWhenCreated {
@@ -174,10 +170,10 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
 
     private fun validateName() {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.etName.addTextChangedListener {
-            val nameValue: String = it.toString()
-            if (!nameValue.matches(pattern.toRegex())) {
+            val nameValue: String = binding.etName.text.toString()
+            viewModel.setNameData(nameValue)
+            if (!nameValue.matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
                 binding.signNameError.setText(R.string.sign_name_error)

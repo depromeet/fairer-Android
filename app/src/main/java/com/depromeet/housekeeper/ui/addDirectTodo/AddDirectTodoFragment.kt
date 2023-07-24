@@ -27,6 +27,7 @@ import com.depromeet.housekeeper.ui.custom.dialog.DialogType
 import com.depromeet.housekeeper.ui.custom.dialog.FairerDialog
 import com.depromeet.housekeeper.ui.custom.timepicker.FairerTimePicker
 import com.depromeet.housekeeper.util.EditTextUtil
+import com.depromeet.housekeeper.util.EditTextUtil.INPUT_PATTERN
 import com.depromeet.housekeeper.util.EditTextUtil.hideKeyboard
 import com.depromeet.housekeeper.util.dp2px
 import com.depromeet.housekeeper.util.spaceNameMapper
@@ -62,7 +63,7 @@ class AddDirectTodoFragment :
 
     private fun bindingVm() {
         viewModel.setViewType(navArgs.viewType)
-        viewModel.setCurrentDate(navArgs.selectDate.date)
+        viewModel.setCurDate(navArgs.selectDate.date)
 
         when (viewModel.curViewType.value) {
             ViewType.ADD -> {
@@ -110,7 +111,6 @@ class AddDirectTodoFragment :
 
     private fun initListener() {
         binding.switchHouseworkTime.isChecked = false
-        binding.switchHouseworkRepeat.isChecked = false
         binding.addDirectTodoTitleEt.signNameClear.setOnClickListener {
             binding.addDirectTodoTitleEt.fairerEt.setText(R.string.sign_name_blank)
         }
@@ -233,7 +233,7 @@ class AddDirectTodoFragment :
             binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
         } else {
             binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-            binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+            binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
         }
     }
 
@@ -245,7 +245,7 @@ class AddDirectTodoFragment :
 
     private fun onEditView() {
         val houseWork: HouseWork = navArgs.houseWork
-        Timber.d("TAG $houseWork")
+        //Timber.d("TAG $houseWork")
         viewModel.initEditChore(houseWork)
         viewModel.setHouseWorkId(houseWork.houseWorkId)
         if (houseWork.repeatCycle == RepeatCycle.WEEKLY.value) {
@@ -276,7 +276,7 @@ class AddDirectTodoFragment :
                 binding.spinnerRepeat.setSelection(1)
                 binding.doRepeatMonthly = true
                 binding.repeatCycle = getString(R.string.add_house_repeat_monthly)
-                binding.repeatDay = viewModel.getCurDay("일")
+                binding.repeatDay = " " +viewModel.getCurDay("일")
             }
             RepeatCycle.WEEKLY.value -> {
                 binding.isRepeatChecked = true
@@ -285,7 +285,7 @@ class AddDirectTodoFragment :
                 dayRepeatAdapter.updateSelectedDays(viewModel.selectedDayList)
                 dayRepeatAdapter.notifyDataSetChanged()
                 binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
             }
             RepeatCycle.DAYILY.value -> {
                 binding.isRepeatChecked = true
@@ -294,7 +294,7 @@ class AddDirectTodoFragment :
                 dayRepeatAdapter.updateSelectedDays(RepeatCycle.DAYILY)
                 dayRepeatAdapter.notifyDataSetChanged()
                 binding.repeatCycle = getString(R.string.add_house_repeat_weekly)
-                binding.repeatDay = " ${viewModel.getRepeatDaysString("kor").joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
             }
             else -> {
                 binding.isRepeatChecked = false
@@ -315,8 +315,7 @@ class AddDirectTodoFragment :
             else -> viewModel.updateChoreTime(viewType, null)
         }
 
-        //date set
-        viewModel.updateChoreDate(viewType)
+        viewModel.updateChoreRepeat(binding.switchHouseworkRepeat.isChecked)
 
         if (viewModel.curViewType.value == ViewType.ADD) {
             Timber.d(viewModel.chores.value.toString())
@@ -357,23 +356,21 @@ class AddDirectTodoFragment :
                 val repeatDays = viewModel.getRepeatDays(selectedDays)
                 binding.repeatDaySelected = repeatDays.isNotEmpty()
 
-                var repeatDaysString = viewModel.getRepeatDaysString("eng")
-                viewModel.updateRepeatInform(repeatDaysString)
+                val repeatDaysString = viewModel.getRepeatDaysList("eng")
+                viewModel.updateRepeatInform(RepeatCycle.WEEKLY, repeatDaysString)
 
-                repeatDaysString = viewModel.getRepeatDaysString("kor")
-                binding.repeatDay = " ${repeatDaysString.joinToString(",")}요일"
+                binding.repeatDay = viewModel.getRepeatDaysString("kor", "요일", " ")
 
             }
         })
     }
 
     private fun initEditTextListener() {
-        val pattern = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝|ㆍᆢ| ]*"
         binding.addDirectTodoTitleEt.fairerEt.apply{
             addTextChangedListener {
                 val value: String = binding.addDirectTodoTitleEt.fairerEt.text.toString()
                 binding.isTextChanged = true
-                if (!value.matches(pattern.toRegex())) {
+                if (!value.matches(INPUT_PATTERN.toRegex())) {
                     binding.isError = true
                     binding.addDirectTodoDoneBtn.mainFooterButton.isEnabled = false
                     binding.tvError.setText(R.string.sign_name_error)
@@ -464,7 +461,7 @@ class AddDirectTodoFragment :
     }
 
     private fun showModifyDialog() {
-        if (viewModel.editChore.value!!.repeatCycle == RepeatCycle.ONCE.value) {
+        if (!viewModel.isOriginEditChoreRepeat) {
             viewModel.editHouseWork(EditType.ONLY)
             findNavController()
                 .navigate(R.id.action_addDirectTodoFragment_to_mainFragment)
