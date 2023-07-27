@@ -1,10 +1,17 @@
 package com.depromeet.housekeeper.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.data.local.SessionManager
+import com.depromeet.housekeeper.data.utils.TokenManager
+import com.depromeet.housekeeper.util.TOKEN_PREFERENCE_STORE
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -35,6 +42,14 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideSessionManager(@ApplicationContext context: Context): SessionManager = SessionManager(context)
+
+    @Singleton
+    @Provides
+    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
+        val dataStore = PreferenceDataStoreFactory.create(produceFile = {context.preferencesDataStoreFile(
+            TOKEN_PREFERENCE_STORE)})
+        return TokenManager(dataStore)
+    }
 
     @Singleton
     @Provides

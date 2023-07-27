@@ -28,6 +28,11 @@ const val NAVIGATION_CODE = "code"
 const val TAG = "ModalBottomSheet"
 
 /**
+ * DATASTORE
+ */
+const val TOKEN_PREFERENCE_STORE = "token_preference_store"
+
+/**
  * PREFSMANAGER
  */
 const val PREFS_USER_NAME_DEFAULT = "User Name"
