@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 abstract class BaseFragment<B: ViewDataBinding>(private val resId: Int): Fragment() {
 
     private var _binding: B? = null
-    val binding get() = _binding!!
+    val binding get() = _binding ?: throw IllegalStateException("Binding cannot be accessed when it's null")
 
     abstract fun createView(binding: B)
     abstract fun viewCreated() // livedata observing, adapter setting 등의 작업 진행

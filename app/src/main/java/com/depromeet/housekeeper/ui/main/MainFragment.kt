@@ -302,7 +302,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
         lifecycleScope.launchWhenCreated {
             mainViewModel.startDateOfWeek.collect {
                 Timber.d("$MAIN_TAG : startDateOfWeek $it")
-                mainViewModel.getHouseWorks()
+                if (mainViewModel.selectUserId.value != -1)
+                    mainViewModel.getHouseWorks()
             }
         }
 
@@ -342,13 +343,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
         lifecycleScope.launchWhenResumed {
             mainViewModel.selectUserId.collect {
-                mainViewModel.getHouseWorks()
-                if (it == PrefsManager.memberId) {
-                    houseWorkAdapter?.updateIsMe(true)
-                    Timber.d("memberId!")
-                } else {
-                    houseWorkAdapter?.updateIsMe(false)
-                    Timber.d("No My memberId!")
+                if (it != -1) {
+                    mainViewModel.getHouseWorks()
+                    if (it == PrefsManager.memberId) {
+                        houseWorkAdapter?.updateIsMe(true)
+                        Timber.d("memberId!")
+                    } else {
+                        houseWorkAdapter?.updateIsMe(false)
+                        Timber.d("No My memberId!")
+                    }
                 }
 
             }
