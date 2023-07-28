@@ -6,7 +6,6 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.data.local.SessionManager
 import com.depromeet.housekeeper.data.utils.AuthAuthenticator
 import com.depromeet.housekeeper.data.utils.AuthInterceptor
 import com.depromeet.housekeeper.data.utils.TokenManager
@@ -37,10 +36,6 @@ class NetworkModule {
     private val BASE_URL: String by lazy {
         if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
     }
-
-//    @Singleton
-//    @Provides
-//    fun provideSessionManager(@ApplicationContext context: Context): SessionManager = SessionManager(context)
 
     @Singleton
     @Provides

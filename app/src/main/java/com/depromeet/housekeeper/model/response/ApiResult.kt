@@ -20,7 +20,7 @@ fun <T> safeFlow(apiFunc: suspend () -> T): Flow<ApiResult<T>> = flow {
     catch (e: HttpException) {
         if (e.code() == HttpURLConnection.HTTP_UNAUTHORIZED || e.code() == NETWORK_ERROR) {
             // todo 여기서 apiResult Loading return하고 BaseViewModel에서 로딩중 화면 보여주게?
-            Timber.e("작업중~~~~ HTTP_UNAUTHORIZED")
+            Timber.e("auth ${e.message}")
         }
         else emit(ApiResult.Error(code = e.code(), message = e.stackTraceToString()))
     } catch (e: Exception) {
