@@ -51,8 +51,6 @@ class LoginViewModel @Inject constructor(
                 val result = receiveApiResult(it) ?: return@collectLatest
                 _newMember.value = NewMember(result.hasTeam, result.isNewMember)
 
-                PrefsManager.setAccessToken(result.accessToken)
-                PrefsManager.setRefreshToken(result.refreshToken)
                 PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
 
                 result.memberName?.let { name -> PrefsManager.setUserName(name) }

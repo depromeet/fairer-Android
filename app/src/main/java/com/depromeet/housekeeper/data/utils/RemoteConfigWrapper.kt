@@ -1,4 +1,4 @@
-package com.depromeet.housekeeper.di
+package com.depromeet.housekeeper.data.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

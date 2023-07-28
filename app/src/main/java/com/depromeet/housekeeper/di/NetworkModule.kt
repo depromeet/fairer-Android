@@ -8,6 +8,7 @@ import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
 import com.depromeet.housekeeper.data.utils.AuthAuthenticator
 import com.depromeet.housekeeper.data.utils.AuthInterceptor
+import com.depromeet.housekeeper.data.utils.RemoteConfigWrapper
 import com.depromeet.housekeeper.data.utils.TokenManager
 import com.depromeet.housekeeper.util.TOKEN_PREFERENCE_STORE
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

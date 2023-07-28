@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
+import com.depromeet.housekeeper.data.utils.TokenManager
 import com.depromeet.housekeeper.model.response.ProfileData
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val tokenManager: TokenManager
 ) : BaseViewModel() {
     private val _version: MutableStateFlow<String> =
         MutableStateFlow("")
@@ -59,12 +61,10 @@ class SettingViewModel @Inject constructor(
     private fun logout() {
         viewModelScope.launch {
             userRepository.logout().collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    Timber.d(it.toString())
-                    PrefsManager.deleteTokens()
-                    PrefsManager.deleteMemberInfo()
-                }
+                receiveApiResult(it) ?: return@collectLatest
+                Timber.d(it.toString())
+                PrefsManager.deleteMemberInfo()
+                tokenManager.deleteTokens()
             }
         }
     }

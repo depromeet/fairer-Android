@@ -28,10 +28,12 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val RC_SIGN_IN = 1
+
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var mGoogleSignInClient: GoogleSignInClient
     }
+
     private val viewModel: LoginViewModel by viewModels()
     private val navArgs by navArgs<LoginFragmentArgs>()
 
@@ -45,7 +47,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         initListener()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -58,7 +60,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (navArgs.code != "null") {
+        if (navArgs.code != "null" && account != null) {
             navigateDynamicLink()
         } else if (account != null) {
             Timber.d("Account 존재")
@@ -120,7 +122,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun initNavigation(member: NewMember) {
-        if (member.hasTeam){
+        if (member.hasTeam) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
         } else {
             if (member.isNewMember) {
@@ -138,32 +140,31 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun navigateDynamicLink() {
-        if (PrefsManager.refreshToken != "") {
-            if (PrefsManager.hasTeam) {
+        if (PrefsManager.hasTeam) {
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                    SignViewType.InviteCode,
+                    code = "hasTeam"
+                )
+            )
+        } else {
+            if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                        SignViewType.InviteCode,
-                        code = "hasTeam"
+                        SignViewType.UserName,
+                        null
                     )
                 )
             } else {
-                if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                            SignViewType.UserName,
-                            null
-                        )
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                        SignViewType.InviteCode,
+                        navArgs.code
                     )
-                } else {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                            SignViewType.InviteCode,
-                            navArgs.code
-                        )
-                    )
-                }
+                )
             }
         }
+
 
     }
 
