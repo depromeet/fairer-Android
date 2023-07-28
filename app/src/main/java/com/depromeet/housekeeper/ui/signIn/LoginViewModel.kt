@@ -3,21 +3,26 @@ package com.depromeet.housekeeper.ui.signIn
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
+import com.depromeet.housekeeper.data.utils.TokenManager
 import com.depromeet.housekeeper.model.request.SocialType
 import com.depromeet.housekeeper.model.request.Token
 import com.depromeet.housekeeper.model.ui.NewMember
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val tokenManager: TokenManager,
 ) : BaseViewModel() {
 
     private val _newMember: MutableStateFlow<NewMember?> = MutableStateFlow(null)
@@ -48,12 +53,17 @@ class LoginViewModel @Inject constructor(
                 result.memberName?.let { name -> PrefsManager.setUserName(name) }
                 PrefsManager.setMemberId(result.memberId)
                 PrefsManager.setHasTeam(result.hasTeam)
-                PrefsManager.setMemberId(result.memberId)
+
+                withContext(Dispatchers.IO){
+                    tokenManager.saveAccessToken(result.accessToken)
+                    tokenManager.saveRefreshToken(result.refreshToken)
+                }
 
                 // 로그인 후 set fcm token
                 saveToken()
 
                 Timber.d("Auth \naccessToken:${result.accessToken}\nrefreshToken:${result.refreshToken}")
+                Timber.d("memeberId : ${result.memberId}, ${PrefsManager.memberId}")
                 Timber.d("isNewMember : ${result.isNewMember}, team: ${result.hasTeam}, MemberName: ${result.memberName}")
             }
         }

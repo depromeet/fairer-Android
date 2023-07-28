@@ -9,7 +9,7 @@ import timber.log.Timber
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class AuthInterceptor @Inject constructor(
+class AuthInterceptor2 @Inject constructor(
     private val sessionManager: SessionManager
 ) : Interceptor {
     @SuppressLint("TimberArgCount")

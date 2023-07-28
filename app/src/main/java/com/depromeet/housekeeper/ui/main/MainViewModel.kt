@@ -91,8 +91,8 @@ class MainViewModel @Inject constructor(
      * User 관련
      */
 
-    private val _selectUserId: MutableStateFlow<Int> = MutableStateFlow(PrefsManager.memberId)
-    val selectUserId: StateFlow<Int>
+    private val _selectUserId: MutableStateFlow<Int?> = MutableStateFlow(PrefsManager.memberId)
+    val selectUserId: StateFlow<Int?>
         get() = _selectUserId
 
     private val _rule: MutableStateFlow<List<RuleResponse>> = MutableStateFlow(listOf())
@@ -114,6 +114,10 @@ class MainViewModel @Inject constructor(
     private val _feedbackList: MutableStateFlow<FeedbackListModel?> = MutableStateFlow(null)
     val feedbackList: StateFlow<FeedbackListModel?>
         get() = _feedbackList
+
+    init {
+        Timber.d("selectUserId = ${PrefsManager.memberId}")
+    }
 
 
     fun getDatePickerWeek(year: Int, month: Int, dayOfMonth: Int): MutableList<DayOfWeek> {
@@ -228,9 +232,10 @@ class MainViewModel @Inject constructor(
         val fromDate = startDateOfWeek.value
         val toDate = getLastDate(fromDate)
 
-        Timber.d("$MAIN_TAG getHouseWorks $fromDate : $toDate : ${selectUserId.value}")
+        Timber.d("getHouseWorks $fromDate : $toDate : ${selectUserId.value}")
+        if (selectUserId.value == null) return
         viewModelScope.launch {
-            mainRepository.getPeriodHouseWorkListOfMember(selectUserId.value, fromDate, toDate)
+            mainRepository.getPeriodHouseWorkListOfMember(selectUserId.value!!, fromDate, toDate)
                 .collectLatest {
                     val result = receiveApiResult(it)
                     if (result != null) {
@@ -281,10 +286,9 @@ class MainViewModel @Inject constructor(
                 houseWorkId = houseWork.houseWorkId,
                 scheduledDate = houseWork.scheduledDate
             ).collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    getHouseWorks()
-                }
+                receiveApiResult(it) ?: return@collectLatest
+
+                getHouseWorks()
             }
         }
     }
@@ -292,10 +296,8 @@ class MainViewModel @Inject constructor(
     fun cancelChoreComplete(houseWork: HouseWork) {
         viewModelScope.launch {
             mainRepository.cancelChoreComplete(houseWork.houseWorkCompleteId!!).collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    getHouseWorks()
-                }
+                receiveApiResult(it) ?: return@collectLatest
+                getHouseWorks()
             }
         }
     }
@@ -356,10 +358,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             mainRepository.createFeedback(CreateFeedbackModel(comment, emoji, houseCompleteId))
                 .collectLatest {
-                    val result = receiveApiResult(it)
-                    if (result != null) {
-                        getHouseWorks()
-                    }
+                    receiveApiResult(it) ?: return@collectLatest
+
+                    getHouseWorks()
                 }
         }
     }
