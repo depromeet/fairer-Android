@@ -9,7 +9,6 @@ import com.depromeet.housekeeper.model.request.Token
 import com.depromeet.housekeeper.model.ui.NewMember
 import com.depromeet.housekeeper.util.PrefsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +32,12 @@ class LoginViewModel @Inject constructor(
     val code: StateFlow<String>
         get() = _code
 
+    fun setAuthCode(authCode: String){
+        PrefsManager.setAuthCode(authCode)
+        viewModelScope.launch(Dispatchers.IO){
+            tokenManager.saveRefreshToken("LOGIN")
+        }
+    }
 
     /**
      * Network Communication

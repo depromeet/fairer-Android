@@ -11,13 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.depromeet.housekeeper.R
-import com.depromeet.housekeeper.data.local.SessionManager
 import com.depromeet.housekeeper.databinding.ActivityHousekeeperBinding
 import com.depromeet.housekeeper.service.InternetService
+import com.depromeet.housekeeper.ui.signIn.LoginFragment
 import com.depromeet.housekeeper.util.FILTER_INTERNET_CONNECTED
 import com.depromeet.housekeeper.util.IS_INTERNET_CONNECTED
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +27,15 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class HouseKeeperActivity : AppCompatActivity() {
-
+    private val tokenViewModel: TokenViewModel by viewModels()
     private val viewModel: HouseKeeperViewModel by viewModels()
     lateinit var binding: ActivityHousekeeperBinding
+    private val navHostFragment by lazy {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
+    private val navController by lazy {
+        navHostFragment.navController
+    }
 
     private lateinit var mService: InternetService
     private var mBound = false
@@ -69,12 +77,24 @@ class HouseKeeperActivity : AppCompatActivity() {
         super.onStart()
         bindService(Intent(this, InternetService::class.java), conn, Context.BIND_AUTO_CREATE)
         val filter = IntentFilter(FILTER_INTERNET_CONNECTED).apply {
-            addAction(Intent.ACTION_SEND)
+            addAction(ACTION_SEND)
         }
         registerReceiver(internetReceiver, filter)
 
-        //todo refresh token 만료
-        //SessionManager.logoutFlag = true
+        tokenViewModel.refreshToken.observe(this) {
+            if (it == null && GoogleSignIn.getLastSignedInAccount(applicationContext) != null) {
+                Timber.d("auth refresh token is null")
+                LoginFragment.mGoogleSignInClient.signOut().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Timber.d("로그아웃 성공적 ${GoogleSignIn.getLastSignedInAccount(applicationContext)}")
+                        while (navHostFragment.parentFragmentManager.backStackEntryCount > 0) navController.popBackStack()
+                        val navOption =
+                            NavOptions.Builder().setPopUpTo(R.id.loginFragment, true).build()
+                        navController.navigate(R.id.loginFragment, null, navOptions = navOption)
+                    }
+                }
+            }
+        }
     }
 
     override fun onStop() {
@@ -101,12 +121,8 @@ class HouseKeeperActivity : AppCompatActivity() {
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
                 // Get deep link from result (may be null if no link is found)
-                var deepLink: Uri? = null
-                val navHostFragment =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                val navController = navHostFragment.navController
                 if (pendingDynamicLinkData != null) {
-                    deepLink = pendingDynamicLinkData.link
+                    val deepLink: Uri? = pendingDynamicLinkData.link
                     Timber.d("deepLink = $deepLink")
                     if (deepLink != null) {
                         navController.navigate(deepLink)

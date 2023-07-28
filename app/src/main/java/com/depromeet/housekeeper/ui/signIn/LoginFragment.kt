@@ -95,7 +95,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
                 if (authCode != null) {
-                    PrefsManager.setAuthCode(authCode)
+                    viewModel.setAuthCode(authCode)
                     viewModel.requestLogin()
                 }
                 Timber.d("!! $authCode")

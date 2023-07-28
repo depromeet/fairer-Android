@@ -1,11 +1,11 @@
 package com.depromeet.housekeeper.data.utils
 
 import com.depromeet.housekeeper.util.AUTHORIZATION
+import com.depromeet.housekeeper.util.NETWORK_ERROR
 import com.depromeet.housekeeper.util.PrefsManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import okhttp3.Interceptor
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.internal.http.HTTP_OK
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,8 +15,9 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = runBlocking {
-            tokenManager.getAccessToken().first() ?: PrefsManager.authCode!!
-        }
+            tokenManager.getAccessToken().first() ?: PrefsManager.authCode
+        } ?: return errorResponse(chain.request())
+
         val request = chain.request().newBuilder().header(AUTHORIZATION, token).build()
         val response = chain.proceed(request)
 
@@ -35,5 +36,14 @@ class AuthInterceptor @Inject constructor(
         }
         return response
     }
+
+    private fun errorResponse(request: Request): Response = Response.Builder()
+        .request(request)
+        .protocol(Protocol.HTTP_1_1)
+        .code(NETWORK_ERROR)
+        .message("")
+        .body(ResponseBody.create(null, ""))
+        .build()
+
 
 }

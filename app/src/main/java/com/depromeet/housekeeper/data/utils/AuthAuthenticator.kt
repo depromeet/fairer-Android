@@ -13,15 +13,21 @@ import javax.inject.Inject
 
 class AuthAuthenticator @Inject constructor(
     private val tokenManager: TokenManager
-): Authenticator {
-    override fun authenticate(route: Route?, response: Response): Request {
+) : Authenticator {
+    override fun authenticate(route: Route?, response: Response): Request? {
         val refreshToken = runBlocking {
             tokenManager.getRefreshToken().first()
         }
         Timber.d("refreshToken = ${refreshToken}")
-        //runBlocking { tokenManager.deleteRefreshToken() }
+        if (refreshToken == response.request.header(AUTHORIZATION)) {
+            Timber.d("refresh token 이미 보냈었음")
+            runBlocking { tokenManager.deleteTokens() }
+            response.close()
+            return null
+        }
+
         if (refreshToken != null) return newRequestWithToken(refreshToken, response.request)
-        return response.request
+        return null
     }
 
     private fun newRequestWithToken(token: String, request: Request): Request =
