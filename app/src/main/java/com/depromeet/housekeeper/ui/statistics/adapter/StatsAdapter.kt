@@ -28,7 +28,7 @@ class StatsAdapter(private var list: MutableList<Stats> ) : RecyclerView.Adapter
                     justifyContent = JustifyContent.FLEX_START
                 }
                 rvMemberList.layoutManager = flexboxLayoutManager
-                rvMemberList.adapter = StatsMemberAdapter(item.members.sorted())
+                rvMemberList.adapter = StatsMemberAdapter(item.members.filter { it.houseWorkCount != 0 }.sorted())
                 var isDroppedVar = false
                 isDropped = isDroppedVar
 
