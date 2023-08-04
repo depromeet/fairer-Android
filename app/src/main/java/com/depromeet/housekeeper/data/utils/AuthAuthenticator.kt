@@ -19,6 +19,10 @@ class AuthAuthenticator @Inject constructor(
             tokenManager.getRefreshToken().first()
         }
         Timber.d("refreshToken = ${refreshToken}")
+        if (refreshToken == "LOGIN") {
+            response.close()
+            return null
+        }
         if (refreshToken == response.request.header(AUTHORIZATION)) {
             Timber.d("refresh token 이미 보냈었음")
             runBlocking { tokenManager.deleteTokens() }
