@@ -35,7 +35,7 @@ class NetworkModule {
         "http://fairer-dev-env.eba-yzy7enxi.ap-northeast-2.elasticbeanstalk.com"
     private lateinit var RELEASE_URL: String
     private val BASE_URL: String by lazy {
-        if (BuildConfig.DEBUG) DEBUG_URL else RELEASE_URL
+        if (!BuildConfig.DEBUG) RELEASE_URL else DEBUG_URL
     }
 
     @Singleton
