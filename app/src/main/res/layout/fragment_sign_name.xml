@@ -22,6 +22,10 @@
             type="boolean" />
 
         <variable
+            name="etText"
+            type="String" />
+
+        <variable
             name="viewType"
             type="com.depromeet.housekeeper.model.enums.SignViewType" />
 
@@ -111,7 +115,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_et"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/sign_name_edit_text_background"
@@ -121,12 +125,16 @@
                     <EditText
                         android:id="@+id/sign_name_et"
                         android:layout_width="0dp"
-                        android:layout_height="54dp"
+                        android:layout_height="match_parent"
                         android:background="@null"
                         android:ellipsize="end"
+                        android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLength="17"
                         android:maxLines="1"
+                        android:text="@{etText}"
+                        android:textCursorDrawable="@drawable/ic_cursor_drawable"
+                        android:textColorHint="@color/gray_400"
                         android:paddingStart="16dp"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toStartOf="@id/sign_name_clear"

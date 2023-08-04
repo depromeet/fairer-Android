@@ -22,10 +22,6 @@ import javax.inject.Inject
 class SignNameViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
-    private val _inputText: MutableStateFlow<String> = MutableStateFlow("")
-    val inputText: StateFlow<String>
-        get() = _inputText
-
     private val _viewType: MutableStateFlow<SignViewType> = MutableStateFlow(SignViewType.UserName)
     val viewType: StateFlow<SignViewType>
         get() = _viewType
@@ -73,17 +69,14 @@ class SignNameViewModel @Inject constructor(
     private var _isNextBtnClickable: Boolean = false
     val isNextBtnClickable get() = _isNextBtnClickable
 
-    fun setMemberName() {
-        PrefsManager.setUserName(inputText.value)
+    fun setMemberName(etText : String) {
+        PrefsManager.setUserName(etText)
     }
 
     fun setIsNextBtnClickable(isClickable: Boolean) {
         _isNextBtnClickable = isClickable
     }
 
-    fun setInputText(name: String) {
-        _inputText.value = name
-    }
 
     fun setViewType(viewType: SignViewType) {
         _viewType.value = viewType

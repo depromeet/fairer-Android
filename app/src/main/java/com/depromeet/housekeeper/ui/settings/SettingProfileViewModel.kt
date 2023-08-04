@@ -49,14 +49,6 @@ class SettingProfileViewModel @Inject constructor(
         _statusBackgroundBox.value = type
     }
 
-    fun setNameData(name:String){
-        _nameData.value = name
-    }
-
-    fun setMassageData(massage:String){
-        _massageData.value = massage
-    }
-
     fun setProfile(memberName: String, profilePath: String, statusMessage: String) {
         PrefsManager.setUserProfile(ProfileData(memberName, profilePath, statusMessage))
     }

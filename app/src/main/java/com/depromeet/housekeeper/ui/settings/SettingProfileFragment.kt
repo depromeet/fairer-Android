@@ -172,7 +172,6 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
     private fun validateName() {
         binding.etName.addTextChangedListener {
             val nameValue: String = binding.etName.text.toString()
-            viewModel.setNameData(nameValue)
             if (!nameValue.matches(EditTextUtil.INPUT_PATTERN.toRegex())) {
                 binding.nameIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
@@ -194,8 +193,7 @@ class SettingProfileFragment : BaseFragment<FragmentSettingProfileBinding>(R.lay
 
 
         binding.etStatus.addTextChangedListener {
-            val value: String = binding.etStatus.text.toString()
-            viewModel.setMassageData(value)
+            val value: String = it.toString()
              if(value.length>20) {
                 binding.stateIsError = true
                 binding.profileBtn.mainFooterButton.isEnabled = false
