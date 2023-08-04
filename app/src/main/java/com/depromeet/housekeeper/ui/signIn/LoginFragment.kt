@@ -12,6 +12,7 @@ import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.ui.NewMember
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -123,7 +124,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun initNavigation(member: NewMember) {
         if (member.hasTeam) {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+            findNavController().navigateSafe(R.id.action_loginFragment_to_mainFragment)
         } else {
             if (member.isNewMember) {
                 findNavController().navigate(
