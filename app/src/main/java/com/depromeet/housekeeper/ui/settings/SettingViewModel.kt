@@ -4,21 +4,25 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.depromeet.housekeeper.base.BaseViewModel
 import com.depromeet.housekeeper.data.repository.UserRepository
+import com.depromeet.housekeeper.data.utils.TokenManager
 import com.depromeet.housekeeper.model.response.ProfileData
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val tokenManager: TokenManager
 ) : BaseViewModel() {
     private val _version: MutableStateFlow<String> =
         MutableStateFlow("")
@@ -58,13 +62,12 @@ class SettingViewModel @Inject constructor(
      */
     private fun logout() {
         viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                tokenManager.deleteTokens()
+            }
             userRepository.logout().collectLatest {
-                val result = receiveApiResult(it)
-                if (result != null) {
-                    Timber.d(it.toString())
-                    PrefsManager.deleteTokens()
-                    PrefsManager.deleteMemberInfo()
-                }
+                receiveApiResult(it) ?: return@collectLatest
+                Timber.d(it.toString())
             }
         }
     }

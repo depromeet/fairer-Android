@@ -12,6 +12,7 @@ import com.depromeet.housekeeper.base.BaseFragment
 import com.depromeet.housekeeper.databinding.FragmentLoginBinding
 import com.depromeet.housekeeper.model.enums.SignViewType
 import com.depromeet.housekeeper.model.ui.NewMember
+import com.depromeet.housekeeper.util.NavigationUtil.navigateSafe
 import com.depromeet.housekeeper.util.PREFS_USER_NAME_DEFAULT
 import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -28,10 +29,12 @@ import timber.log.Timber
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val RC_SIGN_IN = 1
+
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var mGoogleSignInClient: GoogleSignInClient
     }
+
     private val viewModel: LoginViewModel by viewModels()
     private val navArgs by navArgs<LoginFragmentArgs>()
 
@@ -45,7 +48,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         initListener()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -58,7 +61,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (navArgs.code != "null") {
+        if (navArgs.code != "null" && account != null) {
             navigateDynamicLink()
         } else if (account != null) {
             Timber.d("Account 존재")
@@ -95,7 +98,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 val account = task.getResult(ApiException::class.java)
                 val authCode = account.serverAuthCode
                 if (authCode != null) {
-                    PrefsManager.setAuthCode(authCode)
+                    viewModel.setAuthCode(authCode)
                     viewModel.requestLogin()
                 }
                 Timber.d("!! $authCode")
@@ -120,8 +123,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun initNavigation(member: NewMember) {
-        if (member.hasTeam){
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+        if (member.hasTeam) {
+            findNavController().navigateSafe(R.id.action_loginFragment_to_mainFragment)
         } else {
             if (member.isNewMember) {
                 findNavController().navigate(
@@ -138,32 +141,31 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun navigateDynamicLink() {
-        if (PrefsManager.refreshToken != "") {
-            if (PrefsManager.hasTeam) {
+        if (PrefsManager.hasTeam) {
+            findNavController().navigate(
+                LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                    SignViewType.InviteCode,
+                    code = "hasTeam"
+                )
+            )
+        } else {
+            if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
                 findNavController().navigate(
                     LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                        SignViewType.InviteCode,
-                        code = "hasTeam"
+                        SignViewType.UserName,
+                        null
                     )
                 )
             } else {
-                if (PrefsManager.userName == PREFS_USER_NAME_DEFAULT) {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                            SignViewType.UserName,
-                            null
-                        )
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
+                        SignViewType.InviteCode,
+                        navArgs.code
                     )
-                } else {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToSignNameFragment(
-                            SignViewType.InviteCode,
-                            navArgs.code
-                        )
-                    )
-                }
+                )
             }
         }
+
 
     }
 

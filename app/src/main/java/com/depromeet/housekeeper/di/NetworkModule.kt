@@ -1,10 +1,16 @@
 package com.depromeet.housekeeper.di
 
 import android.content.Context
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.depromeet.housekeeper.BuildConfig
 import com.depromeet.housekeeper.data.ApiService
 import com.depromeet.housekeeper.data.dataSource.RemoteDataSourceImpl
-import com.depromeet.housekeeper.data.local.SessionManager
+import com.depromeet.housekeeper.data.utils.AuthAuthenticator
+import com.depromeet.housekeeper.data.utils.AuthInterceptor
+import com.depromeet.housekeeper.data.utils.RemoteConfigWrapper
+import com.depromeet.housekeeper.data.utils.TokenManager
+import com.depromeet.housekeeper.util.TOKEN_PREFERENCE_STORE
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -34,16 +40,31 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideSessionManager(@ApplicationContext context: Context): SessionManager = SessionManager(context)
+    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
+        val dataStore = PreferenceDataStoreFactory.create(produceFile = {
+            context.preferencesDataStoreFile(
+                TOKEN_PREFERENCE_STORE
+            )
+        })
+        return TokenManager(dataStore)
+    }
 
     @Singleton
     @Provides
-    fun provideAuthInterceptor(sessionManager: SessionManager): AuthInterceptor =
-        AuthInterceptor(sessionManager = sessionManager)
+    fun provideAuthInterceptor(tokenManager: TokenManager): AuthInterceptor =
+        AuthInterceptor(tokenManager = tokenManager)
 
     @Singleton
     @Provides
-    fun provideOkHttpBuilder(authInterceptor: AuthInterceptor): OkHttpClient.Builder {
+    fun provideAuthAuthenticator(tokenManager: TokenManager): AuthAuthenticator =
+        AuthAuthenticator(tokenManager = tokenManager)
+
+    @Singleton
+    @Provides
+    fun provideOkHttpBuilder(
+        authInterceptor: AuthInterceptor,
+        authAuthenticator: AuthAuthenticator
+    ): OkHttpClient.Builder {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -51,12 +72,14 @@ class NetworkModule {
             OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
                 .addNetworkInterceptor(httpLoggingInterceptor)
+                .authenticator(authAuthenticator)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
         } else {
             OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
+                .authenticator(authAuthenticator)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)

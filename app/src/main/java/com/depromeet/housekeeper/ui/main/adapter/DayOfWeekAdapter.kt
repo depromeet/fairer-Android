@@ -42,7 +42,6 @@ class DayOfWeekAdapter(
                     choreCnt = 0
                     ivDots.visibility = View.GONE
                 }
-                Timber.d("MAIN : $dateKey : $isChore")
 
                 tvNumDay.text = date
                 tvStrDay.text = day
