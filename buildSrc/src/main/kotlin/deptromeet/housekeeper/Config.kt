@@ -5,5 +5,5 @@ object Config {
   const val TARGET_SDK = 31
   const val MIN_SDK = 28
   const val VERSION_CODE = 8
-  const val VERSION_NAME = "1.5.0"
+  const val VERSION_NAME = "1.4.1"
 }
