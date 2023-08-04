@@ -10,10 +10,12 @@ import com.depromeet.housekeeper.util.PrefsManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -60,11 +62,12 @@ class SettingViewModel @Inject constructor(
      */
     private fun logout() {
         viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                tokenManager.deleteTokens()
+            }
             userRepository.logout().collectLatest {
                 receiveApiResult(it) ?: return@collectLatest
                 Timber.d(it.toString())
-                PrefsManager.deleteMemberInfo()
-                tokenManager.deleteTokens()
             }
         }
     }
