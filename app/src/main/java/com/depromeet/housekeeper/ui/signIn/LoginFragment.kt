@@ -48,6 +48,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun initView() {
+        binding.vm = viewModel
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -112,12 +113,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             viewModel.loginUiState.collectLatest {
                 when (it){
                     is LoginUiState.Success -> initNavigation(it.newMember)
-                    is LoginUiState.Loading -> {
-                        Timber.d("loginUiState Loading")
-                    }
-                    is LoginUiState.Yet -> {
-                        Timber.d("loginUiState Yet")
-                    }
+                    is LoginUiState.Loading -> Timber.d("loginUiState: Loading")
+                    is LoginUiState.Yet -> Timber.d("loginUiState: Yet")
                 }
             }
         }

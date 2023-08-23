@@ -1,6 +1,5 @@
 package com.depromeet.housekeeper.util
 
-import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.util.Linkify
@@ -9,14 +8,23 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.depromeet.housekeeper.R
 import com.depromeet.housekeeper.model.enums.SignViewType
+import com.depromeet.housekeeper.ui.signIn.LoginUiState
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.util.regex.Pattern
 
 
 object BindingAdapter {
+
+    @JvmStatic
+    @BindingAdapter("showProgressIndicator")
+    fun CircularProgressIndicator.showProgressIndicator(uiState: LoginUiState) {
+        visibility = if (uiState is LoginUiState.Loading) View.VISIBLE else View.GONE
+    }
+
     @JvmStatic
     @androidx.databinding.BindingAdapter("app:textStyle")
     fun setTypeface(textView: TextView, style: String) {
