@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
@@ -23,7 +22,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -109,9 +108,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun bindingVM() {
-        viewModel.viewModelScope.launch {
-            viewModel.newMember.collect {
-                if (it != null) initNavigation(it)
+        lifecycleScope.launchWhenCreated  {
+            viewModel.newMember.combine(viewModel.isLoading) { newMember, isLoading ->
+                if (newMember != null && !isLoading) initNavigation(newMember)
             }
         }
 

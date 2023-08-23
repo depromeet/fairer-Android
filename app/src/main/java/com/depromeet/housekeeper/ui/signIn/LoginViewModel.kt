@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -28,9 +29,13 @@ class LoginViewModel @Inject constructor(
     val newMember: StateFlow<NewMember?>
         get() = _newMember
 
-    fun setAuthCode(authCode: String){
+    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean>
+        get() = _isLoading
+
+    fun setAuthCode(authCode: String) {
         PrefsManager.setAuthCode(authCode)
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             tokenManager.saveRefreshToken("LOGIN")
         }
     }
@@ -40,6 +45,8 @@ class LoginViewModel @Inject constructor(
      */
 
     fun requestLogin() {
+        _isLoading.update { true }
+
         viewModelScope.launch {
             userRepository.getGoogleLogin(
                 SocialType("GOOGLE")
@@ -49,14 +56,14 @@ class LoginViewModel @Inject constructor(
 
                 PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
 
-                result.memberName?.let { name -> PrefsManager.setUserName(name) }
-                PrefsManager.setMemberId(result.memberId)
-                PrefsManager.setHasTeam(result.hasTeam)
-
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     tokenManager.saveAccessToken(result.accessToken)
                     tokenManager.saveRefreshToken(result.refreshToken)
                 }
+
+                result.memberName?.let { name -> PrefsManager.setUserName(name) }
+                PrefsManager.setMemberId(result.memberId)
+                PrefsManager.setHasTeam(result.hasTeam)
 
                 // 로그인 후 set fcm token
                 saveToken()
@@ -66,6 +73,8 @@ class LoginViewModel @Inject constructor(
                 Timber.d("isNewMember : ${result.isNewMember}, team: ${result.hasTeam}, MemberName: ${result.memberName}")
             }
         }
+
+        _isLoading.update { false }
     }
 
     private fun saveToken() {
