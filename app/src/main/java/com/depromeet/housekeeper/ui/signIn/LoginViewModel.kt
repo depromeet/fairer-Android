@@ -25,13 +25,9 @@ class LoginViewModel @Inject constructor(
     private val tokenManager: TokenManager,
 ) : BaseViewModel() {
 
-    private val _newMember: MutableStateFlow<NewMember?> = MutableStateFlow(null)
-    val newMember: StateFlow<NewMember?>
-        get() = _newMember
-
-    private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean>
-        get() = _isLoading
+    private val _loginUiState: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState.Yet)
+    val loginUiState: StateFlow<LoginUiState>
+        get() = _loginUiState
 
     fun setAuthCode(authCode: String) {
         PrefsManager.setAuthCode(authCode)
@@ -45,20 +41,28 @@ class LoginViewModel @Inject constructor(
      */
 
     fun requestLogin() {
-        _isLoading.update { true }
+        _loginUiState.update { LoginUiState.Loading }
 
         viewModelScope.launch {
             userRepository.getGoogleLogin(
                 SocialType("GOOGLE")
             ).collectLatest {
                 val result = receiveApiResult(it) ?: return@collectLatest
-                _newMember.value = NewMember(result.hasTeam, result.isNewMember)
 
                 PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
 
                 withContext(Dispatchers.IO) {
                     tokenManager.saveAccessToken(result.accessToken)
                     tokenManager.saveRefreshToken(result.refreshToken)
+                    tokenManager.getAccessToken()
+                }.collect { accessToken ->
+                    if (accessToken.equals(result.accessToken)) {
+                        _loginUiState.update {
+                            LoginUiState.Success(
+                                NewMember(result.hasTeam, result.isNewMember)
+                            )
+                        }
+                    }
                 }
 
                 result.memberName?.let { name -> PrefsManager.setUserName(name) }
@@ -73,8 +77,6 @@ class LoginViewModel @Inject constructor(
                 Timber.d("isNewMember : ${result.isNewMember}, team: ${result.hasTeam}, MemberName: ${result.memberName}")
             }
         }
-
-        _isLoading.update { false }
     }
 
     private fun saveToken() {
@@ -93,4 +95,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+}
+
+sealed interface LoginUiState {
+    object Yet : LoginUiState
+    object Loading : LoginUiState
+    data class Success(val newMember: NewMember) : LoginUiState
 }
