@@ -28,10 +28,6 @@ class LoginViewModel @Inject constructor(
     val newMember: StateFlow<NewMember?>
         get() = _newMember
 
-    private val _code: MutableStateFlow<String> = MutableStateFlow("")
-    val code: StateFlow<String>
-        get() = _code
-
     fun setAuthCode(authCode: String){
         PrefsManager.setAuthCode(authCode)
         viewModelScope.launch(Dispatchers.IO){
