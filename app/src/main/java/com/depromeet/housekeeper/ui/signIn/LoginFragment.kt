@@ -22,7 +22,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -108,9 +108,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun bindingVM() {
-        lifecycleScope.launchWhenCreated  {
-            viewModel.newMember.combine(viewModel.isLoading) { newMember, isLoading ->
-                if (newMember != null && !isLoading) initNavigation(newMember)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loginUiState.collectLatest {
+                when (it){
+                    is LoginUiState.Success -> initNavigation(it.newMember)
+                    is LoginUiState.Loading -> {
+                        Timber.d("loginUiState Loading")
+                    }
+                    is LoginUiState.Yet -> {
+                        Timber.d("loginUiState Yet")
+                    }
+                }
             }
         }
 
