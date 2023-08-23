@@ -50,6 +50,11 @@ class LoginViewModel @Inject constructor(
                 val result = receiveApiResult(it) ?: return@collectLatest
 
                 PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
+                result.memberName?.let { name -> PrefsManager.setUserName(name) }
+                PrefsManager.setMemberId(result.memberId)
+                PrefsManager.setHasTeam(result.hasTeam)
+                // 로그인 후 set fcm token
+                saveToken()
 
                 withContext(Dispatchers.IO) {
                     tokenManager.saveAccessToken(result.accessToken)
@@ -64,13 +69,6 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-
-                result.memberName?.let { name -> PrefsManager.setUserName(name) }
-                PrefsManager.setMemberId(result.memberId)
-                PrefsManager.setHasTeam(result.hasTeam)
-
-                // 로그인 후 set fcm token
-                saveToken()
 
                 Timber.d("Auth \naccessToken:${result.accessToken}\nrefreshToken:${result.refreshToken}")
                 Timber.d("memeberId : ${result.memberId}, ${PrefsManager.memberId}")
