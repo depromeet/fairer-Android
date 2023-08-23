@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.depromeet.housekeeper">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--queries에 카카오톡 패키지 추가-->
     <queries>

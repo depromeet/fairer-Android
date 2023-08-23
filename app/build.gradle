@@ -61,7 +61,8 @@ android {
     buildFeatures{
         dataBinding = true
     }
-    lintOptions {
+    namespace 'com.depromeet.housekeeper'
+    lint {
         abortOnError false
     }
 }
