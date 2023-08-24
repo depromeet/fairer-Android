@@ -73,16 +73,16 @@ class NetworkModule {
                 .addInterceptor(authInterceptor)
                 .addNetworkInterceptor(httpLoggingInterceptor)
                 .authenticator(authAuthenticator)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
         } else {
             OkHttpClient.Builder()
                 .addInterceptor(authInterceptor)
                 .authenticator(authAuthenticator)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
         }
 
     }

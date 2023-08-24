@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -24,17 +25,13 @@ class LoginViewModel @Inject constructor(
     private val tokenManager: TokenManager,
 ) : BaseViewModel() {
 
-    private val _newMember: MutableStateFlow<NewMember?> = MutableStateFlow(null)
-    val newMember: StateFlow<NewMember?>
-        get() = _newMember
+    private val _loginUiState: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState.Yet)
+    val loginUiState: StateFlow<LoginUiState>
+        get() = _loginUiState
 
-    private val _code: MutableStateFlow<String> = MutableStateFlow("")
-    val code: StateFlow<String>
-        get() = _code
-
-    fun setAuthCode(authCode: String){
+    fun setAuthCode(authCode: String) {
         PrefsManager.setAuthCode(authCode)
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             tokenManager.saveRefreshToken("LOGIN")
         }
     }
@@ -44,26 +41,34 @@ class LoginViewModel @Inject constructor(
      */
 
     fun requestLogin() {
+        _loginUiState.update { LoginUiState.Loading }
+
         viewModelScope.launch {
             userRepository.getGoogleLogin(
                 SocialType("GOOGLE")
             ).collectLatest {
                 val result = receiveApiResult(it) ?: return@collectLatest
-                _newMember.value = NewMember(result.hasTeam, result.isNewMember)
 
                 PrefsManager.setAuthCode(null) // 로그인 성공했으니 authCode는 이제 유효하지 않으므로 null로 변경
-
                 result.memberName?.let { name -> PrefsManager.setUserName(name) }
                 PrefsManager.setMemberId(result.memberId)
                 PrefsManager.setHasTeam(result.hasTeam)
-
-                withContext(Dispatchers.IO){
-                    tokenManager.saveAccessToken(result.accessToken)
-                    tokenManager.saveRefreshToken(result.refreshToken)
-                }
-
                 // 로그인 후 set fcm token
                 saveToken()
+
+                withContext(Dispatchers.IO) {
+                    tokenManager.saveAccessToken(result.accessToken)
+                    tokenManager.saveRefreshToken(result.refreshToken)
+                    tokenManager.getAccessToken()
+                }.collect { accessToken ->
+                    if (accessToken.equals(result.accessToken)) {
+                        _loginUiState.update {
+                            LoginUiState.Success(
+                                NewMember(result.hasTeam, result.isNewMember)
+                            )
+                        }
+                    }
+                }
 
                 Timber.d("Auth \naccessToken:${result.accessToken}\nrefreshToken:${result.refreshToken}")
                 Timber.d("memeberId : ${result.memberId}, ${PrefsManager.memberId}")
@@ -88,4 +93,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+}
+
+sealed interface LoginUiState {
+    object Yet : LoginUiState
+    object Loading : LoginUiState
+    data class Success(val newMember: NewMember) : LoginUiState
 }

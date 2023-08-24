@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.depromeet.housekeeper.R
@@ -23,7 +22,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -49,6 +48,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun initView() {
+        binding.vm = viewModel
         binding.layoutNetwork.llDisconnectedNetwork.bringToFront()
     }
 
@@ -109,9 +109,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun bindingVM() {
-        viewModel.viewModelScope.launch {
-            viewModel.newMember.collect {
-                if (it != null) initNavigation(it)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loginUiState.collectLatest {
+                when (it){
+                    is LoginUiState.Success -> initNavigation(it.newMember)
+                    is LoginUiState.Loading -> Timber.d("loginUiState: Loading")
+                    is LoginUiState.Yet -> Timber.d("loginUiState: Yet")
+                }
             }
         }
 
