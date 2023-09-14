@@ -2,6 +2,6 @@
 <defaultsMap>
     <entry>
         <key>server_url</key>
-        <value>http://fairer-env.eba-w7ubjjfy.ap-northeast-2.elasticbeanstalk.com</value>
+        <value>http://fairer.shop</value>
     </entry>
 </defaultsMap>
