@@ -112,6 +112,11 @@ class RemoteDataSourceImpl @Inject constructor(
         apiService.logout()
     }.flowOn(ioDispatcher)
 
+    override suspend fun signOut(
+    ): Flow<ApiResult<Unit>> = safeFlow {
+        apiService.signOut()
+    }.flowOn(ioDispatcher)
+
 
     /**
      * presets

@@ -79,6 +79,9 @@ interface ApiService {
     @POST("/api/oauth/logout")
     suspend fun logout()
 
+    @POST("/api/oauth/signout")
+    suspend fun signOut()
+
 
     /**
      * presets

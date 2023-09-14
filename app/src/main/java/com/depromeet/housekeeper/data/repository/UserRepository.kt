@@ -35,6 +35,7 @@ class UserRepository @Inject constructor(
 
     suspend fun logout(): Flow<ApiResult<Unit>> = remoteDataSource.logout()
 
+    suspend fun signOut() : Flow<ApiResult<Unit>> = remoteDataSource.signOut()
     /**
      * teams
      */

@@ -188,7 +188,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinGroupFragment())
             }
         }
-
     }
-
 }

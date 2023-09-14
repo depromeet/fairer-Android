@@ -57,12 +57,42 @@ class SettingViewModel @Inject constructor(
             }
     }
 
+    fun withdraw(context: Context) {
+        viewModelScope.launch {
+            userRepository.signOut().collectLatest {
+                withContext(Dispatchers.IO) {
+                    tokenManager.deleteTokens()
+                }
+                PrefsManager.setUserProfile(ProfileData("", "", ""))
+
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build()
+
+                val mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
+
+                mGoogleSignInClient.signOut()
+                    .addOnCompleteListener { res ->
+                        if (res.isComplete)
+                            Timber.d("google sign out")
+                    }
+
+                mGoogleSignInClient.revokeAccess()
+                    .addOnCompleteListener { res ->
+                        if (res.isComplete)
+                            Timber.d("google account deleted")
+                    }
+                receiveApiResult(it) ?: return@collectLatest
+            }
+        }
+    }
+
     /**
      * Network Communication
      */
     private fun logout() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 tokenManager.deleteTokens()
             }
             userRepository.logout().collectLatest {
