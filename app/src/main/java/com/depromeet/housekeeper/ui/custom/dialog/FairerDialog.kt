@@ -59,8 +59,34 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
             logoutDialog.dismiss()
         }
         logoutDialog.show()
+    }
 
+    fun showSignOutDialog() {
+        initDialog<DialogLogoutBinding>(logoutDialog, R.layout.dialog_logout)
 
+        val btnDialogCancel =
+            logoutDialog.findViewById<AppCompatButton>(R.id.dialog_logout_cancel_btn)
+        val btnDialogOk = logoutDialog.findViewById<AppCompatButton>(R.id.dialog_logout_ok_btn)
+        val tvDialogTitle = logoutDialog.findViewById<TextView>(R.id.dialog_logout_title_tv)
+        val outsideDialog = logoutDialog.findViewById<ConstraintLayout>(R.id.dialog_logout_outside)
+
+        tvDialogTitle.setText(R.string.fairer_dialog_sign_out_title)
+        btnDialogOk.setText(R.string.fairer_dialog_sign_out_btn_text)
+        btnDialogOk.setTextColor(context.getColor(R.color.negative_20))
+
+        outsideDialog.setOnClickListener {
+            logoutDialog.dismiss()
+        }
+
+        btnDialogCancel.setOnClickListener {
+            logoutDialog.dismiss()
+        }
+
+        btnDialogOk.setOnClickListener {
+            onItemClickListener.onItemClick()
+            logoutDialog.dismiss()
+        }
+        logoutDialog.show()
     }
 
     fun showDialog() {
@@ -171,5 +197,5 @@ class FairerDialog(private val context: Context, private val type: DialogType) {
 }
 
 enum class DialogType {
-    CHANGE, DELETE, EDIT, LOGOUT, EXIT
+    CHANGE, DELETE, EDIT, LOGOUT, EXIT, SIGN_OUT
 }

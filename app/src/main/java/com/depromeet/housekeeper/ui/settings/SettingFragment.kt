@@ -86,13 +86,29 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         }
 
         binding.logoutRow.setOnClickListener {
-            showLogoutDialog()
+            showWithdrawDialog()
+        }
+
+        binding.signOutRow.setOnClickListener {
+            showSignOutDialog()
         }
     }
 
-    private fun showLogoutDialog() {
+    private fun showWithdrawDialog() {
         val dialog = FairerDialog(requireContext(), DialogType.LOGOUT)
         dialog.showLogoutDialog()
+
+        dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
+            override fun onItemClick() {
+                viewModel.withdraw(requireContext())
+                findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
+            }
+        }
+    }
+
+    private fun showSignOutDialog() {
+        val dialog = FairerDialog(requireContext(), DialogType.SIGN_OUT)
+        dialog.showSignOutDialog()
 
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {

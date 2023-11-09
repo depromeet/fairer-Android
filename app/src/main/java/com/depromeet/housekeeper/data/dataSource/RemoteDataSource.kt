@@ -49,6 +49,7 @@ interface RemoteDataSource {
      */
     suspend fun getGoogleLogin(socialType: SocialType): Flow<ApiResult<LoginResponse>>
     suspend fun logout(): Flow<ApiResult<Unit>>
+    suspend fun signOut(): Flow<ApiResult<Unit>>
 
     /**
      * presets
