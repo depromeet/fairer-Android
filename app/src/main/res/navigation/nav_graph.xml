@@ -358,7 +358,7 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/actioin_settingFragment_to_AlarmFragment"
+            android:id="@+id/action_settingFragment_to_AlarmFragment"
             app:destination="@+id/alarmFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -388,7 +388,7 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/settingFragment"
             app:popUpToInclusive="true" />
 
         <action

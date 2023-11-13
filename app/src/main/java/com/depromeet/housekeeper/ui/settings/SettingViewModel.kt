@@ -29,12 +29,17 @@ class SettingViewModel @Inject constructor(
     val version: StateFlow<String>
         get() = _version
 
+    private val _isUserInactive : MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
+    val isUserInactive : StateFlow<Boolean>
+        get() = _isUserInactive
+
     fun setVersion(version: String) {
         _version.value = version
     }
 
     // google sign out
-    fun signOut(context: Context) {
+    fun logout(context: Context) {
         logout()
         PrefsManager.setUserProfile(ProfileData("", "", ""))
 
@@ -55,16 +60,13 @@ class SettingViewModel @Inject constructor(
                 if (it.isComplete)
                     Timber.d("google account deleted")
             }
+        _isUserInactive.value = true
     }
 
-    fun withdraw(context: Context) {
+    fun signOut(context: Context) {
         viewModelScope.launch {
             userRepository.signOut().collectLatest {
-                withContext(Dispatchers.IO) {
-                    tokenManager.deleteTokens()
-                }
-                PrefsManager.setUserProfile(ProfileData("", "", ""))
-
+                tokenManager.deleteTokens()
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build()
@@ -82,7 +84,7 @@ class SettingViewModel @Inject constructor(
                         if (res.isComplete)
                             Timber.d("google account deleted")
                     }
-                receiveApiResult(it) ?: return@collectLatest
+                _isUserInactive.value = true
             }
         }
     }

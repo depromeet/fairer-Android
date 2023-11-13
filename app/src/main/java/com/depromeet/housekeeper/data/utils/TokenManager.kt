@@ -47,7 +47,7 @@ class TokenManager @Inject constructor(
         }
     }
 
-    suspend fun deleteRefreshToken(){
+    private suspend fun deleteRefreshToken(){
         dataStore.edit { prefs ->
             prefs.remove(REFRESH_TOKEN_KEY)
         }

@@ -45,6 +45,14 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
                 binding.version = it
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.isUserInactive.collect{
+                if(it){
+                    findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -72,7 +80,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         }
 
         binding.alarmRow.setOnClickListener {
-            it.findNavController().navigate(SettingFragmentDirections.actioinSettingFragmentToAlarmFragment())
+            it.findNavController().navigate(SettingFragmentDirections.actionSettingFragmentToAlarmFragment())
         }
 
         binding.contactRow.setOnClickListener {
@@ -86,22 +94,21 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         }
 
         binding.logoutRow.setOnClickListener {
-            showWithdrawDialog()
+            this.showLogoutDialog()
         }
 
         binding.signOutRow.setOnClickListener {
-            showSignOutDialog()
+            this.showSignOutDialog()
         }
     }
 
-    private fun showWithdrawDialog() {
+    private fun showLogoutDialog() {
         val dialog = FairerDialog(requireContext(), DialogType.LOGOUT)
         dialog.showLogoutDialog()
 
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
-                viewModel.withdraw(requireContext())
-                findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
+                viewModel.logout(requireContext())
             }
         }
     }
@@ -113,7 +120,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         dialog.onItemClickListener = object : FairerDialog.OnItemClickListener {
             override fun onItemClick() {
                 viewModel.signOut(requireContext())
-                findNavController().navigate(R.id.action_settingFragment_to_loginFragment)
             }
         }
     }
