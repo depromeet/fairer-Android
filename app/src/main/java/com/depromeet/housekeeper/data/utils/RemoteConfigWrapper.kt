@@ -29,13 +29,15 @@ class RemoteConfigWrapper @Inject constructor(
     fun fetchAndActivateConfig(): String {
         try {
             remoteConfig.fetchAndActivate()
-            return remoteConfig.getString(FIREBASE_SERVER_URL)
+            return remoteConfig.getString(FIREBASE_SERVER_URL).ifBlank {
+                "http://fairer.shop"
+            }
         } catch (e: FirebaseRemoteConfigClientException){
             Timber.e(e.message, "Firebase 가져오질 못했어요")
         } catch (e: Exception){
             Timber.e(e.message, e.stackTraceToString())
         }
 
-        return context.getString(R.xml.remote_config_default)
+        return "http://fairer.shop"
     }
 }
